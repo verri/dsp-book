@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[a5paper]{book}
 
 \usepackage{amsmath}
 \usepackage{hyperref}
@@ -10,26 +10,83 @@
 \begin{document}
 
 \setmathfont{STIXTwoMath}[
-Extension={.otf},
-Path=./,
-Scale=1]
-\setmainfont{STIXTwoText}[
-Extension={.otf},
-Path=./,
-UprightFont={*-Regular},
-BoldFont={*-Bold},
-ItalicFont={*-Italic},
-BoldItalicFont={*-BoldItalic}]
+  Extension={.otf},
+  Path=./,
+  Scale=1]
 
-\title{Using the STIX2 OpenType fonts with \hologo{LuaLaTeX} or \hologo{XeLaTeX}}
-\author{Graham Douglas}
+\setmainfont{STIXTwoText}[
+  Extension={.otf},
+  Path=./,
+  UprightFont={*-Regular},
+  BoldFont={*-Bold},
+  ItalicFont={*-Italic},
+  BoldItalicFont={*-BoldItalic}]
+
+\title{Data Science Project}
+\author{Filipe A. N. Verri}
+
 \maketitle
-\section*{About this template}
-This template provides convenient access to the STIX2 OpenType fonts, which are loaded into the folder \texttt{STIX2fonts}. Using the \texttt{fontspec} and \texttt{unicode-math} packages, the fonts are configured ready for use with \hologo{XeLaTeX} or \hologo{LuaLaTeX}---you can choose either engine via Overleaf's Menu:.
+
+\section*{About this book}
+
+This book comprises the lectures notes of the course PO-2XX Data Science Project.
+I hope someday it becomes an actual book. For now, beware many typos, grammar errors, ugly
+typesetting, disconnected material, etc.
+
+Also, it is important to highlight that:
+\begin{itemize}
+  \item This is not a Machine Learning book, and I do not intend to explain how specific
+    ML algorithms work.
+  \item This is kind of an introductory material on Data Science.  Although I will
+    introduce the fundamental concepts, I expect you have strong mathematical and
+    statistics background.
+  \item An artificial constraint I have imposed in the material (for the sake of the
+    course) is that I will only consider \emph{predictive models}, more specifically
+    inductive ones. I will not address topics such as clustering, association-rules
+    mining, transductive learning, anomaly detection, time series forecasting, reinforced
+    learning, etc.
+\end{itemize}
+
+I have decided to work on this material because the books I like on Data Science are
+either
+\begin{itemize}
+  \item too broad and too shallow, in the sense they hide many mathematical foundations
+    and focus on just explaining what Data Science is and where it is applied;
+  \item too tool-centric, in the sense that they focus only on a specific toolbox or
+    programming language; or
+  \item too machine-learning-y, exposing many machine learning algorithms and missing the
+    foundations of learning.
+\end{itemize}
+
+So\dots I expect my approach on the subject provide:
+\begin{itemize}
+  \item awareness of all steps in a data science project;
+  \item deeper focus (than most books) on data transformation, describing the semantics of the data set
+    operators instead of restraining ourselves with a specific tool;
+  \item deeper focus (than most books) on why machine learning works, increase awareness of its pitfalls and
+    limitations;
+  \item deeper focus (than most books) on correct evaluation (pre-deployment) of machine learning models.
+\end{itemize}
+
+This book will cover the following material:
+\begin{itemize}
+  \item Brief history of Data Science.
+  \item Background (Statistics).
+  \item Fundamental data concepts.
+  \item Stages in a Data Science project.
+  \item Data Infrastructure.
+  \item Data integration from multiple sources.
+  \item Data engineering and shaping.
+  \item Inductive learning and principles of Statistical Learning Theory.
+  \item Application of Machine Learning models in real-world problems.
+  \item Experimental planning for Data Science.
+  \item Model evaluation and Bayesian analysis.
+  \item Documentation and deployment.
+  \item Ethical and legal issues in Data Science.
+  \item Privacy-preserving computational approaches.
+\end{itemize}
 
 \section*{Some examples}
-
-The following \LaTeX{} examples are taken from:\vskip10pt \noindent \url{https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics}
 
 \begin{align*}
  &\vdots\\
