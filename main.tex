@@ -1,0 +1,75 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\usepackage{hologo}
+\usepackage{graphicx}
+
+\begin{document}
+
+\setmathfont{STIXTwoMath}[
+Extension={.otf},
+Path=./,
+Scale=1]
+\setmainfont{STIXTwoText}[
+Extension={.otf},
+Path=./,
+UprightFont={*-Regular},
+BoldFont={*-Bold},
+ItalicFont={*-Italic},
+BoldItalicFont={*-BoldItalic}]
+
+\title{Using the STIX2 OpenType fonts with \hologo{LuaLaTeX} or \hologo{XeLaTeX}}
+\author{Graham Douglas}
+\maketitle
+\section*{About this template}
+This template provides convenient access to the STIX2 OpenType fonts, which are loaded into the folder \texttt{STIX2fonts}. Using the \texttt{fontspec} and \texttt{unicode-math} packages, the fonts are configured ready for use with \hologo{XeLaTeX} or \hologo{LuaLaTeX}---you can choose either engine via Overleaf's Menu:.
+
+\section*{Some examples}
+
+The following \LaTeX{} examples are taken from:\vskip10pt \noindent \url{https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics}
+
+\begin{align*}
+ &\vdots\\
+ &=12+7 \int_0^2
+  \left(
+    -\frac{1}{4}\left(e^{-4t_1}+e^{4t_1-8}\right)
+  \right)\,dt_1\displaybreak[3]\\
+ &= 12-\frac{7}{4}\int_0^2 \left( e^{-4t_1}+e^{4t_1-8} \right)\,dt_1\\
+ &\vdots %
+\end{align*}
+
+
+
+\begin{equation}
+  x = a_0 + \frac{1}{\displaystyle a_1
+          + \frac{1}{\displaystyle a_2
+          + \frac{1}{\displaystyle a_3 + a_4}}}
+\end{equation}
+
+\begin{alignat}{2}
+ \sigma_1 &= x + y  &\quad \sigma_2 &= \frac{x}{y} \\
+ \sigma_1' &= \frac{\partial x + y}{\partial x} & \sigma_2'
+    &= \frac{\partial \frac{x}{y}}{\partial x}
+\end{alignat}
+
+\fbox{
+ \addtolength{\linewidth}{-2\fboxsep}%
+ \addtolength{\linewidth}{-2\fboxrule}%
+ \begin{minipage}{\linewidth}
+  \begin{equation}
+   x^2+y^2=z^2
+  \end{equation}
+ \end{minipage}
+}
+
+
+\[
+ \lim_{x\to 0}{\frac{e^x-1}{2x}}
+ \overset{\left[\frac{0}{0}\right]}{\underset{\mathrm{H}}{=}}
+ \lim_{x\to 0}{\frac{e^x}{2}}={\frac{1}{2}}
+\]
+
+\end{document}
