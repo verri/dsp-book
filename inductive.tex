@@ -11,8 +11,12 @@ The most general learning framework based on induction is Statistical Learning T
 
 \section{Hypothesis}
 
-Given a set of observations $$\big\{(\vec{x}_i, y_i) : i = 1, \dots, n \big\}$$ where each sample
-$i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
+Given a set of observations
+\begin{equation}
+  \label{eq:training-set}
+  \big\{(\vec{x}_i, y_i) : i = 1, \dots, n \big\}
+\end{equation}
+where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
 $y_i \in \mathcal{Y}$, we assume that samples are random independent identically
 distributed (i.i.d.) observations drawn according to $$P(x, y) = P(x) P(y | x)\text{.}$$
 Both $P(x)$ and $P(y|x)$ are fixed but unknown.
@@ -20,13 +24,19 @@ Both $P(x)$ and $P(y|x)$ are fixed but unknown.
 \section{The learning problem}
 
 Consider a \emph{learning machine} capable of generating a set of functions $f(x;
-\theta)$, $\theta \in \Theta$ and $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.
+\theta) \equiv f_\theta(x)$, $\theta \in \Theta$ and $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.
 The problem of learning is that of choosing, among all possible $f_\theta$, the one that
 predicts the target variable the best possible way.
 
-First, we must define the \emph{loss} (or discrepancy) $\mathcal{L}$ between the correct
-response $y$ to a given input $x$ (drawn from $P(x, y)$) and the response provided by the
-learning machine.
+In order to learn, we must first define the \emph{loss} (or discrepancy) $\mathcal{L}$
+between the response $y$ to a given input $x$, drawn from $P(x, y)$, and the
+response provided by the learning machine.
+
+Then, given the \emph{risk function}
+$$R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, dP(x, y)\text{,}$$
+the goal is to find the function $f_\theta$ that minimizes $R(\theta)$ where $P(x,y)$ is
+unknown and the only available information is the \emph{training set}
+\eqref{eq:training-set}.
 
 \section{Other learning principles}
 
