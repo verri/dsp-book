@@ -1,3 +1,36 @@
-\chapter{Inductive learning}
+\chapter{Statistical Learning Theory}
 
-Let \dots
+Recommended reading: IEEE TRANSACTIONS ON NEURAL NETWORKS, VOL. 10, NO. 5, SEPTEMBER 1999
+An Overview of Statistical Learning Theory.
+
+Inductive learning is a machine learning approach that involves deriving general rules or
+patterns from specific examples or observations. It's a type of learning that goes from
+specific instances to more general principles (induction.)
+
+The most general learning framework based on induction is Statistical Learning Theory.
+
+\section{Hypothesis}
+
+Given a set of observations $$\big\{(\vec{x}_i, y_i) : i = 1, \dots, n \big\}$$ where each sample
+$i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
+$y_i \in \mathcal{Y}$, we assume that samples are random independent identically
+distributed (i.i.d.) observations drawn according to $$P(x, y) = P(x) P(y | x)\text{.}$$
+Both $P(x)$ and $P(y|x)$ are fixed but unknown.
+
+\section{The learning problem}
+
+Consider a \emph{learning machine} capable of generating a set of functions $f(x;
+\theta)$, $\theta \in \Theta$ and $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.
+The problem of learning is that of choosing, among all possible $f_\theta$, the one that
+predicts the target variable the best possible way.
+
+First, we must define the \emph{loss} (or discrepancy) $\mathcal{L}$ between the correct
+response $y$ to a given input $x$ (drawn from $P(x, y)$) and the response provided by the
+learning machine.
+
+\section{Other learning principles}
+
+\begin{itemize}
+  \item Transduction
+  \item Deduction
+\end{itemize}
