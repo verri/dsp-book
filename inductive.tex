@@ -3,21 +3,46 @@
 Recommended reading: IEEE TRANSACTIONS ON NEURAL NETWORKS, VOL. 10, NO. 5, SEPTEMBER 1999
 An Overview of Statistical Learning Theory.
 
-Inductive learning is a machine learning approach that involves deriving general rules or
-patterns from specific examples or observations. It's a type of learning that goes from
-specific instances to more general principles (induction.)
+TODO: Create a figure with information below (probably a Venn):
+\begin{itemize}
+  \item AI/Machine learning
+  \begin{itemize}
+    \item Predictive learning
+    \begin{itemize}
+      \item Inductive learning
+      \item Transductive learning
+    \end{itemize}
+    \item Descriptive learning\dots
+  \end{itemize}
+\end{itemize}
 
-The most general learning framework based on induction is Statistical Learning Theory.
+\emph{Machine learning} is a subfield of artificial intelligence that studies algorithms
+that enable computers to automatically learn and improve their performance on a task from
+experience, without being explicitly programmed by a human being.
+
+\emph{Predictive learning} is a machine learning paradigm that focuses on making
+predictions about outcomes (sometimes about the future) based on historical data.
+Depending on the reasoning behind the learning algorithms, the main predictive algorithms
+are classified in either inductive or transductive.
+
+Induction a type of reasoning that goes from specific instances to more general
+principles. \emph{Inductive learning} is a machine learning approach that involves deriving
+general rules from specific observations.
+
+Maybe the most general (and useful) framework for predictive learning is Statistical
+Learning Theory.
+
+Transduction is out of the scope of this course.
 
 \section{Hypothesis}
 
-Given a set of observations
+Consider the set
 \begin{equation}
   \label{eq:training-set}
   \big\{(\vec{x}_i, y_i) : i = 1, \dots, n \big\}
 \end{equation}
 where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
-$y_i \in \mathcal{Y}$, we assume that samples are random independent identically
+$y_i \in \mathcal{Y}$.  We assume that samples are random independent identically
 distributed (i.i.d.) observations drawn according to $$P(x, y) = P(x) P(y | x)\text{.}$$
 Both $P(x)$ and $P(y|x)$ are fixed but unknown.
 
@@ -32,15 +57,12 @@ In order to learn, we must first define the \emph{loss} (or discrepancy) $\mathc
 between the response $y$ to a given input $x$, drawn from $P(x, y)$, and the
 response provided by the learning machine.
 
-Then, given the \emph{risk function}
-$$R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, dP(x, y)\text{,}$$
-the goal is to find the function $f_\theta$ that minimizes $R(\theta)$ where $P(x,y)$ is
-unknown and the only available information is the \emph{training set}
-\eqref{eq:training-set}.
+Then, given the \emph{risk function} $$R(\theta) = \int \mathcal{L}(y, f_\theta(x))\,
+dP(x, y)\text{,}$$ the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
+where the only available information is the \emph{training set} \eqref{eq:training-set}.
 
-\section{Other learning principles}
-
-\begin{itemize}
-  \item Transduction
-  \item Deduction
-\end{itemize}
+This formulation encompasses many specific problems. I focus in two of them (which I
+believe are the most fundamental ones): \emph{binary data classification}\footnote{Vapnik
+calls it \emph{pattern recognition}.} and \emph{scoring}\footnote{Vapnik calls it regression
+estimation, I will avoid this term to make it clear we are not talking about
+\emph{regression analysis}.}.
