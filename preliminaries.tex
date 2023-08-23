@@ -1,0 +1,23 @@
+\chapter{Preliminaries}
+
+
+\section{Optimization}
+
+\subsection{Gradient descent algorithm}
+
+Let $f(\vec{w})$ be an objective function that we are trying to minimize.  We know that
+$f$ is convex and its gradient $\nabla f$ is Lipschitz continuous with Lipschitz
+constant $L$.
+
+We want to show that $\lim_{t\rightarrow\infty} f(\vec{w}(t)) = f^{*}$ where $f^{*}$
+is the global minimum of $f$ and $$\vec{w}(t+1) = \vec{w}(t) - \alpha \nabla f(\vec{w}(t))\mbox{,}$$
+for any initial condition $\vec{w}(0)$ and $0 < \alpha < \frac{1}{L}$.
+
+Convexity implies that for any two points $\vec{w}_1$ and $\vec{w}_2$ in the domain of
+$f$, the line segment connecting them lies above the graph of $f$.  Mathematically, it
+means that $$f(t\vec{w}_1 + (1 - t) \vec{w}_2) \leq t f(\vec{w}_1) + (1 - t)
+f(\vec{w}_2)$$ for all $t \in [0, 1]$.
+
+The Lipschitz continuity condition means that the gradient of $f(\vec{w})$ does not change too rapidly.
+Formally, $$\left\|\nabla f(\vec{w}_1) - \nabla f(\vec{w}_2)\right\| \leq L \|\vec{w}_1 - \vec{w}_2\|\mbox{,}$$
+for all $\vec{w}_1$ and $\vec{w}_2$ in the domain of $f$.
