@@ -57,12 +57,31 @@ In order to learn, we must first define the \emph{loss} (or discrepancy) $\mathc
 between the response $y$ to a given input $x$, drawn from $P(x, y)$, and the
 response provided by the learning machine.
 
-Then, given the \emph{risk function} $$R(\theta) = \int \mathcal{L}(y, f_\theta(x))\,
-dP(x, y)\text{,}$$ the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
+Then, given the \emph{risk function}
+\begin{equation}
+  \label{eq:risk}
+  R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, dP(x, y)\text{,}
+\end{equation}
+the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
 where the only available information is the \emph{training set} \eqref{eq:training-set}.
 
-This formulation encompasses many specific problems. I focus in two of them (which I
-believe are the most fundamental ones): \emph{binary data classification}\footnote{Vapnik
-calls it \emph{pattern recognition}.} and \emph{scoring}\footnote{Vapnik calls it regression
-estimation, I will avoid this term to make it clear we are not talking about
+This formulation encompasses many specific problems. I focus on the two of them which I
+believe are the most fundamental ones: \emph{binary data classification}\footnote{Vapnik
+calls it \emph{pattern recognition}.} and \emph{regresssion estimation}\footnote{We are not talking about
 \emph{regression analysis}.}.
+
+\paragraph{Binary data classification task.}  In this task, the output $y$ take on
+only two possible values, zero or one, and the functions $f_\theta$ are indicator
+functions. For the loss
+\begin{equation*}
+  \mathcal{L}(y, f_\theta(x)) = \begin{cases}
+    0 & \text{if } y = f_\theta(x) \\
+    1 & \text{if } y \neq f_\theta(x)\text{,}
+  \end{cases}
+\end{equation*}
+we aim at minimizing the risk $\eqref{eq:risk}$ which becomes the probability of
+classification error.
+
+\paragraph{Regression estimation task.} Let the outcome $y$ be a real value and that there exists
+$\alpha$ such that $$f_\alpha(x) = \int y\, dP(y|x) \text{.}$$  The function $f_\alpha$ is
+called \emph{regression}.
