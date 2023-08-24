@@ -5,19 +5,35 @@
 
 \subsection{Gradient descent algorithm}
 
-Let $f(\vec{w})$ be an objective function that we are trying to minimize.  We know that
-$f$ is convex and its gradient $\nabla f$ is Lipschitz continuous with Lipschitz
-constant $L$.
+Let $f(\vec{w})$, $f : \mathbb{R}^n \rightarrow \mathbb{R}$, be an objective function that
+we are trying to minimize.  We know that
+$f$ is convex, of class $\mathcal{C}^2$, and its gradient $\nabla f$ is Lipschitz continuous with Lipschitz
+constant $L > 0$.
 
 We want to show that $\lim_{t\rightarrow\infty} f(\vec{w}(t)) = f^{*}$ where $f^{*}$
 is the global minimum of $f$ and $$\vec{w}(t+1) = \vec{w}(t) - \alpha \nabla f(\vec{w}(t))\mbox{,}$$
-for any initial condition $\vec{w}(0)$ and $0 < \alpha < \frac{1}{L}$.
+for any initial condition $\vec{w}(0)$ and $0 < \alpha \leq \frac{1}{L}$.
 
-Convexity implies that for any two points $\vec{w}_1$ and $\vec{w}_2$ in the domain of
+Convexity implies that for any two points $\vec{v}$ and $\vec{w}$ in the domain of
 $f$, the line segment connecting them lies above the graph of $f$.  Mathematically, it
-means that $$f(t\vec{w}_1 + (1 - t) \vec{w}_2) \leq t f(\vec{w}_1) + (1 - t)
-f(\vec{w}_2)$$ for all $t \in [0, 1]$.
+means that $$f(t\vec{v} + (1 - t) \vec{w}) \leq t f(\vec{v}) + (1 - t)
+f(\vec{w})$$ for all $t \in [0, 1]$.
 
 The Lipschitz continuity condition means that the gradient of $f(\vec{w})$ does not change too rapidly.
-Formally, $$\left\|\nabla f(\vec{w}_1) - \nabla f(\vec{w}_2)\right\| \leq L \|\vec{w}_1 - \vec{w}_2\|\mbox{,}$$
-for all $\vec{w}_1$ and $\vec{w}_2$ in the domain of $f$.
+Formally, $$\left\|\nabla f(\vec{v}) - \nabla f(\vec{w})\right\| \leq L \|\vec{v} - \vec{w}\|\mbox{,}$$
+for all $\vec{v}$ and $\vec{w}$ in the domain of $f$.  This is a rather weak
+assumption, and it means that the gradient can not change arbitrarily fast.
+
+Since $f$ is convex and twice differentiable, its Hessian is a positive semidefinite
+matrix, and thus its norm is its largest eigenvalue.
+
+A consequence of the Lipschitz continuity for a $\mathcal{C}^2$ function $f$ is that for
+any $\vec{v}$ and $\vec{w}$, we have that
+\begin{equation}
+  \label{eq:lcg1}
+  \vec{v}^T \nabla^2 f(w) \vec{v} \leq L \|v\|^2\text{.}
+\end{equation}
+It means that the eigenvalues of the Hessian are bounded above by $L$.
+
+\paragraph{Descent lemma.}  For $f$, a the multivariate Taylor expansion is that
+$$f(w) = f(v)$$
