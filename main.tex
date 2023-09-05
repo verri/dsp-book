@@ -1,12 +1,20 @@
 \documentclass[twoside,a5paper]{book}
 
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{fontspec}
 \usepackage{unicode-math}
 \usepackage{graphicx}
+\usepackage[super]{nth}
+\usepackage{booktabs}
 
 \renewcommand{\vec}[1]{\mathbf{#1}}
+\nonfrenchspacing
 
 \begin{document}
 
@@ -23,12 +31,13 @@
   ItalicFont={*-Italic},
   BoldItalicFont={*-BoldItalic}]
 
-\title{PO-235 Data Science Project}
+\title{Data Science \\ \large Foundations and practices}
 \author{Filipe A. N. Verri}
 
 \maketitle
 
 \input{about}
+\input{courses}
 \input{history}
 \input{preliminaries}
 \input{inductive}
