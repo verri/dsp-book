@@ -41,9 +41,9 @@ processing’, North-Holland Publ. Co., Amsterdam, 1971.} Note however that his 
 science only ``deals with data [\dots] while the relation of data to what they represent
 is delegated to other fields and sciences.''
 
-\def\firstcircle{(0,0) circle (20mm)}
-\def\secondcircle{(0:5mm) circle (15mm)}
-\def\thirdcircle{(0:40mm) circle (15mm)}
+\def\naurds{(0,0) circle (20mm)}
+\def\naurcs{(0:5mm) circle (15mm)}
+\def\naurde{(0:40mm) circle (15mm)}
 
 \colorlet{circle edge}{black!50}
 \colorlet{circle area}{black!20}
@@ -55,12 +55,12 @@ is delegated to other fields and sciences.''
   \centering
   \begin{tikzpicture}
     \begin{scope}
-      \clip \firstcircle;
-      \fill[filled] \secondcircle;
+      \clip \naurds;
+      \fill[filled] \naurcs;
     \end{scope}
-    \draw[outline] \firstcircle node(ds) {};
-    \draw[outline] \secondcircle node {computer science};
-    \draw[outline] \thirdcircle node {domain expertise};
+    \draw[outline] \naurds node(ds) {};
+    \draw[outline] \naurcs node {computer science};
+    \draw[outline] \naurde node {domain expertise};
     \node[anchor=north,above] at (0,2) {data science};
   \end{tikzpicture}
   \caption{
@@ -85,6 +85,32 @@ As a result, William Swain Cleveland II is credited to define data science as it
 used today. He is a highly influential figure in the fields of statistics, machine
 learning, data visualization, data analysis for multidisciplinary studies, and high
 performance computing for deep data analysis.
+
+\def\clevelandds{(0,0) circle (20mm)}
+\def\clevelandst{(0:-10mm) circle (10mm)}
+\def\clevelandde {(2,1) circle (15mm)}
+\def\clevelandcs {(2,-1) circle (15mm)}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{scope}
+      \clip \clevelandds;
+      \fill[filled] \clevelandst;
+      \fill[filled] \clevelandde;
+      \fill[filled] \clevelandcs;
+    \end{scope}
+    \draw[outline] \clevelandds node(ds) {};
+    \draw[outline] \clevelandst node {statistics};
+    \draw[outline] \clevelandde node {domain expertise};
+    \draw[outline] \clevelandcs node {computer science};
+    \node[anchor=north,above] at (0,2) {data science};
+  \end{tikzpicture}
+  \caption{
+    Cleveland's view of data science.  For him, data science is the ``modern'' statistics,
+    where it is enlarged by computer science and domain expertise.
+  }
+\end{figure}
 
 \paragraph{Buzzword or a new science?}
 
