@@ -168,10 +168,10 @@ reliable and ethical knowledge from huge amounts of data.
   \end{itemize}
 \end{mainbox}
 
-\section{Deepening into the definition}
+\section{Definition components}
 
 As expected, data science is not a isolated science.  It incorporates several concepts
-from other fields and sciences.  In this section, I explain the basis of each component in
+from other fields and sciences.  In this section, I explain the basis of each component of
 the provided definition.
 
 \subsection{Phenomena}
@@ -407,3 +407,41 @@ data science methodology.
     \item Inevitably, data scientists will make assumptions about the data types.
   \end{itemize}
 \end{mainbox}
+
+When we work with structured data, two concepts are very important: database normalization
+and tidy data.  Database normalization is mainly focused on the data storage.  Tidy data is
+mainly focused on the requirements of data for analysis.  Both concepts have their
+mathematical foundations and tools for data manipulation.
+
+\subsection{Database normalization}
+
+Database normalization is the process of organizing the columns and tables of a relational
+database to minimize data redundancy and improve data integrity.
+
+Normal form is a state of a database that is free of certain types of data redundancy.
+
+\subsection{Tidy data}
+
+Tidy data is a data format that provides a standardized way to organize data values within
+a dataset.  It is based on the idea that a dataset is a collection of values, where:
+\begin{itemize}
+  \item Each value belongs to a variable.
+  \item Each variable belongs to an observation.
+  \item Each type of observational unit forms a table.
+\end{itemize}
+
+\subsection{Bridging normalization and tidyness}
+
+Tidy data is related to the 3NF.
+
+\section{Unstructured data}
+
+Unstructured data are data that do not have a predefined data model or are not organized
+in a predefined manner.  For example, text, images, and videos are unstructured data.
+
+Every unstructured dataset can be converted into a structured dataset.  However, the
+conversion process is not always straightforward nor lossless.  For example, we can
+convert a text into a structured dataset by counting the number of occurrences of each
+word.  However, we lose the order of the words in the text.
+
+The study of unstructured data is, for the moment, out of the scope of this book.
