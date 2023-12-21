@@ -339,6 +339,71 @@ data from different sources into a single, unified view.
 \section{Structured data}
 
 As one expects, when we measure a phenomenon, the resulting data come in many different
-formats. Examples\dots
+formats.  For example, we can measure the temperature of a room using a thermometer.  The
+resulting data will be a number.  We can assess English proficiency using an essay test.  The
+resulting data will be a text.  We can register relationships between proteins and
+their functions.  The resulting data will be a graph.
 
-Thus, it is important to
+Thus, it is important to understand the nature of the data we are working with.
+
+The most common data format is the \emph{structured data}.  Structured data are data that
+are organized in a tabular format.  Each row in the table represents a single observation
+and each column represents a variable that describes the observation.
+
+We restrict the kind of information we store in each cell, i.e. the data type of each
+measurement.  Each column has a data type.  The data type restrict the operations we can
+perform on the data.  For example, we can perform arithmetic operations on numbers, but
+not on text.
+
+The most common classification of data types is Stevens’s types: nominal, ordinal,
+interval, and ratio.  Nominal data are data that can be classified into categories.
+Ordinal data are data that can be classified into categories and ordered.  Interval data
+are data that can be classified into categories, ordered, and measured in fixed units.
+Ratio data are data that can be classified into categories, ordered, measured in fixed
+units, and have a true zero.  In practice, they difer on the logical and arithmetic operations
+we can perform on them.
+
+\begin{center}
+  \begin{tabular}{cc}
+    \toprule
+    \textbf{Data type} & \textbf{Operations} \\
+    \midrule
+    Nominal & $=$ \\
+    Ordinal & $=, <$ \\
+    Interval & $=, <, +, - $ \\
+    Ratio & $=, <, +, -, \times, \div$ \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+However, Stevens’s types do not exhaust all possibilities for data types.  For example,
+probabilities are bounded at both ends, and thus do not tolerate arbitrary scale shifts.
+\textcite{Paul1993} provide interesting insights about data types.  Although I do not
+agree with all his points, I think it is a good reading.  In particular, I agree with
+his criticism of statements that data types are evident from the data independent of the
+questions asked.  The same data can be interpreted in different ways depending on the
+context and the goals of the analysis.
+
+However, I do not agree with the idea that good data analysis does not assume data types.
+I think that data scientists should be aware of the data types they are working with and
+how they affect the analysis.  With no bias, there is no learning.  There is no such a
+thing as a ``bias-free'' analysis, the amount of possible combinations of assumptions
+easily grows out of control.  The data scientist must take responsibility for the
+consequences of their assumptions.  Good assumptions and hypothesis are a key part of the
+data science methodology.
+
+\begin{mainbox}{Structured data}
+  \begin{itemize}
+    \item Structured data are data that are organized in a tabular format.
+    \item Each row in the table represents a single observation.
+    \item Each column represents a variable that describes the observation.
+    \item Each column has a data type.
+    \item The data type restrict the operations we can perform on the data.
+    \item The most common classification of data types is Stevens’s types: nominal,
+      ordinal, interval, and ratio.
+    \item Stevens’s types do not exhaust all possibilities for data types.
+    \item Data scientists should be aware of the data types they are working with and
+      how they affect the analysis.
+    \item Inevitably, data scientists will make assumptions about the data types.
+  \end{itemize}
+\end{mainbox}
