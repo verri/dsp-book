@@ -5,14 +5,37 @@
   \par\raggedleft but the prudent gives thought to his steps.
   \par\raggedleft--- \textup{Proverbs 14:15} (ESV)}
 
-\begin{itemize}
-  \item Variables, types etc
-  \item Records
-  \item Tidy data
-\end{itemize}
+% \begin{itemize}
+%   \item Variables, types etc
+%   \item Records
+%   \item Tidy data
+% \end{itemize}
 
 A useful start point for someone studying data science is the definition of the term
 itself.
+
+\begin{mainbox}{Chapter remarks}
+  \boxsubtitle{Context}
+
+  \begin{itemize}
+    \item \dots
+  \end{itemize}
+
+  \boxsubtitle{Objectives}
+
+  \begin{itemize}
+    \item Understand the definition of data science.
+    \item Understand the main types of data.
+  \end{itemize}
+
+  \boxsubtitle{Takeways}
+
+  \begin{itemize}
+    \item Data science is a new science.
+    \item Data science is the study of computational methods to extract knowledge from
+      measurable phenomena.
+  \end{itemize}
+\end{mainbox}
 
 For \textcite{Zumel2019}, \emph{``data science is a cross-disciplinary practice that draws
 on methods from data engineering, descriptive statistics, data mining, machine learning,
@@ -20,8 +43,24 @@ and predictive analytics.''}  They compare the area with the operations research
 that data science focuses on implementing data-driven decisions and managing their
 consequences.
 
+\begin{mainbox}{Zumel and Mount's definition}
+  \begin{itemize}
+    \item Cross-disciplinary practice that draws on methods from data
+    engineering, descriptive statistics, data mining, machine learning, and predictive
+    analytics.
+    \item Focuses on implementing data-driven decisions and managing their consequences.
+  \end{itemize}
+\end{mainbox}
+
 \textcite{Hickham2023} state that \emph{``data science is an exciting discipline that
 allows you to transform raw data into understanding, insight, and knowledge.''}
+
+\begin{mainbox}{Hickham's definition}
+  \begin{itemize}
+    \item Transform raw data into understanding, insight, and knowledge.
+    \item Not necessarily a definition.
+  \end{itemize}
+\end{mainbox}
 
 I find the first definition too restrictive once new methods and techniques are always
 under development.  We never know when new ``data-related'' methods will become obsolete
@@ -50,10 +89,34 @@ quantified in some way.  \emph{Raw data} are data collected directly from some s
 that have not been subject to any other manipulation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
 
+\begin{mainbox}{My definition}
+  \begin{itemize}
+    \item Data science is the study of computational methods to extract knowledge from
+      measurable phenomena.
+    \item Computational methods use computers to handle data and perform the calculations.
+    \item Knowledge is information that humans can easily understand or apply to solve
+      problems.
+    \item Measurable phenomena are events or processes where raw data can be quantified
+      in some way.
+    \item Raw data are data collected directly from some source and that have not been
+      subject to any other manipulation by a software program or a human expert.
+    \item Data is any piece of information that can be digitally stored.
+  \end{itemize}
+\end{mainbox}
+
 \textcite{Kelleher2018} summarize very well the challenges data science takes up:
 ``extracting non-obvious and useful patterns from large data sets [\dots]; capturing,
 cleaning, and transforming [\dots] data; [storing and processing] big [\dots] data sets;
 and questions related to data ethics and regulation.''
+
+\begin{mainbox}{Kelleher and Tierney's challenges}
+  \begin{itemize}
+    \item Extracting non-obvious and useful patterns from large data sets.
+    \item Capturing, cleaning, and transforming data.
+    \item Storing and processing big data sets.
+    \item Questions related to data ethics and regulation.
+  \end{itemize}
+\end{mainbox}
 
 Data science contrasts with conventional sciences.  Usually, a ``science'' is named after
 its object of study.  Biology is the study of the life, Earth science studies the planet
@@ -96,15 +159,91 @@ reliable and ethical knowledge from huge amounts of data.
   }
 \end{figure}
 
+\begin{mainbox}{Data science vs conventional sciences}
+  \begin{itemize}
+    \item Conventional sciences are model-driven: observation, hypothesis, and validation.
+    \item In data science, we extract the knowledge directly and primarily from the data.
+    \item Data science studies the computational methods and processes that can extract
+      reliable and ethical knowledge from huge amounts of data.
+  \end{itemize}
+\end{mainbox}
+
 \section{Deepening into the definition}
 
-\dots
+As expected, data science is not a isolated science.  It incorporates several concepts
+from other fields and sciences.  In this section, I explain the basis of each component in
+the provided definition.
 
 \subsection{Phenomena}
 
-Domain expertise and philosophy (ontology and logic).
+Phenomenon is a term used to describe any observable event or process.  They are the
+source we use to understand the world around us.  In general, we use our senses to
+perceive phenomena.  To make sense of them, we use our knowledge and reasoning.
+
+Philosophy is the study of knowledge and reasoning.  It is a very broad field of study
+that has been divided into many subfields.  One of them is epistemology, which is the
+study of knowledge.  Epistemology is the field of philosophy that studies how we can
+acquire knowledge and how we can distinguish between knowledge and opinion.  In
+particular, epistemology studies the nature of knowledge, justification, and the
+rationality of belief.
+
+Another important subfield in philosophy is ontology, which is the study of being.  It
+studies the nature of being, existence, or reality.  Ontology is the field of philosophy
+that studies what exists and how we can classify it.  In particular, ontology studies the
+nature of categories, properties, and relations.
+
+Finally, logic is the study of reasoning.  It studies the nature of reasoning and
+argumentation.  In particular, logic studies the nature of inference, validity, and
+fallacies.
+
+\begin{mainbox}{Philosophy}
+  \begin{itemize}
+    \item Epistemology: the study of knowledge.
+    \item Ontology: the study of being.
+    \item Logic: the study of reasoning.
+  \end{itemize}
+\end{mainbox}
+
+In the context of data science, we usually focus on phenomena from particular domain of
+expertise.  For example, we may be interested in the phenomena related to the stock
+market, the phenomena related to the weather, or the phenomena related to the human
+health.  Thus, we need to understand the nature of the phenomena we are studying.
+
+Thus, fully understading the phenomena we are tackling requires both a general knowledge
+of epistemology, ontology, and logic, and a particular knowledge of the domain of
+expertise.
+
+Observe as well that we do not restrict ourselves to the ``qualitative'' understanding of
+philosophy.  There are several computational methods that implements the concepts of
+epistemology, ontology, and logic.  For example, we can use a computer to perform
+deductive reasoning, to classify objects, or to validate an argument.  Also, we have
+strong mathematical foundations and computational tools to organize categories, relations, and
+properties.
+
+The reason we need to understand the nature of the phenomena we are studying is that we
+need to guarantee that the data we are collecting are relevant to the problem we are
+trying to solve.  Incorrectly perception of the phenomena may lead to incorrect data
+collection, which may lead to incorrect conclusions.
+
+\begin{mainbox}{Phenomena}
+  \begin{itemize}
+    \item Phenomena are the source we use to understand the world around us.
+    \item We use our senses to perceive phenomena.
+    \item We use our knowledge and reasoning to make sense of them.
+    \item Computational methods can be used to implement knowledge and reasoning.
+    \item Phenomena are the source of data.
+    \item We need to understand the nature of the phenomena we are studying.
+    \item Incorrectly perception of the phenomena may lead to incorrect data collection,
+      which may lead to incorrect conclusions.
+  \end{itemize}
+\end{mainbox}
 
 \subsection{Measuments}
+
+In data science, we are interested in measurable phenomena.  Measurable phenomena are
+those that we can quantify in some way.  For example, the temperature of a room is a
+measurable phenomenon because we can measure it using a thermometer.  The number of
+people in a room is also a measurable phenomenon because we can count them.
 
 Data collection, data storage, data types.
 

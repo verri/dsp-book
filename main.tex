@@ -19,6 +19,8 @@
 %\usepackage[Glenn]{fncychap}
 \usepackage{tikz}
 \usepackage{titling}
+\usepackage{tcolorbox}
+\usepackage{xhfill}
 
 \nonfrenchspacing
 
@@ -41,6 +43,33 @@
   BoldFont={*-Bold},
   ItalicFont={*-Italic},
   BoldItalicFont={*-BoldItalic}]
+
+\tcbset {
+  base/.style={
+    arc=0mm,
+    bottomtitle=0.5mm,
+    boxrule=0mm,
+    colbacktitle=black!20!white,
+    coltitle=black,
+    fonttitle=\bfseries,
+    left=2.5mm,
+    leftrule=1mm,
+    right=3.5mm,
+    title={#1},
+    toptitle=0.75mm,
+  }
+}
+
+\newtcolorbox{mainbox}[1]{
+  colframe=black!20!white,
+  base={#1}
+}
+
+\newcommand\boxsubtitle[1]{%
+  \vspace{0.5em}
+  \noindent\xrfill[0.5ex]{1pt}[black!20]\phantom{x}\textbf{#1}\phantom{x}\xrfill[0.5ex]{1pt}[black!20]%
+  \vspace{0.5em}
+}
 
 \title{Data science: foundations and practices}
 \author{Filipe A. N. Verri}
