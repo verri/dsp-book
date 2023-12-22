@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{biblatex}
+\usepackage[style=authoryear]{biblatex}
 \addbibresource{references.bib}
 
 \usepackage{amsmath}
@@ -27,7 +27,8 @@
 \hypersetup{%
   colorlinks=true,
   linkcolor=black!70,
-  urlcolor=black!70}
+  urlcolor=black!70,
+  citecolor=black!70,}
 
 \begin{document}
 
@@ -70,6 +71,8 @@
   \noindent\xrfill[0.5ex]{1pt}[black!20]\phantom{x}\textbf{#1}\phantom{x}\xrfill[0.5ex]{1pt}[black!20]%
   \vspace{0.5em}
 }
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
 
 \title{Data science: foundations and practices}
 \author{Filipe A. N. Verri}
