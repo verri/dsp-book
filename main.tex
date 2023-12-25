@@ -1,4 +1,4 @@
-\documentclass[twoside,a5paper]{memoir}
+\documentclass[twoside,a5paper,10pt,openright]{memoir}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -39,6 +39,10 @@
   ItalicFont={*-Italic},
   BoldItalicFont={*-BoldItalic}]
 
+% Change figure and table captions font size.
+\captionnamefont{\small}
+\captiontitlefont{\small}
+
 \tcbset {
   base/.style={
     arc=0mm,
@@ -75,11 +79,7 @@
   pdftitle={\thetitle},
   pdfsubject={Data science},
   pdfauthor={\theauthor},
-  pdfkeywords={data science, statistics, machine learning, databases},
-  colorlinks=true,
-  linkcolor=black!70,
-  urlcolor=black!70,
-  citecolor=black!70,}
+  pdfkeywords={data science, statistics, machine learning, databases}}
 
 \maketitle
 \thispagestyle{empty}
@@ -89,17 +89,21 @@
 \mbox{}
 \vfill
 
+{
 \footnotesize
-
 Scripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®),
 copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by
 permission. All rights reserved.
+}
 
 \vspace{0.5cm}
+{
+\footnotesize
 \thetitle{} © \the\year{} by \theauthor{} is licensed under
 Attribution-NonCommercial-NoDerivatives 4.0 International. To view a copy of this license,
 visit
 \href{http://creativecommons.org/licenses/by-nc-nd/4.0/}{creativecommons.org/licenses/by-nc-nd/4.0}.
+}
 
 \thispagestyle{empty}
 \newpage

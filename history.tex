@@ -189,17 +189,81 @@ science.
 \section{Timeline and historical markers}
 
 \textcite{Kelleher2018} provides an interesting time line of data-driven methods and
-influential figures in the field.  I reproduce it here with some minor changes.
+influential figures in the field.  I reproduce it here with some minor changes, including
+some omissions and additions.
+
+Like \citeauthor{Kelleher2018}, I first talk about data collection, and them data analysis.
 
 \subsection{Timeline of data collection}
 
-\begin{itemize}
-  \item Pre-digital Age
-  \item Digital Age
-  \item Formal Age
-  \item Integrated Age
-  \item Ubiquitous Age
-\end{itemize}
+The importance of collecting data goes without saying.  Data fuels the analysis and
+decision making.  The following are some of the most important milestones in the history
+of data collection.
+
+% A TikZ picture with the data collection timeline.
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) -- (8,0);
+    \foreach \x in {0,1,...,8} {
+      \draw (\x,-0.1) -- (\x,0.1);
+    }
+    \foreach \x/\y in {0/Pre-digital Age, 2/Digital Age, 4/Formal Age, 6/Integrated Age, 8/Ubiquitous Age} {
+      \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
+    }
+  \end{tikzpicture}
+  \caption{
+    Timeline of the ages of data collection.
+  }
+\end{figure}
+
+\subsubsection{Pre-digital age}
+
+We can consider the earliest records of data collection to be the notches on sticks and
+bones to keep tracking of passing of time.  The Lebombo bone, a baboon fibula with
+notches, is probably the earliest known mathematical object.  They estimate it is more
+than 40,000 years old. It is conjectured to be a tally stick, but its exact purpose is
+unknown. Its 29 notches suggests that may have been used as a lunar phase counter.
+However, since it is broken at one end, the 29 notches may or may not be the total
+number\footcite{Beaumont2013}.
+
+Since the early forms of writing, humanity abilities to record events and informamtion
+increased significantly.  The first known written records date back to 3,500 BC, the
+Sumerian archaic (pre-cuneiform) writing.  This writing system was used to represent
+commodities using clay tokens and to record transactions\footcite{Ifrah1998}.
+
+Another important milestone in the history of data collection is the records of
+demographic data.  One of first known census was conducted in 3,800 BC in the Babylonian
+Empire.  It was ordered to assess the population and resources of
+his empire\footcite{Grajalez2013}.
+
+Moving forward many years, I consider a major influential figure in the history of data
+collection to be Florence Nightingale (1820 -- 1910).  She was a passionate statistician
+and probably the first person to use statistics to influence public and official
+opinion\footcite{Grajalez2013}.  The meticulous records she kept during the Crimean War
+(1853 -- 1856) were the evidence that saved lives.  She was also the first to use
+statistical graphics to present data in a way that was easy to understand.  She is
+credited with developing a form of the pie chart now known as the polar area
+diagram\footcite{Grajalez2013}.  She also reformed healthcare in the United Kingdom and
+is considered the founder of modern nursing.
+
+\begin{mainbox}{Florence Nightingale}
+  \begin{itemize}
+    \item Passionate statistician.
+    \item First person to use statistics to influence public and official opinion.
+    \item She used statistics to change society.
+    \item Organized data from garden fruits and vegetables into numerical tables at the age of 9.
+    \item At 20 she was receiving two-hour lessons from a Cambridge-trained mathematician.
+    \item She found the sight of a long column of figures “perfectly reviving”.
+    \item She went out to the Crimean War, to Scutari in Turkey, in 1854.
+    \item She found that not even the numbers of soldiers entering the hospitals, or leaving them – alive or dead – was known.
+    \item From the first she kept meticulous records.
+    \item The data she collected was the evidence that saved lives.
+    \item She was the first to use statistical graphics to present data in a way that was easy to understand.
+    \item She is credited with developing a form of the pie chart now known as the polar area diagram.
+    \item She reformed healthcare in the United Kingdom and is considered the founder of modern nursing.
+  \end{itemize}
+\end{mainbox}
 
 \subsection{Timeline of data analysis}
 
