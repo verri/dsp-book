@@ -200,7 +200,6 @@ The importance of collecting data goes without saying.  Data fuels analysis and
 decision making.  In the following, I present some of the most important milestones in the history
 of data collection.
 
-% A TikZ picture with the data collection timeline.
 \begin{figure}
   \centering
   \begin{tikzpicture}
@@ -208,8 +207,9 @@ of data collection.
     \foreach \x in {0,1,...,8} {
       \draw (\x,-0.1) -- (\x,0.1);
     }
-    \foreach \x/\y in {0/Pre-digital Age, 2/Digital Age, 4/Formal Age, 6/Integrated Age, 8/Ubiquitous Age} {
+    \foreach \x/\y/\z in {0/Pre-digital Age/{3,800 BC -- \nth{18} c.}, 2/Digital Age/{}, 4/Formal Age/{}, 6/Integrated Age/{}, 8/Ubiquitous Age/{}} {
       \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
+      \node[anchor=south] at (\x,0.1) {\footnotesize\z};
     }
   \end{tikzpicture}
   \caption{
