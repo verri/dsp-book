@@ -207,7 +207,12 @@ of data collection.
     \foreach \x in {0,1,...,8} {
       \draw (\x,-0.1) -- (\x,0.1);
     }
-    \foreach \x/\y/\z in {0/Pre-digital Age/{3,800 BC -- \nth{18} c.}, 2/Digital Age/{}, 4/Formal Age/{}, 6/Integrated Age/{}, 8/Ubiquitous Age/{}} {
+    \foreach \x/\y/\z in {%
+        0/Pre-digital Age/{3,800 BC -- \nth{18} c.},
+        2/Digital Age/{1890 -- 1960},
+        4/Formal Age/{1970 --},
+        6/Integrated Age/{},
+        8/Ubiquitous Age/{}} {
       \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
       \node[anchor=south] at (\x,0.1) {\footnotesize\z};
     }
@@ -274,7 +279,7 @@ is considered the founder of modern nursing\footcite{Grajalez2013}.
     \item First person to use statistics to influence public and official opinion.
     \item Organized data from garden fruits and vegetables into numerical tables at the age of 9.
     \item At 20 she was receiving two-hour lessons from a Cambridge-trained mathematician.
-    \item She found the sight of a long column of figures “perfectly reviving”.
+    \item She found the sight of a long column of figures ``perfectly reviving.''
     \item She went out to the Crimean War, to Scutari in Turkey, in 1854.
     \item She found that not even the numbers of soldiers entering the hospitals, or leaving them – alive or dead – was known.
     \item From the first she kept meticulous records.
@@ -287,7 +292,6 @@ is considered the founder of modern nursing\footcite{Grajalez2013}.
 
 \begin{mainbox}{Pre-digital age}
   \begin{itemize}
-    \item Lebombo bone (40,000 BC)
     \item Babylonian census (3,800 BC)
     \item Sumerian archaic (pre-cuneiform) writing (3,500 BC)
     \item Egyptian papyrus (3,000 BC)
@@ -301,6 +305,57 @@ is considered the founder of modern nursing\footcite{Grajalez2013}.
     \item Florence Nightingale (1820 -- 1910)
   \end{itemize}
 \end{mainbox}
+
+\subsubsection{Digital age}
+
+The invention of the digital computer is responsible for a revolution in data collection.
+The amount of information we can capture and store increased exponentially.  ENIAC (1945) was
+the first electronic general-purpose computer.  It was Turing-complete, digital, and
+capable of being reprogrammed to solve a full range of computing problems.
+It had 20 words of internal memory, each capable of storing a 10-digit decimal integer number.
+Programs and data were entered by setting switches and inserting punched cards.
+
+Although punched cards were used as early as 1725 by Basile Bouchon {\color{red} verify
+information} to control looms, I could not find any hystorical device that automatically
+collected data from sensors and stored in punched cards.  In 1890, Herman Hollerith used
+punched cards to tabulate the 1880 census {\color{red} verify information}.
+Hollerith's invention eventually led to the founding of the Tabulating Machine Company in
+1896, which later merged with other companies to become International Business Machines
+Corporation (IBM) in 1924. The punched card technology remained a prevalent method of data
+processing for several decades until more advanced electronic computers were developed in
+the mid-20th century.
+
+In 1937,
+George Stibitz used punched cards to send data from New York to his Complex Number
+Calculator in Hanover {\color{red} verify information}. The first device that collected
+data from sensors and stored in magnetic tape was the IBM 7700 Data Acquisition System
+(1965) {\color{red} verify information}.  It was a general-purpose data acquisition system
+that could be programmed to collect data from a variety of sources.  It was used in
+scientific and industrial applications.  NASA used it to collect data from the Apollo
+missions.
+
+The probable first example of data collection in the digital age is the US Census Bureau.
+The Census Bureau is the leading source of quality data about the nation's people and economy.
+It is the only source of data for the official statistical information about the
+characteristics of the population and housing.  The first census was conducted in 1790.
+The first computerized census was conducted in 1960 {\color{red} verify information and
+provide more details}.
+
+\begin{mainbox}{Digital age}
+  \begin{itemize}
+    \item Hollerith's tabulating machine (1890)
+    \item ENIAC (1945)
+    \item IBM 7700 Data Acquisition System (1965)
+    \item US Census Bureau (1960)
+  \end{itemize}
+\end{mainbox}
+
+\subsubsection{Formal age}
+
+In 1970, Edgar Frank Codd (1923 -- 2003) published a paper entitled ``A Relational Model
+of Data for Large Shared Data Banks''\footcite{Codd1970}.  In this paper, he introduced
+the concept of a relational model for database management {\color{red} verify information and
+provide more details}.
 
 \subsection{Timeline of data analysis}
 
