@@ -189,16 +189,17 @@ science.
 \section{Timeline and historical markers}
 
 \textcite{Kelleher2018} provides an interesting time line of data-driven methods and
-influential figures in the field.  I reproduce it here with some minor changes, including
+influential figures in the field.  I reproduce it here with some changes, including
 some omissions and additions.
 
-Like \citeauthor{Kelleher2018}, I address data collection, and then data analysis.
+I first address data handling --- which I include data sources, collection, organization,
+storage, and manipulation ---, and then data analysis and knowledge extraction.
 
-\subsection{Timeline of data collection}
+\subsection{Timeline of data handling}
 
-The importance of collecting data goes without saying.  Data fuels analysis and
+The importance of collecting and organizing data goes without saying.  Data fuels analysis and
 decision making.  In the following, I present some of the most important milestones in the history
-of data collection.
+of data handling.
 
 \begin{figure}
   \centering
@@ -210,20 +211,20 @@ of data collection.
     \foreach \x/\y/\z in {%
         0/Pre-digital Age/{3,800 BC -- \nth{18} c.},
         2/Digital Age/{1890 -- 1960},
-        4/Formal Age/{1970 --},
-        6/Integrated Age/{},
-        8/Ubiquitous Age/{}} {
+        4/Formal Age/{1970s},
+        6/Integrated Age/{1980 -- 1990},
+        8/Ubiquitous Age/{2000 -- present}} {
       \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
       \node[anchor=south] at (\x,0.1) {\footnotesize\z};
     }
   \end{tikzpicture}
   \caption{
-    Timeline of the ages of data collection.
+    Timeline of the ages of data handling.
   }
-  \label{fig:collection-history}
+  \label{fig:data-handling-history}
 \end{figure}
 
-\Cref{fig:collection-history} illutrates the timeline.
+\Cref{fig:data-handling-history} illutrates the timeline.
 
 \subsubsection{Pre-digital age}
 
@@ -316,7 +317,7 @@ card.  It is a piece of stiff paper that contains digital information represente
 presence or absence of holes in predefined positions.  The information can be read by a
 mechanical or electrical device called a card reader.  The earliest famous usage of
 punched cards was by Basile Bouchon (1725) to control looms.  Most of the advances until
-the 1880s were about the automation of machines using hand-punched cards, and not
+the 1880s were about the automation of machines (data processing) using hand-punched cards, and not
 particularly specialized for data collection.
 
 However, the 1890 census in the United States was the first to use machine-readable
@@ -329,7 +330,7 @@ accounting and inventory control. Punched card technology remained a prevalent m
 data processing for several decades until more advanced electronic computers were
 developed in the mid-\nth{20} century.
 
-The invention of the digital computer is responsible for a revolution in data collection.
+The invention of the digital computer is responsible for a revolution in data handling.
 The amount of information we can capture and store increased exponentially.  ENIAC (1945) was
 the first electronic general-purpose computer.  It was Turing-complete, digital, and
 capable of being reprogrammed to solve a full range of computing problems.
@@ -361,6 +362,138 @@ In 1970, Edgar Frank Codd (1923 -- 2003) published a paper entitled ``A Relation
 of Data for Large Shared Data Banks''\footcite{Codd1970}.  In this paper, he introduced
 the concept of a relational model for database management {\color{red}
 provide more details}.
+
+His work was a breakthrough in the field of data management.  The standardization of
+relational databases led to the development of Structured Query Language (SQL) in 1974.
+SQL is a domain-specific language used in programming and designed for managing data held
+in a relational database management system (RDBMS).
+
+As a result, a new challenge rapidly emerged: how to aggregate data from different
+sources. Once data is stored in a relational database, it is easy to query and manipulate
+it. However, data is usually stored in different databases, and it is not always possible
+to combine them.
+
+\begin{mainbox}{Edgar Frank Codd}
+  \begin{itemize}
+    \item British computer scientist.
+    \item Introduced the concept of a relational model for database management.
+    \item Standardized relational databases.
+    \item Led the development of Structured Query Language (SQL).
+  \end{itemize}
+\end{mainbox}
+
+\subsubsection{Integrated age}
+
+The solution to this problem was the development of the Extract, Transform, Load (ETL)
+process.  ETL is a process in data warehousing responsible for extracting data from
+several sources, transforming it into a format that can be analyzed, and loading it into a
+data warehouse.
+
+The concept of data warehousing dates back to the late 1980s when IBM researchers Barry
+Devlin and Paul Murphy developed the "business data warehouse"
+
+\textcolor{red}{
+Two major figures in the history of ETL are Ralph Kimball and Bill Inmon.  Although they
+differ in their approaches, they both agree that data warehousing is the foundation for
+business intelligence (BI) and analytics, and that data warehouses should be designed to
+be easy to understand and fast to query for business users.
+}
+
+\textcolor{red}{
+A famous debate between Kimball and Inmon is the top-down versus bottom-up approach to
+data warehousing.  Inmon's approach is top-down, where the data warehouse is designed
+first and then the data marts are created from the data warehouse.  Kimball's approach is
+bottom-up, where the data marts are created first and then the data warehouse is created
+from the data marts.
+}
+
+\begin{mainbox}{Ralph Kimball}
+  \begin{itemize}
+    \item American computer scientist.
+    \item Developed the bottom-up approach to data warehousing.
+  \end{itemize}
+\end{mainbox}
+
+\begin{mainbox}{Bill Inmon}
+  \begin{itemize}
+    \item American computer scientist.
+    \item Developed the top-down approach to data warehousing.
+  \end{itemize}
+\end{mainbox}
+
+\textcolor{red}{
+One of the earliest and most famous case studies of the implementation of a data warehouse
+is that of Walmart. In the early 1990s, Walmart faced the challenge of managing and
+analyzing vast amounts of data from its stores across the United States. The company
+needed a solution that would enable comprehensive reporting and analysis to support
+decision-making processes.
+}
+
+\subsubsection{Ubiquitous age}
+
+The last and current period of history is the ubiquitous age.  It is characterized by the
+proliferation of data sources.
+
+The ubiquity of data generation and the evolution of data-centric technologies have been
+made possible by a multitude of figures across various domains.
+
+\begin{itemize}
+  \item Tim Berners-Lee, credited with inventing the World Wide Web, laid the foundation
+    for the massive data flow on the internet.
+  \item Vinton Cerf and Robert Kahn, often referred to as the ``Fathers of the Internet,''
+    developed the TCP/IP protocols, which are fundamental to internet communication.
+  \item Steve Jobs and Steve Wozniak (Apple Inc.) and Bill Gates (Microsoft Corporation),
+    the introduction of personal computers, leading to the democratization of data
+    generation.
+  \item Mark Zuckerberg, the co-founder of Facebook, played a crucial role in the rise of
+    social media and the generation of vast amounts of user-generated content.
+  \item Larry Page and Sergey Brin, the founders of Google, transformed how we access and
+    search for information.
+  \item Elon Musk and Tesla, the rise of the Internet of Things (IoT) and connected
+    devices.
+\end{itemize}
+
+In terms of data handling, this change in the data landscape has brought about the
+development of new technologies and techniques for data storage and processing.  Especially
+the development of NoSQL databases and distributed computing frameworks.
+
+NoSQL databases are non-relational databases that can store and process large volumes of
+unstructured, semi-structured, and structured data.  They are highly scalable and
+flexible, making them ideal for big data applications.
+
+\begin{mainbox}{The V's of big data}
+  \begin{itemize}
+    \item Volume: The amount of data generated is massive.
+    \item Velocity: The speed at which data is generated is high.
+    \item Variety: The types of data generated are diverse.
+    \item Veracity: The quality of data generated is questionable.
+    \item Value: The value of data generated is high.
+  \end{itemize}
+\end{mainbox}
+
+Once massive amounts of unstructured data became available, the need for new data
+processing techniques arose.  The development of distributed computing frameworks such as
+Apache Hadoop and Apache Spark enabled the processing of massive amounts of data in a
+distributed manner.
+
+Doug Cutting and Mike Cafarella, the developers of Apache Hadoop, revolutionized big data
+proposed the Hadoop Distributed File System (HDFS) and MapReduce, which are the
+cornerstones of the Hadoop framework, in 2006.  Hadoop's distributed storage and
+processing capabilities enabled organizations to handle and analyze massive volumes of
+data.
+
+Currently, Google holds a patent for
+MapReduce\footnote{\url{http://static.googleusercontent.com/media/research.google.com/es/us/archive/mapreduce-osdi04.pdf}}.
+However, their framework inherits from the architeture proposed in \textcite{Hillis1985}
+thesis.
+
+MapReduce is not particularly novel, but its simplicity and scalability made it popular.
+
+Nowadays, another important topic is Internet of Things (IoT).  IoT is a system of
+interrelated computing devices that communicate with each other over the internet.
+The devices can be anything from cellphones, coffee makers, washing machines, headphones,
+lamps, wearable devices, and almost anything else you can think of.  IoT increased the
+challenges of data handling, especially in terms of data storage and processing.
 
 \subsection{Timeline of data analysis}
 
