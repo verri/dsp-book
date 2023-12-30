@@ -1,5 +1,8 @@
 \documentclass[twoside,a5paper,10pt,openright]{memoir}
 % \setstocksize{230mm}{160mm}
+\setlrmarginsandblock{3cm}{2cm}{*}
+\setulmarginsandblock{2cm}{2cm}{*}
+\checkandfixthelayout
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -13,7 +16,6 @@
 \usepackage{graphicx}
 \usepackage[super]{nth}
 \usepackage{booktabs}
-\usepackage{geometry}
 \usepackage{csquotes}
 \usepackage{multirow}
 \usepackage{cleveref}
@@ -22,6 +24,17 @@
 \usepackage{titling}
 \usepackage{tcolorbox}
 \usepackage{xhfill}
+
+\usepackage{qrcode}
+\newcommand{\linkwithqr}[1]{%
+  \begin{minipage}{0.8\textwidth}
+    \url{#1}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.15\textwidth}
+    \qrcode[height=\textwidth]{#1}
+  \end{minipage}
+}
 
 \nonfrenchspacing
 
