@@ -20,3 +20,136 @@ hand''.
 % - Agile
 % - Problems and advantages of SCRUM
 % - Our approach
+
+\section{CRISP-DM}
+
+CRISP-DM is a methodology for data science projects.  It is an acronym for Cross Industry
+Standard Process for Data Mining.  It is a methodology that was developed in the 1990s, and
+it is still widely used today.
+
+\section{\citeauthor{Zumel2019}'s approach}
+
+\textcite{Zumel2019} propose a methodology for data science projects.
+
+They define five roles:
+\begin{itemize}
+  \item Project sponsor: represents the business interests and champions the project;
+  \item Client: represents the end users’ interests and is the domain expert;
+  \item Data scientist: sets and executes the analytic strategy and communicates with the
+    sponsor and the client;
+  \item Data architect: manages data and data storage and sometimes manages data
+    collection;
+  \item Operations: manages infrastructure and deploys final project results.
+\end{itemize}
+
+\citeauthor{Zumel2019}'s model is similar to CRISP-DM, but emphasizes that back-and-forth
+is possible at any stage of the process.
+
+\section{Agile}
+
+Agile is a methodology for software development.  It is an alternative to the waterfall
+methodology.  The waterfall methodology is a sequential design process, where each phase
+must be completed before the next phase can begin.
+
+The four values of agile manifesto are:
+\begin{itemize}
+  \item Individuals and interactions over processes and tools;
+  \item Working software over comprehensive documentation;
+  \item Customer collaboration over contract negotiation;
+  \item Responding to change over following a plan.
+\end{itemize}
+
+\section{SCRUM}
+
+SCRUM is an agile framework for software development.  It is a process framework for
+managing complex projects.  It is a lightweight process framework, which means that it
+provides just enough guidance to be effective.
+
+Many consider that SCRUM is not adequate for data science projects.  The main reason is
+that SCRUM is designed for projects where the requirements are known in advance.  Also,
+that data science projects have exploratory phases, which are not well supported by SCRUM.
+
+I argue that this view is wrong.  SCRUM is a framework, and it is designed to be adapted to
+the needs of the project.  SCRUM is not a rigid process.  In the following, I propose an
+extension to SCRUM that makes it suitable for data science projects.
+
+(In real-world, most developers do not have hacking-level skills.  They are not autonomous
+enough to work without a plan.  This is especially true for ``data scientists'', who are
+often not even developers.  SCRUM is a good compromise between the need for autonomy and
+the need for a detailed plan.  Project methodology is needed to ensure that the project is
+completed in time and within budget.)
+
+\section{Our approach}
+
+We propose an extension to SCRUM that makes it suitable for data science projects.  The
+extension is based on the following observations:
+\begin{itemize}
+  \item Data science projects have exploratory phases;
+  \item \dots
+\end{itemize}
+
+Two other values must be added to the agile manifesto:
+\begin{itemize}
+  \item Model confidence/understanding over model performance;
+  \item Beware of interactive environments.
+\end{itemize}
+
+\subsection{The roles}
+
+Combine SCRUM roles with the roles defined by \textcite{Zumel2019}.
+
+\subsection{The principles of our approach}
+
+\begin{enumerate}
+  \item Modularize the solution. Usually, in four main modules: frontend, backend,
+    dataset, and model search.  The frontend is the user interface.  The backend is the
+    server-side code.  The dataset is the data that is used to train the model.  The model
+    search is the code that searches for the best model.
+  \item Version control everything.  This includes the code, the data, and the
+    documentation. The most used tool for code version control is Git.  For datasets,
+    extensions to Git exist, such as DVC\footnote{\url{https://dvc.org/}}.  One important aspect
+    is to version control the model search code.  Interactive environments such as Jupyter
+    notebooks are not suitable for this purpose.  They can be used to draft the code, but
+    the final version must be version controlled.
+  \item Continuous integration and continuous deployment.  This means that the code is
+    automatically (or at least semi-automatically) tested and deployed.  The backend and
+    frontend code is tested using unit tests.  The model search code is tested using
+    validation methods such as cross-validation and Bayesian analysis on the discovered
+    models.  Usually the model search code is very computationally intensive, and it is
+    not feasible to run it on every commit.  Instead, it is run periodically, for example
+    once a day.  If the clould infrastructure required to run the model search code is not
+    available to automate validation and deploymen, at least make sure that the code is
+    easily runnable.  This means that the code must be well documented, and that the
+    required infrastructure must be well documented.  Also aggregate commands using a
+    Makefile or a similar tool.  Pay attention on the dependences between dataset and the
+    model training.  If the dataset changes significantly, not only the deployed model
+    must be retrained, but the model search algorithm may need to be rethought.
+  \item Reports as deliverables.  During sprints, the deliverables of data exploration are
+    reports.
+  \item Setup quantitative goals.  Do not fall on the trap of forever improving the model.
+    Instead, setup quantitative goals for the model performance.  For example, the model
+    must have a precision of at least 90\%.  Once you reach the goal, prioritize other
+    tasks.
+  \item Measure \emph{exactly} what you want.  During model validation, use your own
+    metrics based on the project goals.  Usually, more than one metric is needed, and they
+    might be conflicting.  Use strategies to balance the metrics, such as Pareto
+    optimization.  Beware of the metrics that are most used in the literature.  They might not
+    be suitable for your project.  Notice that during model training, some methods are
+    limited to the loss functions that they can optimize.  If possible, choose a method
+    that can optimize the loss function that you want.  Even if you are not explicitly
+    optimizing the wanted metric, you might find a model that performs well on that metric.
+    That is a reason validation is important.
+  \item Report model stability and performance variance.  Understanding the limitations
+    and characteristics of the model is more important than the model performance.  For
+    example, if the model performance is high, but the model is unstable, it is not
+    suitable for production.  Also, in some scenarios, interpretability is more important than
+    performance.
+  \item In user interface, mask data-science-specific terminology.  Usually, data science
+    software gives the user the option to choose the model.  In order to avoid confusion,
+    the user interface must mask the data-science-specific terminology.  This helps non
+    experts to use the software consciously.
+  \item Monitor model performance in production.  If possible setup feedback from the user
+    interface.  Avoid automation of model releases because concept drift usually requires
+    exploratory analysis.
+  \item Use the appropriate backend.  REST API vs websocket.
+\end{enumerate}
