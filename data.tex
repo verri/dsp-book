@@ -135,7 +135,7 @@ reliable and ethical knowledge from huge amounts of data.
 \def\verride {(2.5,0) circle (15mm)}
 \def\verrics {(0,-2.5) circle (15mm)}
 
-\begin{figure}
+\begin{figurebox}[label=fig:myview]{My view of data science.}
   \centering
   \begin{tikzpicture}
     \begin{scope}
@@ -150,14 +150,13 @@ reliable and ethical knowledge from huge amounts of data.
     \draw[outline] \verrics node {computer science};
     \node[anchor=north,above] at (0, 1) {data science};
   \end{tikzpicture}
-  \caption{
-    My view of data science.  Data science is an entire new science.  Being a new science
+  \tcblower
+    Data science is an entire new science.  Being a new science
     does not mean that its basis is built from the ground up.  Most of the subjects in
     data science come from other sciences, but its object of study (computational methods
     to extract knowledge from measurable phenomena) is particular enough to unfold
     new scientific questions -- such as data ethics, data collection, etc.
-  }
-\end{figure}
+\end{figurebox}
 
 \begin{mainbox}{Data science vs conventional sciences}
   \begin{itemize}

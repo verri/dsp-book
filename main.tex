@@ -73,6 +73,7 @@
     right=3.5mm,
     title={#1},
     toptitle=0.75mm,
+    lower separated=false,
   }
 }
 
@@ -80,6 +81,11 @@
   colframe=black!20!white,
   base={#1}
 }
+
+\newtcolorbox[blend into=figures]{figurebox}[2][]{%
+  float=htbp, base={#2},
+  colframe=black!20!white,
+  every float=\centering, #1}
 
 \newcommand\boxsubtitle[1]{%
   \vspace{0.5em}
