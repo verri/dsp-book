@@ -10,7 +10,7 @@
 \addbibresource{references.bib}
 
 \usepackage{amsmath}
-\usepackage{hyperref}
+\usepackage[colorlinks]{hyperref}
 \usepackage{fontspec}
 \usepackage{unicode-math}
 \usepackage{graphicx}
@@ -56,6 +56,8 @@
   BoldFont={*-Bold},
   ItalicFont={*-Italic},
   BoldItalicFont={*-BoldItalic}]
+
+\urlstyle{rm}
 
 % Change figure and table captions font size.
 \captionnamefont{\small}
@@ -108,7 +110,8 @@
   pdftitle={\thetitle},
   pdfsubject={Data science},
   pdfauthor={\theauthor},
-  pdfkeywords={data science, statistics, machine learning, databases}}
+  pdfkeywords={data science, statistics, machine learning, databases},
+  urlcolor=black!60}
 
 \maketitle
 \thispagestyle{empty}
