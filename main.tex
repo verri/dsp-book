@@ -1,6 +1,6 @@
 \documentclass[twoside,a5paper,10pt,openright]{memoir}
 % \setstocksize{230mm}{160mm}
-\setlrmarginsandblock{25mm}{20mm}{*}
+\setlrmarginsandblock{23mm}{20mm}{*}
 \setulmarginsandblock{20mm}{20mm}{*}
 \checkandfixthelayout
 
@@ -18,11 +18,7 @@
 \usepackage{booktabs}
 \usepackage{csquotes}
 \usepackage{multirow}
-
 \usepackage[table]{xcolor}
-\let\oldtabular\tabular
-\let\endoldtabular\endtabular
-\renewenvironment{tabular}{\rowcolors{2}{black!10!white}{}\oldtabular}{\endoldtabular}
 
 \usepackage{cleveref}
 \newcommand\pcref[1]{(\cref{#1})}
