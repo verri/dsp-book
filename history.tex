@@ -48,7 +48,7 @@ study.  In the following, I emphasize the history of a few notable usage of the 
 \tikzset{filled/.style={fill=circle area, draw=circle edge, thick},
     outline/.style={draw=circle edge, thick}}
 
-\begin{figure}
+\begin{figurebox}[label=fig:naur]{Naur's view of data science.}
   \centering
   \begin{tikzpicture}
     \begin{scope}
@@ -60,12 +60,10 @@ study.  In the following, I emphasize the history of a few notable usage of the 
     \draw[outline] \naurde node {domain expertise};
     \node[anchor=north,above] at (0,2) {data science};
   \end{tikzpicture}
-  \caption{
-    Naur's view of data science.  For him, data science studies the techniques to deal
+  \tcblower
+    For him, data science studies the techniques to deal
     with data, but he delegates the meaning of data to other fields.
-  }
-  \label{fig:naur}
-\end{figure}
+\end{figurebox}
 
 \paragraph{Peter Naur (1928 -- 2016)}
 
@@ -111,7 +109,7 @@ is delegated to other fields and sciences.''
 \def\clevelandde {(2,1) circle (15mm)}
 \def\clevelandcs {(2,-1) circle (15mm)}
 
-\begin{figure}
+\begin{figurebox}[label=fig:cleveland]{Cleveland's view of data science.}
   \centering
   \begin{tikzpicture}
     \begin{scope}
@@ -126,12 +124,11 @@ is delegated to other fields and sciences.''
     \draw[outline] \clevelandcs node {computer science};
     \node[anchor=north,above] at (0,2) {data science};
   \end{tikzpicture}
-  \caption{
-    Cleveland's view of data science.  For him, data science is the ``modern'' statistics,
+  \tcblower
+    For him, data science is the ``modern'' statistics,
     where it is enlarged by computer science and domain expertise.
-  }
   \label{fig:cleveland}
-\end{figure}
+\end{figurebox}
 
 \paragraph{William Cleveland (born 1943)}
 
@@ -201,7 +198,7 @@ The importance of collecting and organizing data goes without saying.  Data fuel
 decision making.  In the following, I present some of the most important milestones in the history
 of data handling.
 
-\begin{figure}
+\begin{figurebox}[label=fig:data-handling-history]{Timeline of the ages of data handling.}
   \centering
   \begin{tikzpicture}
     \draw (0,0) -- (8,0);
@@ -218,11 +215,7 @@ of data handling.
       \node[anchor=south] at (\x,0.1) {\footnotesize\z};
     }
   \end{tikzpicture}
-  \caption{
-    Timeline of the ages of data handling.
-  }
-  \label{fig:data-handling-history}
-\end{figure}
+\end{figurebox}
 
 \Cref{fig:data-handling-history} illutrates the timeline.
 
