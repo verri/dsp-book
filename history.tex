@@ -191,7 +191,8 @@ science.
 
 \textcite{Kelleher2018} provides an interesting time line of data-driven methods and
 influential figures in the field.  I reproduce it here with some changes, including
-some omissions and additions.
+some omissions and additions.  On the subject of data analysis, I include some remarks
+from \textcite{Vapnik1995}.
 
 I first address data handling --- which I include data sources, collection, organization,
 storage, and manipulation ---, and then data analysis and knowledge extraction.
@@ -399,7 +400,7 @@ be easy to understand and fast to query for business users.
 \textcolor{red}{
 A famous debate between Kimball and Inmon is the top-down versus bottom-up approach to
 data warehousing.  Inmon's approach is top-down, where the data warehouse is designed
-first and then the data marts are created from the data warehouse.  Kimball's approach is
+first and then the data marts\footnote{A data mart is a specialized subset of a data warehouse that is designed to serve the needs of a specific business unit, department, or functional area within an organization.} are created from the data warehouse.  Kimball's approach is
 bottom-up, where the data marts are created first and then the data warehouse is created
 from the data marts.
 }
@@ -408,6 +409,7 @@ from the data marts.
   \begin{itemize}
     \item American computer scientist.
     \item Developed the bottom-up approach to data warehousing.
+    \item From available data marts, the data warehouse is created.
   \end{itemize}
 \end{mainbox}
 
@@ -415,6 +417,7 @@ from the data marts.
   \begin{itemize}
     \item American computer scientist.
     \item Developed the top-down approach to data warehousing.
+    \item Design the data warehouse first and then the data marts are created from the data warehouse.
   \end{itemize}
 \end{mainbox}
 
@@ -493,6 +496,35 @@ lamps, wearable devices, and almost anything else you can think of.  IoT increas
 challenges of data handling, especially in terms of data storage and processing.
 
 \subsection{Timeline of data analysis}
+
+The way we think about data and knowledge extraction has evolved significantly over the
+years.  In the following, I present some of the most important milestones in the history
+of data analysis.
+
+\subsubsection{Summary statistics}
+
+The earliest known records of systematic data analysis date back to the first censuses.
+The term \emph{statistics} itself refer to the analysis of data \emph{about the state},
+including demographics and economics.  That early (and simplest) form of statistical
+analysis is called \emph{summary statistics}, which consists of describing data in terms
+of its central tendencies (e.g. arithmetic mean) e variability (e.g. range).
+
+\subsubsection{Probability advent}
+
+However, after the seventeenth century, the foundations of modern probability theory were
+laid out.  These advancements enabled methods beyond summary statistics, bringing to life
+the field of statistical inference.
+
+\subsubsection{Learning from data}
+
+In the nineteenth century, new advances were made in the field of statistics.  The
+development of statistical learning methods, such as the method of least squares, enabled
+the development of new techniques for data analysis.
+
+Vapnik and Chervonenkis (1971) proposed the first learning model based on statistical
+learning theory.  They introduced the concept of the empirical risk minimization (ERM)
+principle, which is the foundation of statistical learning theory.
+
 
 \begin{itemize}
   \item Summary statistics
