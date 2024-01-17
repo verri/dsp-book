@@ -512,35 +512,123 @@ of its central tendencies (e.g. arithmetic mean) e variability (e.g. range).
 \subsubsection{Probability advent}
 
 However, after the seventeenth century, the foundations of modern probability theory were
-laid out.  These advancements enabled methods beyond summary statistics, bringing to life
-the field of statistical inference.
+laid out.  Important figures for developing the probability theory are Blaise Pascal (1623
+-- 1662), Pierre de Fermat (1607 -- 1665), Christiaan Huygens (1629 -- 1695), and Jacob
+Bernoulli (1655 -- 1705).
+
+These foundation methods beyond summary statistics, bringing to life the field of
+statistical inference. In the following years, important results were achieved.
+
+\paragraph{Bayes' rule}
+
+Reverend Thomas Bayes (1701 -- 1761) was an English statistician, philosopher, and
+presbyterian minister.  He is known for formulating a specific case of the theorem that
+bears his name: Bayes' theorem.  The theorem is used to calculate conditional
+probabilities using an algorithm (his Proposition 9, published in 1763) that uses evidence to calculate
+limits on an unknown parameter.
+
+\paragraph{Gauss' method of least squares}
+
+Johann Carl Friedrich Gauss (1777 -- 1855) was a German mathematician and physicist who made
+significant contributions to many fields in mathematics and sciences.  Circa 1794, he
+developed the method of least squares for calculating the orbit of Ceres to minimize the
+impact of measurement error\footnote{The method was first published by Adrien-Marie
+Legendre (1752 -- 1833) in 1805, but Gauss claimed in 1809 that he
+had been using it since circa 1794.}.
+
+\paragraph{Playfair's data visualization}
+
+William Playfair (1759 -- 1823) was a secret agent on behalf of Great Britain during its
+war with France in the 1790s.  He invented several types of diagram between 1780s and
+1800s, such as the line, area and bar chart of economic data, and the pie chart and circle
+graph to show proportions.
 
 \subsubsection{Learning from data}
 
-In the nineteenth century, new advances were made in the field of statistics.  The
-development of statistical learning methods, such as the method of least squares, enabled
-the development of new techniques for data analysis.
+In the twentieth century and beyond, new advances were made in the field of statistics.  The
+development of learning methods enabled the development of new techniques for
+data analysis.
 
-Vapnik and Chervonenkis (1971) proposed the first learning model based on statistical
+\paragraph{Fisher's discriminant analysis}
+
+In the 1930s, Ronald Fisher (1890 -- 1962) developed the discriminant analysis, which was
+considered a problem of construction a decision rule to assign an vector to one of two
+categories using given probability distribution functions\footnote{After, Rosenblatt's work,
+however, it was used to solve inductive inference as well.}.
+
+See \cref{sub:fisher} for more details about the technique.
+
+\paragraph{Shannon's information theory}
+
+The field was originally established by the works of Harry Nyquist and Ralph Hartley, in
+the 1920s, and Claude Shannon in the 1940s.
+
+\paragraph{Rosenblatt's perceptron}
+
+In the 1960s, Frank Rosenblatt (1928 -- 1971) developed the perceptron, the first model of
+a learning machine.  While the idea of a mathematical neuron was not new, he was the first
+to describe the model as a program, showing the ability of the perceptron to learn simple
+tasks such as the logical operations AND and OR.
+
+See \cref{sub:perceptron} for more details about the technique.
+
+\paragraph{K-Nearest Neighbors}
+
+Evelyn Fix and Joseph Hodges in 1951 (discriminatory analysis)
+
+See \cref{sub:knn} for more details about the technique.
+
+\paragraph{Hunt inducing trees}
+
+1966
+
+\paragraph{Empirical Risk Minimization Principle}
+
+1970s, VC entropy and VC dimenson.
+
+Vapnik and Chervonenkis proposed the first learning model based on statistical
 learning theory.  They introduced the concept of the empirical risk minimization (ERM)
 principle, which is the foundation of statistical learning theory.
 
+\paragraph{Algorithmic complexity}
 
-\begin{itemize}
-  \item Summary statistics
-  \item Probability Advent 17, 18th
-  \item Statistical learning 19th
-    \begin{itemize}
-      \item Bayes rule
-      \item Gauss’ method of least squares
-      \item Playfair data visualization
-    \end{itemize}
-  \item 20th inference
-    \begin{itemize}
-      \item Pearson hypothesis testing
-      \item Fisher multivariate analysis, maximum likelihood estimate
-    \end{itemize}
-  \item Computer: McCulloch Pitts, Shannon information theory, Fix and Hodged discriminatory analysis, knn
-  \item Machine learning: 1965 Nils Nilsson neural network, 1966 Hunt inducing trees, Kmeans, Vapnik 71
-  \item Today: Ensembles, Deep learning: vision and language, KDD
-\end{itemize}
+Solomonoff, Kolmogorov, and Chaitin proposed the first learning model based on
+algorithmic complexity.
+
+\paragraph{Neural networks}
+
+1980s, LeCun, Rumelhart, Hinton, and others.
+
+\paragraph{Support vector machines}
+
+1990s, Vapnik and Cortes.
+
+\paragraph{Ensembles}
+
+Boosting and bagging.
+
+\paragraph{Deep learning}
+
+2000s, Hinton, Bengio, and LeCun.
+Vision and natural language processing.
+
+\paragraph{Knowledge discovery in databases}
+
+1990s, Fayyad, Piatesky-Shapiro, and Smyth.
+Developed the KDD process, which is the foundation of data mining.
+Data mining is the process of discovering patterns in large data sets involving methods at
+the intersection of machine learning, statistics, and database systems.
+
+\paragraph{Generative models}
+
+Nowadays, generative models are a hot topic in machine learning.
+They are a class of statistical models that can generate new data instances.
+They are used in unsupervised learning to discover hidden structures in unlabeled data
+(e.g. clustering), and in supervised learning to generate new synthetic data instances.
+
+\paragraph{LUSI learning theory}
+
+2010s, Vapnik and Izmailov.
+Learning from intelligent teachers.  Still under development.
+Learning Using Statistical Invariants.
+Weak and strong convergence.
