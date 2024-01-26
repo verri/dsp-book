@@ -234,17 +234,17 @@ They estimate it is more
 than 40,000 years old. It is conjectured to be a tally stick, but its exact purpose is
 unknown. Its 29 notches suggests that may have been used as a lunar phase counter.
 However, since it is broken at one end, the 29 notches may or may not be the total
-number\footcite{Beaumont2013}.
+number\footfullcite{Beaumont2013}.
 
 Another important milestone in the history of data collection is the record of
 demographic data.  One of first known census was conducted in 3,800 BC in the Babylonian
 Empire.  It was ordered to assess the population and resources of
-his empire.  Records were stored on  clay  tiles\footcite{Grajalez2013}.
+his empire.  Records were stored on  clay  tiles\footfullcite{Grajalez2013}.
 
 Since the early forms of writing, humanity abilities to record events and information
 increased significantly.  The first known written records date back to around 3,500 BC, the
 Sumerian archaic (pre-cuneiform) writing.  This writing system was used to represent
-commodities using clay tokens and to record transactions\footcite{Ifrah1998}.
+commodities using clay tokens and to record transactions\footfullcite{Ifrah1998}.
 
 ``Data storage'' was also a challenge.  Some important devices that increased our capacity
 to register textual information are the Sumerian clay tablets (3,500 BC), the Egyptian
@@ -270,7 +270,7 @@ opinion.  The meticulous records she kept during the Crimean War
 statistical graphics to present data in a way that was easy to understand.  She is
 credited with developing a form of the pie chart now known as the polar area
 diagram.  She also reformed healthcare in the United Kingdom and
-is considered the founder of modern nursing\footcite{Grajalez2013}.
+is considered the founder of modern nursing\footfullcite{Grajalez2013}.
 
 \begin{mainbox}{Florence Nightingale}
   \begin{itemize}
@@ -357,7 +357,7 @@ history addresses this issue.
 \subsubsection{Formal age}
 
 In 1970, Edgar Frank Codd (1923 -- 2003) published a paper entitled ``A Relational Model
-of Data for Large Shared Data Banks''\footcite{Codd1970}.  In this paper, he introduced
+of Data for Large Shared Data Banks''\footfullcite{Codd1970}.  In this paper, he introduced
 the concept of a relational model for database management {\color{red}
 provide more details}.
 
@@ -373,10 +373,10 @@ to combine them.
 
 \begin{mainbox}{Edgar Frank Codd}
   \begin{itemize}
-    \item British computer scientist.
-    \item Introduced the concept of a relational model for database management.
-    \item Standardized relational databases.
-    \item Led the development of Structured Query Language (SQL).
+    \item British computer scientist
+    \item Introduced the concept of a relational model for database management
+    \item Standardized relational databases
+    \item Led the development of Structured Query Language (SQL)
   \end{itemize}
 \end{mainbox}
 
@@ -463,11 +463,11 @@ flexible, making them ideal for big data applications.
 
 \begin{mainbox}{The V's of big data}
   \begin{itemize}
-    \item Volume: The amount of data generated is massive.
-    \item Velocity: The speed at which data is generated is high.
-    \item Variety: The types of data generated are diverse.
-    \item Veracity: The quality of data generated is questionable.
-    \item Value: The value of data generated is high.
+    \item Volume: The amount of data generated is massive
+    \item Velocity: The speed at which data is generated is high
+    \item Variety: The types of data generated are diverse
+    \item Veracity: The quality of data generated is questionable
+    \item Value: The value of data generated is high
   \end{itemize}
 \end{mainbox}
 
@@ -516,8 +516,8 @@ laid out.  Important figures for developing the probability theory are Blaise Pa
 -- 1662), Pierre de Fermat (1607 -- 1665), Christiaan Huygens (1629 -- 1695), and Jacob
 Bernoulli (1655 -- 1705).
 
-These foundation methods beyond summary statistics, bringing to life the field of
-statistical inference. In the following years, important results were achieved.
+The foundation methods brought to life the field of statistical inference. In the
+following years, important results were achieved.
 
 \paragraph{Bayes' rule}
 
@@ -526,6 +526,12 @@ presbyterian minister.  He is known for formulating a specific case of the theor
 bears his name: Bayes' theorem.  The theorem is used to calculate conditional
 probabilities using an algorithm (his Proposition 9, published in 1763) that uses evidence to calculate
 limits on an unknown parameter.
+
+The Bayes' rule is the foundation of learning from evidence, once it allows us to
+calculate the probability of an event based on prior knowledge of conditions that might be
+related to the event.  Classifiers based on Naïve Bayes --- the application of Bayes'
+theoream with strong independence assumptions between known variables --- is likely to have
+been used since the second half of the eigtheenth century.
 
 \paragraph{Gauss' method of least squares}
 
@@ -543,16 +549,27 @@ war with France in the 1790s.  He invented several types of diagram between 1780
 1800s, such as the line, area and bar chart of economic data, and the pie chart and circle
 graph to show proportions.
 
+\begin{mainbox}{Probability advent}
+  \begin{itemize}
+    \item Foundations by Blaise Pascal, Pierre de Fermat, Christiaan Huygens, Jacob
+      Bernoulli, and others (\nth{17} century)
+    \item Bayes' rule by Thomas Bayes (1763)
+    \item Gauss' method of least squares by Johann Carl Friedrich Gauss (1794)
+    \item Playfair's data visualization by William Playfair (1780s -- 1800s)
+  \end{itemize}
+\end{mainbox}
+
 \subsubsection{Learning from data}
 
 In the twentieth century and beyond, new advances were made in the field of statistics.  The
-development of learning methods enabled the development of new techniques for
+development of learning methods\footnote{Vapnik uses the terminology \emph{learning
+machines}.} enabled the development of new techniques for
 data analysis.
 
 \paragraph{Fisher's discriminant analysis}
 
-In the 1930s, Ronald Fisher (1890 -- 1962) developed the discriminant analysis, which was
-considered a problem of construction a decision rule to assign an vector to one of two
+In the 1930s, Ronald Fisher (1890 -- 1962) developed discriminant analysis, which was
+considered a problem of constructing a decision rule to assign a vector to one of two
 categories using given probability distribution functions\footnote{After, Rosenblatt's work,
 however, it was used to solve inductive inference as well.}.
 
@@ -588,57 +605,108 @@ See \cref{sub:perceptron} for more details about the technique.
 
 In 1966, \citeauthor{Hunt1966}'s book\footfullcite{Hunt1966} described a way to induce decision trees from
 data.  The algorithm is based on the concept of information entropy and is a precursor of
-the \citeauthor{Quinlan1986}'s ID3 algorithm\footfullcite{Quinlan1986}.
+the \citeauthor{Quinlan1986}'s ID3 algorithm\footfullcite{Quinlan1986} and its variations.
 
-See \cref{sub:tree} fro more details about the technique.
+See \cref{sub:tree} for more details about the technique.
 
-\paragraph{Empirical Risk Minimization Principle}
+\begin{mainbox}{Learning from data (part I)}
+  \begin{itemize}
+    \item Fisher's discriminant analysis by Ronald Fisher (1930s)
+    \item Shannon's information theory by Claude Shannon (1940s)
+    \item K-Nearest Neighbors by Evelyn Fix and Joseph Lawson Hodges Jr. (1951)
+    \item Rosenblatt's perceptron by Frank Rosenblatt (1960s)
+    \item Hunt inducing trees by John Ross Quinlan (1966)
+  \end{itemize}
+\end{mainbox}
 
-1970s, VC entropy and VC dimenson.
+\paragraph{Empirical risk minimization principle}
 
-Vapnik and Chervonenkis proposed the first learning model based on statistical
-learning theory.  They introduced the concept of the empirical risk minimization (ERM)
-principle, which is the foundation of statistical learning theory.
+Although many learning machines where developed until the 1960s, they did not advanced
+significantly the understanding of the general problem of learning from data.  Between
+1960s and 1986 --- before the backpropagation algorithm was proposed ---, the field of practical
+data analysis was basically stagnant.  The main reason for that was the lack of a
+theoretical framework to support the development of new learning machines.
 
-\paragraph{Algorithmic complexity}
+However, these years were not completely unfruitful.  As early as 1968, Vladimir Vapnik (1936 -- )
+and Alexey Chervonenkis (1938 -- 2014) developed the foundamental concepts of VC entropy
+and VC dimension for the data classification problems.  As a result, a novel inductive
+principle was proposed: the Empirical Risk Minimization (ERM) principle.
+This principle is the foundation of statistical learning theory.
 
-Solomonoff, Kolmogorov, and Chaitin proposed the first learning model based on
-algorithmic complexity.
+% \paragraph{Algorithmic complexity}
+%
+% Solomonoff, Kolmogorov, and Chaitin proposed the first learning model based on
+% algorithmic complexity.
 
-\paragraph{Neural networks}
+\paragraph{Resurgence of neural networks}
 
-1980s, LeCun, Rumelhart, Hinton, and others.
+In 1986, researchers developed independently a method to optimize coefficients of a neural
+network\footfullcite{LeCun1986,Rumelhart1986}.  The method is called backpropagation and
+is the foundation of the resurgence of neural networks.
 
-\paragraph{Support vector machines}
-
-1990s, Vapnik and Cortes.
+This rebirth of neural networks happened in a scenario very different from the 1960s.
+The availability of data and computational power fueled a new approach to the problem of
+learning from data.  The new approach preferred the use of simple algorithms and
+intuitive models over theoretical models, fueling areas such as bioinspired computing and
+evolutionary computation.
 
 \paragraph{Ensembles}
 
-Boosting and bagging.
+Following the new approach, ensemble methods were developed.  Based on ideas of
+boosting\footfullcite{Schapire1990} and bagging\footfullcite{Breiman1996}, ensemble
+methods combine multiple learning machines to improve the performance of the individual
+machines.  The most famous ensemble methods are random forests\footfullcite{Ho1995}.
 
-\paragraph{Deep learning}
+\paragraph{Support vector machines}
 
-2000s, Hinton, Bengio, and LeCun.
-Vision and natural language processing.
+In 1995, \citeauthor{Cortes1995} proposed the support vector machine (SVM) algorithm, a
+learning machine based on the VC theory and the ERM principle.  Based on Cover's
+theorem\footfullcite{Cover1965}, they developed a method that finds the optimal hyperplane
+that separates two classes of data with the maximum margin in a high-dimensional space.
+The resulting method led to practical and efficient learning machines.
 
-\paragraph{Knowledge discovery in databases}
+\paragraph{Deep learning revolution}
 
-1990s, Fayyad, Piatesky-Shapiro, and Smyth.
-Developed the KDD process, which is the foundation of data mining.
-Data mining is the process of discovering patterns in large data sets involving methods at
-the intersection of machine learning, statistics, and database systems.
+Although the ideia of neural networks with multiple layers were around since the 1960s,
+only in the late 2000s the field of deep learning caught the attention of the scientific
+community by achieving state-of-the-art results in computer vision and natural language
+processing.  Yoshua Bengio, Geoffrey
+Hinton and Yann LeCun are recognized for their for conceptual and engineering
+breakthroughs in the field, winning the 2018 Turing Award.
 
-\paragraph{Generative models}
+% \paragraph{Knowledge discovery in databases}
+%
+% 1990s, Fayyad, Piatesky-Shapiro, and Smyth.
+% Developed the KDD process, which is the foundation of data mining.
+% Data mining is the process of discovering patterns in large data sets involving methods at
+% the intersection of machine learning, statistics, and database systems.
 
-Nowadays, generative models are a hot topic in machine learning.
-They are a class of statistical models that can generate new data instances.
-They are used in unsupervised learning to discover hidden structures in unlabeled data
-(e.g. clustering), and in supervised learning to generate new synthetic data instances.
+\paragraph{Generative deep models}
+
+Nowadays, generative deep models are a hot topic in machine learning. They are a class of
+statistical models that can generate new data instances. They are used in unsupervised
+learning to discover hidden structures in unlabeled data (e.g. clustering), and in
+supervised learning to generate new synthetic data instances.  The most famous generative
+models are the generative transformers and generative adversarial networks.
 
 \paragraph{LUSI learning theory}
 
-2010s, Vapnik and Izmailov.
-Learning from intelligent teachers.  Still under development.
-Learning Using Statistical Invariants.
-Weak and strong convergence.
+In 2010s, Vapnik and Rauf Izmailov proposed the Learning Using Statistical Invariants
+(LUSI) principle, which is an extension of the statistical learning theory.  The LUSI
+theory is based on the concept of statistical invariants, which are properties of
+the data that are preserved under transformations.  The theory is the foundation of the
+learning from intelligent teachers paradigm.  They regard the LUSI theory as the
+next step in the evolution of learning theory, calling it the ``complete statistical
+theory of learning''.
+
+\begin{mainbox}{Learning from data (part II)}
+  \begin{itemize}
+    \item Empirical risk minimization principle by Vladimir Vapnik and Alexey Chervonenkis (1968)
+    \item Resurgence of neural networks (1986)
+    \item Ensembles (1990s)
+    \item Support vector machines by Vladimir Vapnik and Corinna Cortes (1995)
+    \item Deep learning revolution (2000s)
+    \item Generative models (2010s)
+    \item LUSI learning theory by Vladimir Vapnik and Rauf Izmailov (2010s)
+  \end{itemize}
+\end{mainbox}
