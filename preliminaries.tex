@@ -5,11 +5,33 @@
   ``Maar ik maak steeds wat ik nog niet kan om het te leeren kunnen.''\par\raggedleft---
   \textup{Vincent van Gogh}, 1885}
 
+Foundamental concepts in data science come from a variety of fields, including
+mathematics, statistics, computer science, optimization theory, and information theory.
+This chapter provides a brief overview of the computational, mathematical and statistical
+concepts that are used in the rest of the book.
+
 \section{Algorithms and data structures}
+
+Algorithms are step-by-step procedures for solving a problem.  They are used to
+manipulate data structures, which are ways of organizing data to solve problems.
+They are realized in programming languages, which are formal languages that can be used
+to express algorithms.
 
 \subsection{Algoritmic paradigms}
 
-Divide and conquer, dynamic programming, greedy algorithms
+Some techniques are used to solve a wide variety of problems.  They are called
+algorithmic paradigms.  The most common ones are listed below.
+
+\paragraph{Divide and conquer}  The problem is divided into smaller subproblems that are
+solved recursively.  The solutions to the subproblems are then combined to give a solution
+to the original problem.
+
+\paragraph{Dynamic programming}  The problem is divided into overlapping subproblems, and
+the solutions to the subproblems are only solved once. The subproblems are then optimized
+to find the overall solution.
+
+\paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
+is locally optimal.  The overall solution is not guaranteed to be optimal.
 
 \subsection{Computational complexity}
 
@@ -25,11 +47,75 @@ Arrays, linked lists, stacks, queues, trees, graphs, hash tables.
 
 \subsection{Matrix decompositions}
 
+\textcolor{red}{Verify!}
+
+\paragraph{Singular value decomposition} The singular value decomposition (SVD) of a
+matrix $A$ is a factorization of the form
+\begin{equation}
+  \label{eq:svd}
+  A = U \Sigma V^T\text{,}
+\end{equation}
+where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a diagonal
+matrix with non-negative real numbers on the diagonal.  The singular values are the
+diagonal entries of $\Sigma$.
+
+\paragraph{Eigenvalue decomposition}  The eigenvalue decomposition of a matrix $A$
+is a factorization of the form
+\begin{equation}
+  \label{eq:eigdec}
+  A = Q \Lambda Q^{-1}\text{,}
+\end{equation}
+where $Q$ is a square matrix whose columns are the eigenvectors of $A$, and
+$\Lambda$ is a diagonal matrix whose diagonal entries are the eigenvalues of
+$A$.
+
+\paragraph{Cholesky decomposition}  The Cholesky decomposition of a positive-definite
+matrix $A$ is a factorization of the form
+\begin{equation}
+  \label{eq:chol}
+  A = L L^T\text{,}
+\end{equation}
+where $L$ is a lower triangular matrix with real and positive diagonal entries.
+
+\paragraph{QR decomposition}  The QR decomposition of a matrix $A$ is a
+factorization of the form
+\begin{equation}
+  \label{eq:qr}
+  A = Q R\text{,}
+\end{equation}
+where $Q$ is an orthogonal matrix and $R$ is an upper triangular matrix.
+
+\paragraph{LU decomposition}  The LU decomposition of a square matrix $A$ is a
+factorization of the form
+\begin{equation}
+  \label{eq:lu}
+  A = L U\text{,}
+\end{equation}
+where $L$ is a lower triangular matrix with unit diagonal entries and $U$ is
+an upper triangular matrix.
+
 \subsection{Eigenvalues and eigenvectors}
+
+An eigenvalue of a square matrix $A$ is a scalar $\lambda$ such that there exists a
+non-zero vector $\vec{v}$ satisfying
+\begin{equation}
+  \label{eq:eig}
+  A \vec{v} = \lambda \vec{v}\text{.}
+\end{equation}
+The vector $\vec{v}$ is called an eigenvector of $A$ corresponding to $\lambda$.
 
 \section{Probability}
 
 \subsection{Axioms of probability}
+
+The Kolmogorov axioms of probability are the foundation of probability theory.
+They are
+\begin{enumerate}
+  \item The probability of an event $E$ is a non-negative real number, i.e. $P(A) \geq 0$;
+  \item The probability of the sample space $\Omega$ is one, i.e. $P(\Omega) = 1$; and
+  \item The probability of the union of disjoint events, $A \cap B = \emptyset$, is
+    the sum of the probabilities of the events, i.e. $P(A \cup B) = P(A) + P(B)$.
+\end{enumerate}
 
 \subsection{Permutations and combinations}
 
