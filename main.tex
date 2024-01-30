@@ -12,6 +12,7 @@
 \usepackage{amsmath}
 \usepackage[colorlinks]{hyperref}
 \usepackage{fontspec}
+\usepackage{sourcesanspro}
 \usepackage{unicode-math}
 \usepackage{graphicx}
 \usepackage[super]{nth}
@@ -69,6 +70,8 @@
   BoldFont={*-Bold},
   ItalicFont={*-Italic},
   BoldItalicFont={*-BoldItalic}]
+
+%\setsansfont{SourceSansPro}
 
 \urlstyle{rm}
 
@@ -128,16 +131,30 @@
   linkcolor=black,
   citecolor=black,}
 
-\maketitle
-\thispagestyle{empty}
-\clearpage
+\begin{titlingpage}
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south east, inner sep=8mm] at (current page.south east) {%
+      \reflectbox{\includegraphics[height=0.6\paperheight]{images/toucan.png}}%
+    };
+    \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\textcolor{black!60}\today};
+    \node[anchor=north, yshift=-20mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data science}};
+    \node[anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{foundations and practices}};
+    \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
+  \end{tikzpicture}
+\end{titlingpage}
 
 \newpage
 \mbox{}
 \vfill
 
 {
-\footnotesize
+\footnotesize\noindent
+Book cover image was created with the assistance of \href{https://openai.com/dall-e-2}{DALL·E 2}.
+}
+
+\vspace{0.5cm}
+{
+\footnotesize\noindent
 Scripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®),
 copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by
 permission. All rights reserved.
@@ -145,7 +162,7 @@ permission. All rights reserved.
 
 \vspace{0.5cm}
 {
-\footnotesize
+\footnotesize\noindent
 \thetitle{} © 2023--\the\year{} by \theauthor{} is licensed under
 Attribution-NonCommercial-NoDerivatives 4.0 International. To view a copy of this license,
 visit
