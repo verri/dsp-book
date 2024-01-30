@@ -24,28 +24,100 @@ algorithmic paradigms.  The most common ones are listed below.
 
 \paragraph{Divide and conquer}  The problem is divided into smaller subproblems that are
 solved recursively.  The solutions to the subproblems are then combined to give a solution
-to the original problem.
+to the original problem.  Some example algorithms are merge sort, quick sort, and binary
+search.
 
-\paragraph{Dynamic programming}  The problem is divided into overlapping subproblems, and
-the solutions to the subproblems are only solved once. The subproblems are then optimized
-to find the overall solution.
+% \paragraph{Dynamic programming}  The problem is divided into overlapping subproblems, and
+% the solutions to the subproblems are only solved once. The subproblems are then optimized
+% to find the overall solution.  Some example algorithms are the Bellman-Ford algorithm,
+% Floyd-Warshall algorithm, and the Knapsack problem.
 
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
-is locally optimal.  The overall solution is not guaranteed to be optimal.
+is locally optimal.  The overall solution is not guaranteed to be (but might be) optimal.  Some example
+algorithms are Dijkstra's algorithm and Prim's algorithm
 
 \subsection{Computational complexity}
 
-Big-O notation, time and space complexity, NP-completeness.
+The computational complexity of an algorithm is the amount of resources it uses to
+run as a function of the size of the input.  The most common resources are time and
+space.
+
+Usually, we are interested in the asymptotic complexity of an algorithm, i.e. how
+the complexity grows as the size of the input grows.  The most common notation for
+asymptotic complexity is the Big-O notation.
+
+\paragraph{Big-O notation}  Let $f$ and $g$ be functions from the set of natural numbers
+to the set of real numbers, i.e. $f, g : \mathbb{N} \rightarrow \mathbb{R}$.  We say that $f$ is
+$O(g)$ if there exists a constant $c > 0$ such that $f(n) \leq c g(n)$ for all $n \geq
+n_0$, where $n_0$ is a natural number.
+
+We can order functions by their asymptotic complexity.  For example, $O(1) < O(\log n) <
+O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$.  The Big-O notation is used to describe
+the asymptotic complexity of algorithms.
 
 \subsection{Data structures}
 
-Arrays, linked lists, stacks, queues, trees, graphs, hash tables.
+Data structures are ways of organizing data to solve problems.  The most common ones
+are listed below.
+
+\paragraph{Arrays}  An array is a homogeneous collection of elements that are accessed by
+an integer index.  The elements are stored in contiguous memory locations.
+
+\paragraph{Linked lists}  A linked list is a collection of elements called nodes.  Each
+node contains a value and a pointer to the next node in the list.  The first node is
+called the head, and the last node is called the tail.  The tail points to a null
+reference.
+
+\paragraph{Stacks}  A stack is a collection of elements that are accessed in a
+last-in-first-out (LIFO) order.  Elements are added to the top of the stack and
+removed from the top of the stack.
+
+\paragraph{Queues}  A queue is a collection of elements that are accessed in a
+first-in-first-out (FIFO) order.  Elements are added to the back of the queue and
+removed from the front of the queue.
+
+\paragraph{Trees}  A tree is a collection of nodes.  Each node contains a value and a
+list of references to its children.  The first node is called the root.  A node with
+no children is called a leaf.
+
+\paragraph{Graphs}  A graph is a collection of nodes.  Each node contains a value and a
+list of references to its neighbors; the references are called edges.  A graph can be
+directed or undirected.  A graph is directed if the edges have a direction.
+
+\paragraph{Map} A map is a collection of key-value pairs.  The keys are unique, and
+each key is associated with a value.  The keys are used to access the values.
+
+\section{Set theory}
+
+A set is a collection of elements.  The elements of a set can be anything, including
+other sets.  The elements of a set are unordered, and each element is unique.  The
+most common notation for sets is the curly braces notation, e.g. $\{1, 2, 3\}$.
+
+\subsection{Set operations}
+
+\paragraph{Union}  The union of two sets $A$ and $B$ is the set of elements that are in
+$A$ or $B$.  It is denoted by $A \cup B$.
+
+\paragraph{Intersection}  The intersection of two sets $A$ and $B$ is the set of elements
+that are in both $A$ and $B$.  It is denoted by $A \cap B$.
+
+\paragraph{Difference}  The difference of two sets $A$ and $B$ is the set of elements
+that are in $A$ but not in $B$.  It is denoted by $A \setminus B$.
 
 \section{Linear algebra}
 
-\subsection{Vectors and matrices}
+\paragraph{Vector}  A vector is an array of numbers.  It is denoted by a bold
+lowercase letter, e.g. $\vec{v} = (v_i)_{i= 1,\dots, n}$ is a vector of length $n$.
+
+\paragraph{Matrix}  A matrix is a rectangular array of numbers.  It is denoted by an
+uppercase letter, e.g. $A = (a_{ij})_{i = 1, \dots, n;~j = 1, \dots, m}$ is the matrix
+with $n$ rows and $m$ columns.
 
 \subsection{Matrix decompositions}
+
+Matrix decompositions are factorizations of matrices into matrices with special
+properties.  They are used to solve linear systems, compute inverses, and compute
+eigenvalues and eigenvectors.
 
 \textcolor{red}{Verify!}
 
@@ -106,36 +178,129 @@ The vector $\vec{v}$ is called an eigenvector of $A$ corresponding to $\lambda$.
 
 \section{Probability}
 
-\subsection{Axioms of probability}
-
 The Kolmogorov axioms of probability are the foundation of probability theory.
 They are
 \begin{enumerate}
-  \item The probability of an event $E$ is a non-negative real number, i.e. $P(A) \geq 0$;
+  \item The probability of an event $A$ is a non-negative real number, i.e. $P(A) \geq 0$;
   \item The probability of the sample space $\Omega$ is one, i.e. $P(\Omega) = 1$; and
   \item The probability of the union of disjoint events, $A \cap B = \emptyset$, is
     the sum of the probabilities of the events, i.e. $P(A \cup B) = P(A) + P(B)$.
 \end{enumerate}
 
-\subsection{Permutations and combinations}
+If $A$ and $B$ are not disjoint, then
+\begin{equation*}
+  P(A \cup B) = P(A) + P(B) - P(A \cap B)\text{.}
+\end{equation*}
 
-\subsection{Conditional probability}
+\paragraph{Joint probability}
 
-\subsection{Bayes' rule}
+The joint probability of two events $A$ and $B$ is the probability that both events
+occur.  It is denoted by $P(A, B) = P(A \cap B)$.
 
-\subsection{Independence}
+\paragraph{Law of total probability}
+
+The law of total probability states that if $B_1, \dots, B_n$ are disjoint events
+such that $\cup_{i = 1}^n B_i = \Omega$, then for any event $A$, we have that
+$$P(A) = \sum_{i = 1}^n P(A, B_i)\text{.}$$
+
+\paragraph{Conditional probability}
+
+The conditional probability of an event $A$ given an event $B$ is the probability
+that $A$ occurs given that $B$ occurs.  It is denoted by $P(A \mid B)$.
+
+\paragraph{Independence}
+
+Two events $A$ and $B$ are independent if the probability of $A$ given $B$ is the
+same as the probability of $A$, i.e. $P(A \mid B) = P(A)$.  It is equivalent to
+$P(A, B) = P(A) \cdot P(B)$.
+
+\paragraph{Bayes' rule}
+
+Bayes' rule is a formula that relates the conditional probability of an event $A$
+given an event $B$ to the conditional probability of $B$ given $A$.  It is
+\begin{equation}
+  \label{eq:bayes}
+  P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}\text{.}
+\end{equation}
 
 \subsection{Random variables}
 
+A random variable is a function that maps the sample space $\Omega$ to the real
+numbers.  It is denoted by a capital letter, e.g. $X$.
+
+\paragraph{Probability mass function}
+
+The probability mass function (PMF) of a discrete random variable $X$ is the
+function $p_X : \mathbb{R} \rightarrow [0, 1]$ defined by
+\begin{equation}
+  \label{eq:pmf}
+  p_X(x) = P(X = x)\text{.}
+\end{equation}
+
+\paragraph{Probability density function}
+
+The probability density function (PDF) of a continuous random variable $X$ is the
+function $f_X : \mathbb{R} \rightarrow [0, \infty)$ defined by
+\begin{equation}
+  \label{eq:pdf}
+  P(a \leq X \leq b) = \int_a^b f_X(x) dx\text{.}
+\end{equation}
+
+\paragraph{Cumulative distribution function}
+
+The cumulative distribution function (CDF) of a random variable $X$ is the function
+$F_X : \mathbb{R} \rightarrow [0, 1]$ defined by
+\begin{equation}
+  \label{eq:cdf}
+  F_X(x) = P(X \leq x)\text{.}
+\end{equation}
+\subsection{Expectation and moments}
+
+\paragraph{Expectation}  The expectation of a random variable $X$ is the average
+value of $X$.  It is denoted by $E[X]$.  By definition, it is
+\begin{equation}
+  \label{eq:expectation}
+  E[X] = \begin{cases}
+    \sum_{x} x \cdot p_X(x) & \text{if $X$ is discrete; } \\
+    \int_{-\infty}^{\infty} x \cdot f_X(x) dx & \text{if $X$ is continuous.}
+  \end{cases}
+\end{equation}
+
+\paragraph{Variance}  The variance of a random variable $X$ is a measure of how
+spread out the values of $X$ are.  It is denoted by $V(X)$.  By definition, it is
+\begin{equation}
+  \label{eq:variance}
+  V(X) = E[(X - E[X])^2]\text{.}
+\end{equation}
+
 \subsection{Probability distributions}
 
-\subsection{Expectation and moments}
+\paragraph{Normal distribution} Foo.
+
+\paragraph{T distribution} Bar.
+
+\subsection{Permutations and combinations}
+
+\paragraph{Permutation}  A permutation is an arrangement of a set of elements.  The
+number of permutations of $n$ elements is $n!$.
+
+\paragraph{Combination}  A combination is a selection of a subset of elements from a
+set.  The number of combinations of $k$ elements from a set of $n$ elements is
+$$\binom{n}{k} = \frac{n!}{k!(n - k)!}\text{.}$$
 
 \section{Optimization}
 
 \subsection{Minimization of convex functions}
 
 \subsection{Gradient descent}
+
+Gradient descent is an iterative algorithm for finding the minimum of a function.
+It is based on the observation that the gradient of a function points in the
+direction of the steepest descent.  The algorithm is
+\begin{equation}
+  \label{eq:gd}
+  \vec{w}(t + 1) = \vec{w}(t) - \alpha \nabla f(\vec{w}(t))\text{,}
+\end{equation}
 
 \subsection{Constraint optimization}
 
