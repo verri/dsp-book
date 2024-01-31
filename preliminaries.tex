@@ -36,6 +36,10 @@ search.
 is locally optimal.  The overall solution is not guaranteed to be (but might be) optimal.  Some example
 algorithms are Dijkstra's algorithm and Prim's algorithm
 
+\paragraph{Backtracking}  The problem is solved incrementally, one piece at a time.  If a
+piece does not fit, it is removed and replaced by another piece.  Some example algorithms
+are the naïve solutions for N-queens problem and the Sudoku problem.
+
 \subsection{Computational complexity}
 
 The computational complexity of an algorithm is the amount of resources it uses to
@@ -61,7 +65,7 @@ Data structures are ways of organizing data to solve problems.  The most common 
 are listed below.
 
 \paragraph{Arrays}  An array is a homogeneous collection of elements that are accessed by
-an integer index.  The elements are stored in contiguous memory locations.
+an integer index.  The elements are usually stored in contiguous memory locations.
 
 \paragraph{Linked lists}  A linked list is a collection of elements called nodes.  Each
 node contains a value and a pointer to the next node in the list.  The first node is
@@ -104,12 +108,30 @@ that are in both $A$ and $B$.  It is denoted by $A \cap B$.
 \paragraph{Difference}  The difference of two sets $A$ and $B$ is the set of elements
 that are in $A$ but not in $B$.  It is denoted by $A \setminus B$.
 
+Union and intersection are commutative, associative and distributive.
+
+\paragraph{Universe set}  The universe set is the set of all elements.  It is denoted
+by $\Omega$.
+
+\paragraph{Empty set}  The empty set is the set with no elements.  It is denoted by
+$\emptyset$.
+
+\paragraph{Complement}  The complement of a set $A$ is the set of elements that are not
+in $A$.  It is denoted by $A^c = \Omega \setminus A$.
+
+\paragraph{Inclusion}  Given sets $A$, $B$, and $C$, the following statements hold:
+\begin{itemize}
+  \item \emph{Reflexity:} $A \subseteq A$;
+  \item \emph{Antisymmetry:} $A \subseteq B$ and $B \subseteq A$ if and only if $A = B$;
+  \item \emph{Transitivity:} $A \subseteq B$ and $B \subseteq C$ implies $A \subseteq C$.
+\end{itemize}
+
 \section{Linear algebra}
 
-\paragraph{Vector}  A vector is an array of numbers.  It is denoted by a bold
+\paragraph{Vector}  A vector is an ordered collection of numbers.  It is denoted by a bold
 lowercase letter, e.g. $\vec{v} = (v_i)_{i= 1,\dots, n}$ is a vector of length $n$.
 
-\paragraph{Matrix}  A matrix is a rectangular array of numbers.  It is denoted by an
+\paragraph{Matrix}  A matrix is a rectangular collection of numbers.  It is denoted by an
 uppercase letter, e.g. $A = (a_{ij})_{i = 1, \dots, n;~j = 1, \dots, m}$ is the matrix
 with $n$ rows and $m$ columns.
 
@@ -228,6 +250,16 @@ given an event $B$ to the conditional probability of $B$ given $A$.  It is
 A random variable is a function that maps the sample space $\Omega$ to the real
 numbers.  It is denoted by a capital letter, e.g. $X$.
 
+Formally, let $X : \Omega \rightarrow E$ be a random variable.  The
+probability that $X$ takes on a value in a set $A \subseteq E$ is
+\begin{equation}
+  \label{eq:rv}
+  P(X \in A) = P(\{\omega \in \Omega : X(\omega) \in A\})\text{.}
+\end{equation}
+
+If $E = \mathbb{R}$, then $X$ is a continuous random variable.  If $E = \mathbb{Z}$,
+then $X$ is a discrete random variable.
+
 \paragraph{Probability mass function}
 
 The probability mass function (PMF) of a discrete random variable $X$ is the
@@ -254,30 +286,73 @@ $F_X : \mathbb{R} \rightarrow [0, 1]$ defined by
   \label{eq:cdf}
   F_X(x) = P(X \leq x)\text{.}
 \end{equation}
+
 \subsection{Expectation and moments}
+
+Expectation is a measure of the average value of a random variable.  Moments are
+measures of the shape of a probability distribution.
 
 \paragraph{Expectation}  The expectation of a random variable $X$ is the average
 value of $X$.  It is denoted by $E[X]$.  By definition, it is
 \begin{equation}
   \label{eq:expectation}
-  E[X] = \begin{cases}
+  E[X] = \begin{dcases}
     \sum_{x} x \cdot p_X(x) & \text{if $X$ is discrete; } \\
     \int_{-\infty}^{\infty} x \cdot f_X(x) dx & \text{if $X$ is continuous.}
-  \end{cases}
+  \end{dcases}
 \end{equation}
 
 \paragraph{Variance}  The variance of a random variable $X$ is a measure of how
 spread out the values of $X$ are.  It is denoted by $V(X)$.  By definition, it is
 \begin{equation}
   \label{eq:variance}
-  V(X) = E[(X - E[X])^2]\text{.}
+  V(X) = E\!\left[\left(X - E[X]\right)^2\right]\text{.}
 \end{equation}
+
+Higher moments are defined similarly, look for skewness and kurtosis.
 
 \subsection{Probability distributions}
 
-\paragraph{Normal distribution} Foo.
+Several phenomena in nature and society can be modeled as random variables.  Some
+distributions are frequently used to model these phenomena.  The main ones are
+listed below.
 
-\paragraph{T distribution} Bar.
+\paragraph{Bernoulli distribution}  The Bernoulli distribution is a discrete
+distribution with two possible outcomes, usually called success and failure.  It is
+parametrized by a single parameter $p \in [0, 1]$, which is the probability of
+success.  It is denoted by $\text{Bern}(p)$.
+
+\paragraph{Normal distribution} The normal distribution is a continuous distribution
+with a bell-shaped density.  It is parametrized by two parameters, the mean $\mu \in
+\mathbb{R}$ and the standard deviation $\sigma > 0$.  It is denoted by
+$\mathcal{N}(\mu, \sigma^2)$.
+
+The special case where $\mu = 0$ and $\sigma = 1$ is called the standard normal
+distribution.  It is denoted by $\mathcal{N}(0, 1)$.
+
+The probability density function of $X \sim \mathcal{N}(\mu, \sigma^2)$ is
+\begin{equation}
+  \label{eq:normal}
+  f_X(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2 \sigma^2}\right)\text{.}
+\end{equation}
+
+\paragraph{T distribution} The T distribution is a continuous distribution with a
+bell-shaped density.  It is parametrized by a single parameter $\nu > 0$, called the
+degrees of freedom.  It is denoted by $\mathcal{T}(\nu)$.
+
+% The probability density function of $X \sim \mathcal{T}(\nu)$ is
+% \begin{equation}
+%   \label{eq:t}
+%   f_X(x) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}{\sqrt{\nu \pi} \Gamma\left(\frac{\nu}{2}\right)}
+%   \left(1 + \frac{x^2}{\nu}\right)^{-\frac{\nu + 1}{2}}\text{.}
+% \end{equation}
+
+The T distribution generalizes to the three parameter location-scale t distribution
+$\mathcal{T}(\mu, \sigma^2, \nu)$, where $\mu$ is the location parameter and $\sigma$ is
+the scale parameter.  Thus, given $X \sim \mathcal{T}(\nu)$, we have that
+$\mu + \sigma X \sim \mathcal{T}(\mu, \sigma^2, \nu)$.
+
+Note that $$\lim_{\nu \rightarrow \infty} \mathcal{T}(\nu) = \mathcal{N}(0, 1)\text{.}$$
 
 \subsection{Permutations and combinations}
 
@@ -290,7 +365,20 @@ $$\binom{n}{k} = \frac{n!}{k!(n - k)!}\text{.}$$
 
 \section{Optimization}
 
+Optimization is the process of finding the best solution to a problem.  The best
+solution is called the (global) optimum.  The optimum can be a maximum or a minimum.
+Sometimes, we are interested in finding a local optimum, which is the best solution
+in a neighborhood of the current solution.  Also, we might be interested in finding
+a solution that is good enough, i.e. a solution that is close to the optimum.
+In this case, we use heuristics to search in the solution space.
+
 \subsection{Minimization of convex functions}
+
+Maybe the simplest case of optimization is the minimization of a convex function.
+A function $f : \mathbb{R}^n \rightarrow \mathbb{R}$ is convex if for any two points
+$\vec{v}$ and $\vec{w}$ in the domain of $f$, the line segment connecting them lies
+above the graph of $f$.  Mathematically, it means that
+$$f(t\vec{v} + (1 - t) \vec{w}) \leq t f(\vec{v}) + (1 - t) f(\vec{w})$$ for all $t \in [0, 1]$.
 
 \subsection{Gradient descent}
 
