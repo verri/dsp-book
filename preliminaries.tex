@@ -322,6 +322,9 @@ distribution with two possible outcomes, usually called success and failure.  It
 parametrized by a single parameter $p \in [0, 1]$, which is the probability of
 success.  It is denoted by $\text{Bern}(p)$.
 
+The expected value of $X \sim \text{Bern}(p)$ is $E[X] = p$, and the variance is
+$V(X) = p(1 - p)$.
+
 \paragraph{Normal distribution} The normal distribution is a continuous distribution
 with a bell-shaped density.  It is parametrized by two parameters, the mean $\mu \in
 \mathbb{R}$ and the standard deviation $\sigma > 0$.  It is denoted by
@@ -335,6 +338,9 @@ The probability density function of $X \sim \mathcal{N}(\mu, \sigma^2)$ is
   \label{eq:normal}
   f_X(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2 \sigma^2}\right)\text{.}
 \end{equation}
+
+The expected value of $X \sim \mathcal{N}(\mu, \sigma^2)$ is $E[X] = \mu$, and the
+variance is $V(X) = \sigma^2$.
 
 \paragraph{T distribution} The T distribution is a continuous distribution with a
 bell-shaped density.  It is parametrized by a single parameter $\nu > 0$, called the
