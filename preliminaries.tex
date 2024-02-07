@@ -129,11 +129,89 @@ in $A$.  It is denoted by $A^c = \Omega \setminus A$.
 \section{Linear algebra}
 
 \paragraph{Vector}  A vector is an ordered collection of numbers.  It is denoted by a bold
-lowercase letter, e.g. $\vec{v} = (v_i)_{i= 1,\dots, n}$ is a vector of length $n$.
+lowercase letter, e.g. $\vec{v} = [v_i]_{i= 1,\dots, n}$ is a vector of length $n$.
 
 \paragraph{Matrix}  A matrix is a rectangular collection of numbers.  It is denoted by an
 uppercase letter, e.g. $A = (a_{ij})_{i = 1, \dots, n;~j = 1, \dots, m}$ is the matrix
 with $n$ rows and $m$ columns.
+
+\subsection{Operations}
+
+\paragraph{Addition}  The sum of two vectors $\vec{v}$ and $\vec{w}$ is the vector
+$\vec{v} + \vec{w}$ whose $i$-th entry is $v_i + w_i$.  The sum of two matrices $A$ and
+$B$ is the matrix $A + B$ whose $i, j$-th entry is $a_{ij} + b_{ij}$.  (The same rules apply
+to subtraction.)
+
+\paragraph{Scalar multiplication}  The product of a scalar $\alpha$ and a vector $\vec{v}$
+is the vector $\alpha \vec{v}$ whose $i$-th entry is $\alpha v_i$.  The product of a
+scalar $\alpha$ and a matrix $A$ is the matrix $\alpha A$ whose $i, j$-th entry is
+$\alpha a_{ij}$.
+
+\paragraph{Dot product}  The dot product of two vectors $\vec{v}$ and $\vec{w}$ is the
+scalar $$\vec{v} \cdot \vec{w} = \sum_{i = 1}^n v_i w_i\text{.}$$  The dot product is also called
+the inner product.
+
+\paragraph{Matrix multiplication}  The product of two matrices $A$ and $B$ is the matrix
+$C = A B$ whose $i, j$-th entry is $$c_{ij} = \sum_{k = 1}^n a_{ik} b_{kj}\text{.}$$
+Unless otherwise stated, we consider the vector $\vec{v}$ as a column matrix.
+
+\paragraph{Transpose}  The transpose of a matrix $A$ is the matrix $A^T$ whose $i, j$-th
+entry is the $j, i$-th entry of $A$.  If $A$ is a square matrix, then $A^T$ is the
+matrix obtained by reflecting $A$ along its main diagonal.
+
+\paragraph{Determinant}  The determinant of a square matrix $A$ is a scalar that is a
+measure of the (signed) volume of the parallelepiped spanned by the columns of $A$.  It is
+denoted by $\det(A)$ or $|A|$.
+
+The determinant is nonzero if and only if the matrix is invertible and the linear map
+represented by the matrix is an isomorphism -- i.e. it preserves the dimension of the
+vector space.  The determinant of a product of matrices is the product of their
+determinants.
+
+Particularly, the determinant of a $2 \times 2$ matrix $\begin{pmatrix} a & b \\ c & d
+\end{pmatrix}$ is $$\begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc\text{.}$$
+
+\paragraph{Inverse matrix}  An $n \times n$ matrix $A$ has an inverse $n \times n$ matrix
+$A^{-1}$ if
+\[
+  A A^{-1} = A^{-1} A = I_n\text{,}
+\]
+where $I_n$ is the $n \times n$ identity matrix.  If such a matrix exists, $A$ is said
+\emph{invertible}.  A square matrix that is not invertible is called singular. A square
+matrix with entries in a field is singular if and only if its determinant is zero.
+
+To calculate the inverse of a matrix, we can use the formula
+\[
+  A^{-1} = \frac{1}{\det(A)} \text{adj}(A)\text{,}
+\]
+where $\text{adj}(A)$ is the adjugate (or adjoint) of $A$, i.e. the transpose of the cofactor matrix
+of $A$.
+
+The cofactor of the $i, j$-th entry of a matrix $A$ is the determinant of the matrix
+obtained by removing the $i$-th row and the $j$-th column of $A$, multiplied by $(-1)^{i
++ j}$.
+
+In the case of a $2 \times 2$ matrix, the inverse is
+\[
+  \begin{pmatrix}
+    a & b \\
+    c & d
+  \end{pmatrix}^{-1} = \frac{1}{ad - bc}
+  \begin{pmatrix}
+    d & -b \\
+    -c & a
+  \end{pmatrix}\text{.}
+\]
+
+\subsection{Systems of linear equations}
+
+A system of linear equations is a collection of linear equations that share their
+unknowns.  It is usually written in matrix form as $A \vec{x} = \vec{b}$, where $A$ is a
+matrix of constants, $\vec{x}$ is a vector of unknowns, and $\vec{b}$ is a vector of
+constants.
+
+The system has a unique solution if and only if the matrix $A$ is invertible.  The
+solution is $\vec{x} = A^{-1} \vec{b}$.
 
 \subsection{Matrix decompositions}
 
@@ -197,6 +275,9 @@ non-zero vector $\vec{v}$ satisfying
   A \vec{v} = \lambda \vec{v}\text{.}
 \end{equation}
 The vector $\vec{v}$ is called an eigenvector of $A$ corresponding to $\lambda$.
+
+The eigenvalues of a matrix are the roots of its characteristic polynomial, i.e. the
+roots of the polynomial $\det(A - \lambda I) = 0$, where $I$ is the identity matrix.
 
 \section{Probability}
 
@@ -302,12 +383,40 @@ value of $X$.  It is denoted by $E[X]$.  By definition, it is
   \end{dcases}
 \end{equation}
 
+Given $\alpha$ a real number, the expectation of $\alpha X$ is $\alpha E[X]$.
+
+Given $c$ a real number, the expectation of $X + c$ is $E[X] + c$.
+
+For any two random variables $X$ and $Y$, the expectation of $X + Y$ is $E[X] + E[Y]$.
+
+For a function $g : \mathbb{R} \rightarrow \mathbb{R}$, the expectation of $g(X)$ is
+\begin{equation}
+  \label{eq:egx}
+  E[g(X)] = \begin{dcases}
+    \sum_{x} g(x) \cdot p_X(x) & \text{if $X$ is discrete; } \\
+    \int_{-\infty}^{\infty} g(x) \cdot f_X(x) dx & \text{if $X$ is continuous.}
+  \end{dcases}
+\end{equation}
+
 \paragraph{Variance}  The variance of a random variable $X$ is a measure of how
 spread out the values of $X$ are.  It is denoted by $V(X)$.  By definition, it is
 \begin{equation}
   \label{eq:variance}
   V(X) = E\!\left[\left(X - E[X]\right)^2\right]\text{.}
 \end{equation}
+
+Note that, as a consequence, the expectation of $X^2$ is
+\[
+  E[X^2] = V(X) + E[X]^2\text{,}
+\]
+since
+\begin{align*}
+  V(X)
+    &= E\!\left[\left(X - E[X]\right)^2\right] \\
+    &= E\!\left[X^2 - 2 X E[X] + E[X]^2\right] \\
+    &= E[X^2] - 2 E[X] E[X] + E[X]^2 \\
+    &= E[X^2] - E[X]^2\text{.}
+\end{align*}
 
 Higher moments are defined similarly, look for skewness and kurtosis.
 
