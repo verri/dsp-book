@@ -213,58 +213,58 @@ constants.
 The system has a unique solution if and only if the matrix $A$ is invertible.  The
 solution is $\vec{x} = A^{-1} \vec{b}$.
 
-\subsection{Matrix decompositions}
-
-Matrix decompositions are factorizations of matrices into matrices with special
-properties.  They are used to solve linear systems, compute inverses, and compute
-eigenvalues and eigenvectors.
-
-\textcolor{red}{Verify!}
-
-\paragraph{Singular value decomposition} The singular value decomposition (SVD) of a
-matrix $A$ is a factorization of the form
-\begin{equation}
-  \label{eq:svd}
-  A = U \Sigma V^T\text{,}
-\end{equation}
-where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a diagonal
-matrix with non-negative real numbers on the diagonal.  The singular values are the
-diagonal entries of $\Sigma$.
-
-\paragraph{Eigenvalue decomposition}  The eigenvalue decomposition of a matrix $A$
-is a factorization of the form
-\begin{equation}
-  \label{eq:eigdec}
-  A = Q \Lambda Q^{-1}\text{,}
-\end{equation}
-where $Q$ is a square matrix whose columns are the eigenvectors of $A$, and
-$\Lambda$ is a diagonal matrix whose diagonal entries are the eigenvalues of
-$A$.
-
-\paragraph{Cholesky decomposition}  The Cholesky decomposition of a positive-definite
-matrix $A$ is a factorization of the form
-\begin{equation}
-  \label{eq:chol}
-  A = L L^T\text{,}
-\end{equation}
-where $L$ is a lower triangular matrix with real and positive diagonal entries.
-
-\paragraph{QR decomposition}  The QR decomposition of a matrix $A$ is a
-factorization of the form
-\begin{equation}
-  \label{eq:qr}
-  A = Q R\text{,}
-\end{equation}
-where $Q$ is an orthogonal matrix and $R$ is an upper triangular matrix.
-
-\paragraph{LU decomposition}  The LU decomposition of a square matrix $A$ is a
-factorization of the form
-\begin{equation}
-  \label{eq:lu}
-  A = L U\text{,}
-\end{equation}
-where $L$ is a lower triangular matrix with unit diagonal entries and $U$ is
-an upper triangular matrix.
+% \subsection{Matrix decompositions}
+%
+% Matrix decompositions are factorizations of matrices into matrices with special
+% properties.  They are used to solve linear systems, compute inverses, and compute
+% eigenvalues and eigenvectors.
+%
+% \textcolor{red}{Verify!}
+%
+% \paragraph{Singular value decomposition} The singular value decomposition (SVD) of a
+% matrix $A$ is a factorization of the form
+% \begin{equation}
+%   \label{eq:svd}
+%   A = U \Sigma V^T\text{,}
+% \end{equation}
+% where $U$ and $V$ are orthogonal matrices and $\Sigma$ is a diagonal
+% matrix with non-negative real numbers on the diagonal.  The singular values are the
+% diagonal entries of $\Sigma$.
+%
+% \paragraph{Eigenvalue decomposition}  The eigenvalue decomposition of a matrix $A$
+% is a factorization of the form
+% \begin{equation}
+%   \label{eq:eigdec}
+%   A = Q \Lambda Q^{-1}\text{,}
+% \end{equation}
+% where $Q$ is a square matrix whose columns are the eigenvectors of $A$, and
+% $\Lambda$ is a diagonal matrix whose diagonal entries are the eigenvalues of
+% $A$.
+%
+% \paragraph{Cholesky decomposition}  The Cholesky decomposition of a positive-definite
+% matrix $A$ is a factorization of the form
+% \begin{equation}
+%   \label{eq:chol}
+%   A = L L^T\text{,}
+% \end{equation}
+% where $L$ is a lower triangular matrix with real and positive diagonal entries.
+%
+% \paragraph{QR decomposition}  The QR decomposition of a matrix $A$ is a
+% factorization of the form
+% \begin{equation}
+%   \label{eq:qr}
+%   A = Q R\text{,}
+% \end{equation}
+% where $Q$ is an orthogonal matrix and $R$ is an upper triangular matrix.
+%
+% \paragraph{LU decomposition}  The LU decomposition of a square matrix $A$ is a
+% factorization of the form
+% \begin{equation}
+%   \label{eq:lu}
+%   A = L U\text{,}
+% \end{equation}
+% where $L$ is a lower triangular matrix with unit diagonal entries and $U$ is
+% an upper triangular matrix.
 
 \subsection{Eigenvalues and eigenvectors}
 
@@ -478,42 +478,42 @@ number of permutations of $n$ elements is $n!$.
 set.  The number of combinations of $k$ elements from a set of $n$ elements is
 $$\binom{n}{k} = \frac{n!}{k!(n - k)!}\text{.}$$
 
-\section{Optimization}
-
-Optimization is the process of finding the best solution to a problem.  The best
-solution is called the (global) optimum.  The optimum can be a maximum or a minimum.
-Sometimes, we are interested in finding a local optimum, which is the best solution
-in a neighborhood of the current solution.  Also, we might be interested in finding
-a solution that is good enough, i.e. a solution that is close to the optimum.
-In this case, we use heuristics to search in the solution space.
-
-\subsection{Minimization of convex functions}
-
-Maybe the simplest case of optimization is the minimization of a convex function.
-A function $f : \mathbb{R}^n \rightarrow \mathbb{R}$ is convex if for any two points
-$\vec{v}$ and $\vec{w}$ in the domain of $f$, the line segment connecting them lies
-above the graph of $f$.  Mathematically, it means that
-$$f(t\vec{v} + (1 - t) \vec{w}) \leq t f(\vec{v}) + (1 - t) f(\vec{w})$$ for all $t \in [0, 1]$.
-
-\subsection{Gradient descent}
-
-Gradient descent is an iterative algorithm for finding the minimum of a function.
-It is based on the observation that the gradient of a function points in the
-direction of the steepest descent.  The algorithm is
-\begin{equation}
-  \label{eq:gd}
-  \vec{w}(t + 1) = \vec{w}(t) - \alpha \nabla f(\vec{w}(t))\text{,}
-\end{equation}
-
-\subsection{Constraint optimization}
-
-Techniques like Lagrange multipliers, penalty methods, and barrier methods are used to
-handle constrained optimization problems in data science.
-
-\subsection{Convex optimization}
-
-Convex optimization problems, where the objective function and the constraints are convex,
-have efficient algorithms that guarantee global optimality.
+% \section{Optimization}
+%
+% Optimization is the process of finding the best solution to a problem.  The best
+% solution is called the (global) optimum.  The optimum can be a maximum or a minimum.
+% Sometimes, we are interested in finding a local optimum, which is the best solution
+% in a neighborhood of the current solution.  Also, we might be interested in finding
+% a solution that is good enough, i.e. a solution that is close to the optimum.
+% In this case, we use heuristics to search in the solution space.
+%
+% \subsection{Minimization of convex functions}
+%
+% Maybe the simplest case of optimization is the minimization of a convex function.
+% A function $f : \mathbb{R}^n \rightarrow \mathbb{R}$ is convex if for any two points
+% $\vec{v}$ and $\vec{w}$ in the domain of $f$, the line segment connecting them lies
+% above the graph of $f$.  Mathematically, it means that
+% $$f(t\vec{v} + (1 - t) \vec{w}) \leq t f(\vec{v}) + (1 - t) f(\vec{w})$$ for all $t \in [0, 1]$.
+%
+% \subsection{Gradient descent}
+%
+% Gradient descent is an iterative algorithm for finding the minimum of a function.
+% It is based on the observation that the gradient of a function points in the
+% direction of the steepest descent.  The algorithm is
+% \begin{equation}
+%   \label{eq:gd}
+%   \vec{w}(t + 1) = \vec{w}(t) - \alpha \nabla f(\vec{w}(t))\text{,}
+% \end{equation}
+%
+% \subsection{Constraint optimization}
+%
+% Techniques like Lagrange multipliers, penalty methods, and barrier methods are used to
+% handle constrained optimization problems in data science.
+%
+% \subsection{Convex optimization}
+%
+% Convex optimization problems, where the objective function and the constraints are convex,
+% have efficient algorithms that guarantee global optimality.
 
 % \subsection{Gradient descent algorithm}
 %
