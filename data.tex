@@ -14,28 +14,28 @@
 A useful start point for someone studying data science is the definition of the term
 itself.
 
-\begin{mainbox}{Chapter remarks}
-  \boxsubtitle{Context}
-
-  \begin{itemize}
-    \item \dots
-  \end{itemize}
-
-  \boxsubtitle{Objectives}
-
-  \begin{itemize}
-    \item Understand the definition of data science.
-    \item Understand the main types of data.
-  \end{itemize}
-
-  \boxsubtitle{Takeways}
-
-  \begin{itemize}
-    \item Data science is a new science.
-    \item Data science is the study of computational methods to extract knowledge from
-      measurable phenomena.
-  \end{itemize}
-\end{mainbox}
+% \begin{mainbox}{Chapter remarks}
+%   \boxsubtitle{Context}
+%
+%   \begin{itemize}
+%     \item \dots
+%   \end{itemize}
+%
+%   \boxsubtitle{Objectives}
+%
+%   \begin{itemize}
+%     \item Understand the definition of data science.
+%     \item Understand the main types of data.
+%   \end{itemize}
+%
+%   \boxsubtitle{Takeways}
+%
+%   \begin{itemize}
+%     \item Data science is a new science.
+%     \item Data science is the study of computational methods to extract knowledge from
+%       measurable phenomena.
+%   \end{itemize}
+% \end{mainbox}
 
 For \textcite{Zumel2019}, \emph{``data science is a cross-disciplinary practice that draws
 on methods from data engineering, descriptive statistics, data mining, machine learning,
@@ -121,12 +121,16 @@ and questions related to data ethics and regulation.''
 Data science contrasts with conventional sciences.  Usually, a ``science'' is named after
 its object of study.  Biology is the study of the life, Earth science studies the planet
 Earth, and so on.  I argue that data science does not study data itself, but how we can
-``listen'' them to understand a phenomenon.  The conventional scientific paradigm is
+use them to understand a phenomenon.
+
+Besides, the conventional scientific paradigm is
 essentially model-driven: we observe a phenomenon related to the object of study, we
 reason the possible explanation (the model or hypothesis), and we validate our hypothesis
 (most of the time using data, though).  In data science, however, we extract the knowledge
 directly and primarily from the data.  The expert knowledge and reasoning may be taken
-into account, but we give data the opportunity to surprise us.  Thus, the objects of the
+into account, but we give data the opportunity to surprise us.
+
+Thus, the objects of the
 study in data science are the computational methods and processes that can extract
 reliable and ethical knowledge from huge amounts of data.
 
@@ -420,6 +424,118 @@ Database normalization is the process of organizing the columns and tables of a 
 database to minimize data redundancy and improve data integrity.
 
 Normal form is a state of a database that is free of certain types of data redundancy.
+Before studying normal forms, we need to understand basic concepts in the database theory
+and the basic operations in relational algebra.
+
+\subsubsection{Relational database theory}
+
+\paragraph{Projection}  The projection of a relation is the operation that returns a
+relation with only the columns specified in the projection.  For example, if we have a
+relation $X[A, B, C]$ and we perform the projection $\pi_{A, C}(X)$, we will get a
+relation with only the columns $A$ and $C$, i.e. $X[A, C]$.
+
+\paragraph{Join}  The (natural) join of two relations is the operation that returns a
+relation with the columns of both relations.  For example, if we have two relations $S[U
+\cup V]$ and $T[U \cup W]$, where $U$ is the common set of attributes, join $S \bowtie T$
+of $S$ and $T$ is the relation with tuples $(u, v, w)$ such that $(u, v) \in S$ and $(u,
+w) \in T$.  The generalized join is built up out of binary joins:  $\bowtie \left\{ R_1,
+R_2, \dots, R_n \right\} = R_1 \bowtie R_2 \bowtie \dots \bowtie R_n$. Since the join
+operation is associative and commutative, we can parenthesize however we want.
+
+\paragraph{Functional dependency}  A functional dependency is a constraint between two
+sets of attributes in a relation.  It is a statement that if two tuples agree on certain
+attributes, then they must agree on another attribute.  Specifically, the \emph{functional
+dependency} $U \to V$ holds in $R$ if and only if for every pair of tuples $t_1$ and $t_2$
+in $R$ such that $t_1[U] = t_2[U]$, it is also true that $t_1[V] = t_2[V]$.
+
+\paragraph{Multi-valued dependency}  A multi-valued dependency is a constraint between
+two sets of attributes in a relation.  It is a statement that if two tuples agree on
+certain attributes, then they must agree on another set of attributes.  Specifically, the
+\emph{multi-valued dependency} $U \twoheadrightarrow V$ holds in $R$ if and only if $R =
+R[UV] \bowtie R[UW]$.
+
+\paragraph{Join dependency}  A join dependency is a constraint between subsets of
+attributes (not necessarily disjoint) in a relation.  $R$ obeys the join dependency $*
+\left\{ X_1, X_2, \dots, X_n \right\}$ if $R = \bowtie \left\{ R[X_1], R[X_2], \dots,
+R[X_n] \right\}$.
+
+\subsubsection{Normal forms}
+
+\paragraph{First normal form (1NF)}  A relation is in 1NF if and only if all attributes
+are atomic.  An attribute is atomic if it is not a set of attributes.  For example, the
+relation $R[A, B, C]$ is in 1NF if and only if $A$, $B$, and $C$ are atomic.
+
+\paragraph{Second normal form (2NF)}  A relation is in 2NF if and only if it is in 1NF
+and every non-prime attribute is fully functionally dependent on the primary key.  A
+non-prime attribute is an attribute that is not part of the primary key.  A primary key
+is a set of attributes that uniquely identifies a tuple.  A non-prime attribute is fully
+functionally dependent on the primary key if it is functionally dependent on the primary
+key and not on any subset of the primary key.  For example, the relation $R[U \cup V]$ is
+in 2NF if and only if $U \to X,~\forall X \in V$ and there is no $W \subset U$ such that
+$W \to X,~\forall X \in V$.
+
+\paragraph{Third normal form (3NF)}  A relation is in 3NF if and only if it is in 2NF
+and every non-prime attribute is non-transitively dependent on the primary key.  A
+non-prime attribute is non-transitively dependent on the primary key if it is not
+functionally dependent on another non-prime attribute.  For example, the relation $R[U
+\cup V]$ is in 3NF if and only if $U$ is the primary key and there is no $X \in V$ such
+that $X \to Y,~\forall Y \in V$.
+
+\paragraph{Boyce-Codd normal form (BCNF)}  A relation $R$ with attributes $X$ is in BCNF
+if and only if it is in 2NF and for each nontrivial functional dependency $U \to V$ in
+$R$, the functional dependency $U \to X$ is in $R$.  In other words, a relation is in BCNF
+if and only if every functional dependency is the result of keys.
+
+\paragraph{Fourth normal form (4NF)}  A relation $R$ with attributes $X$ is in 4NF if
+and only if it is in 2NF and for each nontrivial multi-valued dependency $U \twoheadrightarrow
+V$ in $R$, the functional dependency $U \to X$ is in $R$.  In other words, a relation is
+in 4NF if and only if every multi-valued dependency is the result of keys.
+
+\paragraph{Fifth normal form (5NF)} A relation $R$ with attributes $X$ is in
+5NF\footnote{Also known as projection-join normal form.} if and only if it is in 2NF and
+the set of key dependencies\footnote{Key dependency is a functional dependency in the form
+$K \to X$.} of $R$ impllies each join dependency of $R$.  The 5NF guarantees that the
+table cannot be decomposed without losing information (except by decompositions based on
+keys).
+
+Note that the ideia behind the definition of BCNF and 4NF are slightly different from the
+5NF.  In fact, if we consider that for each key dependency implies a join dependency, the
+relation is in the so-called overstrong projection-join normal
+form\footfullcite{Fagin1979}.  Such a level of normalization does not improve data storage
+or eliminate inconsistencies.  In practice, it means that if a relation is in 5NF,
+careless joins --- i.e. those that violate a join dependency --- will produce
+inconsistent results.
+
+\paragraph{Example 1}  Consider the 1NF relation $R[A, B, C, D]$ with the functional
+dependencies $A \to B,~B \to C,~C \to D$.  The relation is not in 3NF because $C$ is
+transitively dependent on $A$.  To normalize it, we can decompose it into the
+relations $R_1[A, B, C]$ and $R_2[C, D]$.  Now, $R_2$ is in 3NF and $R_1$ is in 2NF, but
+not in 3NF.  We can decompose $R_1$ into the relations $R_3[A, B]$ and $R_4[B, C]$.
+The original relation can be reconstructed by $\bowtie \left\{ R_2, R_3, R_4 \right\}$.
+
+\paragraph{Example 2} Consider the 1NF relation $R[ABC]$\footnote{Here we abreviate ${A,
+B, C}$ as $ABC$.} such that the primary key is the composite of $A$, $B$, and $C$.  The
+relation is thus in the 4NF, as no column is a determinant of another column.  Suppose,
+however, the following constraint: if $(a, b, c')$, $(a, b', c)$, and $(a', b, c)$ are in
+$R$, then $(a, b, c)$ is also in $R$.  This can be illustrated if we consider $A$ as a
+agent, $B$ as a product, and $C$ as a company.  If an agent $a$ represents companies $c$ and
+$c'$, and product $b$ is in his portfolio, then assuming both companies make $b$, $a$
+must offer $b$ from both companies.
+
+The relation is not in 5NF, as the join dependency $* \left\{ AB, AC, BC \right\}$ is not
+implied by the primary key.  (In fact, the only functional dependency is the trivial $ABC
+\to ABC$.)  In this case, to avoid redundancies and inconsistencies, we must split the
+relation into the relations $R_1[AB]$, $R_2[AC]$, and $R_3[BC]$.
+
+\begin{mainbox}{Database normalization}
+  \begin{itemize}
+    \item Minimizes data redundancy.
+    \item Improves data integrity.
+    \item Semantics is expressed in terms of dependencies (functional, multivalued, join),
+      which is usually not clear.
+    \item Appropriate to store data.
+  \end{itemize}
+\end{mainbox}
 
 \subsection{Tidy data}
 
@@ -431,9 +547,25 @@ a dataset.  It is based on the idea that a dataset is a collection of values, wh
   \item Each type of observational unit forms a table.
 \end{itemize}
 
+\begin{mainbox}{Tidy data}
+  \begin{itemize}
+    \item A dataset is a collection of values.
+    \item Each value belongs to a variable.
+    \item Each variable belongs to an observation.
+    \item Each type of observational unit forms a table.
+    \item Clear semantics with focus on only one view of the data.
+    \item Appropriate to analyze data.
+  \end{itemize}
+\end{mainbox}
+
 \subsection{Bridging normalization and tidyness}
 
-Tidy data is related to the 3NF.
+Tidy data is related to the 3NF.  First and foremost, both concepts are not in conflict.
+
+In data normalization, given a set of functional, multivalued and join dependencies, there
+is only one normal form that is free of redundancy.  In tidy data,
+\citeauthor{Wickham2023} also state that there is only one way to organize the given data.
+
 
 \section{Unstructured data}
 
