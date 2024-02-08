@@ -28,7 +28,7 @@
 %\usepackage[Glenn]{fncychap}
 \usepackage{tikz}
 \usepackage{titling}
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \usepackage{xhfill}
 
 \usepackage{qrcode}
@@ -97,19 +97,31 @@
   }
 }
 
+\newtcbtheorem[auto counter, number within=chapter]{slidebox}{Slide}{
+  float=th,
+  colframe=black!20!white,
+  base
+}{sld}
+
+\newtcbtheorem[auto counter, number within=chapter]{defbox}{Definition}{
+  float=h!,
+  colframe=black!20!white,
+  base
+}{def}
+
 \newtcolorbox{mainbox}[1]{
-  float=h,
+  float=ht,
   colframe=black!20!white,
   base={#1}
 }
 
 \newtcolorbox[blend into=figures]{figurebox}[2][]{%
-  float=htbp, base={#2},
+  float=thbp, base={#2},
   colframe=black!20!white,
   every float=\centering, #1}
 
 \newtcolorbox[blend into=tables]{tablebox}[2][]{%
-  float=htbp, base={#2},
+  float=thbp, base={#2},
   colframe=black!20!white,
   every float=\centering, #1}
 
