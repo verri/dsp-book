@@ -362,7 +362,7 @@ interval, and ratio.  Nominal data are data that can be classified into categori
 Ordinal data are data that can be classified into categories and ordered.  Interval data
 are data that can be classified into categories, ordered, and measured in fixed units.
 Ratio data are data that can be classified into categories, ordered, measured in fixed
-units, and have a true zero.  In practice, they difer on the logical and arithmetic operations
+units, and have a true zero.  In practice, they differ on the logical and arithmetic operations
 we can perform on them.
 
 \begin{tablebox}{Stevens’s types}
@@ -490,18 +490,18 @@ and only if it is in 2NF and for each nontrivial multi-valued dependency $U \two
 V$ in $R$, the functional dependency $U \to X$ is in $R$.  In other words, a relation is
 in 4NF if and only if every multi-valued dependency is the result of keys.
 
-\paragraph{Fifth normal form (5NF)} A relation $R$ with attributes $X$ is in
-5NF\footnote{Also known as projection-join normal form.} if and only if it is in 2NF and
+\paragraph{Projection join normal form (PJNF)} A relation $R$ with attributes $X$ is in
+PJNF\footnote{Also known as fifth normal form (5NF).} if and only if it is in 2NF and
 the set of key dependencies\footnote{Key dependency is a functional dependency in the form
-$K \to X$.} of $R$ impllies each join dependency of $R$.  The 5NF guarantees that the
+$K \to X$.} of $R$ impllies each join dependency of $R$.  The PJNF guarantees that the
 table cannot be decomposed without losing information (except by decompositions based on
 keys).
 
 Note that the ideia behind the definition of BCNF and 4NF are slightly different from the
-5NF.  In fact, if we consider that for each key dependency implies a join dependency, the
+PJNF.  In fact, if we consider that for each key dependency implies a join dependency, the
 relation is in the so-called overstrong projection-join normal
 form\footfullcite{Fagin1979}.  Such a level of normalization does not improve data storage
-or eliminate inconsistencies.  In practice, it means that if a relation is in 5NF,
+or eliminate inconsistencies.  In practice, it means that if a relation is in PJNF,
 careless joins --- i.e. those that violate a join dependency --- will produce
 inconsistent results.
 
@@ -521,7 +521,7 @@ agent, $B$ as a product, and $C$ as a company.  If an agent $a$ represents compa
 $c'$, and product $b$ is in his portfolio, then assuming both companies make $b$, $a$
 must offer $b$ from both companies.
 
-The relation is not in 5NF, as the join dependency $* \left\{ AB, AC, BC \right\}$ is not
+The relation is not in PJNF, as the join dependency $* \left\{ AB, AC, BC \right\}$ is not
 implied by the primary key.  (In fact, the only functional dependency is the trivial $ABC
 \to ABC$.)  In this case, to avoid redundancies and inconsistencies, we must split the
 relation into the relations $R_1[AB]$, $R_2[AC]$, and $R_3[BC]$.
@@ -534,11 +534,12 @@ not in $R_3$.  \emph{This is very important to notice, as it is a common mistake
 that the join of the decomposed relations will always contain valid tuples.}
 
 \paragraph{Example 3}  Consider the 1NF relation $R[A, B, C, D, E]$ with the functional
-dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it 5NF, we can decompose it
+dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
 into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
 be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the
 previous example, the join of the decomposed relations will always contain valid tuples.
-The reason is that all join dependencies implied by the key dependencies are trivial.
+The reason is that all join dependencies implied by the key dependencies are trivial when
+reduced\footnote{\color{red}A proof in under development based on \fullcite{Vincent1997}.}.
 
 \begin{slidebox}{Database normalization}{}
   \begin{itemize}
@@ -552,26 +553,88 @@ The reason is that all join dependencies implied by the key dependencies are tri
 
 \subsection{Tidy data}
 
+It is estimated that 80\% of the time spent on data analysis is spent on data preparation.
+Usually, the same process is repeated many times in different datasets. The ideia is that
+organized data carries the meaning of the data, reducing the time spent on manipulating
+the data to get it into the right format for analysis.
+
 Tidy data is a data format that provides a standardized way to organize data values within
-a dataset.  It is based on the idea that a dataset is a collection of values, where:
+a dataset.  The main advantage of tidy data is that it provides clear semantics with focus
+on only one view of the data.
+
+Many data formats might be ideal for particular tasks, such as raw data, dense tensors, or
+normalized databases.  However, most of the statitiscal and machine learning methods
+require a particular data format.  Tidy data is a data format that is appropriate to those
+tasks.
+
+\begin{mainbox}{Wickham's thoughts on tidy data}
+  \em
+  Like families, tidy datasets are all alike but every messy dataset is messy in its own
+  way.
+\end{mainbox}
+
+In an unrestricted table, the meaning of rows and columns are not fixed.  In a tidy table,
+the meaning of rows and columns are fixed.
+
+It is based on the idea that a dataset is a collection of values, where:
 \begin{itemize}
-  \item Each value belongs to a variable.
-  \item Each variable belongs to an observation.
-  \item Each type of observational unit forms a table.
+  \item Each \emph{value} belongs to a variable and an observation.
+  \item Each \emph{variable}, represented by a column, contains all values that measure
+    the same attribute across (observational) units.
+  \item Each \emph{observation}, represented by a row, contains all values measured on the
+    same unit across attributes.
+  \item \emph{Attributes} are the characteristics of the units, e.g. height, temperature,
+    duration.
+  \item \emph{Observational units} are the individual entities being measured, e.g. a
+    person, a day, an experiment.
+\end{itemize}
+Table \ref{tab:tidy} summarizes the main concepts.
+
+\begin{tablebox}[label=tab:tidy]{Tidy data concepts.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{Concept} & \textbf{Structure} & \textbf{Contains} & \textbf{Across} \\
+    \midrule
+    Variable & Column & Same attribute & Units \\
+    Observation & Row & Same unit & Attributes \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+If we follow this structure, the meaning of data is implicit in the table itself.
+However, it is not always trivial to organize data in a tidy format.  Usually, we have
+more than one level of observational units, each one represented by a table.  Moreover,
+there might exist more than one way to define what are the observational units in a
+dataset.
+
+To organize data in a tidy format, one can consider that:
+\begin{itemize}
+  \item Attributes are functionally related among themselves --- e.g. Z is a linear
+    combination of X and Y, or X and Y are correlated, or $P(X, Y)$ follows some joint distribution.
+  \item Units can be grouped or compared --- e.g. person A is taller than person B, or
+    the temperature in day 1 is higher than in day 2.
 \end{itemize}
 
-\begin{slidebox}{Tidy data}{}
-  \begin{itemize}
-    \item A dataset is a collection of values.
-    \item Each value belongs to a variable.
-    \item Each variable belongs to an observation.
-    \item Each type of observational unit forms a table.
-    \item Clear semantics with focus on only one view of the data.
-    \item Appropriate to analyze data.
-  \end{itemize}
-\end{slidebox}
+A particular point that tidy data do not address is that values in a column might not be
+in the same scale or unit of measurement.  For example, a column might contain the
+temperature in an experiment, and another column might contain the unit of measurement
+that was used to measure the temperature.  This is a common problem in databases, and it
+must be addressed for machine learning and statistical methods to work properly.
 
-\subsection{Bridging normalization and tidyness}
+Note that the order of the rows and columns is not important.  However, it might be
+convenient to sort data in a particular way to facilitate the understanding.  For
+instance, one usually expects that the first columns are \emph{fixed
+variables}\footnote{Closely related (and potentially the same as) key in database
+theory.}, i.e. variables that are not the result of a measurement, and the last columns
+are \emph{measured variables}.  Also, arranging rows by some variable might highlight some
+pattern in the data.
+
+Usually, columns are named --- the collection of all column names is called the
+header, while rows are numerically indexed.
+
+\subsection{Bridging normalization, tidyness, and our definition}
 
 Tidy data is related to the 3NF.  First and foremost, both concepts are not in conflict.
 
