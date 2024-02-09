@@ -618,7 +618,8 @@ To organize data in a tidy format, one can consider that:
 \end{itemize}
 
 A particular point that tidy data do not address is that values in a column might not be
-in the same scale or unit of measurement.  For example, a column might contain the
+in the same scale or unit of measurement\footnote{Attention: observational unit is not
+unit of measurement.}.  For example, a column might contain the
 temperature in an experiment, and another column might contain the unit of measurement
 that was used to measure the temperature.  This is a common problem in databases, and it
 must be addressed for machine learning and statistical methods to work properly.
@@ -633,6 +634,47 @@ pattern in the data.
 
 Usually, columns are named --- the collection of all column names is called the
 header, while rows are numerically indexed.
+
+\subsubsection{Common messy datasets}
+
+\textcite{Wickham2014} lists some common problems with messy datasets and how to tidy
+them\footnote{Operations will be presented in \cref{chap:handling}.}.  The problems are
+summarized below.
+
+\paragraph{Column headers are values, not variable names}  For example, consider the
+following table:
+\begin{center}
+  \begin{tabular}{l r r r c}
+    \toprule
+    Religion & <\$10k & \$10-20k & \$20-30k & \dots \\
+    \midrule
+    Agnostic & 27 & 34 & 60 & \dots \\
+    Atheist & 12 & 27 & 37 & \dots \\
+    Buddhist & 27 & 21 & 30 & \dots \\
+    \dots & \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+This table is not tidy because the column headers are values, not variable names.  To
+make it tidy, we can transform it into the following table:
+\begin{center}
+  \begin{tabular}{l l r}
+    \toprule
+    Religion & Income & Frequency \\
+    \midrule
+    Agnostic & <\$10k & 27 \\
+    Agnostic & \$10-20k & 34 \\
+    Agnostic & \$20-30k & 60 \\
+    \dots & \dots & \dots \\
+    Atheist & <\$10k & 12 \\
+    Atheist & \$10-20k & 27 \\
+    Atheist & \$20-30k & 37 \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+\paragraph{Multiple variables are stored in one column}  For example, consider the
 
 \subsection{Bridging normalization, tidyness, and our definition}
 
