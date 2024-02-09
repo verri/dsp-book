@@ -526,6 +526,20 @@ implied by the primary key.  (In fact, the only functional dependency is the tri
 \to ABC$.)  In this case, to avoid redundancies and inconsistencies, we must split the
 relation into the relations $R_1[AB]$, $R_2[AC]$, and $R_3[BC]$.
 
+It is iteresting to notice that in this case, the relation $R_1 \bowtie R_2$ might
+contain tuples that do not make sense in the context of the original relation.  For
+example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join will contain
+$(a, b, c')$, which might not be a valid tuple in the original relation if $(b, c')$ is
+not in $R_3$.  \emph{This is very important to notice, as it is a common mistake to assume
+that the join of the decomposed relations will always contain valid tuples.}
+
+\paragraph{Example 3}  Consider the 1NF relation $R[A, B, C, D, E]$ with the functional
+dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it 5NF, we can decompose it
+into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
+be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the
+previous example, the join of the decomposed relations will always contain valid tuples.
+The reason is that all join dependencies implied by the key dependencies are trivial.
+
 \begin{slidebox}{Database normalization}{}
   \begin{itemize}
     \item Minimizes data redundancy.
