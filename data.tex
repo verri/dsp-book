@@ -927,12 +927,73 @@ shown in \cref{tab:tidy5}.
 
 \subsection{Bridging normalization, tidyness, and our definition}
 
-Tidy data is related to the 3NF.  First and foremost, both concepts are not in conflict.
+First and foremost, both concepts, normalization and tidy data, are not in conflict.
 
 In data normalization, given a set of functional, multivalued and join dependencies, there
-is only one normal form that is free of redundancy.  In tidy data,
+is only one normal form that is free of redundancy (and unnecessary projections).  In tidy data,
 \citeauthor{Wickham2023} also state that there is only one way to organize the given data.
 
+\textcite{Wickham2014} states that tidy data is 3NF.  However, he does not provide a
+formal proof.  Since tidy data focuses on data analysis and not on data storage, I argue
+that there is more than one way to organize the data in a tidy format.  It actually
+depends on what you define as the observational unit.
+
+Consider the following example.  We want to study the \emph{phenomenon} temperature in a
+certain city.  We fix three sensors in different locations to measure the temperature.  We
+collect data three times a day.  If we consider as the observational unit the
+event of measuring the temperature, we can organize the data in a tidy format as shown in
+\cref{tab:temp1}.
+
+\begin{tablebox}[label=tab:temp1]{Tidy data where the observational unit is the event of measuring the temperature.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lllc}
+    \toprule
+    date & time & sensor & temperature \\
+    \midrule
+    2023-01-01 & 00:00 & 1 & 20 \\
+    2023-01-01 & 00:00 & 2 & 21 \\
+    2023-01-01 & 00:00 & 3 & 22 \\
+    2023-01-01 & 08:00 & 1 & 21 \\
+    2023-01-01 & 08:00 & 2 & 22 \\
+    2023-01-01 & 08:00 & 3 & 23 \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+However, since the sensors are fixed, we can consider the observational unit as the
+\emph{temperature at some time}.  In this case, we can organize the data in a tidy format
+as shown in \cref{tab:temp2}.
+
+\begin{tablebox}[label=tab:temp2]{Tidy data where the observational unit is the temperature at some time.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llccc}
+    \toprule
+    date & time & temp. 1 & temp. 2 & temp. 3 \\
+    \midrule
+    2023-01-01 & 00:00 & 20 & 21 & 22 \\
+    2023-01-01 & 08:00 & 21 & 22 & 23 \\
+    \dots & \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+In both cases, one can argue that the data is also normalized.  In the first case, the
+primary key is the composite of the columns \emph{date}, \emph{time}, and \emph{sensor}.
+In the second case, the primary key is the composite of the columns \emph{date} and
+\emph{time}.
+
+One can state that the first form is more appropriate, since it is flexible to add more
+sensors.  However, the second form is very natural for machine learning and statistical
+methods.  Given the definition of tidy data, I believe both forms are correct.
+
+Another very interesting conjecture is whether we can formalize the eventual \emph{change
+of observational unit} in terms of the order that joins and grouping operations are
+performed.
+
+Consider the following example\dots
 
 \section{Unstructured data}
 
