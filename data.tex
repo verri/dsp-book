@@ -788,6 +788,143 @@ implicit information, as seen in \cref{tab:tidy3b}.
   \end{tabular}
 \end{tablebox}
 
+É comum que, durante a coleta de dados, várias unidades observacionais sejam registradas
+numa mesma tabela Para arrumar estes dados, cada uma delas deve ser transportada para uma
+tabela diferente A separação evita diversos tipos de potenciais inconsistências (processo
+associado à normalização de bases de dados) No entanto, durante a análise é possível que
+tenhamos que desnormalizá-las
+
+\paragraph{Multiple types of observational units are stored in the same table}  For
+example, consider the \cref{tab:messy4}.  It is very common during data collection that
+many observational units are registered in the same table.
+
+\begin{tablebox}[label=tab:messy4]{Messy table, adapted from billboard dataset, where multiple types of observational units are stored in the same table.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lllll}
+    \toprule
+    year & artist & track & date & rank \\
+    \midrule
+    2000 & 2 Pac & Baby Don't Cry & 2000-02-26 & 87 \\
+    2000 & 2 Pac & Baby Don't Cry & 2000-03-04 & 82 \\
+    2000 & 2 Pac & Baby Don't Cry & 2000-03-11 & 72 \\
+    2000 & 2 Pac & Baby Don't Cry & 2000-03-18 & 77 \\
+    \dots & \dots & \dots & \dots & \dots \\
+    2000 & 2Ge+her & The Hardest\dots & 2000-09-02 & 91 \\
+    2000 & 2Ge+her & The Hardest\dots & 2000-09-09 & 87 \\
+    2000 & 2Ge+her & The Hardest\dots & 2000-09-16 & 92 \\
+    \dots & \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+To fix this issue, we must each observation unit must be moved to a different table.
+Sometimes, it is useful to create unique identifiers for each observation.
+The separation avoids several types of potential inconsistencies.  However, take into
+account that during data analysis, it is possible that we have to denormalize them.  The
+two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
+
+\begin{tablebox}[label=tab:tidy4a]{Tidy version of \cref{tab:messy4} containing the observational unit \emph{track}.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lll}
+    \toprule
+    track id & artist & track \\
+    \midrule
+    1 & 2 Pac & Baby Don't Cry \\
+    2 & 2Ge+her & The Hardest Part Of Breaking Up \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+\begin{tablebox}[label=tab:tidy4b]{Tidy version of \cref{tab:messy4} containing the observational unit \emph{rank of the track in certain week}.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lll}
+    \toprule
+    track id & date & rank \\
+    \midrule
+    1 & 2000-02-26 & 87 \\
+    1 & 2000-03-04 & 82 \\
+    1 & 2000-03-11 & 72 \\
+    1 & 2000-03-18 & 77 \\
+    \dots & \dots & \dots \\
+    2 & 2000-09-02 & 91 \\
+    2 & 2000-09-09 & 87 \\
+    2 & 2000-09-16 & 92 \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+\paragraph{A single observational unit is stored in multiple tables}  For example, consider
+\cref{tab:messy5a,tab:messy5b}.  It is very common during data
+collection that a single observational unit is stored in multiple tables.  Usually, the
+table (or file) itself represents the value of a variable.  When columns are compatible,
+it is straightforward to combine the tables.
+
+\begin{tablebox}[label=tab:messy5a]{Messy tables, adapted from nycflights13 dataset, where
+  a single observational unit is stored in multiple tables.  Assume that the origin
+  filename is called \texttt{2013.csv}.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llll}
+    \toprule
+    month & day & time & \dots \\
+    \midrule
+    1 & 1 & 517 & \dots \\
+    1 & 1 & 533 & \dots \\
+    1 & 1 & 542 & \dots \\
+    1 & 1 & 544 & \dots \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+\begin{tablebox}[label=tab:messy5b]{Messy tables, adapted from nycflights13 dataset, where
+  a single observational unit is stored in multiple tables.  Assume that the origin
+  filename is called \texttt{2014.csv}.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llll}
+    \toprule
+    month & day & time & \dots \\
+    \midrule
+    1 & 1 & 830 & \dots \\
+    1 & 1 & 850 & \dots \\
+    1 & 1 & 923 & \dots \\
+    1 & 1 & 1004 & \dots \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+To fix this issue, we must first make the columns compatible.  Then, we can combine the
+tables adding a new column that identifies the origin of the data.  The resulting table is
+shown in \cref{tab:tidy5}.
+
+\begin{tablebox}[label=tab:tidy5]{Tidy data where \cref{tab:messy5a,tab:messy5b} are combined.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lllll}
+    \toprule
+    year & month & day & time & \dots \\
+    \midrule
+    2013 & 1 & 1 & 517 & \dots \\
+    2013 & 1 & 1 & 533 & \dots \\
+    2013 & 1 & 1 & 542 & \dots \\
+    2013 & 1 & 1 & 544 & \dots \\
+    \dots & \dots & \dots & \dots & \dots \\
+    2014 & 1 & 1 & 830 & \dots \\
+    2014 & 1 & 1 & 850 & \dots \\
+    2014 & 1 & 1 & 923 & \dots \\
+    2014 & 1 & 1 & 1004 & \dots \\
+    \dots & \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
 \subsection{Bridging normalization, tidyness, and our definition}
 
 Tidy data is related to the 3NF.  First and foremost, both concepts are not in conflict.
