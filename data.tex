@@ -733,14 +733,60 @@ calculating ratios and frequency.
 
 
 \paragraph{Variables are stored in both rows and columns}  For example, consider the
-\cref{tab:messy3}.  This table is not tidy because \dots
-This is the most complicated case of messy data.  Usually, one of the columns contains the
-names of the variables.
+\cref{tab:messy3}.  This is the most complicated case of messy data.  Usually, one of the
+columns contains the names of the variables, in this case the column \emph{element}.
 
-\Cref{tab:tidy3} shows the tidy version of \cref{tab:messy3}.  To fix this issue, we
-must first decide which column contains the names of the variables.  Then, we must lengthen
-the table in function of the variables (and potentially their names).  Aftwards, we widen the table in
-function of their names.  Finally, we remove implicit information.
+\begin{tablebox}[label=tab:messy3]{Messy table, adapted from airquality dataset, where variables are stored in both rows and columns.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llllcccc}
+    \toprule
+    id & year & month & element & d1 & d2 & \dots & d31 \\
+    \midrule
+    MX17004 & 2010 & 1 & tmax &    & 24 & \dots & 27 \\
+    MX17004 & 2010 & 1 & tmin & 14 &    & \dots &    \\
+    MX17004 & 2010 & 2 & tmax & 27 & 24 & \dots & 27 \\
+    MX17004 & 2010 & 2 & tmin & 14 &    & \dots & 13 \\
+    \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+To fix this issue, we must first decide which column contains the names of the variables.
+Then, we must lengthen the table in function of the variables (and potentially their
+names), as seen in \cref{tab:tidy3a}.  Aftwards, we widen the table in function of their names.  Finally, we remove
+implicit information, as seen in \cref{tab:tidy3b}.
+
+\begin{tablebox}[label=tab:tidy3a]{Partial solution to tidy \cref{tab:messy3}. Note that
+  the table is now longer.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lllc}
+    \toprule
+    id & date & element & value \\
+    \midrule
+    MX17004 & 2010-01-01 & tmax &    \\
+    MX17004 & 2010-01-01 & tmin & 14 \\
+    MX17004 & 2010-01-02 & tmax & 24 \\
+    MX17004 & 2010-01-02 & tmin &    \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+\begin{tablebox}[label=tab:tidy3b]{Tidy version of \cref{tab:messy3} where values are correctly moved.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llcc}
+    \toprule
+    id & date & tmin & tmax \\
+    \midrule
+    MX17004 & 2010-01-01 & 14 &    \\
+    MX17004 & 2010-01-02 &    & 24 \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 \subsection{Bridging normalization, tidyness, and our definition}
 
