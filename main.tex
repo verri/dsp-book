@@ -147,7 +147,6 @@
 
 \begin{titlingpage}
   \begin{tikzpicture}[remember picture, overlay]
-    % all background of the page in gray
     \fill[black!80] (current page.south west) rectangle (current page.north east);
     \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
       \reflectbox{\includegraphics[width=\paperwidth]{images/bard2.jpg}}%
@@ -158,6 +157,21 @@
     \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
   \end{tikzpicture}
 \end{titlingpage}
+
+\newpage
+\clearpage
+\newpage
+\frontmatter
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
+    \reflectbox{\includegraphics[height=0.6\paperheight]{images/toucan_bw.png}}%
+  };
+  \node[anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data science continuum}};
+  \node[anchor=north, inner sep=5mm](subtitle) at (title.south) {\LARGE\sffamily\uppercase{from foundations to practices}};
+  \node[anchor=north, inner sep=5mm] at (subtitle.south) {\Large\sffamily\uppercase{Filipe A. N. Verri}};
+  \node[red,anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily WIP};
+\end{tikzpicture}
 
 \newpage
 \mbox{}
@@ -174,8 +188,8 @@
 \vspace{0.5cm}
 {
 \footnotesize\noindent
-%Book cover image was created with the assistance of \href{https://openai.com/dall-e-2}{DALL·E 2}.
-Book cover image was created with the assistance of \href{https://gemini.google.com}{Gemini}.
+Book cover image was created with the assistance of
+\href{https://gemini.google.com}{Gemini} and \href{https://openai.com/dall-e-2}{DALL·E 2}.
 }
 
 \vspace{0.5cm}
@@ -203,6 +217,8 @@ visit
 
 \input{about}
 \input{courses}
+
+\mainmatter
 \input{history}
 \input{preliminaries}
 \input{data}
