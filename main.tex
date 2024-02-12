@@ -133,7 +133,7 @@
 
 \renewcommand{\vec}[1]{\mathbf{#1}}
 
-\title{Data science: foundations and practices}
+\title{Data science continuum: from foundations to practices}
 \author{Filipe A. N. Verri}
 
 \hypersetup{%
@@ -147,12 +147,14 @@
 
 \begin{titlingpage}
   \begin{tikzpicture}[remember picture, overlay]
-    \node[anchor=south east, inner sep=8mm] at (current page.south east) {%
-      \reflectbox{\includegraphics[height=0.6\paperheight]{images/toucan_bw.png}}%
+    % all background of the page in gray
+    \fill[black!80] (current page.south west) rectangle (current page.north east);
+    \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
+      \reflectbox{\includegraphics[width=\paperwidth]{images/bard2.jpg}}%
     };
     \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\textcolor{black!60}\today};
-    \node[anchor=north, yshift=-20mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data science}};
-    \node[anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{foundations and practices}};
+    \node[white,anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data science continuum}};
+    \node[white,anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{from foundations to practices}};
     \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
   \end{tikzpicture}
 \end{titlingpage}
@@ -172,7 +174,8 @@
 \vspace{0.5cm}
 {
 \footnotesize\noindent
-Book cover image was created with the assistance of \href{https://openai.com/dall-e-2}{DALL·E 2}.
+%Book cover image was created with the assistance of \href{https://openai.com/dall-e-2}{DALL·E 2}.
+Book cover image was created with the assistance of \href{https://gemini.google.com}{Gemini}.
 }
 
 \vspace{0.5cm}
