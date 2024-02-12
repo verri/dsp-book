@@ -641,9 +641,15 @@ header, while rows are numerically indexed.
 them\footnote{Operations will be presented in \cref{chap:handling}.}.  The problems are
 summarized below.
 
-\paragraph{Column headers are values, not variable names}  For example, consider the
-following table:
-\begin{center}
+\paragraph{Headers are values, not variable names}  For example, consider
+\cref{tab:messy1}.  This table is not tidy because the column headers are values, not
+variable names.  This format is frequently used in presentations since it is more compact.
+It is also useful to perform matrix operations. However, it is not appropriate for general
+analysis.
+
+\begin{tablebox}[label=tab:messy1]{Messy table, from Pew Forum dataset, where headers are values, not variable names.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l r r r c}
     \toprule
     Religion & <\$10k & \$10-20k & \$20-30k & \dots \\
@@ -654,10 +660,17 @@ following table:
     \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{center}
-This table is not tidy because the column headers are values, not variable names.  To
-make it tidy, we can transform it into the following table:
-\begin{center}
+\end{tablebox}
+
+To make it tidy, we can transform it into the \cref{tab:tidy1} by explicitly introducing
+variables \emph{Income} and \emph{Frequency}.
+Note that the table is now longer, but it is also narrower.  This is a common pattern when
+fixing this kind of issue.  The table is now tidy because the column headers are variable
+names, not values.
+
+\begin{tablebox}[label=tab:tidy1]{Tidy version of \cref{tab:messy1} where values are correctly moved.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l r}
     \toprule
     Religion & Income & Frequency \\
@@ -672,9 +685,62 @@ make it tidy, we can transform it into the following table:
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{center}
+\end{tablebox}
 
 \paragraph{Multiple variables are stored in one column}  For example, consider the
+\cref{tab:messy2}.  This table is not tidy because the column --- interestly called
+\emph{column} ---, contains multiple variables.  This format is frequent, and sometimes the
+column name contains the names of the variables.  Sometimes it is very hard to separate
+the variables.
+
+\begin{tablebox}[label=tab:messy2]{Messy table, from TB dataset, where multiple variables are stored in one column.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l l l r c}
+    \toprule
+    country & year & column & cases & \dots \\
+    \midrule
+    AD & 2000 & m014 & 0 & \dots \\
+    AD & 2000 & m1524 & 0 & \dots \\
+    AD & 2000 & m2534 & 1 & \dots \\
+    AD & 2000 & m3544 & 0 & \dots \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+To make it tidy, we can transform it into the \cref{tab:tidy2}.  Two columns are created
+to contain the variables \emph{Sex} and \emph{Age}, and the old column is removed.  The
+table keeps the same number of rows, but it is now wider.  This is a common pattern when
+fixing this kind of issue.  The new version usually fixes the issue of correctly
+calculating ratios and frequency.
+
+\begin{tablebox}[label=tab:tidy2]{Tidy version of \cref{tab:messy2} where values are correctly moved.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l l l l r c}
+    \toprule
+    country & year & sex & age & cases & \dots \\
+    \midrule
+    AD & 2000 & m & 0--14 & 0 & \dots \\
+    AD & 2000 & m & 15--24 & 0 & \dots \\
+    AD & 2000 & m & 25--34 & 1 & \dots \\
+    AD & 2000 & m & 35--44 & 0 & \dots \\
+    \dots & \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+
+\paragraph{Variables are stored in both rows and columns}  For example, consider the
+\cref{tab:messy3}.  This table is not tidy because \dots
+This is the most complicated case of messy data.  Usually, one of the columns contains the
+names of the variables.
+
+\Cref{tab:tidy3} shows the tidy version of \cref{tab:messy3}.  To fix this issue, we
+must first decide which column contains the names of the variables.  Then, we must lengthen
+the table in function of the variables (and potentially their names).  Aftwards, we widen the table in
+function of their names.  Finally, we remove implicit information.
 
 \subsection{Bridging normalization, tidyness, and our definition}
 
