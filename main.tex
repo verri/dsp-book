@@ -147,7 +147,6 @@
     \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
       \reflectbox{\includegraphics[width=\paperwidth]{images/bard2.jpg}}%
     };
-    \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\textcolor{black!60}\today};
     \node[white,anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data science continuum}};
     \node[white,anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{from foundations to practices}};
     \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
@@ -160,9 +159,10 @@
 \frontmatter
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
+  \node[anchor=south east, inner sep=8mm] at (current page.south east) {%
     \reflectbox{\includegraphics[height=0.6\paperheight]{images/toucan_bw.png}}%
   };
+  \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\textcolor{black!60}\today};
   \node[anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data science continuum}};
   \node[anchor=north, inner sep=5mm](subtitle) at (title.south) {\LARGE\sffamily\uppercase{from foundations to practices}};
   \node[anchor=north, inner sep=5mm] at (subtitle.south) {\Large\sffamily\uppercase{Filipe A. N. Verri}};
