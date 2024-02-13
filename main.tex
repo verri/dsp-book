@@ -76,10 +76,6 @@
 
 \urlstyle{rm}
 
-% Change figure and table captions font size.
-\captionnamefont{\small}
-\captiontitlefont{\small}
-
 \tcbset {
   base/.style={
     arc=0mm,
@@ -87,7 +83,6 @@
     boxrule=0mm,
     colbacktitle=black!20!white,
     coltitle=black,
-    fonttitle=\bfseries,
     left=2.5mm,
     leftrule=1mm,
     right=3.5mm,
@@ -112,6 +107,7 @@
 \newtcolorbox{mainbox}[1]{
   float=ht,
   colframe=black!20!white,
+  fonttitle=\bfseries,
   base={#1}
 }
 
