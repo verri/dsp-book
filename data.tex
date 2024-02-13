@@ -930,7 +930,7 @@ shown in \cref{tab:tidy5}.
 First and foremost, both concepts, normalization and tidy data, are not in conflict.
 
 In data normalization, given a set of functional, multivalued and join dependencies, there
-is only one normal form that is free of redundancy (and unnecessary projections).  In tidy data,
+exists a normal form that is free of redundancy.  In tidy data,
 \citeauthor{Wickham2023} also state that there is only one way to organize the given data.
 
 \textcite{Wickham2014} states that tidy data is 3NF.  However, he does not provide a
@@ -993,7 +993,82 @@ Another very interesting conjecture is whether we can formalize the eventual \em
 of observational unit} in terms of the order that joins and grouping operations are
 performed.
 
-Consider the following example\dots
+\paragraph{Example}
+Consider the following example: the relation $R[A, B, C, D, E]$ and the functional
+dependencis $A \to D$, $B \to E$, and $AB \to C$.  The relation can be normalized up to
+3NF by following one of the decomposition trees shown in \cref{fig:decomp}.
+Every decomposition tree must take into account that the join of the projections are
+lossless and dependency preserving.
+
+\begin{figurebox}[label=fig:decomp]{Decomposition trees for the relation $R[ABCDE]$ and the functional dependencis $A \to D$, $B \to E$, and $AB \to C$ to reach 3NF.}
+  \centering
+  \begin{tikzpicture}
+    \node (root1) at (0, 0) {ABCDE}
+      child {node {AD}}
+      child {node {ABCE}
+        child {node {BE}}
+        child {node {ABC}}};
+    \node (root2) at (3, 0) {ABCDE}
+      child {node {BE}}
+      child {node {ABCD}
+        child {node {AD}}
+        child {node {ABC}}};
+  \end{tikzpicture}
+\end{figurebox}
+
+Note that the decomposition that splits first $R[ABC]$ is not valid, since the resulting
+relation $R[AB]$ is not a consequences of a functional dependency, see
+\cref{fig:wrongdecomp}.
+
+\begin{figurebox}[label=fig:wrongdecomp]{Wrong decomposition trees for the relation $R[ABCDE]$ and the functional dependencis $A \to D$, $B \to E$, and $AB \to C$.}
+  \centering
+  \begin{tikzpicture}
+    \node (root1) at (0, 0) {ABCDE}
+      child {node {ABC}}
+      child {node {ABDE}
+        child {node {AD}}
+        child {node {ABE}
+          child {node {BE}}
+          child {node {AB}}}};
+    \node (root2) at (3, 0) {ABCDE}
+      child {node {ABC}}
+      child {node {ABDE}
+        child {node {BE}}
+        child {node {ABD}
+          child {node {AD}}
+          child {node {AB}}}};
+  \end{tikzpicture}
+\end{figurebox}
+
+In this kind of relation schema, we have a set of key attributes, here $\mathcal{K} = AB$,
+and a set of non-prime attributes, here $\mathcal{N} = CDE$.  Note that the case
+$\mathcal{K} \cap \mathcal{N} = \emptyset$ is the simplest we can have.
+
+Observe, however, that transitive dependencies\footnote{Actually, when an attribute is
+both key and non-prime, some joins may generate invalid tables.} and complex join
+dependencies restrict even further the joins we are allowed to perform.
+\textcolor{red}{Further formalization and study is under progress.}
+
+Now, consider a very common case: in our dataset, keys are unknown.  Let $A$ be a student
+id, $B$ be the course id, $D$ be the student age, $E$ be the course load, and $C$ be the
+student grade at the course.  If only $CDE$ is known, the table $R[CDE]$ is already tidy
+--- and the observational unit is the enrollment --- once there is no key to perform any
+kind of normalization.  This happens in many cases where privacy is a concern.
+
+But we can also consider that the observational unit is the student.  In this case, we
+must perform joins traversing the leftmost decomposition tree in \cref{fig:decomp} from
+bottom to top.  After each join, a summarization operation is performed on the relation
+considering the student as the observational unit, i.e. over attribute $A$.  The first
+join results in relation $R[ABCE]$ and the summarization operation results in a new
+relation $R[AFG]$ where $F$ is the average grade and $G$ is the total course load taken by
+the student.  They all calculated based on the rows that are grouped in function of $A$.
+It is important to notice that, after the summarization operation, all observations must
+contain a different value of $A$.  The second join results in relation $R[ADFG] = R[AD]
+\bowtie R[AFG]$.  This relation has functional dependency $A \to DFG$, and it is in 3NF
+(which is also tidy).
+
+Unfortunately, it is not trivial to calculate all possible decomposition trees for a given
+dataset.  \textcolor{red}{Further formalization and study is under progress.}
 
 \section{Unstructured data}
 
