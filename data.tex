@@ -1021,7 +1021,7 @@ Note that the decomposition that splits first $R[ABC]$ is not valid, since the r
 relation $R[AB]$ is not a consequences of a functional dependency, see
 \cref{fig:wrongdecomp}.
 
-\begin{figurebox}[label=fig:wrongdecomp]{Wrong decomposition trees for the relation $R[ABCDE]$ and the functional dependencis $A \to D$, $B \to E$, and $AB \to C$.}
+\begin{figurebox}[label=fig:wrongdecomp]{Invalid decomposition trees for the relation $R[ABCDE]$.}
   \centering
   \begin{tikzpicture}
     \node (root1) at (0, 0) {ABCDE}
@@ -1030,15 +1030,18 @@ relation $R[AB]$ is not a consequences of a functional dependency, see
         child {node {AD}}
         child {node {ABE}
           child {node {BE}}
-          child {node {AB}}}};
+          child {node[gray] {AB}}}};
     \node (root2) at (3, 0) {ABCDE}
       child {node {ABC}}
       child {node {ABDE}
         child {node {BE}}
         child {node {ABD}
           child {node {AD}}
-          child {node {AB}}}};
+          child {node[gray] {AB}}}};
   \end{tikzpicture}
+  \tcblower
+  We consider the functional dependencis $A \to D$, $B \to E$, and $AB \to C$.
+  Note that $R[AB]$ is not a consequence of a functional dependency.
 \end{figurebox}
 
 In this kind of relation schema, we have a set of key attributes, here $\mathcal{K} = AB$,

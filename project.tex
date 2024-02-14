@@ -1,7 +1,7 @@
 \chapter{Data science project}
 
 \chapterprecishere{Figured I could throw myself a pity party or go back to school and
-learn the computers. \par\raggedleft--- \textup{Don Carlton}, Monsters University}
+learn the computers. \par\raggedleft--- \textup{Don Carlton}, Monsters University (2013)}
 
 First of all, a data science project is a software project.  The difference between a data
 science software and a traditional software is that some components of the former is
@@ -26,11 +26,87 @@ hand''.
 
 \section{CRISP-DM}
 
-CRISP-DM is a methodology for data science projects.  It is an acronym for Cross Industry
-Standard Process for Data Mining.  It is a methodology that was developed in the 1990s, and
-it is still widely used today.
+CRISP-DM\footnote{Official guide available at
+\url{https://www.ibm.com/docs/it/SS3RA7_18.3.0/pdf/ModelerCRISPDM.pdf}.} is a methodology
+for data mining projects.  It is an acronym for Cross Industry Standard Process for Data
+Mining.  It is a methodology that was developed in the 1990s by IBM, and it is still
+widely used today.
 
-\section{\citeauthor{Zumel2019}'s approach}
+CRISP-DM is a cyclic process.  The process is composed of six phases:
+\begin{enumerate}
+  \item Business understanding: this is the phase where the project objectives are
+    defined.  The objectives must be defined in a way that is measurable.  The phase also
+    includes the definition of the project plan.
+  \item Data understanding: this is the phase where the data is collected and explored.
+    The data is collected from the data sources, and it is explored to understand its
+    characteristics.  The phase also includes the definition of the data quality
+    requirements.
+  \item Data preparation: this is the phase where the data is prepared for the modeling
+    phase.  The data is cleaned, transformed, and aggregated.  The phase also includes the
+    definition of the modeling requirements.
+  \item Modeling: this is the phase where the model is trained and validated.  The model is
+    trained using the prepared data, and it is validated using the validation data.  The
+    phase also includes the definition of the evaluation requirements.
+  \item Evaluation: this is the phase where the model is evaluated.  The model is evaluated
+    using the evaluation data.  The phase also includes the definition of the deployment
+    requirements.
+  \item Deployment: this is the phase where the model is deployed.  The model is deployed
+    using the deployment requirements.  The phase also includes the definition of the
+    monitoring requirements.
+\end{enumerate}
+
+\Cref{fig:cripdm} shows a diagram of the CRISP-DM process.  Note that the process is
+cyclic and completly focused on the data.  The process do not address the software
+development aspects of the project.
+
+\begin{figurebox}[label=fig:cripdm]{Diagram of the CRISP-DM process.}
+  \centering
+  \begin{tikzpicture}[%
+      block/.style={rectangle, draw, fill=white!20, text width=6em, text centered, rounded corners, minimum height=3em},
+      line/.style={draw, -latex},
+      bigarrow/.style={draw, -latex, line width=3pt, gray}
+      ]
+    \node (1) at (0, 0) {};
+    \node (2) at (4, -4) {};
+    \node (3) at (0, -8) {};
+    \node (4) at (-4, -4) {};
+
+    \node [block] (bu) at (-1.5, -2) {Business understanding};
+    \node [block] (du) at (1.5, -2) {Data understanding};
+    \path [line] (bu) -- (du);
+    \path [line] (du) -- (bu);
+
+    \node [block] (dp) at (2.5, -3.5) {Data preparation};
+    \node [block] (m) at (2.5, -5) {Modeling};
+    \path [line] (dp) -- (m);
+    \path [line] (m) -- (dp);
+
+    \path [line] (du) -- (dp);
+
+    \node [block] (e) at (0, -6.5) {Evaluation};
+    \node [block] (d) at (-2.5, -4.25) {Deployment};
+
+    \path [line] (m) -- (e);
+    \path [line] (e) -- (d);
+    \path [line] (e) -- (bu);
+
+    \node [draw, circle, fill=gray, text centered, text=white] at (0, -4.25) {Data};
+
+    \path [bigarrow] (1.east) to[out=0, in=90] (2.60);
+    \path [bigarrow] (2.-60) to[out=-90, in=0] (3.east);
+    \path [bigarrow] (3.west) to[out=180, in=-90] (4.-120);
+    \path [bigarrow] (4.120) to[out=90, in=180] (1.west);
+  \end{tikzpicture}
+  \tcblower
+  Each block represents a phase of the CRISP-DM process.  Data is the central element of
+  the process.  Arrows represent the transitions between the phases.
+\end{figurebox}
+
+The CRISP-DM methodology is a good starting point for data science projects.  However, it
+does not mean that should be followed strictly.  The process is cyclic and flexible, and
+adaptations are possible at any stage of the process.
+
+\section{Nina and Zumel's approach}
 
 \textcite{Zumel2019} propose a methodology for data science projects.
 
@@ -51,7 +127,7 @@ is possible at any stage of the process.
 \section{Agile}
 
 Agile is a methodology for software development.  It is an alternative to the waterfall
-methodology.  The waterfall methodology is a sequential design process, where each phase
+methodology.  The waterfall methodology is a sequential design where each phase
 must be completed before the next phase can begin.
 
 The four values of agile manifesto are:
