@@ -65,10 +65,10 @@ allows you to transform raw data into understanding, insight, and knowledge.''}
 I find the first definition too restrictive once new methods and techniques are always
 under development.  We never know when new ``data-related'' methods will become obsolete
 or a trend.  Also, \citeauthor{Zumel2019}'s view gives the impression that data science is a
-operations research subfield.  Although I will not try to prove otherwise, I think it will
-be much more useful to see it as an independent field of study.  Obviously, there will be
+operations research subfield.  Although I do not try to prove otherwise, I think it
+is much more useful to see it as an independent field of study.  Obviously, there are
 many intersections between both areas (and many other areas as well).  Because of such
-intersections, I will try my best to keep definitions and
+intersections, I try my best to keep definitions and
 terms standardized throughout chapters, sometimes avoiding popular terms that may generate
 ambiguities or confusion.
 
@@ -408,7 +408,7 @@ data science methodology.
     \item Stevens’s types do not exhaust all possibilities for data types.
     \item Data scientists should be aware of the data types they are working with and
       how they affect the analysis.
-    \item Inevitably, data scientists will make assumptions about the data types.
+    \item Inevitably, data scientists make assumptions about the data types.
   \end{itemize}
 \end{slidebox}
 
@@ -430,7 +430,7 @@ and the basic operations in relational algebra.
 
 \paragraph{Projection}  The projection of a relation is the operation that returns a
 relation with only the columns specified in the projection.  For example, if we have a
-relation $X[A, B, C]$ and we perform the projection $\pi_{A, C}(X)$, we will get a
+relation $X[A, B, C]$ and we perform the projection $\pi_{A, C}(X)$, we get a
 relation with only the columns $A$ and $C$, i.e. $X[A, C]$.
 
 \paragraph{Join}  The (natural) join of two relations is the operation that returns a
@@ -502,7 +502,7 @@ PJNF.  In fact, if we consider that for each key dependency implies a join depen
 relation is in the so-called overstrong projection-join normal
 form\footfullcite{Fagin1979}.  Such a level of normalization does not improve data storage
 or eliminate inconsistencies.  In practice, it means that if a relation is in PJNF,
-careless joins --- i.e. those that violate a join dependency --- will produce
+careless joins --- i.e. those that violate a join dependency --- produce
 inconsistent results.
 
 \paragraph{Example 1}  Consider the 1NF relation $R[A, B, C, D]$ with the functional
@@ -528,16 +528,17 @@ relation into the relations $R_1[AB]$, $R_2[AC]$, and $R_3[BC]$.
 
 It is iteresting to notice that in this case, the relation $R_1 \bowtie R_2$ might
 contain tuples that do not make sense in the context of the original relation.  For
-example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join will contain
+example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join contains
 $(a, b, c')$, which might not be a valid tuple in the original relation if $(b, c')$ is
 not in $R_3$.  \emph{This is very important to notice, as it is a common mistake to assume
-that the join of the decomposed relations will always contain valid tuples.}
+that the join of the decomposed relations always contains valid tuples.}
 
 \paragraph{Example 3}  Consider the 1NF relation $R[A, B, C, D, E]$ with the functional
 dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
 into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
 be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the
-previous example, the join of the decomposed relations will always contain valid tuples.
+previous example, the join of the decomposed relations will always contain valid tuples
+--- excluding degenerate joins, where there are no common attributes.
 The reason is that all join dependencies implied by the key dependencies are trivial when
 reduced\footnote{\color{red}A proof in under development based on \fullcite{Vincent1997}.}.
 
@@ -1069,6 +1070,39 @@ contain a different value of $A$.  The second join results in relation $R[ADFG] 
 
 Unfortunately, it is not trivial to calculate all possible decomposition trees for a given
 dataset.  \textcolor{red}{Further formalization and study is under progress.}
+
+\subsection{Final thoughts}
+
+In the rest of the book, we focus on a statistical view of the data.  Besides the
+functional dependencies, we also consider the statistical dependencies of data.  For
+instance, attributes $A$ and $B$ might not be functionally dependent, but they might exits
+unknown $P(A, B)$ that we can estimate from the data.  Each observed value of a key can
+represent a instance of a random variable, and the other attributes can represent
+measured attributes or calculated properties.
+
+For data analysis, it is very important to understand the relationships between the
+observations.  For example, we might want to know if the observations are independent, if
+they are identically distributed, or if there is a known selection bias.  We might also
+want to know if the observations are dependent on time, and if there are hidden variables
+that affect the observations.
+
+Following wrong assumptions can lead to wrong conclusions.  For example, if we assume that
+the observations are independent, but they are not, we might underestimate the variance of
+the estimators.
+
+Although we not focus on time series, we must consider the temporal dependence of the
+observations.  For example, we might want to know how the observation $x_t$ is affected by
+$x_{t-1}$, $x_{t-2}$, and so on.  We might also want to know if Markov property holds,
+and if there is periodicity and seasonality in the data.
+
+For the sake of the scope of this book, we suggest that any prediction on temporal data
+should be done in the state space, where it is safer to assume that observations are
+independent and identically distributed.  This is a common practice in reinforcement
+learning and deep learning. Takens' theorem\footfullcite{Takens1980} allows you to
+reconstruct the state space of a dynamical system using time-delay embedding. Given a
+single observed time series, you can create a multidimensional representation of the
+underlying dynamical system by embedding the time series in a higher-dimensional space.
+This embedding can reveal the underlying dynamics and structure of the system.
 
 \section{Unstructured data}
 
