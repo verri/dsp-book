@@ -121,6 +121,8 @@ only due to the business requirements, but also because the data changes over ti
 The authors state that agile methodologies are suitable (and necessary) for data science
 projects.
 
+\subsection{Roles}
+
 In their approach, five roles are defined.
 
 \paragraph{Project sponsor}  It is the main stakeholder of the project, the one that needs the
@@ -150,6 +152,8 @@ that receives instructions to adapt the data storage and means to collect data.
 \paragraph{Operations}  The operations role is the one that manages infrastructure and
 deploys final project results.  He is responsible to define requirements such as response
 time, programming language, and the infrastructure to run the software.
+
+\subsection{Process}
 
 \citeauthor{Zumel2019}'s model is similar to CRISP-DM, but emphasizes that back-and-forth
 is possible at any stage of the process.  \Cref{fig:zumel} shows a diagram of the process.
@@ -214,7 +218,7 @@ The four values of agile manifesto are:
 \section{SCRUM}
 
 SCRUM is an agile framework for software development.  It is a process framework for
-managing complex projects.  It is a lightweight process framework, which means that it
+managing complex projects.  It is a lightweight, which means that it
 provides just enough guidance to be effective.
 
 Many consider that SCRUM is not adequate for data science projects.  The main reason is
@@ -226,36 +230,57 @@ the needs of the project.  SCRUM is not a rigid process.  In the following, I pr
 extension to SCRUM that makes it suitable for data science projects.
 
 (In real-world, most developers do not have hacking-level skills.  They are not autonomous
-enough to work without a plan.  This is especially true for ``data scientists'', who are
+enough to work without a plan.  This is especially true for ``data scientists,'' who are
 often not even developers.  SCRUM is a good compromise between the need for autonomy and
 the need for a detailed plan.  Project methodology is needed to ensure that the project is
 completed in time and within budget.)
 
 \section{Our approach}
 
-The problems of other approaches:
-\begin{itemize}
-  \item CRISP-DM is too focused on the data;
-  \item Nina and Zumel's approach is too focused on the roles;
-  \item SCRUM is too focused on the software development.
-\end{itemize}
+The previously mentioned methodologies lack the focus on the software development aspects of
+the data science project.  For instance, CRISP-DM defines the stages only of the data
+mining process, i.e. it does not explicitly address user interface or data collection.
+\citeauthor{Zumel2019}'s approach addresses data collection and presentation of results, but
+delegates the software development to the operations role, barely mentioning it.  SCRUM is
+a good framework for software development, but it is not designed for data science
+projects.  It lacks the exploratory phases of data science projects.
 
-We propose an extension to SCRUM that makes it suitable for data science projects.  The
-extension is based on the following observations:
+Thus, we propose an extension to SCRUM that makes it suitable for data science projects.
+The extension is based on the following observations:
 \begin{itemize}
   \item Data science projects have exploratory phases;
-  \item \dots
+  \item Data itself is a component of the solution;
+  \item The solution is usually modularized, parts of it are constructed from data while the
+    other parts are constructed like traditional software;
+  \item The solution is usually deployed as a service, that must be maintained and
+    monitored.
 \end{itemize}
 
-Two other values must be added to the agile manifesto:
+Moreover, we add two other values besides the agile manifesto values.  They are:
 \begin{itemize}
   \item Model confidence/understanding over model performance;
-  \item Beware of interactive environments.
+  \item Code version control over interactive environments.
 \end{itemize}
 
-\subsection{The roles}
+The first value is based on the observation that the model performance is not the most
+important aspect of the model.  The most important aspect is the being sure that the model
+behaves as expected (and sometimes why it behaves as expected).  It is not uncommon to find
+models that seems to perform well during evaluation steps\footnote{Of course, when
+evaluation is not performed correctly.}, but that are not suitable for production.
 
-Combine SCRUM roles with the roles defined by \textcite{Zumel2019}.
+The second value is based on the observation that interactive environments are not suitable
+for the development of the model search code, for instance.  Interactive environments
+auxiliate the exploratory phases, but the final version of the code must be version
+controlled.  Often, we hear stories that models cannot be reproduced because the code that
+generated them are not runnable anymore.  This is a serious problem, and it is not
+acceptable for maintaining a software solution.
+
+These observations and values are the basis of our approach.  The roles and principles of
+our approach are described in the following sections.
+
+\subsection{The roles of our approach}
+
+\textcolor{red}{Combine SCRUM roles with the roles defined by \textcite{Zumel2019}.}
 
 \subsection{The principles of our approach}
 
@@ -284,7 +309,8 @@ Combine SCRUM roles with the roles defined by \textcite{Zumel2019}.
     model training.  If the dataset changes significantly, not only the deployed model
     must be retrained, but the model search algorithm may need to be rethought.
   \item Reports as deliverables.  During sprints, the deliverables of data exploration are
-    reports.
+    reports.  The reports must be version controlled and must be reproducible.  The reports
+    must be generated in a way that is understandable by the client and the sponsor.
   \item Setup quantitative goals.  Do not fall on the trap of forever improving the model.
     Instead, setup quantitative goals for the model performance.  For example, the model
     must have a precision of at least 90\%.  Once you reach the goal, prioritize other
@@ -310,5 +336,9 @@ Combine SCRUM roles with the roles defined by \textcite{Zumel2019}.
   \item Monitor model performance in production.  If possible setup feedback from the user
     interface.  Avoid automation of model releases because concept drift usually requires
     exploratory analysis.
-  \item Use the appropriate backend.  REST API vs websocket.
+  \item Use the appropriate backend.  REST API vs websocket.  The choice depends on the
+    requirements of the project.  REST API is more suitable for stateless requests, while
+    websocket is more suitable for stateful requests.  For example, if the user interface
+    must be updated in real-time, websocket is more suitable.  If the user interface is
+    used to submit batch requests, REST API is more suitable.
 \end{enumerate}
