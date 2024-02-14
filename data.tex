@@ -342,9 +342,9 @@ data from different sources into a single, unified view.
 
 As one expects, when we measure a phenomenon, the resulting data come in many different
 formats.  For example, we can measure the temperature of a room using a thermometer.  The
-resulting data will be a number.  We can assess English proficiency using an essay test.  The
-resulting data will be a text.  We can register relationships between proteins and
-their functions.  The resulting data will be a graph.
+resulting data is a number.  We can assess English proficiency using an essay test.  The
+resulting data is a text.  We can register relationships between proteins and
+their functions.  The resulting data is a graph.
 
 Thus, it is important to understand the nature of the data we are working with.
 
@@ -537,7 +537,7 @@ that the join of the decomposed relations always contains valid tuples.}
 dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
 into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
 be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the
-previous example, the join of the decomposed relations will always contain valid tuples
+previous example, the join of the decomposed relations always contains valid tuples
 --- excluding degenerate joins, where there are no common attributes.
 The reason is that all join dependencies implied by the key dependencies are trivial when
 reduced\footnote{\color{red}A proof in under development based on \fullcite{Vincent1997}.}.
@@ -639,7 +639,7 @@ header, while rows are numerically indexed.
 \subsubsection{Common messy datasets}
 
 \textcite{Wickham2014} lists some common problems with messy datasets and how to tidy
-them\footnote{Operations will be presented in \cref{chap:handling}.}.  The problems are
+them\footnote{Operations are presented in \cref{chap:handling}.}.  The problems are
 summarized below.
 
 \paragraph{Headers are values, not variable names}  For example, consider
