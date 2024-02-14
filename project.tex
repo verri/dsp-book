@@ -63,6 +63,7 @@ development aspects of the project.
 \tikzset{%
   block/.style={rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em},
   line/.style={draw, -latex},
+  dline/.style={draw, latex-latex},
   bigarrow/.style={draw, -latex, line width=3pt, gray}}
 
 \begin{figurebox}[label=fig:cripdm]{Diagram of the CRISP-DM process.}
@@ -182,12 +183,12 @@ The phases are:
     \node [block] (pd) at (-3, -1.75) {Present results};
     \node [block] (dm) at (-3, -0.25) {Deploy the model};
 
-    \path [line, <->] (dg) to[out=0, in=90] (cm.north);
-    \path [line, <->] (cm) -- (bm);
-    \path [line, <->] (bm.south) to[out=-90, in=0] (em.east);
-    \path [line, <->] (em.west) to[out=180, in=-90] (pd.south);
-    \path [line, <->] (pd) -- (dm);
-    \path [line, <->] (dm.north) to[in=180, out=90] (dg.west);
+    \path [dline] (dg) to[out=0, in=90] (cm.north);
+    \path [dline] (cm) -- (bm);
+    \path [dline] (bm.south) to[out=-90, in=0] (em.east);
+    \path [dline] (em.west) to[out=180, in=-90] (pd.south);
+    \path [dline] (pd) -- (dm);
+    \path [dline] (dm.north) to[in=180, out=90] (dg.west);
   \end{tikzpicture}
 
   \tcblower
