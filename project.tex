@@ -59,13 +59,15 @@ CRISP-DM is a cyclic process.  The process is composed of six phases:
 cyclic and completly focused on the data.  The process do not address the software
 development aspects of the project.
 
+
+\tikzset{%
+  block/.style={rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em},
+  line/.style={draw, -latex},
+  bigarrow/.style={draw, -latex, line width=3pt, gray}}
+
 \begin{figurebox}[label=fig:cripdm]{Diagram of the CRISP-DM process.}
   \centering
-  \begin{tikzpicture}[%
-      block/.style={rectangle, draw, fill=white!20, text width=6em, text centered, rounded corners, minimum height=3em},
-      line/.style={draw, -latex},
-      bigarrow/.style={draw, -latex, line width=3pt, gray}
-      ]
+  \begin{tikzpicture}
     \node (1) at (0, 0) {};
     \node (2) at (4, -4) {};
     \node (3) at (0, -8) {};
@@ -108,21 +110,91 @@ adaptations are possible at any stage of the process.
 
 \section{Nina and Zumel's approach}
 
-\textcite{Zumel2019} propose a methodology for data science projects.
+\textcite{Zumel2019} also propose a methodology for data science projects.  Besides
+describing each step in a data science project, they further address the roles of each
+individual involved in the project.  They state that data science projects are always
+collaborative, as they require domain expertise, data expertise, and software expertise.
+The requirements are dynamic, and the project has many exploratory phases.  Usually,
+projects based on data are urgent, and they must be completed in a short time --- not
+only due to the business requirements, but also because the data changes over time.
+The authors state that agile methodologies are suitable (and necessary) for data science
+projects.
 
-They define five roles:
-\begin{itemize}
-  \item Project sponsor: represents the business interests and champions the project;
-  \item Client: represents the end users’ interests and is the domain expert;
-  \item Data scientist: sets and executes the analytic strategy and communicates with the
-    sponsor and the client;
-  \item Data architect: manages data and data storage and sometimes manages data
-    collection;
-  \item Operations: manages infrastructure and deploys final project results.
-\end{itemize}
+In their approach, five roles are defined.
+
+\paragraph{Project sponsor}  It is the main stakeholder of the project, the one that needs the
+results of the project.  He represents the business interests and champions the project.
+The project is considered successful if the sponsor is satisfied.  Note that, ideally, the
+sponsor can not be the data scientist, but someone that is not involved in the development
+of the project.  However, he needs to be able to express \emph{quantitatively} the business
+goals and participate actively in the project.
+
+\paragraph{Client}  The client is the domain expert.  He represents the end users'
+interests.  In a small project, he is usually the sponsor.  He translates the daily
+activities of the business into the technical requirements of the software.
+
+\paragraph{Data scientist}  The data scientist is the one that sets and executes the
+analytic strategy.  He is the one that communicates with the sponsor and the client,
+effectively connecting all the roles.  In small projects, he can also act as the developer
+of the software.  However, in large projects, he is usually the project manager.
+Although it is not required to be a domain expert, the data scientist must be able to
+understand the domain of the problem.  He must be able to understand the business goals and
+the client's requirements.  Most importantly, he must be able to define and to solve the
+right tasks.
+
+\paragraph{Data architect}  The data architect is the one that manages data and data storage.
+He usually is involved in more than one project, so it is not an active participant.  He
+that receives instructions to adapt the data storage and means to collect data.
+
+\paragraph{Operations}  The operations role is the one that manages infrastructure and
+deploys final project results.  He is responsible to define requirements such as response
+time, programming language, and the infrastructure to run the software.
 
 \citeauthor{Zumel2019}'s model is similar to CRISP-DM, but emphasizes that back-and-forth
-is possible at any stage of the process.
+is possible at any stage of the process.  \Cref{fig:zumel} shows a diagram of the process.
+The phases are:
+\begin{itemize}
+  \item Define the goal: what problem are we trying to solve?
+  \item Collect and manage data: what information do we need?
+  \item Build the model: find patterns in the data that may solve the problem.
+  \item Evaluate the model: is the model good enough to solve the problem?
+  \item Present results and document: establish that we can solve the problem and how we
+    did it.
+  \item Deploy the model: make the model available to the end users.
+\end{itemize}
+
+\begin{figurebox}[label=fig:zumel]{Diagram of the data science process proposed by \textcite{Zumel2019}.}
+  \centering
+  \begin{tikzpicture}
+    \node (1) at (0, 0) {};
+    \node (2) at (1, -1) {};
+    \node (3) at (0, -2) {};
+    \node (4) at (-1, -1) {};
+    \path [bigarrow] (1.east) to[out=0, in=90] (2.60);
+    \path [bigarrow] (2.-60) to[out=-90, in=0] (3.east);
+    \path [bigarrow] (3.west) to[out=180, in=-90] (4.-120);
+    \path [bigarrow] (4.120) to[out=90, in=180] (1.west);
+
+    \node [block] (dg) at (0, 1) {Define the goal};
+    \node [block] (cm) at (3, -0.25) {Collect and manage data};
+    \node [block] (bm) at (3, -1.75) {Build the model};
+    \node [block] (em) at (0, -3) {Evaluate the model};
+    \node [block] (pd) at (-3, -1.75) {Present results};
+    \node [block] (dm) at (-3, -0.25) {Deploy the model};
+
+    \path [line, <->] (dg) to[out=0, in=90] (cm.north);
+    \path [line, <->] (cm) -- (bm);
+    \path [line, <->] (bm.south) to[out=-90, in=0] (em.east);
+    \path [line, <->] (em.west) to[out=180, in=-90] (pd.south);
+    \path [line, <->] (pd) -- (dm);
+    \path [line, <->] (dm.north) to[in=180, out=90] (dg.west);
+  \end{tikzpicture}
+
+  \tcblower
+  Each block represents a phase of the data science process.  The emphasis is on the
+  cyclic nature of the process.  Arrows represent the transitions between the phases, that
+  can be back-and-forth.
+\end{figurebox}
 
 \section{Agile}
 
@@ -159,6 +231,13 @@ the need for a detailed plan.  Project methodology is needed to ensure that the 
 completed in time and within budget.)
 
 \section{Our approach}
+
+The problems of other approaches:
+\begin{itemize}
+  \item CRISP-DM is too focused on the data;
+  \item Nina and Zumel's approach is too focused on the roles;
+  \item SCRUM is too focused on the software development.
+\end{itemize}
 
 We propose an extension to SCRUM that makes it suitable for data science projects.  The
 extension is based on the following observations:
