@@ -148,7 +148,7 @@ The regression function is the function $r = f_\theta$ that minimizes the risk f
 
 \section{ERM inductive principle}
 
-In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$ a general loss
+In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$ a generic loss
 function.  The training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
 
 Since the distribution $P(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
@@ -164,3 +164,35 @@ theory.
 
 Classical methods, such as least-squares, maximum likelihood, and maximum a posteriori are
 all realizations of the ERM principle for specific loss functions and hypothesis spaces.
+
+In the following sections, we address the four main questions of learning theory.  We
+summarize them in \cref{tab:learning-questions}.
+
+\begin{tablebox}[label=tab:learning-questions]{The four main questions of learning theory.}
+  \begin{tabularx}{\textwidth}{@{}lX@{}}
+    \toprule
+    Part & Question \\
+    \midrule
+    \textbf{Consistency} &
+      What are the necessary and sufficient conditions for consistency of a learning process? \\
+    \textbf{Rate of convergence} &
+      How fast is the rate of convergence of the learning process? \\
+    \textbf{Generalization} &
+      How can one controle the generalization ability of the learning process? \\
+    \textbf{Construction} &
+      How can one construct a learning machine that satisfies the conditions of consistency and generalization? \\
+    \bottomrule
+  \end{tabularx}
+\end{tablebox}
+
+\section{Consistency of learning processes}
+
+\section{Rate of convergence of learning processes}
+
+\section{Generalization ability of learning processes}
+
+\section{Construction of learning machines}
+
+\subsection{Data classification methods}
+
+\subsection{Regression estimation methods}
