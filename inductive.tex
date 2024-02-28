@@ -146,6 +146,15 @@ The regression function is the function $r = f_\theta$ that minimizes the risk f
   \mathcal{L}(y, f_\theta(x)) = \big(y - f_\theta(x)\big)^2\text{.}
 \end{equation*}
 
+If $r \not\in \left\{ f_\theta : \theta\in\Theta \right\}$, the function $f_{\theta'}$
+that minimizes the risk function is the closest to the regression function in the
+metric $l_2$, i.e. we look for $\theta'$ such that
+\begin{equation*}
+  \theta' = \argmin_{\theta \in \Theta} \sqrt{
+    \int \big(r(x) - f_\theta(x)\big)^2\, dP(x)
+  }\text{.}
+\end{equation*}
+
 \section{ERM inductive principle}
 
 In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$ a generic loss
