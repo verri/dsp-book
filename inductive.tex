@@ -4,10 +4,54 @@
   To  understand  God's  thoughts  we  must study statistics, for these are the measure of His purpose.
   \par\raggedleft--- \textup{Florence Nightingale}, her diary}
 
-Recommended reading: IEEE TRANSACTIONS ON NEURAL NETWORKS, VOL. 10, NO. 5, SEPTEMBER 1999
-An Overview of Statistical Learning Theory.
+We can address several kinds of problems using algorithms that learn from data.  However,
+we focus on the problem of \emph{inductive learning}. Before we go further, let us define some terms.
 
-\begin{figurebox}[label=fig:learning]{The title of the figure goes here.\dots}
+\begin{defbox}{Artificial intelligence}{}
+  The field that studies algorithms that exhibit intelligent behavior.
+\end{defbox}
+
+Artificial intelligence is a very broad field, including not only the study of algorithms
+that exhibit intelligent behavior, but also the study of the behavior of intelligent
+systems.  For instance, it encompasses the study of optimization methods, bioinspired algorithms,
+robotics, philosophy of mind, and many other topics.  We are interested in the subfield of
+artificial intelligence that studies algorithms that exhibit some form of intelligent
+behavior.
+
+\begin{defbox}{Machine learning}{}
+  The subfield of artificial intelligence that studies algorithms that enable computers to
+  automatically learn from data.
+\end{defbox}
+
+Machine learning is the subfield of artificial intelligence that studies algorithms that
+enable computers to automatically learn and improve their performance on a task from
+experience, without being explicitly programmed by a human being.
+
+\begin{defbox}{Predictive learning}{}
+  The machine learning paradigm that studies the problem of making predictions given known
+  input data.
+\end{defbox}
+
+The machine learning paradigm that focuses on making predictions about outcomes (sometimes
+about the future) based on historical data. Depending on the reasoning behind the learning
+algorithms, the main predictive algorithms are classified in either inductive or
+transductive.
+
+\begin{defbox}{Inductive learning}{}
+  The machine learning approach that involves deriving general rules from specific
+  observations.
+\end{defbox}
+
+Induction a type of reasoning that goes from specific instances to more general
+principles.  Inductive learning is the machine learning approach that studies algorithms
+that, given data representing the set of specific instances, derive general rules that
+can make predictions about \emph{any} new instances.
+
+\Cref{fig:learning} give us a hierarchical view of the learning field.  Alternatives ---
+such as descriptive learning in opposition to predictive learning, or transductive
+learning in opposition to inductive learning --- are out of the scope of this course.
+
+\begin{figurebox}[label=fig:learning]{Organizational chart of the learning field.}
   \centering
   \begin{tikzpicture}
     \draw[outline] (0,0) circle (30mm) node {};
@@ -18,37 +62,19 @@ An Overview of Statistical Learning Theory.
     \node[below] at (0, 0.5) {predictive learning};
     \draw[outline] (0,-1.5) circle (15mm) node {};
     \node[below] at (0, -1.0) {inductive learning};
-    % \draw[outline] \verrist node {statistics};
-    % \draw[outline] \verride node {domain expertise};
-    % \draw[outline] \verrics node {computer science};
-    % \node[anchor=north,above] at (0,2) {data science};
   \end{tikzpicture}
-  \tcblower
-  More information about the figure goes here.
+  % \tcblower
+  % Artificial intelligence is a very broad field, including not only the study of
+  % algorithms that exhibit intelligent behavior, but also the study of the behavior of
+  % intelligent systems.  Machine learning is a subfield of artificial intelligence that
+  % studies algorithms that enable computers to automatically learn from data.  A particular
+  % case of machine learning is predictive learning, which focuses on making predictions
+  % about outcomes given known input data.  Inductive learning is a yet more specific type of
+  % learning that involves deriving general rules from specific observations.
 \end{figurebox}
 
-\Cref{fig:learning}:
-
-\emph{Artificial intelligence} is a very broad field.  For the sake of our scope, it is
-the field that studies algorithms that exhibit intelligent behavior.
-
-\emph{Machine learning} is a subfield of artificial intelligence that studies algorithms
-that enable computers to automatically learn and improve their performance on a task from
-experience, without being explicitly programmed by a human being.
-
-\emph{Predictive learning} is a machine learning paradigm that focuses on making
-predictions about outcomes (sometimes about the future) based on historical data.
-Depending on the reasoning behind the learning algorithms, the main predictive algorithms
-are classified in either inductive or transductive.
-
-Induction a type of reasoning that goes from specific instances to more general
-principles. \emph{Inductive learning} is a machine learning approach that involves deriving
-general rules from specific observations.
-
 Maybe the most general (and useful) framework for predictive learning is Statistical
-Learning Theory.
-
-Transduction is out of the scope of this course.
+Learning Theory.  In this chapter, we will introduce the basic concepts of this theory.
 
 \section{Hypothesis}
 
@@ -61,6 +87,17 @@ where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathca
 $y_i \in \mathcal{Y}$.  We assume that samples are random independent identically
 distributed (i.i.d.) observations drawn according to $$P(x, y) = P(x) P(y | x)\text{.}$$
 Both $P(x)$ and $P(y|x)$ are fixed but unknown.
+
+This is equivalent to the original learning problem stated by \textcite{Vapnik1995}, where
+a generator produce random vectors $\vec{x}$ according to a fixed but unknown
+probability distribution $P(x)$ and a supervisor returns an output value $y$ for every
+input vector $x$ according to a conditional distribution function $P(y|x)$, also fixed but
+unknown.
+
+Moreover, note that this setup is compatible with the idea of tidy data and 3NF (see
+\cref{sub:bridge}). Of course, we assume $X, Y$ are only the measured variables (or
+non-prime attributes).  In practice, it means that we left aside the keys in the learning
+process.
 
 \section{The learning problem}
 
@@ -80,11 +117,13 @@ Then, given the \emph{risk function}
 \end{equation}
 the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
 where the only available information is the \emph{training set} \eqref{eq:training-set}.
+This is the \emph{empirical risk minimization} (ERM) problem.
 
 This formulation encompasses many specific problems. I focus on the two of them which I
 believe are the most fundamental ones: \emph{binary data classification}\footnote{Vapnik
 calls it \emph{pattern recognition}.} and \emph{regresssion estimation}\footnote{We are not talking about
-\emph{regression analysis}.}.
+\emph{regression analysis}.}.  I left aside the density estimation problem, once it is not
+addressed in the remaining of the book.
 
 \paragraph{Binary data classification task.}  In this task, the output $y$ take on
 only two possible values, zero or one, and the functions $f_\theta$ are indicator
@@ -100,3 +139,28 @@ classification error.
 
 \paragraph{Regression estimation task.} Let the outcome $y$ be a real value and
 the \emph{regression} $r$ be $$r(x) = \int y\, dP(y|x) \text{.}$$
+
+The regression function is the function $r = f_\theta$ that minimizes the risk function
+\eqref{eq:risk} with the loss
+\begin{equation*}
+  \mathcal{L}(y, f_\theta(x)) = \big(y - f_\theta(x)\big)^2\text{.}
+\end{equation*}
+
+\section{ERM inductive principle}
+
+In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$ a general loss
+function.  The training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
+
+Since the distribution $P(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
+the \emph{empirical risk functional}
+\begin{equation}
+  \label{eq:empirical-risk}
+  R_n(\theta) = \frac{1}{n} \sum_{i=1}^n L(z_i, \theta)\text{.}
+\end{equation}
+
+Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so called
+ERM inductive principle.  The ERM principle is the basis of the statistical learning
+theory.
+
+Classical methods, such as least-squares, maximum likelihood, and maximum a posteriori are
+all realizations of the ERM principle for specific loss functions and hypothesis spaces.
