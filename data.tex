@@ -275,6 +275,7 @@ subfields, I highlight:
     \item Measurable phenomena are those that we can quantify in some way.
     \item Data collection is the process of gathering data on targeted phenomenon in an
       established systematic way.
+    \item The collection/sampling bias influence our conclusions.
     \item Data storage is the process of storing data in a computer.
     \item Data are any piece of information that can be digitally stored.
     \item Data can be stored in many different formats.
@@ -451,7 +452,7 @@ in $R$ such that $t_1[U] = t_2[U]$, it is also true that $t_1[V] = t_2[V]$.
 two sets of attributes in a relation.  It is a statement that if two tuples agree on
 certain attributes, then they must agree on another set of attributes.  Specifically, the
 \emph{multi-valued dependency} $U \twoheadrightarrow V$ holds in $R$ if and only if $R =
-R[UV] \bowtie R[UW]$.
+R[UV] \bowtie R[UW]$, where $W$ are the remaining attributes.
 
 \paragraph{Join dependency}  A join dependency is a constraint between subsets of
 attributes (not necessarily disjoint) in a relation.  $R$ obeys the join dependency $*
