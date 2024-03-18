@@ -85,7 +85,7 @@ that data science methods use computers to handle data and perform the calculati
 \emph{Knowledge} means information that humans can easily understand or apply to solve
 problems.  \emph{Measurable phenomena} are events or processes where raw data can be
 quantified in some way.  \emph{Raw data} are data collected directly from some source and
-that have not been subject to any other manipulation by a software program or a human
+that have not been subject to any other transformation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
 
 \begin{slidebox}{My definition}{}
@@ -98,7 +98,7 @@ expert.  \emph{Data} is any piece of information that can be digitally stored.
     \item Measurable phenomena are events or processes where raw data can be quantified
       in some way.
     \item Raw data are data collected directly from some source and that have not been
-      subject to any other manipulation by a software program or a human expert.
+      subject to any other transformation by a software program or a human expert.
     \item Data is any piece of information that can be digitally stored.
   \end{itemize}
 \end{slidebox}
@@ -312,14 +312,14 @@ analyze geographical data.  And so on.
 Each method has its own assumptions and limitations.  Thus, we need to understand the
 nature of the methods we are using.  In particular, we need to understand the
 expected input and output of them.  Whenever the available data do not match the
-requirements of the method, we may perform data manipulation\footnote{%
+requirements of the method, we may perform data handling\footnote{%
   It is important to highlight that it is expected that some of the methods assumptions
   are not fully met.  These methods are usually robust enough to extract valuable
   knowledge even when data contain imperfections, errors and noise.  However, it is still
-  useful to perform data manipulation to adjust data as much as possible.%
+  useful to perform data handling to adjust data as much as possible.%
 }.
 
-Data manipulation mainly includes data cleaning, data transformation, and data
+Data handling mainly includes data cleaning, data transformation, and data
 integration. Data cleaning is the process of detecting and correcting (or removing)
 corrupt or inaccurate pieces of data.  Data transformation is the process of converting
 data from one format or type to another.  Data integration is the process of combining
@@ -331,14 +331,16 @@ data from different sources into a single, unified view.
     \item Statistics, machine learning, and artificial intelligence are important
       sciences when studying knowledge extraction.
     \item Computational methods always have their own assumptions and limitations.
-    \item Data manipulation is the process of adjusting data to the requirements of the
-      computational methods.
+    \item Data handling is the process of adjusting data to the requirements of the
+      computational methods, which includes:
+    \begin{itemize}
     \item Data cleaning is the process of detecting and correcting (or removing) corrupt
       or inaccurate pieces of data.
     \item Data transformation is the process of converting data from one format or type
       to another.
     \item Data integration is the process of combining data from different sources into
       a single, unified view.
+    \end{itemize}
   \end{itemize}
 \end{slidebox}
 
@@ -419,7 +421,7 @@ data science methodology.
 When we work with structured data, two concepts are very important: database normalization
 and tidy data.  Database normalization is mainly focused on the data storage.  Tidy data is
 mainly focused on the requirements of data for analysis.  Both concepts have their
-mathematical foundations and tools for data manipulation.
+mathematical foundations and tools for data handling.
 
 \subsection{Database normalization}
 
@@ -560,7 +562,7 @@ reduced\footnote{\color{red}A proof in under development based on \fullcite{Vinc
 
 It is estimated that 80\% of the time spent on data analysis is spent on data preparation.
 Usually, the same process is repeated many times in different datasets. The ideia is that
-organized data carries the meaning of the data, reducing the time spent on manipulating
+organized data carries the meaning of the data, reducing the time spent on handling
 the data to get it into the right format for analysis.
 
 Tidy data is a data format that provides a standardized way to organize data values within

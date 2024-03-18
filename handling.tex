@@ -4,3 +4,248 @@
 \chapterprecishere{%
   Tidy datasets are all alike, but every messy dataset is messy in its own way.
   \par\raggedleft--- \textup{Hadley Wickham}, Tidy Data}
+
+% Important: avoid the term "data manipulation" as it has a negative connotation
+
+Data handling is the process of adjusting data to make it suitable for analysis.
+It involves three main tasks: data transformation, data cleaning, and data integration.
+
+\section{Data handling operators}
+
+In the literature and in software documentation, you will find a variety of terms used to
+describe data handling operations\footnote{%
+  The terminology ``data handling'' itself is not universal.  Some authors and libraries
+  call it ``data manipulation'', ``data wrangling'', ``data shaping'', or ``data
+  engineering''.  I use the term ``data handling'' to avoid confusion with the term ``data
+  manipulation'' which has a negative connotation in some contexts.}. %
+They often refer to the same or similar operations, but the terminology can be confusing.
+In this section, I present a summary of these operations mostly based on
+\textcite{Wickham2023} definitions\footnote{Which are called \emph{verbs}.}.
+
+\begin{slidebox}{Data handling operators}{}
+  \begin{itemize}
+    \item Filtering rows;
+    \item Selecting columns;
+    \item Mutating columns;
+    \item Aggregating rows;
+    \item Binding datasets;
+    \item Joining datasets;
+    \item Pivoting (spreading) and unpivoting (gathering) datasets.
+  \end{itemize}
+\end{slidebox}
+
+These operations are the building blocks of the data handling tasks we will discuss in the
+next sections.  They can also be extensively parametrized and combined to create more
+elaborate data handling pipelines.  For instance, most of them can use predicates to
+define the groups, arrangements, or conditions under which they should be applied.
+
+We use the following terminology to refer to the data handling parameters:
+\begin{itemize}
+  \item \textbf{Predicate}: a function that returns a logical value, used to filter
+    rows/columns or to define the groups of rows/columns to be processed;
+  \item \textbf{Aggregation function}: a function that returns a single value given a vector
+    of values (in which, the order of the values may be important);
+  \item \textbf{Window function}: a function that returns a vector of values given a vector
+    of values in which, the order of the values is important;
+  \item \textbf{Expression}: a function that returns a vector of values, used to create new
+    columns or to modify existing ones.
+\end{itemize}
+
+\begin{slidebox}{Data handling pipelines}{}
+  \begin{itemize}
+    \item Data handling operations can be combined to create complex pipelines;
+    \item Operators may be reversible;
+    \item Operators are vectorized;
+    \item They can be parametrized with predicates, aggregation functions, and expressions;
+    \item They operate on datasets and return new datasets as output.
+    \item They are declarative.
+  \end{itemize}
+\end{slidebox}
+
+Operators are also vectorized, meaning that they can be applied to multiple columns or
+rows at once.  This is a key feature of data handling operations, as it allows for
+expressive and efficient data manipulation.
+
+Many of them are also reversible, meaning that they can be undone.  This is important
+because it allows for reproducibility and traceability of the data handling process.
+
+They operate on a dataset (or more than one) given as input and return a new dataset as
+output.  This is important because it allows for the creation of data handling pipelines,
+where the output of one operation is the input of the next one.  Parameters like column
+names, predicates, aggregation functions, and expressions can be passed to these operations to
+customize their behavior.
+
+Unlike traditional procedural programming, where conditional statements and loops are used
+to manipulate data, data handling operations are declarative.  This means that they are
+expressed in terms of what should be done, not how it should be done.  This is a powerful
+abstraction that allows for the creation of complex pipelines with a few lines of code.
+
+\subsection{Filtering rows}
+
+Filtering is the process of selecting a subset of rows from a dataset based on a
+predicate.  If more than a single predicate is used, they are combined using a logical
+operator, such as \texttt{AND} or \texttt{OR}.
+
+After filtering, the dataset will contain only the rows that satisfy the predicate.
+Columns remain unchanged.  This operation is potentially irreversible, as the removed
+rows are lost.
+
+In the basic form, each row is treated independently.  For instance, the predicate
+\texttt{age > 18} will select all rows where the value in the \texttt{age} column is
+greater than 18.
+
+However, if the predicate depends on a aggregation or window function, one must specify
+the groups and/or the order of the rows.  For instance, the predicate \texttt{age >
+mean(age) group by country} will select the rows where the value in the \texttt{age}
+column is greater than the mean of the \texttt{age} for each \texttt{country}. Another
+example is the predicate \texttt{cumsum(price) < 100 sort by date}, which selects the rows
+that satisfy the condition that the cumulative sum of the \texttt{price} column is less
+than 100 given the order of the rows defined by the \texttt{date} column.
+
+The trivial group is the entire dataset, so it is usually not necessary to specify it
+explicitly.  However, it is usually not sensible to not specify the order of the rows.
+
+When dealing with real values, be aware of floating-point precision issues.  In other
+words, do not use the equality operator to compare real numbers.  Most of libraries
+provide operators to compare real numbers within a given tolerance.
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use filtering to remove rows that are not relevant to your analysis;
+    \item Use predicates to define the conditions under which rows should be removed;
+    \item When aggregation functions are needed to define the predicate, specify the groups and
+      the order of the rows;
+    \item Be aware of floating-point precision issues when comparing real numbers.
+  \end{itemize}
+\end{mainbox}
+
+\subsection{Selecting columns}
+
+Selecting is the process of choosing a subset of columns from a dataset.  The remaining
+columns are discarded.  This operation is not reversible, as the discarded columns are
+lost.  Rows remain unchanged.
+
+There are two main ways to select columns: by name or by predicate.  The former is the
+most common and is used to select a fixed set of columns.  The latter is used to select
+columns that satisfy a given condition, i.e., the values in the columns are used to
+determine which columns should be selected.
+
+When selecting columns by name, one can use a list of column names or a regular
+expression.  The latter is useful when the column names follow a pattern.  For instance,
+one can use the regular expression \texttt{col[0-9]+} to select all columns whose names
+start with \texttt{col} followed by one or more digits.
+
+When selecting columns by predicate, one can use a function that returns a logical value
+to define the condition under which a column should be selected.  For instance, one can
+use the predicate \texttt{isnumeric} to select all columns that contain numeric values.
+Notice, however, that the predicate is applied to each column independently and returns a
+single logical value for each column.
+
+Like filtering, selecting predicates might contain aggregation functions.  Although it is
+theorically possible to consider the order of the values in the columns, it is not common
+to do so.  (Especially because one would need to assume that the rows are previously
+sorted by some criterion.) Groups, however, never make sense in this context, once the
+predicate is applied to each column independently.
+
+Depending on the context, it may be useful to ``drop'' columns instead of selecting them.
+This is the same as selecting all columns except the ones specified.  This is useful when
+the number of columns to be dropped is small compared to the total number of columns.
+Strictly speaking, we just need to negate the predicate or the regular expression used to
+select the columns.
+
+Finally, it is very common to find libraries and framework in which the order of the
+columns is important.  As a result, columns can be selected by position as well.
+I find this practice error-prone and I recommend avoiding it whenever possible.
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use selecting to remove columns that are not relevant to your analysis;
+    \item Use column names or regular expressions to select columns;
+    \item Use predicates (many to one, with no aggregation functions) to define the conditions
+      under which columns should be selected;
+    \item Avoid depending on the order of the columns.
+  \end{itemize}
+\end{mainbox}
+
+\subsection{Mutating columns}
+
+Mutating is the process of creating new columns.  The operation is reversible, as the
+original columns are kept.  The new columns are added to the dataset.
+
+The values in the new column are determined by an expression.  The expression is a
+function that returns a vector of values given the values in the other columns.  The
+expression can be a simple function, such as \texttt{y = x + 1}, or a more complex
+function, such as \texttt{y = ifelse(x > 0, 1, 0)}.  Here, \texttt{x} and \texttt{y} are
+the names of an existing and the new column, respectively.
+
+One may also use a aggregation and window function in the expression. This is particularly
+useful when performing mutation considering a group.  In this case, the returned value is
+repeated (aggregation function) for each row of the same group.  Like in filtering, the
+more explicit you can be about order and groups, the better.
+
+For example, the expression \texttt{y = cumsum(x) group by category sort by date} will
+create a new column \texttt{y} with the cumulative sum of the \texttt{x} column for each
+\texttt{category} given the order of the rows defined by the \texttt{date} column.
+
+Sometimes, the same expression can be used to create multiple columns.  This is useful
+when the new columns are related.  To do so, one first specifies the columns in the same way as
+when selecting columns.  Then, one needs to specify a rule to name the new columns.
+For instance, \texttt{x\_new = x + 1 across x matches \textasciicircum{}col[0-9]+\$}.
+
+Practically speaking, mutation can overwrite existing columns.  This is useful when the
+new column is a replacement for the old one.  Formally, overwriting is just a sequence of
+mutation and selection operations.
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use mutating to create new columns that are relevant to your analysis;
+    \item Use expressions to define the values of the new columns;
+    \item Use aggregation and window functions in the expression to create new columns based on
+      groups and order;
+    \item Use the same expression to create multiple columns when the new columns are related.
+  \end{itemize}
+\end{mainbox}
+
+\subsection{Aggregating rows}
+
+Aggregating is the process of reducing the number of rows in a dataset.  The operation is
+not reversible, as the discarded rows are lost.  The columns are also lost, only the new
+aggregate columns remain.
+
+The values in the new columns are determined by an aggregation function.  Like filtering
+and mutation, the aggregation function can be parametrized by specifying a group and/or an
+order.
+
+The resulting dataset will contain one row for each group.  The values in the new columns
+are determined by the aggregation function applied to the values in the other columns.
+
+\section{Data transformation}
+
+\subsection{Reshaping}
+
+\subsection{Sampling}
+
+\subsection{Dimensionality reduction}
+
+\subsection{Normalization}
+
+\begin{mainbox}{Practice!}
+  Can you identify which data transformation operations are used to make datasets
+  presented in \cref{chap:data} tidy?
+\end{mainbox}
+
+\section{Data cleaning}
+
+\subsection{Missing data}
+
+\subsection{Outliers}
+
+\subsection{Noise}
+
+\section{Data integration}
+
+\subsection{Joining}
+
+\subsection{Merging}
+
+\subsection{Concatenating}
