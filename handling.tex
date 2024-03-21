@@ -295,14 +295,92 @@ are unique in each table.
 The variation described above is usually called natural or inner join.  Three other
 variations are possible.
 \begin{itemize}
-  \item Left join:
-  \item Right join:
-  \item Outer join:
+  \item Left join: for each occurring value of \texttt{U} in the first table, the operation
+    will look for the same value in the second table.  If it finds it, it will create a new
+    row with the columns of both tables.  If it does not find it, it will create a new row
+    with the columns of the first table and missing values for the columns of the second
+    table.
+  \item Right join: the same as the left join, but the roles of the tables are reversed.
+  \item Outer join: for each different value of \texttt{U} in both tables, the operation
+    will create a new row with the columns of both tables.  If a value is missing in one
+    table, it will be filled with a missing value.
 \end{itemize}
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use joining to integrate datasets;
+    \item Be aware of the risks of joining datasets (\cref{sec:normalization}), for
+      example, that some joins may create invalid rows;
+    \item Use the appropriate variation of the join operation in applications.
+  \end{itemize}
+\end{mainbox}
 
 \subsection{Pivoting and unpivoting}
 
-The last important operation for us is\dots
+Another important operation is to pivot and unpivot datasets.  This is the process of
+transforming a dataset from a long format to a wide format and vice versa.  The operations
+is reversible and they are the inverse of each other.
+
+Pivoting requires to specify a name column --- whose discrete and finite possible values
+will become the names of the new columns --- and a value column --- whose values will be
+spread across the rows.  All remaining columns are considered to be keys, uniquely
+identifying each row of new the dataset.
+
+Unpivoting\footnote{Which \citeauthor{Wickham2023} call pivot longer.} is the reverse
+operation.  One must specify all the columns whose names are the values of the before
+called name column.  The values of these columns will be gathered into a new column.
+As before, all remaining columns are considered to be keys.
+
+In practical applications, where not all remaining columns are keys, one must aggregate
+rows beforehand.
+
+\begin{tablebox}[label=tab:pivot]{Pivoting example.}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \rowcolors{2}{black!10!white}{}
+    \begin{tabular}{ccc}
+      \toprule
+      \texttt{name} & \texttt{year} & \texttt{value} \\
+      \midrule
+      A & 2019 & 1 \\
+      A & 2020 & 2 \\
+      A & 2021 & 3 \\
+      B & 2019 & 4 \\
+      B & 2020 & 5 \\
+      B & 2021 & 6 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \rowcolors{2}{black!10!white}{}
+    \begin{tabular}{cccc}
+      \toprule
+      \texttt{name} & \texttt{2019} & \texttt{2020} & \texttt{2021} \\
+      \midrule
+      A & 1 & 2 & 3 \\
+      B & 4 & 5 & 6 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+  \tcblower
+  The left table is in the long format and the right table is in the wide format.  The
+  name column is \texttt{year} and the value column is \texttt{value}.
+\end{tablebox}
+
+\Cref{tab:pivot} shows an example of pivoting.  The left table is in the long format and
+the right table is in the wide format.  The name column is \texttt{year}, the value column
+is \texttt{value}, and the remaining column is \texttt{name} which is an unique identifier
+of the rows in the wide format.
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use pivoting to transform datasets from a long format to a wide format;
+    \item Use unpivoting to transform datasets from a wide format to a long format;
+    \item Be aware of the need to aggregate rows before unpivoting.
+  \end{itemize}
+\end{mainbox}
 
 \subsection{An algebra for statistical transformations}
 
@@ -330,16 +408,23 @@ Some thoughts about it:
 \begin{itemize}
   \item Binding columns can be expressed as a join operation, thus it is not a basic
     operation.
-  \item Some software provide features that can be better expressed in other ways.  Row
+  \item Some software provide features that can be better expressed in other (often simpler) ways.  Row
     naming is an example.  It is useful to keep track of the origin of each row, but names
     can be just another column.  I argue for excluding row naming in a formal algebra.
   \item Some operations are very useful and recurring, even if they are not basic.  Such
     operations must be omitted from the formal algebra for the sake of simplicity.
     However, any software that implements a language for the formal algebra can provide
     syntax sugar for these operations.
-  \item \textcolor{red}{Pivoting is just a variation of joins?}
+  \item Not defining your algebra in terms of a specific programming language is a good
+    practice.  This is because the algebra is a theoretical concept and should be
+    independent of any implementation.  It also gives opportunities to rethink the
+    things that commonly done in a specific way.  This can lead to new insights and
+    correct error-prone practices.
+  \item Pivoting seems to be ``different'' enough to the other operations to be considered
+    in the set of basic operations.  However, it is not hard to see that they can be
+    rewritten as joins with the meta tables containing the possible values of the
+    attributes.
 \end{itemize}
-
 
 \section{Data transformation}
 
