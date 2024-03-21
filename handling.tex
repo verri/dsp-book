@@ -10,6 +10,11 @@
 Data handling is the process of adjusting data to make it suitable for analysis.
 It involves three main tasks: data transformation, data cleaning, and data integration.
 
+In this chapter, we consider that tables are rectangular data structures in which values
+of the same column share the same properties (i.e. the same type, same restrictions, etc.)
+and each column has a name.  Moreover, we assume that any value is possibly
+\emph{missing}.
+
 \section{Data handling operators}
 
 In the literature and in software documentation, you will find a variety of terms used to
@@ -131,7 +136,11 @@ columns that satisfy a given condition, i.e., the values in the columns are used
 determine which columns should be selected.
 
 When selecting columns by name, one can use a list of column names or a regular
-expression.  The latter is useful when the column names follow a pattern.  For instance,
+expression\footnote{Regular expressions are very general and powerful, but they are also
+complex and error-prone.  An alternative is to use some form of hierarchical naming,
+such as \texttt{type.column} to express groups of columns.}.
+The latter is useful when the column names follow a pattern that reflects the semantics of
+the columns.  For instance,
 one can use the regular expression \texttt{col[0-9]+} to select all columns whose names
 start with \texttt{col} followed by one or more digits.
 
@@ -160,7 +169,7 @@ I find this practice error-prone and I recommend avoiding it whenever possible.
 \begin{mainbox}{Practical tips}
   \begin{itemize}
     \item Use selecting to remove columns that are not relevant to your analysis;
-    \item Use column names or regular expressions to select columns;
+    \item Use column names or regular expressions (or hierarchical names) to select columns;
     \item Use predicates (many to one, with no aggregation functions) to define the conditions
       under which columns should be selected;
     \item Avoid depending on the order of the columns.
@@ -208,9 +217,9 @@ mutation and selection operations.
 
 \subsection{Aggregating rows}
 
-Aggregating is the process of reducing the number of rows in a dataset.  The operation is
-not reversible, as the discarded rows are lost.  The columns are also lost, only the new
-aggregate columns remain.
+We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
+operation is not reversible, as the discarded rows are lost.  The columns are also lost,
+only the new aggregate columns remain.
 
 The values in the new columns are determined by an aggregation function.  Like filtering
 and mutation, the aggregation function can be parametrized by specifying a group and/or an
@@ -218,6 +227,119 @@ order.
 
 The resulting dataset will contain one row for each group.  The values in the new columns
 are determined by the aggregation function applied to the values in the other columns.
+All columns that define the groups are usually kept in the resulting dataset.  In this
+case, as expected, values of such columns are equal for all rows in the same group.
+
+For instance, the aggregation function \texttt{mean(x) group by category} will create a
+new dataset with one row for each different value of \texttt{category} and a new column
+with the mean of the \texttt{x} column for each group.
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use aggregation to summarize the data in a dataset;
+    \item Use aggregation functions to define the values of the new columns;
+    \item Use the group and order parameters to define the groups and the behavior of the
+      aggregation function.
+  \end{itemize}
+\end{mainbox}
+
+\subsection{Binding datasets}
+
+One trivial, yet important, operation is to bind datasets.  This is the process of
+combining two or more datasets into a single dataset.  The operation is reversible, as the
+original datasets are kept.  The new dataset contains all the rows and columns of the
+original datasets.
+
+There are two ways to bind datasets: by rows or by columns.  The former is used to
+combine datasets that have exactly the same columns but represent different parts of the
+same dataset.  The latter is used to combine datasets that comprise the same observations
+(rows) but captures different aspects of the same dataset.
+
+When binding datasets by rows, the datasets must have the same columns\footnote{In
+practice, it is usually required that they share the same order of the columns as well.
+This is not a theoretical requirement, but a common limitation of most libraries.}.
+The resulting dataset will contain all the rows of the original datasets.  The columns
+remain unchanged.  It is a good practice to create a new column that represents the source
+of each row.  For instance, if each table represents data collected in a different year,
+one can create a new column \texttt{year} that contains the year of the data.
+
+When binding datasets by columns, the datasets must have the same number of rows.  Each
+matching row represent the same observation\footnote{Practically speaking, either the
+order of the rows or a key column is used to match the rows of the datasets.  In both
+situations, this is equivalent to a join operation by the row number or the key column;
+assuming that both datasets contains the same observations.}. The resulting dataset will
+contain all the columns of the original datasets.  The rows remain unchanged.
+
+\begin{mainbox}{Practical tips}
+  \begin{itemize}
+    \item Use binding to combine datasets that represent different parts of the same dataset;
+    \item Use binding by rows to combine datasets that have the same columns --- in this
+      case, create a new column that represents the source of each row;
+    \item Use binding by columns to combine datasets that have the same number of rows.
+  \end{itemize}
+\end{mainbox}
+
+\subsection{Joining datasets}
+
+Joining is the process of combining two datasets into a single dataset based on common
+columns.  The operation may not be reversible, consult \cref{sec:normalization} for more
+details.
+
+The join of two tables is the operation that returns a new table with the columns of both
+tables.  Let \texttt{U} be the common set of columns.  For each occurring value of
+\texttt{U} in the first table, the operation will look for the same value in the second
+table.  If it finds it, it will create a new row with the columns of both tables.  If it
+does not find it, no row will be created.  This operation assumes that values in \texttt{U}
+are unique in each table.
+
+The variation described above is usually called natural or inner join.  Three other
+variations are possible.
+\begin{itemize}
+  \item Left join:
+  \item Right join:
+  \item Outer join:
+\end{itemize}
+
+\subsection{Pivoting and unpivoting}
+
+The last important operation for us is\dots
+
+\subsection{An algebra for statistical transformations}
+
+In recent years, some researchers made an effort to create a formal algebra for
+statistical transformations.  The idea is to create a set of operations that can be
+combined to create complex statistical transformations.  This is similar to the idea of
+relational algebra, which is a set of operations that can be combined to create complex
+queries.
+
+\textcite{Song2021}, for example, propose a formal paradigm for statistical data
+transformation.  They present a data model, a algebra, and a formal language.  Their goal
+is to create a standard for statistical data transformation that can be used by different
+statistical software.
+
+However, in my opinion, the major deficiency of their work is that they mostly try to
+``reverse engineer'' the operations that are commonly used in statistical software.  This
+is useful for the translation of code between different software, but it is not productive
+to advance in the theoretical understanding of statistical transformations.
+
+If one ought to tackle the challenge of formally expressing statistical transformations, I
+think one should start from the basic operations.  Basic operations mean that they are
+irreducible, i.e., they cannot be expressed as a sequence of other operations.
+
+Some thoughts about it:
+\begin{itemize}
+  \item Binding columns can be expressed as a join operation, thus it is not a basic
+    operation.
+  \item Some software provide features that can be better expressed in other ways.  Row
+    naming is an example.  It is useful to keep track of the origin of each row, but names
+    can be just another column.  I argue for excluding row naming in a formal algebra.
+  \item Some operations are very useful and recurring, even if they are not basic.  Such
+    operations must be omitted from the formal algebra for the sake of simplicity.
+    However, any software that implements a language for the formal algebra can provide
+    syntax sugar for these operations.
+  \item \textcolor{red}{Pivoting is just a variation of joins?}
+\end{itemize}
+
 
 \section{Data transformation}
 
@@ -249,3 +371,5 @@ are determined by the aggregation function applied to the values in the other co
 \subsection{Merging}
 
 \subsection{Concatenating}
+
+% vim: spell spelllang=en
