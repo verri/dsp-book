@@ -270,7 +270,7 @@ models that seems to perform well during evaluation steps\footnote{Of course, wh
 evaluation is not performed correctly.}, but that are not suitable for production.
 
 The second value is based on the observation that interactive environments are not suitable
-for the development of the model search code, for instance.  Interactive environments
+for the development of the model source code, for instance.  Interactive environments
 auxiliate the exploratory phases, but the final version of the code must be version
 controlled.  Often, we hear stories that models cannot be reproduced because the code that
 generated them are not runnable anymore.  This is a serious problem, and it is not
@@ -313,16 +313,16 @@ our approach are described in the following sections.
   \item Version control everything.  This includes the code, the data, and the
     documentation. The most used tool for code version control is Git.  For datasets,
     extensions to Git exist, such as DVC\footnote{\url{https://dvc.org/}}.  One important aspect
-    is to version control the model search code.  Interactive environments such as Jupyter
+    is to version control the model source code.  Interactive environments such as Jupyter
     notebooks are not suitable for this purpose.  They can be used to draft the code, but
     the final version must be version controlled.
   \item Continuous integration and continuous deployment.  This means that the code is
     automatically (or at least semi-automatically) tested and deployed.  The backend and
-    frontend code is tested using unit tests.  The model search code is tested using
+    frontend code is tested using unit tests.  The model source code is tested using
     validation methods such as cross-validation and Bayesian analysis on the discovered
-    models.  Usually the model search code is very computationally intensive, and it is
+    models.  Usually the model source code is very computationally intensive, and it is
     not feasible to run it on every commit.  Instead, it is run periodically, for example
-    once a day.  If the clould infrastructure required to run the model search code is not
+    once a day.  If the clould infrastructure required to run the model source code is not
     available to automate validation and deploymen, at least make sure that the code is
     easily runnable.  This means that the code must be well documented, and that the
     required infrastructure must be well documented.  Also aggregate commands using a
