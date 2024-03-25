@@ -390,6 +390,11 @@ combined to create complex statistical transformations.  This is similar to the 
 relational algebra, which is a set of operations that can be combined to create complex
 queries.
 
+The difference between relational algebra and a formal algebra for statistical
+transformations is that the latter is more complex.  This is because statistical
+transformations are more complex than queries.  For instance, the concept of missing data
+is not present in relational algebra, but it is in statistical transformations.
+
 \textcite{Song2021}, for example, propose a formal paradigm for statistical data
 transformation.  They present a data model, a algebra, and a formal language.  Their goal
 is to create a standard for statistical data transformation that can be used by different
@@ -422,8 +427,8 @@ Some thoughts about it:
     correct error-prone practices.
   \item Pivoting seems to be ``different'' enough to the other operations to be considered
     in the set of basic operations.  However, it is not hard to see that they can be
-    rewritten as joins with the meta tables containing the possible values of the
-    attributes.
+    rewritten as combinations with the meta tables containing the possible values of the
+    attributes (or some sort of aggregation function).
 \end{itemize}
 
 \section{Data transformation}
