@@ -84,7 +84,7 @@ I want to highlight the meaning of some terms in this definition.  \emph{Computa
 that data science methods use computers to handle data and perform the calculations.
 \emph{Knowledge} means information that humans can easily understand or apply to solve
 problems.  \emph{Measurable phenomena} are events or processes where raw data can be
-quantified in some way.  \emph{Raw data} are data collected directly from some source and
+quantified in some way\footnote{TODO: talk about non-measurable phenomena}.  \emph{Raw data} are data collected directly from some source and
 that have not been subject to any other transformation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
 
@@ -1004,12 +1004,13 @@ performed.
 
 \paragraph{Example}
 Consider the following example: the relation $R[A, B, C, D, E]$ and the functional
-dependencis $A \to D$, $B \to E$, and $AB \to C$.  The relation can be normalized up to
+dependencies $A \to D$, $B \to E$, and $AB \to C$.  The relation can be normalized up to
 3NF by following one of the decomposition trees shown in \cref{fig:decomp}.
 Every decomposition tree must take into account that the join of the projections are
 lossless and dependency preserving.
 
-\begin{figurebox}[label=fig:decomp]{Decomposition trees for the relation $R[ABCDE]$ and the functional dependencis $A \to D$, $B \to E$, and $AB \to C$ to reach 3NF.}
+\begin{figurebox}[label=fig:decomp]{Decomposition trees for the relation $R[ABCDE]$ and
+  the functional dependencies $A \to D$, $B \to E$, and $AB \to C$ to reach 3NF.}
   \centering
   \begin{tikzpicture}
     \node (root1) at (0, 0) {ABCDE}
@@ -1048,7 +1049,7 @@ relation $R[AB]$ is not a consequences of a functional dependency, see
           child {node[gray] {AB}}}};
   \end{tikzpicture}
   \tcblower
-  We consider the functional dependencis $A \to D$, $B \to E$, and $AB \to C$.
+  We consider the functional dependencies $A \to D$, $B \to E$, and $AB \to C$.
   Note that $R[AB]$ is not a consequence of a functional dependency.
 \end{figurebox}
 
