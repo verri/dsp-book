@@ -52,7 +52,7 @@ We use the following terminology to refer to the data handling parameters:
     of values (in which, the order of the values may be important);
   \item \textbf{Window function}: a function that returns a vector of values given a vector
     of values in which, the order of the values is important;
-  \item \textbf{Expression}: a function that returns a vector of values, used to create new
+  \item \textbf{Expression}: a function that returns a vector of values element-wise, used to create new
     columns or to modify existing ones.
 \end{itemize}
 
@@ -238,6 +238,7 @@ with the mean of the \texttt{x} column for each group.
   \begin{itemize}
     \item Use aggregation to summarize the data in a dataset;
     \item Use aggregation functions to define the values of the new columns;
+    \item Other columns are lost;
     \item Use the group and order parameters to define the groups and the behavior of the
       aggregation function.
   \end{itemize}
