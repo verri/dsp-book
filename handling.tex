@@ -99,7 +99,7 @@ In the basic form, each row is treated independently.  For instance, the predica
 \texttt{age > 18} will select all rows where the value in the \texttt{age} column is
 greater than 18.
 
-However, if the predicate depends on a aggregation or window function, one must specify
+However, if the predicate depends on an aggregation or window function, one must specify
 the groups and/or the order of the rows.  For instance, the predicate \texttt{age >
 mean(age) group by country} will select the rows where the value in the \texttt{age}
 column is greater than the mean of the \texttt{age} for each \texttt{country}. Another
@@ -187,7 +187,7 @@ expression can be a simple function, such as \texttt{y = x + 1}, or a more compl
 function, such as \texttt{y = ifelse(x > 0, 1, 0)}.  Here, \texttt{x} and \texttt{y} are
 the names of an existing and the new column, respectively.
 
-One may also use a aggregation and window function in the expression. This is particularly
+One may also use an aggregation and window function in the expression. This is particularly
 useful when performing mutation considering a group.  In this case, the returned value is
 repeated (aggregation function) for each row of the same group.  Like in filtering, the
 more explicit you can be about order and groups, the better.
@@ -400,7 +400,7 @@ transformations are more complex than queries.  For instance, the concept of mis
 is not present in relational algebra, but it is in statistical transformations.
 
 \textcite{Song2021}, for example, propose a formal paradigm for statistical data
-transformation.  They present a data model, a algebra, and a formal language.  Their goal
+transformation.  They present a data model, an algebra, and a formal language.  Their goal
 is to create a standard for statistical data transformation that can be used by different
 statistical software.
 
@@ -482,6 +482,15 @@ the values in \texttt{A} should be stored and used in deployed models.
 
 In terms of reproducibility and validation, having a single consolidated pipeline is
 crucial.
+
+\begin{mainbox}{A note about ``filtering'' operations}
+  Some operations may conditionally remove rows from the dataset.  For instance, after
+  observing that there exists few missing values in an important column, one might decide
+  to remove rows with missing values in it.  In production, this means that some new
+  observations might be discarded before reaching the model itself.  However, the user
+  still expects an answer from the model.  In this case, one must define either a default
+  value for the answer or a default behavior to handle discarded examples.
+\end{mainbox}
 
 \begin{slidebox}{Data handling pipeline}{}
   \begin{itemize}
@@ -642,19 +651,65 @@ compress the information in the data into a smaller number of variables.
 
 \section{Data cleaning}
 
-\subsection{Missing data}
+Data cleaning is the process of removing errors and inconsistencies from the data.  This is
+usually done to make the data more reliable and to avoid bias in the analysis.
+
+\subsection{Dealing with missing data}
+
+Since most models do not cope with missing data, it is crucial to deal with it in the data
+handling pipelines.
+
+There are four main strategies to deal with missing data:
+\begin{itemize}
+  \item Remove the rows with missing data;
+  \item Remove the columns with missing data;
+  \item Impute the missing data;
+  \item Use an indicator variable to mark the missing data.
+\end{itemize}
+
+Removing rows and columns are commonly used when the number of missing data is small
+compared to the total number of rows or columns.  However, be aware that removing rows can
+artificially change data distribution, especially when the missing data is not missing at
+random.
+
+Imputing the missing data is usually done by replacing the missing values with some
+statistic of the available values in the column, such as the mean, the median, or the
+mode.  This is a simple and effective strategy, but it can introduce bias in the data.
+Also, it is not suitable when one is not sure whether the missing data is missing because
+of a systematic error or phenomenon.
+
+For this case, creating an indicator variable is a good strategy.  This is done by creating
+a new column that contains a logical value indicating whether the data is missing or
+not\footnote{Some kind of imputation is still needed, but we expect the model to deal
+better with it}.  By doing so, the model can learn the importance of the missing data.
+
+\subsection{Dealing with invalid and inconsistent information}
+
+Sometimes, during data collection, information is recorded using special codes.  For
+instance, the value 9999 might be used to indicate that the data is missing.  Such codes
+must be replaced with more appropriate values before modeling.
+
+Another common problem is inconsistent information.  For instance, the same category might
+be represented by different names.  This is usually done by creating a dictionary that
+maps the different names to a single one.
+
+It is also useful to check whether all columns that store physical quantities have the
+same unit of measurement.  If not, one must convert the values to the same unit.
+
+If one knows that a variable has a specific range of values, it is useful to check
+whether the values are within this range.  If not, one must replace the values wit
+missing data or with the closest valid value.
 
 \subsection{Outliers}
 
-\subsection{Noise}
+Outliers are observations that are significantly different from the other observations.
+They can be caused by errors in the data collection process or by the presence of a
+different phenomenon.  In both cases, it is important to deal with outliers before
+modeling.
+
+There are many outliers detection methods, consult TODO.
 
 \section{Data integration}
-
-\subsection{Joining}
-
-\subsection{Merging}
-
-\subsection{Concatenating}
 
 
 % vim: spell spelllang=en
