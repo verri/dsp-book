@@ -709,7 +709,49 @@ modeling.
 
 There are many outliers detection methods, consult TODO.
 
+\begin{slidebox}{Data cleaning}{}
+  \begin{itemize}
+    \item Data cleaning is the process of removing errors and inconsistencies from the data;
+    \item Use the following strategies to deal with missing data:
+      \begin{itemize}
+        \item Remove the rows with missing data;
+        \item Remove the columns with missing data;
+        \item Impute the missing data;
+        \item Use an indicator variable to mark the missing data.
+      \end{itemize}
+    \item Replace special codes with more appropriate values;
+    \item Create a dictionary to map different names to a single one;
+    \item Check whether all columns that store physical quantities have the same unit of
+      measurement;
+    \item Check whether the values are within the expected range;
+    \item Use outlier detection methods to deal with outliers.
+  \end{itemize}
+\end{slidebox}
+
 \section{Data integration}
 
+Data integration is the process of combining data from different sources into a single
+dataset.  This is usually done to create a more complete dataset or to create a dataset
+with a different observational unit.
+
+To perform integration, consider the discussions in \cref{sec:normalization,sub:bridge}.
+
+Additionally, one must consider the following points:
+\begin{itemize}
+  \item Sometimes the same column may have different names in different datasets.  Redundant
+    columns must be removed.
+  \item Separate datasets that share the same variables usually happen because there is a
+    hidden variable that is not present in the datasets.  During integration, the new
+    variable must be created.
+\end{itemize}
+
+\begin{slidebox}{Data integration}{}
+  \begin{itemize}
+    \item Data integration is the process of combining data from different sources into a single dataset;
+    \item Not every join is possible, consider the discussions in \cref{sec:normalization,sub:bridge};
+    \item Remove redundant columns;
+    \item Create new variables to represent the hidden variables.
+  \end{itemize}
+\end{slidebox}
 
 % vim: spell spelllang=en
