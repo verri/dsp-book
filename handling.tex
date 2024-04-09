@@ -503,6 +503,10 @@ crucial.
   \end{itemize}
 \end{slidebox}
 
+\textcolor{red}{XXX: maybe state that before reaching the pipeline data is already tidy,
+this way simple integration (not enhancement), pivoting and aggregating are kept outside
+the pipeline. These operations must depend only on variable names and not variable values.}
+
 \section{Data transformation}
 
 The first task in data handling is data transformation.  This is the process of adjusting
@@ -520,6 +524,9 @@ instance, some methods require the input variables to be real numbers, others re
 input variables are in a specific range, etc.
 
 \subsection{Reshaping}
+
+\textcolor{red}{TODO: pipeline exceptions: like pivoting and aggregating are kept outside
+the pipeline.}
 
 Reshaping is the process of changing the format of the data.  The most common reshaping
 operations are pivoting and unpivoting, which we have already discussed.  However, there
@@ -681,7 +688,9 @@ of a systematic error or phenomenon.
 For this case, creating an indicator variable is a good strategy.  This is done by creating
 a new column that contains a logical value indicating whether the data is missing or
 not\footnote{Some kind of imputation is still needed, but we expect the model to deal
-better with it}.  By doing so, the model can learn the importance of the missing data.
+better with it}.  By doing so, the model can learn the importance of the missing
+data\footnote{\color{red}Sometimes the indicator variable is already present: pregnancy and sex
+example.}.
 
 \subsection{Dealing with invalid and inconsistent information}
 
@@ -753,5 +762,8 @@ Additionally, one must consider the following points:
     \item Create new variables to represent the hidden variables.
   \end{itemize}
 \end{slidebox}
+
+\textcolor{red}{Hard to incorporate in the pipeline when joins only, but data enhancement
+works better inside the pipeline.}
 
 % vim: spell spelllang=en
