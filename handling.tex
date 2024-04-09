@@ -543,9 +543,70 @@ observational unit of the dataset.
 
 \subsection{Type conversion}
 
+Type conversion is the process of changing the type of the values in the columns.  This
+is usually done to make the data suitable for modeling.  For instance, some machine
+learning methods require the input variables to be real numbers.
+
+The most common type conversions are from categorical to numerical and from numerical to
+categorical.  The former is usually done by creating dummy variables, i.e., a new column
+for each possible value of the categorical variable.  This transformation is also known as
+one-hot encoding.  The latter is usually done by binning (discretizing) the numerical variable, either by
+frequency or by range.
+
+\begin{slidebox}{Type conversion}{}
+  \begin{itemize}
+    \item Type conversion is the process of changing the type of the values in the columns;
+    \item Use one-hot encoding to convert categorical variables to numerical;
+    \item Use binning to convert numerical variables to categorical.
+  \end{itemize}
+\end{slidebox}
+
 \subsection{Normalization}
 
+Normalization is the process of scaling the values in the columns.  This is usually done to
+keep data in a specific range or to make the data comparable.  For instance, some machine
+learning methods require the input variables to be in the range $[0, 1]$.
+
+The most common normalization methods are standardization and rescaling.  The former is done
+by subtracting the mean and dividing by the standard deviation of the values in the column.
+The latter is performed so the values are in a specific range, usually $[0, 1]$ or $[-1, 1]$.
+
+\begin{mainbox}{Clamping after rescaling}
+  In production, it is common to clamp the values after rescaling.  This is done to avoid
+  the model to make predictions that are out of the range of the training data.
+\end{mainbox}
+
+Related to normalization is the log transformation.  This is usually done to make the data
+more symmetric or to reduce the effect of outliers.  The log transformation is the process
+of taking the logarithm of the values in the column.
+
+\begin{slidebox}{Normalization}{}
+  \begin{itemize}
+    \item Normalization is the process of scaling the values in the columns;
+    \item Use standardization to make the values have mean 0 and standard deviation 1;
+    \item Use rescaling to make the values be in a specific range;
+    \item Use the log transformation to make the data more symmetric or to reduce the effect
+      of outliers.
+  \end{itemize}
+\end{slidebox}
+
 \subsection{Sampling}
+
+Sampling is the process of selecting a random subset of the data.  This is usually done to
+reduce the size of the data or to create a balanced dataset.  For instance, some machine
+learning methods are heavily affected by the number of observations in each class.
+Also, some methods are computationally expensive and a smaller dataset might be enough to
+solve the problem.
+
+The most common sampling methods are random sampling and resampling\footnote{Resampling is
+the process of sampling with replacement, sometimes called bootstrapping.}.  The former is
+done by selecting a random subset of the data.  The latter is done by selecting a random
+subset of the data with replacement.
+
+While random sampling is useful to reduce the size of the data, resampling can be used to
+increase the size of the data.  (Although this has some caveats.)  Moreover, resampling
+can also create variations of the original dataset with the same distribution of the
+values.
 
 \subsection{Dimensionality reduction}
 
