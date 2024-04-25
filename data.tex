@@ -512,14 +512,14 @@ or eliminate inconsistencies.  In practice, it means that if a relation is in PJ
 careless joins --- i.e. those that violate a join dependency --- produce
 inconsistent results.
 
-\paragraph{Example 1}  Consider the 1NF relation $R[A, B, C, D]$ with the functional
+\paragraph{Example 1}  Consider the 2NF relation $R[A, B, C, D]$ with the functional
 dependencies $A \to B,~B \to C,~C \to D$.  The relation is not in 3NF because $C$ is
 transitively dependent on $A$.  To normalize it, we can decompose it into the
 relations $R_1[A, B, C]$ and $R_2[C, D]$.  Now, $R_2$ is in 3NF and $R_1$ is in 2NF, but
 not in 3NF.  We can decompose $R_1$ into the relations $R_3[A, B]$ and $R_4[B, C]$.
 The original relation can be reconstructed by $\bowtie \left\{ R_2, R_3, R_4 \right\}$.
 
-\paragraph{Example 2} Consider the 1NF relation $R[ABC]$\footnote{Here we abreviate ${A,
+\paragraph{Example 2} Consider the 2NF relation $R[ABC]$\footnote{Here we abreviate ${A,
 B, C}$ as $ABC$.} such that the primary key is the composite of $A$, $B$, and $C$.  The
 relation is thus in the 4NF, as no column is a determinant of another column.  Suppose,
 however, the following constraint: if $(a, b, c')$, $(a, b', c)$, and $(a', b, c)$ are in
@@ -540,7 +540,7 @@ $(a, b, c')$, which might not be a valid tuple in the original relation if $(b, 
 not in $R_3$.  \emph{This is very important to notice, as it is a common mistake to assume
 that the join of the decomposed relations always contains valid tuples.}
 
-\paragraph{Example 3}  Consider the 1NF relation $R[A, B, C, D, E]$ with the functional
+\paragraph{Example 3}  Consider the 2NF relation $R[A, B, C, D, E]$ with the functional
 dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
 into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
 be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the

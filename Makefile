@@ -14,5 +14,4 @@ web:
 	scp -P 2222 build/main-fixed-sidebyside.pdf verri@dominios02.ita.br:public_html/ds-book-print.pdf
 	nmcli con down vpita-intranet
 
-.PHONY:
-	watch
+.PHONY: watch web
