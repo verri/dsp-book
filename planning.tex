@@ -1,0 +1,50 @@
+\chapter{Experimental planning}
+\label{chap:planning}
+
+\chapterprecishere{%
+  All models are wrong, but some are useful.
+  \par\raggedleft--- \textup{George E. P. Box}, Robustness in Statistics}
+
+Once we have defined what an inductive problem is, we can start to think about how to
+solve it in practical terms.
+
+In this chapter, we present the experimental planning one can use in the data-driven
+parts of a data science project.  \emph{Experimental planing}  in the context of data
+science involves designing and organizing experiments to gather performance data
+systematically in order to reach specific goals or test hypotheses.
+
+The reason we need to plan experiments is that data science is experimental, i.e. we
+usually lack a theoretical model that can predict the outcome of a given algorithm on a
+given dataset.  This is why we need to run experiments to gather data and make
+inferences from it.
+
+There is not a single way to plan experiments, but there are some common steps that can
+be followed to design a good experimental plan.  In this chapter, we present a
+framework for experimental planning that can be used in most data science projects.
+
+\section{Elements of an experimental plan}
+
+There are important elements that should be considered when designing an experimental
+plan.  These elements are:
+\begin{itemize}
+  \item \textbf{Hypothesis}: The main question that the experiment aims to validate.
+  \item \textbf{Data}: The dataset that will be used in the experiment.
+  \item \textbf{Strategies}: The algorithms or methods that will be used to find the
+    model\footnote{Remember, in an inductive learning problem, we look for a model to
+    map inputs to outputs the best we can.} that solves the problem.
+  \item \textbf{Performance measure}: The metric that will be used to evaluate the
+    performance of the model.
+\end{itemize}
+
+A general example of a description of an experimental plan is ``What is the probability of
+the strategy $A$ to find a model that reaches a performance $X$ in terms of metric $Y$ in
+the real-world given dataset $Z$ as training set (assuming $Z$ is a representative
+dataset)?''
+
+Another example is ``Is strategy $A$ better than strategy $B$ for finding a model that
+predicts the output of dataset $C$ given $D$ as a training set in terms of metric $E$?''
+
+We consider these two cases: \emph{estimating expected performance} and \emph{comparing
+strategies}.
+
+% vim: spell spelllang=en
