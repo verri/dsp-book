@@ -52,15 +52,44 @@ algorithms}.
 
 \section{Estimating expected performance}
 
+When dealing with a data-driven solution, the available data is a representation of the
+real world.  So, we have to make the best use of the data we have to estimate how good our
+solution is expected to be in production.
+
+Obviously, the more data we use to search for a solution, the better the solution is
+expected to be.  Thus, we use the whole dataset for deploying a solution.  But, what
+method for preprocessing and learning should we use?  How well that technique is
+expected to perform in the real world?
+
+Let us say we fix a certain technique, let us call it $A$.  Let $M$ be the solution found
+by $A$ using the whole dataset $D$.  If we assess $M$ using the whole dataset $D$, the
+performance $\rho$ we get is optimistic.  This is because $M$ has been trained and tested
+on the same data.
+
+To estimate better the expected performance of $M$ in production, we can use the following
+experimental plan.
+
+\paragraph{Sampling strategy}  As any statistical evaluation, we need to generate samples
+of the performance of the possible solutions that $A$ is able to obtain. To do so, we use
+a sampling strategy to generate $r$ datasets $D_1, D_2, \ldots, D_r$ from $D$.  Each
+dataset is further divided into a training set and a test set.  They must be disjoint.
+The training set is thus used to find a solution --- $M_1, M_2, \ldots, M_r$ for each
+training set --- and the test set is used to evaluate the performance --- $\rho_1, \rho_2,
+\ldots, \rho_r$ for each test set --- of the solution.
+
+The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
+independent and identically distributed (i.i.d.).  The cross-validation technique divides
+the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
+test set once and as a training set $r-1$ times.  So, first we use as training set folds
+$2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
+\ldots, r$ and as test set fold $2$. And so on.  If possible, we should use repeated
+cross-validation, where this process is repeated many times.  Also, when dealing with
+classification problems, we should use stratified cross-validation, where the distribution
+of the classes is preserved in each fold.
+
 \begin{figurebox}[label=fig:plan-single]{Experimental plan for estimating expected performance of a solution.}
   \centering
   \begin{tikzpicture}
-    % From dataset, create splits. Then, you have model search for each split.
-    % Model search consists of data handling and learning.
-    % Result of model search is a adjusted pipeline and fitted model.
-    % Then, you evaluate the model in another split and store the performance results.
-    % Finally, you interpret the results, usually with some visualization or summary statistics.
-
     \node [darkcircle] (data) at (0, 0) {Data};
     \node [block] (sampling) at (0, -2) {Sampling strategy};
     \path [line] (data) -- (sampling);
@@ -137,6 +166,8 @@ algorithms}.
   \end{tikzpicture}
 \end{figurebox}
 
+A summary of the experimental plan for estimating expected performance is shown in
+\cref{fig:plan-single}.
 
 \section{Comparing strategies}
 
