@@ -209,25 +209,84 @@ the performance of the solution $M$.
 A summary of the experimental plan for estimating expected performance is shown in
 \cref{fig:plan-single}.
 
+\clearpage
 \subsection{Cross validation}
 
-% TODO: talk about concatenating out of sample predictions, and correlation
-% between the predictions in different folds.
 The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
 independent and identically distributed (i.i.d.).  The cross-validation technique divides
 the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
 test set once and as a training set $r-1$ times.  So, first we use as training set folds
 $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
-\ldots, r$ and as test set fold $2$. And so on.  If possible, we should use repeated
+\ldots, r$ and as test set fold $2$. And so on.  (See \cref{fig:cross-validation}.)
+
+\begin{figurebox}[label=fig:cross-validation]{Cross-validation}
+  \centering
+  \begin{tikzpicture}
+    \foreach \i in {1, 2, 3, 4} {
+      \node at (2 * \i, 0) {Fold \i};
+      \foreach \j in {1, 2, 3, 4} {
+        % if \i == \j, then it is the test set
+        \ifnum\i=\j
+          \node [smallblock, minimum width=18mm] (fold\i\j) at (2 * \i, -\j) {Test};
+        \else
+          \node [smalldarkblock, minimum width=18mm] (fold\i\j) at (2 * \i, -\j) {Training};
+        \fi
+      }
+    }
+  \end{tikzpicture}
+  \tcblower
+  Cross-validation is a technique to sample training and test sets.  It divides the
+  dataset into $r$ folds, using $r-1$ folds as a training set and the remaining fold as a
+  test set.
+\end{figurebox}
+
+If possible, one should use repeated
 cross-validation, where this process is repeated many times.  Also, when dealing with
 classification problems, we should use stratified cross-validation, where the distribution
 of the classes is preserved in each fold.
 
+Also, the application of a single cross-validation sampling enables us to create a
+predicted vector for the whole dataset.  This is done by concatenating the predictions for
+each fold.  (Note however that the predictions are not totally independent, as they share
+some training data.  This dependency should be taken into account when analyzing the
+results.) This vector can be used to perform hypothesis tests --- like McNemar's test, see
+\cref{sub:comparison} --- or to plot ROC (Receiver Operating Characteristic) curves or DET
+(Detection Error Tradeoff) curves --- see \cref{chap:evaluation}.
+
 \subsection{Validation methods}
 
-Talk about summary statistics, visualization (boxplot, roc and det curves), and Bayesian
-analysis.
+% Talk about summary statistics, visualization (boxplot, roc and det curves), and Bayesian
+% analysis.
+
+Validation is the process of interpreting or confirming the meaning of the evaluation
+results.  It is the process of determining the degree to which the evaluation results
+support the intended use of the solution.
+
+Sometimes, it is as simple as calculating the mean and standard deviation of the
+performance samples.  Other times, we need to use more sophisticated techniques, like
+hypothesis tests or Bayesian analysis.
+
+Let us say our goal is to reach a certain performance threshold $\rho_0$.  After an
+experiments done with $10$ repeated $10$-fold cross-validation, we have the average
+performance $\bar{\rho}$ and the standard deviation $\sigma$.  If $\bar{\rho} - \sigma \gg
+\rho_0$, it is very likely that the solution will reach the threshold in production.
+Although this is not a formal validation, it is a good and likely enough indication.
+
+Also, it is common to use visualization techniques to analyze the results.  Box plots are
+a good way to see the distribution of the performance samples.
+
+A more sophisticated technique is to use Bayesian analysis.  In this case, we use the
+performance samples to estimate the probability distribution of the performance of the
+algorithm.  This distribution can be used to calculate the probability of the performance
+being better than a certain threshold.
+
+\textcite{Benavoli2017} propose an interesting technique to estimate the density function
+$p(\rho)$ taking into account the training dependency in the cross-validation.  They
+
 
 \section{Comparing strategies}
+\label{sub:comparison}
+
+When we have two or more strategies to solve a problem, we need to compare them to see
 
 % vim: spell spelllang=en
