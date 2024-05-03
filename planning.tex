@@ -29,14 +29,18 @@ There are important elements that should be considered when designing an experim
 plan.  These elements are:
 \begin{itemize}
   \item \textbf{Hypothesis}: The main question that the experiment aims to validate.
-  \item \textbf{Data}: The dataset that will be used in the experiment.
+    In this chapter, we address common questions in data science projects and how to
+    validate them.
+  \item \textbf{Data}: The dataset that will be used in the experiment.  In
+    \cref{chap:data}, we address topics about collecting and organizing data.
   \item \textbf{Solution search algorithm}\footnote{We use the term ``search'' because,
     the chosen algorithm aim at optimizing both the parameters of the data handling
     pipeline and the ones of the model}: Techniques that find a solution for the task.
     For us, a task includes both adjusting the appropriate data-handling
-    pipeline and learning the model.
+    pipeline and learning the model.  The theoretical basis for these techniques is in
+    \cref{chap:slt}, and the practical aspects are in \cref{chap:handling,chap:ml}.
   \item \textbf{Performance measure}: The metric that will be used to evaluate the
-    performance of the model.
+    performance of the model.  Refer to \cref{chap:evaluation} for more information.
 \end{itemize}
 
 A general example of a description of an experimental plan is ``What is the probability of
@@ -71,12 +75,29 @@ experimental plan.
 
 \paragraph{Sampling strategy}  As any statistical evaluation, we need to generate samples
 of the performance of the possible solutions that $A$ is able to obtain. To do so, we use
-a sampling strategy to generate $r$ datasets $D_1, D_2, \ldots, D_r$ from $D$.  Each
-dataset is further divided into a training set and a test set.  They must be disjoint.
-The training set is thus used to find a solution --- $M_1, M_2, \ldots, M_r$ for each
+a sampling strategy to generate $r$ datasets $D_1, D_2, \ldots$ from $D$.  Each
+dataset is further divided into a training set and a test set, which must be disjoint.
+The training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $\rho_1, \rho_2,
-\ldots, \rho_r$ for each test set --- of the solution.
+\ldots$ for each test set --- of the solution.  The test set emulates the real-world
+scenario, where the model is used to make predictions on new data.
 
+\paragraph{Solution search algorithm}  The solution search algorithm $A$ involves both a
+given data handling pipeline and a machine learning method.  Both of them generate a
+different result for each dataset $D_i$ used as an input.  In other words, the parameters
+$\phi$ of the data handling operators are adjusted --- see \cref{chap:handling} --- and the
+parameters $\theta$ of the machine learning model are adjusted --- see \cref{chap:slt}.
+These parameters, $\left[\phi_i, \theta_i\right]$ are the solution $M_i$, and must be
+calculated exclusively using the training set in $D_i$.
+
+\paragraph{Prediction} \dots
+
+\paragraph{Performance assessment} \dots
+
+\paragraph{Analysing the results} \dots
+
+% TODO: move below and talk about concatenating out of sample predictions, and correlation
+% between the predictions in different folds.
 The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
 independent and identically distributed (i.i.d.).  The cross-validation technique divides
 the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
@@ -108,7 +129,7 @@ of the classes is preserved in each fold.
     \draw [dashed] (-5, -5.5) rectangle (4.9, -10.5);
 
     \node [smalldarkblock, font=\small, inner sep=4pt] (train) at (-4, -7) {Training};
-    \node [smallblock, inner sep=4pt] (test) at (-4, -9) {Test (no label)};
+    \node [smallblock, inner sep=4pt] (test) at (-4, -9) {Test (no target)};
 
     \draw [dashed] (-3, -6) rectangle (3, -8);
     \node [anchor=south] at (0, -6.1) {Solution search algorithm};
@@ -138,11 +159,13 @@ of the classes is preserved in each fold.
     \path [line] (test) -- (preprocess);
     \path [line] (preprocess) -- (prediction);
 
-    \node (performance) at (4, -9) {$\rho$};
-    \path [line] (prediction) -- (performance);
+    \node [smallblock, inner sep=4pt] (predicted) at (4, -9) {predictions};
+    \node (performance) at (4, -10) {$\rho$};
+    \path [line] (prediction) -- (predicted);
 
-    \node [smallblock, inner sep=4pt] (labels) at (-4, -10) {Test (labels)};
-    \path [line] (labels) -- (4, -10) -- (performance);
+    \node [smallblock, inner sep=4pt] (labels) at (-4, -10) {Test (target)};
+    \path [line] (labels) -- (performance);
+    \path [line] (predicted) -- (performance);
 
     \node (perfs) at (-4.2, -12) {%
       $\left[
@@ -150,7 +173,6 @@ of the classes is preserved in each fold.
           \rho_1 \\
           \rho_2 \\
           \vdots \\
-          \rho_r \\
         \end{array}
       \right]$
     };
