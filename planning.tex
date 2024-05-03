@@ -15,7 +15,8 @@ systematically in order to reach specific goals or test hypotheses.
 
 The reason we need to plan experiments is that data science is experimental, i.e. we
 usually lack a theoretical model that can predict the outcome of a given algorithm on a
-given dataset.  This is why we need to run experiments to gather data and make
+given dataset  --- in other words, the quality of the solution given a certain approach.
+This is why we need to run experiments to gather data and make
 inferences from it.
 
 There is not a single way to plan experiments, but there are some common steps that can
@@ -29,22 +30,114 @@ plan.  These elements are:
 \begin{itemize}
   \item \textbf{Hypothesis}: The main question that the experiment aims to validate.
   \item \textbf{Data}: The dataset that will be used in the experiment.
-  \item \textbf{Strategies}: The algorithms or methods that will be used to find the
-    model\footnote{Remember, in an inductive learning problem, we look for a model to
-    map inputs to outputs the best we can.} that solves the problem.
+  \item \textbf{Solution search algorithm}\footnote{We use the term ``search'' because,
+    the chosen algorithm aim at optimizing both the parameters of the data handling
+    pipeline and the ones of the model}: Techniques that find a solution for the task.
+    For us, a task includes both adjusting the appropriate data-handling
+    pipeline and learning the model.
   \item \textbf{Performance measure}: The metric that will be used to evaluate the
     performance of the model.
 \end{itemize}
 
 A general example of a description of an experimental plan is ``What is the probability of
-the strategy $A$ to find a model that reaches a performance $X$ in terms of metric $Y$ in
+the technique $A$ to find a model that reaches a performance $X$ in terms of metric $Y$ in
 the real-world given dataset $Z$ as training set (assuming $Z$ is a representative
 dataset)?''
 
-Another example is ``Is strategy $A$ better than strategy $B$ for finding a model that
+Another example is ``Is technique $A$ better than technique $B$ for finding a model that
 predicts the output of dataset $C$ given $D$ as a training set in terms of metric $E$?''
 
 We consider these two cases: \emph{estimating expected performance} and \emph{comparing
-strategies}.
+algorithms}.
+
+\section{Estimating expected performance}
+
+\begin{figurebox}[label=fig:plan-single]{Experimental plan for estimating expected performance of a solution.}
+  \centering
+  \begin{tikzpicture}
+    % From dataset, create splits. Then, you have model search for each split.
+    % Model search consists of data handling and learning.
+    % Result of model search is a adjusted pipeline and fitted model.
+    % Then, you evaluate the model in another split and store the performance results.
+    % Finally, you interpret the results, usually with some visualization or summary statistics.
+
+    \node [darkcircle] (data) at (0, 0) {Data};
+    \node [block] (sampling) at (0, -2) {Sampling strategy};
+    \path [line] (data) -- (sampling);
+
+    \foreach \i in {1, 2, 4, 5} {
+      \draw [dashed] (-7 + 2 * \i, -4.5) rectangle (-5.1 + 2 * \i, -3.5);
+      \path [line] (sampling) -- (-6.1 + 2 * \i, -3.5);
+
+      \node [smalldarkblock] (train\i) at (-6.4 + 2 * \i, -4) {Training};
+      \node [smallblock] (test\i) at (-5.6 + 2 * \i, -4) {Test};
+
+      \path [line] (-6.1 + 2 * \i, -4.5) -- (-6.1 + 2 * \i, -5.5);
+    }
+    \node [anchor=center] at (0, -4) {\dots};
+
+    \draw [dashed] (-5, -5.5) rectangle (4.9, -10.5);
+
+    \node [smalldarkblock, font=\small, inner sep=4pt] (train) at (-4, -7) {Training};
+    \node [smallblock, inner sep=4pt] (test) at (-4, -9) {Test (no label)};
+
+    \draw [dashed] (-3, -6) rectangle (3, -8);
+    \node [anchor=south] at (0, -6.1) {Solution search algorithm};
+
+    \node [block] (handling) at (-1.5, -7) {Data handling pipeline};
+    \node [block] (learning) at (1.5, -7) {Machine learning};
+    \node (model) at (4, -7) {%
+      % bracket array with \theta and \phi
+      $\left[
+      \begin{array}{c}
+        \phi \\
+        \theta \\
+      \end{array}
+      \right]$
+    };
+
+    \path [line] (train) -- (handling);
+    \path [line] (handling) -- (learning);
+    \path [line, dashed] (3, -7) -- (model);
+
+    \node [block] (preprocess) at (-1.5, -9) {Preprocessing};
+    \node [block] (prediction) at (1.5, -9) {Prediction};
+
+    \path [line, dashed] (handling) -- (preprocess);
+    \path [line, dashed] (learning) -- (prediction);
+
+    \path [line] (test) -- (preprocess);
+    \path [line] (preprocess) -- (prediction);
+
+    \node (performance) at (4, -9) {$\rho$};
+    \path [line] (prediction) -- (performance);
+
+    \node [smallblock, inner sep=4pt] (labels) at (-4, -10) {Test (labels)};
+    \path [line] (labels) -- (4, -10) -- (performance);
+
+    \node (perfs) at (-4.2, -12) {%
+      $\left[
+        \begin{array}{c}
+          \rho_1 \\
+          \rho_2 \\
+          \vdots \\
+          \rho_r \\
+        \end{array}
+      \right]$
+    };
+
+    \node [block] (visualization) at (-2, -12) {Visualization};
+    \node [block] (summary) at (0.5, -12) {Summary statistics};
+    \node [block] (hypothesis) at (3, -12) {Hypothesis test};
+
+    \path [line, dashed] (-4.2, -10.5) -- (perfs);
+    \path [line] (perfs) -- (-4.2, -13) -- (-2, -13) -- (visualization);
+    \path [line] (-2, -13) -- (0.5, -13) -- (summary);
+    \path [line] (0.5, -13) -- (3, -13) -- (hypothesis);
+  \end{tikzpicture}
+\end{figurebox}
+
+
+\section{Comparing strategies}
 
 % vim: spell spelllang=en

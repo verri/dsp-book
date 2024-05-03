@@ -34,6 +34,18 @@
 \usetikzlibrary{shapes, arrows.meta, positioning, shapes.geometric}
 \usepackage{pgfplots}
 
+\tikzset{%
+  block/.style={rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em},
+  darkblock/.style={block, fill=gray, text=white},
+  smallblock/.style={rectangle, rounded corners, draw, font=\tiny, minimum height=1em, inner sep=2pt},
+  smalldarkblock/.style={smallblock, fill=gray, text=white},
+  darkcircle/.style={draw, circle, fill=gray, text centered, text=white},
+  smallcircle/.style={draw, circle, text centered, font=\tiny},
+  smalldarkcircle/.style={smallcircle, fill=gray, text=white},
+  line/.style={draw, -latex},
+  dline/.style={draw, latex-latex},
+  bigarrow/.style={draw, -latex, line width=3pt, gray}}
+
 \usepackage{titling}
 \usepackage[most]{tcolorbox}
 \usepackage{xhfill}
@@ -190,7 +202,7 @@
   \textbf{Disclaimer:} This version is a work in progress.  Many parts of the book have
   been drafted with the help of \href{https://github.com/features/copilot}{GitHub Copilot}
   and may not be revised yet by the author.  The author is not responsible for any
-  misinformation contained in this book.
+  misinformation contained in this version of the book.
 }
 
 \vspace{0.5cm}
