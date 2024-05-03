@@ -75,7 +75,7 @@ experimental plan.
 
 \paragraph{Sampling strategy}  As any statistical evaluation, we need to generate samples
 of the performance of the possible solutions that $A$ is able to obtain. To do so, we use
-a sampling strategy to generate $r$ datasets $D_1, D_2, \ldots$ from $D$.  Each
+a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  Each
 dataset is further divided into a training set and a test set, which must be disjoint.
 The training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $\rho_1, \rho_2,
@@ -84,29 +84,42 @@ scenario, where the model is used to make predictions on new data.
 
 \paragraph{Solution search algorithm}  The solution search algorithm $A$ involves both a
 given data handling pipeline and a machine learning method.  Both of them generate a
-different result for each dataset $D_i$ used as an input.  In other words, the parameters
+different result for each dataset $D_k$ used as an input.  In other words, the parameters
 $\phi$ of the data handling operators are adjusted --- see \cref{chap:handling} --- and the
 parameters $\theta$ of the machine learning model are adjusted --- see \cref{chap:slt}.
-These parameters, $\left[\phi_i, \theta_i\right]$ are the solution $M_i$, and must be
-calculated exclusively using the training set in $D_i$.
+These parameters, $\left[\phi_k, \theta_k\right]$ are the solution $M_i$, and must be
+calculated exclusively using the training set $D_{k,\text{train}}$.
 
-\paragraph{Prediction} \dots
+\paragraph{Prediction}  Once the parameters $\phi$ and $\theta$ are fixed, we apply them
+in the test set $D_{k,\text{test}}$.  For each sample $(x_i, y_i) \in D_{k,\text{test}}$,
+we calculate the prediction $\hat{y} = f_{\phi,\theta}(x_i)$.  The target value $y$ is
+called the ground-truth or expected outcome.
 
-\paragraph{Performance assessment} \dots
+\paragraph{Performance assessment} Given a performance metric $R$, for each dataset $D_k$,
+we calculate
+$$\rho_i = R\!\left(\left[y_i\right]_i, \left[\hat{y}_i\right]_i\right)\text{.}$$
+Note that, by definition, $\rho_i$ is free of data leakage, as $\left[\phi_k,
+\theta_k\right]$ are found without the use of the data in $D_{k,\text{test}}$ and to
+calculate $\hat{y}_i$ we use only $x_i$ (with no target $y_i$).
 
-\paragraph{Analysing the results} \dots
+\paragraph{Analysing the results} Finally, we study the sampled performance values $\rho_1,
+\rho_2, \ldots$ like any other statistical data.  We can calculate summary statistics, like
+the mean, median, variance, and standard deviation, or visualization techniques, like
+box plots or other distribution-based plots.  We can also use hypothesis tests to
+calculate the probability of the performance of the solution being better than a certain
+threshold.
 
-% TODO: move below and talk about concatenating out of sample predictions, and correlation
-% between the predictions in different folds.
-The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
-independent and identically distributed (i.i.d.).  The cross-validation technique divides
-the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
-test set once and as a training set $r-1$ times.  So, first we use as training set folds
-$2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
-\ldots, r$ and as test set fold $2$. And so on.  If possible, we should use repeated
-cross-validation, where this process is repeated many times.  Also, when dealing with
-classification problems, we should use stratified cross-validation, where the distribution
-of the classes is preserved in each fold.
+\begin{mainbox}{Evaluation \emph{vs.} validation}
+  We call evaluation the process of assessing the performance of a solution using a
+  test set.  Validation, on the other hand, is the process of interpreting or confirming
+  the meaning of the evaluation results.  Validation is the process of determining the
+  degree to which the evaluation results support the intended use of the solution.
+\end{mainbox}
+
+\paragraph{Interpretation}  The results are not the ``real'' performance of the solution
+$M$ in the real world, as that would require new data to be collected.  However, we can
+safely interpret the performance samples as being sampled from the same distribution as
+the performance of the solution $M$.
 
 \begin{figurebox}[label=fig:plan-single]{Experimental plan for estimating expected performance of a solution.}
   \centering
@@ -186,10 +199,34 @@ of the classes is preserved in each fold.
     \path [line] (-2, -13) -- (0.5, -13) -- (summary);
     \path [line] (0.5, -13) -- (3, -13) -- (hypothesis);
   \end{tikzpicture}
+  \tcblower
+  % A brief description of the experimental plan.
+  The experimental plan for estimating the expected performance of a solution involves
+  sampling the data, training and testing the solution, evaluating the performance, and
+  validating the results.
 \end{figurebox}
 
 A summary of the experimental plan for estimating expected performance is shown in
 \cref{fig:plan-single}.
+
+\subsection{Cross validation}
+
+% TODO: talk about concatenating out of sample predictions, and correlation
+% between the predictions in different folds.
+The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
+independent and identically distributed (i.i.d.).  The cross-validation technique divides
+the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
+test set once and as a training set $r-1$ times.  So, first we use as training set folds
+$2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
+\ldots, r$ and as test set fold $2$. And so on.  If possible, we should use repeated
+cross-validation, where this process is repeated many times.  Also, when dealing with
+classification problems, we should use stratified cross-validation, where the distribution
+of the classes is preserved in each fold.
+
+\subsection{Validation methods}
+
+Talk about summary statistics, visualization (boxplot, roc and det curves), and Bayesian
+analysis.
 
 \section{Comparing strategies}
 
