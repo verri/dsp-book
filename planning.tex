@@ -280,43 +280,78 @@ performance samples to estimate the probability distribution of the performance 
 algorithm.  This distribution can be used to calculate the probability of the performance
 being better than a certain threshold.
 
-% The Bayesian correlated t-test is used for the analysis of cross-validation results on a
-% single dataset and it accounts for the correlation due to the overlapping training sets.
-
-% The test is based on the following (generative) model of the data: xn×1 = 1n×1 µ + vn×1
-% , (4) where x = (x1 , x2 , . . . , xn ) is the vector of differences of accuracy, 1n×1
-% is a vector of ones, µ is the parameter of interest (the mean difference of accuracy)
-% and v ∼ MVN(0, Σn×n ) is a multivariate Normal noise with zero mean and covariance
-% matrix Σn×n . The covariance matrix Σ is characterized as follows: Σii = σ 2 and Σij = σ
-% 2 ρ for all i 6= j ∈ 1, . . . , n, where ρ is the correlation and σ 2 is the variance
-% and, therefore, the covariance matrix takes into account the correlation due to
-% cross-validation. Hence, the likelihood model of data is p(x|µ, Σ) = exp(− 21 (x − 1µ)T
-% Σ−1 (x − 1µ)) p . (2π)n/2 |Σ| (5) The likelihood (5) does not allow to estimate ρ from
-% data, since the maximum likelihood estimate of ρ is ρ̂ = 0 regardless the observations
-% (Corani and Benavoli, 2015). This confirms that ρ is not identifiable: thus the Bayesian
-% correlated t-test adopts the same te heuristic ρ = nntot suggested by Nadeau and Bengio
-% (2003).
-
 \textcite{Benavoli2017} propose an interesting Bayesian test that accounts for the
-overlapping training sets in the cross-validation. Let $z_k = p_k - p^{*}$ be the
+overlapping training sets in the cross-validation\footnote{%
+This is actually a particular case of the proposal in the paper, where the authors
+consider the comparison between two performance vector --- which is the case described in
+\cref{sub:comparison}.}.
+Let $z_k = p_k - p^{*}$ be the
 difference between the performance of the $k$-th fold and the performance goal $p^{*}$,
 a generative model for the data is
-\begin{equation}
+\begin{equation*}
   \vec{z} = \vec{1}\mu + \vec{v}\text{,}
-\end{equation}
+\end{equation*}
 where $\vec{z} = (z_1, z_2, \ldots, z_n)$ is the vector performance gains, $\vec{1}$ is a
 vector of ones, $\mu$ is the parameter of interest (the mean performance gain), and
 $\vec{v} \sim \operatorname{MVN}(0, \Sigma)$ is a multivariate normal noise with zero mean
 and covariance matrix $\Sigma$.  The covariance matrix $\Sigma$ is characterized as
-\begin{equation}
+\begin{equation*}
   \Sigma_{ii} = \sigma^2\text{,}\quad
   \Sigma_{ij} = \sigma^2\rho\text{,}
-\end{equation}
-for all $i \neq j \in \{1, \ldots, n\}$, where $\rho$ is the correlation and $\sigma^2$
-is the variance.  The likelihood model of the data is
-\begin{equation}
-  \Prob(\vec{z} \mid \mu, \Sigma) = \exp\left(-\frac{1}{2}(\vec{z} - \vec{1}\mu)^T \Sigma^{-1} (\vec{z} - \vec{1}\mu)\right) \frac{1}{(2\pi)^{n/2} \lvert \Sigma \rvert}\text{.}
-\end{equation}
+\end{equation*}
+for all $i \neq j \in \{1, 2, \ldots, n\}$, where $\rho$ is the correlation (between folds)
+and $\sigma^2$ is the variance.  The likelihood model of the data is
+\begin{equation*}
+  \Prob(\vec{z} \mid \mu, \Sigma) =
+    \exp\left(-\frac{1}{2}(\vec{z} - \vec{1}\mu)^T \Sigma^{-1} (\vec{z} - \vec{1}\mu)\right)
+    \frac{1}{(2\pi)^{n/2} \sqrt{\lvert \Sigma \rvert}}\text{.}
+\end{equation*}
+According to them, such likelihood does not allow to estimate the correlation from data,
+as the maximum likelihood estimate of $\rho$ is zero regardless of the observations.
+Since $\rho$ is not identifiable, the authors suggest using the heuristic where $\rho$ is
+the ratio between the number of folds and the total number of performance samples.
+
+To estimate the probability of the performance of the solution being greater than the
+threshold, we first estimate the parameters $\mu$ and $\nu = \sigma^{-2}$ of the
+generative model.  \textcite{Benavoli2017} consider the prior
+\begin{equation*}
+  \Prob(\mu, \nu \mid \mu_0, \kappa_0, a, b) = \operatorname{NG}(\mu, \nu; \mu_0, \kappa_0, a, b)\text{,}
+\end{equation*}
+that is a Normal-Gamma distribution with parameters $(\mu_0, \kappa_0, a, b)$.  This is a
+conjugate prior to the likelihood model.  Choosing the prior parameters $\mu_0 = 0$,
+$\kappa_0 \to \infty$, $a = -1/2$, and $b = 0$, the posterior distribution of $\mu$ is a
+location-scale Student distribution.  Mathematically, we have
+\begin{equation*}
+  \Prob(\mu \mid \vec{z}, \mu_0, \kappa_0, a, b) =
+    \operatorname{St}(\mu; n - 1, \bar{z}, \left(
+      \frac{1}{n} + \frac{\rho}{1 - \rho}
+    \right)s^2)\text{,}
+\end{equation*}
+where
+\begin{equation*}
+  \bar{z} = \frac{1}{n} \sum_{i=1}^n z_i\text{,}
+\end{equation*}
+and
+\begin{equation*}
+  s^2 = \frac{1}{n - 1} \sum_{i=1}^{n-1} (z_i - \bar{z})^2\text{.}
+\end{equation*}
+
+Thus, validating that the solution obtained by the algorithm in production will surpass
+the threshold $p^{*}$ consists of calculating the probability
+\begin{equation*}
+  \Prob(\mu > 0 \mid \vec{z}) > \gamma\text{,}
+\end{equation*}
+where $\gamma$ is the confidence level.
+
+Note that the Bayesian analysis is a more sophisticated technique than the null hypothesis
+significance testing, as it allows us to estimate the probability of the performance of
+the solution being better than a certain threshold.
+
+Also, be aware that the choice of the model and the prior distribution can affect the
+results.  \textcite{Benavoli2017} suggest using 10 repetitions of 10-fold cross-validation
+to estimate the parameters of the generative model.  They also show experimental evidence
+that their choices are robust to the choice of the prior distribution.  However, one
+should be aware of the limitations of the model.
 
 \section{Comparing strategies}
 \label{sub:comparison}
