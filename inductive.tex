@@ -86,13 +86,13 @@ Consider the set
 \end{equation}
 where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
 $y_i \in \mathcal{Y}$.  We assume that samples are random independent identically
-distributed (i.i.d.) observations drawn according to $$P(x, y) = P(x) P(y | x)\text{.}$$
-Both $P(x)$ and $P(y|x)$ are fixed but unknown.
+distributed (i.i.d.) observations drawn according to $$\Prob(x, y) = \Prob(x) \Prob(y | x)\text{.}$$
+Both $\Prob(x)$ and $\Prob(y|x)$ are fixed but unknown.
 
 This is equivalent to the original learning problem stated by \textcite{Vapnik1999b}, where
 a generator produce random vectors $\vec{x}$ according to a fixed but unknown
-probability distribution $P(x)$ and a supervisor returns an output value $y$ for every
-input vector $x$ according to a conditional distribution function $P(y|x)$, also fixed but
+probability distribution $\Prob(x)$ and a supervisor returns an output value $y$ for every
+input vector $x$ according to a conditional distribution function $\Prob(y|x)$, also fixed but
 unknown.
 
 Moreover, note that this setup is compatible with the idea of tidy data and 3NF (see
@@ -108,13 +108,13 @@ The problem of learning is that of choosing, among all possible $f_\theta$, the 
 predicts the target variable the best possible way.
 
 In order to learn, we must first define the \emph{loss} (or discrepancy) $\mathcal{L}$
-between the response $y$ to a given input $x$, drawn from $P(x, y)$, and the
+between the response $y$ to a given input $x$, drawn from $\Prob(x, y)$, and the
 response provided by the learning machine.
 
 Then, given the \emph{risk function}
 \begin{equation}
   \label{eq:risk}
-  R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, dP(x, y)\text{,}
+  R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, d\Prob(x, y)\text{,}
 \end{equation}
 the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
 where the only available information is the \emph{training set} \eqref{eq:training-set}.
@@ -139,7 +139,7 @@ we aim at minimizing the risk $\eqref{eq:risk}$ which becomes the probability of
 classification error.
 
 \paragraph{Regression estimation task.} Let the outcome $y$ be a real value and
-the \emph{regression} $r$ be $$r(x) = \int y\, dP(y|x) \text{.}$$
+the \emph{regression} $r$ be $$r(x) = \int y\, d\Prob(y|x) \text{.}$$
 
 The regression function is the function $r = f_\theta$ that minimizes the risk function
 \eqref{eq:risk} with the loss
@@ -152,7 +152,7 @@ that minimizes the risk function is the closest to the regression function in th
 metric $l_2$, i.e. we look for $\theta'$ such that
 \begin{equation*}
   \theta' = \argmin_{\theta \in \Theta} \sqrt{
-    \int \big(r(x) - f_\theta(x)\big)^2\, dP(x)
+    \int \big(r(x) - f_\theta(x)\big)^2\, d\Prob(x)
   }\text{.}
 \end{equation*}
 
@@ -161,7 +161,7 @@ metric $l_2$, i.e. we look for $\theta'$ such that
 In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$ a generic loss
 function.  The training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
 
-Since the distribution $P(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
+Since the distribution $\Prob(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
 the \emph{empirical risk functional}
 \begin{equation}
   \label{eq:empirical-risk}
@@ -219,7 +219,7 @@ their minimum values.
   \end{equation*}
 
   An ERM method is consistent for the set of functions $\left\{ L(z, \theta) : \theta \in
-  \Theta \right\}$ and the probability distribution $P(z)$ if
+  \Theta \right\}$ and the probability distribution $\Prob(z)$ if
   \begin{align*}
     \lim_{n \to \infty} R(\theta_n) &= \inf_{\theta \in \Theta} R(\theta)\text{,} \\
     \lim_{n \to \infty} R_n(\theta_n) &= \inf_{\theta \in \Theta} R(\theta)\text{.}
@@ -270,7 +270,7 @@ one more function $\phi(z)$ to the set, such that
 \end{equation*}
 It is straightforward to see that the ERM method is consistent for the new set of
 functions $\left\{ L(z, \theta) : \theta \in \Theta \right\} \cup \left\{ \phi \right\}$
-and the probability distribution $P(z)$.  In this case, the function $\phi(z)$ gives both
+and the probability distribution $\Prob(z)$.  In this case, the function $\phi(z)$ gives both
 the minimum value of the risk functional and the empirical risk functional.  This is
 illustrated in \cref{fig:trivial-consistency}.
 

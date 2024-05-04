@@ -67,7 +67,7 @@ expected to perform in the real world?
 
 Let us say we fix a certain technique, let us call it $A$.  Let $M$ be the solution found
 by $A$ using the whole dataset $D$.  If we assess $M$ using the whole dataset $D$, the
-performance $\rho$ we get is optimistic.  This is because $M$ has been trained and tested
+performance $p$ we get is optimistic.  This is because $M$ has been trained and tested
 on the same data.
 
 To estimate better the expected performance of $M$ in production, we can use the following
@@ -78,7 +78,7 @@ of the performance of the possible solutions that $A$ is able to obtain. To do s
 a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  Each
 dataset is further divided into a training set and a test set, which must be disjoint.
 The training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
-training set --- and the test set is used to evaluate the performance --- $\rho_1, \rho_2,
+training set --- and the test set is used to evaluate the performance --- $p_1, p_2,
 \ldots$ for each test set --- of the solution.  The test set emulates the real-world
 scenario, where the model is used to make predictions on new data.
 
@@ -97,13 +97,13 @@ called the ground-truth or expected outcome.
 
 \paragraph{Performance assessment} Given a performance metric $R$, for each dataset $D_k$,
 we calculate
-$$\rho_i = R\!\left(\left[y_i\right]_i, \left[\hat{y}_i\right]_i\right)\text{.}$$
-Note that, by definition, $\rho_i$ is free of data leakage, as $\left[\phi_k,
+$$p_i = R\!\left(\left[y_i\right]_i, \left[\hat{y}_i\right]_i\right)\text{.}$$
+Note that, by definition, $p_i$ is free of data leakage, as $\left[\phi_k,
 \theta_k\right]$ are found without the use of the data in $D_{k,\text{test}}$ and to
 calculate $\hat{y}_i$ we use only $x_i$ (with no target $y_i$).
 
-\paragraph{Analysing the results} Finally, we study the sampled performance values $\rho_1,
-\rho_2, \ldots$ like any other statistical data.  We can calculate summary statistics, like
+\paragraph{Analysing the results} Finally, we study the sampled performance values $p_1,
+p_2, \ldots$ like any other statistical data.  We can calculate summary statistics, like
 the mean, median, variance, and standard deviation, or visualization techniques, like
 box plots or other distribution-based plots.  We can also use hypothesis tests to
 calculate the probability of the performance of the solution being better than a certain
@@ -173,7 +173,7 @@ the performance of the solution $M$.
     \path [line] (preprocess) -- (prediction);
 
     \node [smallblock, inner sep=4pt] (predicted) at (4, -9) {predictions};
-    \node (performance) at (4, -10) {$\rho$};
+    \node (performance) at (4, -10) {$p$};
     \path [line] (prediction) -- (predicted);
 
     \node [smallblock, inner sep=4pt] (labels) at (-4, -10) {Test (target)};
@@ -183,8 +183,8 @@ the performance of the solution $M$.
     \node (perfs) at (-4.2, -12) {%
       $\left[
         \begin{array}{c}
-          \rho_1 \\
-          \rho_2 \\
+          p_1 \\
+          p_2 \\
           \vdots \\
         \end{array}
       \right]$
@@ -266,10 +266,10 @@ Sometimes, it is as simple as calculating the mean and standard deviation of the
 performance samples.  Other times, we need to use more sophisticated techniques, like
 hypothesis tests or Bayesian analysis.
 
-Let us say our goal is to reach a certain performance threshold $\rho_0$.  After an
+Let us say our goal is to reach a certain performance threshold $p_0$.  After an
 experiments done with $10$ repeated $10$-fold cross-validation, we have the average
-performance $\bar{\rho}$ and the standard deviation $\sigma$.  If $\bar{\rho} - \sigma \gg
-\rho_0$, it is very likely that the solution will reach the threshold in production.
+performance $\bar{p}$ and the standard deviation $\sigma$.  If $\bar{p} - \sigma \gg
+p_0$, it is very likely that the solution will reach the threshold in production.
 Although this is not a formal validation, it is a good and likely enough indication.
 
 Also, it is common to use visualization techniques to analyze the results.  Box plots are
@@ -280,9 +280,43 @@ performance samples to estimate the probability distribution of the performance 
 algorithm.  This distribution can be used to calculate the probability of the performance
 being better than a certain threshold.
 
-\textcite{Benavoli2017} propose an interesting technique to estimate the density function
-$p(\rho)$ taking into account the training dependency in the cross-validation.  They
+% The Bayesian correlated t-test is used for the analysis of cross-validation results on a
+% single dataset and it accounts for the correlation due to the overlapping training sets.
 
+% The test is based on the following (generative) model of the data: xn×1 = 1n×1 µ + vn×1
+% , (4) where x = (x1 , x2 , . . . , xn ) is the vector of differences of accuracy, 1n×1
+% is a vector of ones, µ is the parameter of interest (the mean difference of accuracy)
+% and v ∼ MVN(0, Σn×n ) is a multivariate Normal noise with zero mean and covariance
+% matrix Σn×n . The covariance matrix Σ is characterized as follows: Σii = σ 2 and Σij = σ
+% 2 ρ for all i 6= j ∈ 1, . . . , n, where ρ is the correlation and σ 2 is the variance
+% and, therefore, the covariance matrix takes into account the correlation due to
+% cross-validation. Hence, the likelihood model of data is p(x|µ, Σ) = exp(− 21 (x − 1µ)T
+% Σ−1 (x − 1µ)) p . (2π)n/2 |Σ| (5) The likelihood (5) does not allow to estimate ρ from
+% data, since the maximum likelihood estimate of ρ is ρ̂ = 0 regardless the observations
+% (Corani and Benavoli, 2015). This confirms that ρ is not identifiable: thus the Bayesian
+% correlated t-test adopts the same te heuristic ρ = nntot suggested by Nadeau and Bengio
+% (2003).
+
+\textcite{Benavoli2017} propose an interesting Bayesian test that accounts for the
+overlapping training sets in the cross-validation. Let $z_k = p_k - p^{*}$ be the
+difference between the performance of the $k$-th fold and the performance goal $p^{*}$,
+a generative model for the data is
+\begin{equation}
+  \vec{z} = \vec{1}\mu + \vec{v}\text{,}
+\end{equation}
+where $\vec{z} = (z_1, z_2, \ldots, z_n)$ is the vector performance gains, $\vec{1}$ is a
+vector of ones, $\mu$ is the parameter of interest (the mean performance gain), and
+$\vec{v} \sim \operatorname{MVN}(0, \Sigma)$ is a multivariate normal noise with zero mean
+and covariance matrix $\Sigma$.  The covariance matrix $\Sigma$ is characterized as
+\begin{equation}
+  \Sigma_{ii} = \sigma^2\text{,}\quad
+  \Sigma_{ij} = \sigma^2\rho\text{,}
+\end{equation}
+for all $i \neq j \in \{1, \ldots, n\}$, where $\rho$ is the correlation and $\sigma^2$
+is the variance.  The likelihood model of the data is
+\begin{equation}
+  \Prob(\vec{z} \mid \mu, \Sigma) = \exp\left(-\frac{1}{2}(\vec{z} - \vec{1}\mu)^T \Sigma^{-1} (\vec{z} - \vec{1}\mu)\right) \frac{1}{(2\pi)^{n/2} \lvert \Sigma \rvert}\text{.}
+\end{equation}
 
 \section{Comparing strategies}
 \label{sub:comparison}
