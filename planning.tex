@@ -55,6 +55,7 @@ We consider these two cases: \emph{estimating expected performance} and \emph{co
 algorithms}.
 
 \section{Estimating expected performance}
+\label{sec:expected-performance}
 
 When dealing with a data-driven solution, the available data is a representation of the
 real world.  So, we have to make the best use of the data we have to estimate how good our
@@ -357,5 +358,54 @@ should be aware of the limitations of the model.
 \label{sub:comparison}
 
 When we have two or more strategies to solve a problem, we need to compare them to see
+which one is better.  This is a common situation in data science projects, as we usually
+have many techniques to solve a problem.
+
+One way to look at this problem is to consider that the algorithm\footnote{That includes
+both data handling and machine learning.} $A$ has \emph{hyperparameters} $\lambda \in
+\Lambda$.  A hyperparameter here is a parameter that is not learned by the algorithm, but
+is set by the user.  For example, the number of neighbors in a k-NN algorithm is a
+hyperparameter.  For the sake of generality, we can consider that the hyperparameters may
+also include different learning algorithms or data handling pipelines.
+
+Let us say we have a baseline algorithm $A(\lambda_0)$ --- for instance, something that is
+in production or a well-known algorithm --- and a new candidate algorithm $A(\lambda)$.
+Suppose $\vec{p}(\lambda_0)$ and $\vec{p}(\lambda)$ are the performance vectors of the
+baseline and the candidate algorithms, respectively, that are calculated using the same
+strategy described in \cref{sec:expected-performance}.  We can validate whether the
+candidate is better than the baseline by
+\begin{equation*}
+  \Prob(\mu > 0 \mid \vec{z}) > \gamma\text{,}
+\end{equation*}
+where $z$ is now $\vec{p}(\lambda) - \vec{p}(\lambda_0)$ and $\gamma$ is the confidence
+level.  Also, the expected performance gain of the candidate algorithm is $\mu$ --- if
+negative, the performance loss.
+
+This strategy can be applied iteratively to compare many algorithms.  For example, we can
+compare $A(\lambda_1)$ with $A(\lambda_0)$, $A(\lambda_2)$ with $A(\lambda_1)$, and so on,
+keeping the best algorithm found so far as the baseline. In the cases where the confidence
+level is not reached, but the expected performance gain is positive, we can consider
+additional characteristics of the algorithms, like the interpretability of the model, the
+computational cost, or the ease of implementation, to decide which one is better. However,
+one should pay attention whether the probability
+\begin{equation*}
+  \Prob(\mu < 0 \mid \vec{z})
+\end{equation*}
+is too high or not.  Always ask yourself if the risk of the performance loss is worth in
+the real-world scenario.
+
+\subsection{About nesting experiments}
+
+Mathematically speaking, there is no difference between assessing the choice of
+$\left[\phi, \theta\right]$ and the choice of $\lambda$.  Thus, some techniques --- like
+grid search --- can be used to find the best hyperparameters using a nested experimental
+plan.
+
+The idea is the same, we assess how good is the expected choice of the
+hyperparameter-optimization technique $B$ to find the appropriate hyperparameters.  Similarly,
+the choice of the hyperparameters and the parameters that goes to production is the
+application of $B$ to the whole dataset.  However, never use the choices of the
+hyperparameters in the experimental plan to make decisions about what goes to production.
+(The same is true for the parameters $\left[\phi, \theta\right]$ in the traditional case.)
 
 % vim: spell spelllang=en
