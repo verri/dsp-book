@@ -76,7 +76,10 @@ experimental plan.
 
 \paragraph{Sampling strategy}  As any statistical evaluation, we need to generate samples
 of the performance of the possible solutions that $A$ is able to obtain. To do so, we use
-a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  Each
+a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  \textcolor{red}{%
+Since we assume the dataset $D$ is a representative sample of the real world, we must
+ensure that each sampled dataset has similar characteristics.  So handling operators like
+balancing the dataset should be applied only afterwards.}  Each
 dataset is further divided into a training set and a test set, which must be disjoint.
 The training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $p_1, p_2,
@@ -98,8 +101,8 @@ called the ground-truth or expected outcome.
 
 \paragraph{Performance assessment} Given a performance metric $R$, for each dataset $D_k$,
 we calculate
-$$p_i = R\!\left(\left[y_i\right]_i, \left[\hat{y}_i\right]_i\right)\text{.}$$
-Note that, by definition, $p_i$ is free of data leakage, as $\left[\phi_k,
+$$p_k = R\!\left(\left[y_i\right]_i, \left[\hat{y}_i\right]_i\right)\text{.}$$
+Note that, by definition, $p_k$ is free of data leakage, as $\left[\phi_k,
 \theta_k\right]$ are found without the use of the data in $D_{k,\text{test}}$ and to
 calculate $\hat{y}_i$ we use only $x_i$ (with no target $y_i$).
 
@@ -357,6 +360,8 @@ should be aware of the limitations of the model.
 \section{Comparing strategies}
 \label{sub:comparison}
 
+\textcolor{red}{Talk about paired dataset samples.}
+
 When we have two or more strategies to solve a problem, we need to compare them to see
 which one is better.  This is a common situation in data science projects, as we usually
 have many techniques to solve a problem.
@@ -369,7 +374,7 @@ hyperparameter.  For the sake of generality, we can consider that the hyperparam
 also include different learning algorithms or data handling pipelines.
 
 Let us say we have a baseline algorithm $A(\lambda_0)$ --- for instance, something that is
-in production or a well-known algorithm --- and a new candidate algorithm $A(\lambda)$.
+in production, the result of the last sprint or a well-known algorithm --- and a new candidate algorithm $A(\lambda)$.
 Suppose $\vec{p}(\lambda_0)$ and $\vec{p}(\lambda)$ are the performance vectors of the
 baseline and the candidate algorithms, respectively, that are calculated using the same
 strategy described in \cref{sec:expected-performance}.  We can validate whether the
@@ -377,7 +382,7 @@ candidate is better than the baseline by
 \begin{equation*}
   \Prob(\mu > 0 \mid \vec{z}) > \gamma\text{,}
 \end{equation*}
-where $z$ is now $\vec{p}(\lambda) - \vec{p}(\lambda_0)$ and $\gamma$ is the confidence
+where $\vec{z}$ is now $\vec{p}(\lambda) - \vec{p}(\lambda_0)$ and $\gamma$ is the confidence
 level.  Also, the expected performance gain of the candidate algorithm is $\mu$ --- if
 negative, the performance loss.
 
@@ -407,5 +412,8 @@ the choice of the hyperparameters and the parameters that goes to production is 
 application of $B$ to the whole dataset.  However, never use the choices of the
 hyperparameters in the experimental plan to make decisions about what goes to production.
 (The same is true for the parameters $\left[\phi, \theta\right]$ in the traditional case.)
+
+\textcolor{red}{We can unnest the search by interpreting the options as different
+algorithms two by two.}
 
 % vim: spell spelllang=en
