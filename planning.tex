@@ -49,7 +49,7 @@ the real-world given dataset $Z$ as training set (assuming $Z$ is a representati
 dataset)?''
 
 Another example is ``Is technique $A$ better than technique $B$ for finding a model that
-predicts the output of dataset $C$ given $D$ as a training set in terms of metric $E$?''
+predicts the output with $D$ as a training set in terms of metric $E$?''
 
 We consider these two cases: \emph{estimating expected performance} and \emph{comparing
 algorithms}.
@@ -70,6 +70,8 @@ Let us say we fix a certain technique, let us call it $A$.  Let $M$ be the solut
 by $A$ using the whole dataset $D$.  If we assess $M$ using the whole dataset $D$, the
 performance $p$ we get is optimistic.  This is because $M$ has been trained and tested
 on the same data.
+
+\textcolor{red}{Hold out does not solve the problem.}
 
 To estimate better the expected performance of $M$ in production, we can use the following
 experimental plan.
@@ -168,7 +170,7 @@ the performance of the solution $M$.
     \path [line, dashed] (3, -7) -- (model);
 
     \node [block] (preprocess) at (-1.5, -9) {Preprocessing};
-    \node [block] (prediction) at (1.5, -9) {Prediction};
+    \node [block] (prediction) at (1.5, -9) {Predictor};
 
     \path [line, dashed] (handling) -- (preprocess);
     \path [line, dashed] (learning) -- (prediction);
