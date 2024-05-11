@@ -122,8 +122,10 @@ This is the \emph{empirical risk minimization} (ERM) problem.
 
 This formulation encompasses many specific problems. I focus on the two of them which I
 believe are the most fundamental ones: \emph{binary data classification}\footnote{Vapnik
-calls it \emph{pattern recognition}.} and \emph{regresssion estimation}\footnote{We are not talking about
-\emph{regression analysis}.}.  I left aside the density estimation problem, once it is not
+calls it \emph{pattern recognition}.} and \emph{regression estimation}\footnote{We are not
+talking about \emph{regression analysis}, it is closer to the \emph{scoring} task
+definition by \textcite{Zumel2019}.}.  I left aside the density estimation problem, once
+it is not
 addressed in the remaining of the book.
 
 \paragraph{Binary data classification task.}  In this task, the output $y$ take on
@@ -136,7 +138,7 @@ functions. For the loss
   \end{cases}
 \end{equation*}
 we aim at minimizing the risk $\eqref{eq:risk}$ which becomes the probability of
-classification error.
+classification error.  The function $f$, in this case, is called \emph{classifier}.
 
 \paragraph{Regression estimation task.} Let the outcome $y$ be a real value and
 the \emph{regression} $r$ be $$r(x) = \int y\, d\Prob(y|x) \text{.}$$
@@ -155,6 +157,51 @@ metric $l_2$, i.e. we look for $\theta'$ such that
     \int \big(r(x) - f_\theta(x)\big)^2\, d\Prob(x)
   }\text{.}
 \end{equation*}
+The function $f$, in this case, is called \emph{regressor}.
+
+\subsection{A few remarks and definitions}
+
+\paragraph{Supervised and semissupervised learning}
+In both cases, classification and regression, the learning task is to find the function
+that maps the input data to the output data in the best possible way.  Although the
+learning machine described generate models in a \emph{supervised} manner, there are
+alternative ways to solve the inductive learning problem, such as \emph{semisupervised}
+approach, where the model can be trained with a small subset of labeled data and a large
+subset of unlabeled data --- that is, data whose labels $y$ are unknown.
+
+\paragraph{Mislabeled data}
+Another important premise is that all given labels are correct.  This is a strong
+assumption, but it is necessary to ensure the learning process.  In practice, it is
+possible to have mislabeled data, but it is a different problem that must be addressed
+before the learning process.  Some works address the robustness of learning machines
+in cases of mislabeled data \parencite{Silva2013}. % TODO more papers
+
+\paragraph{Generative and discriminative models}
+Any learning machine generates a model that describes the relationship between the input
+and output data.  This model can be generative or discriminative.  Generative models
+describe the joint probability distribution $\Prob(x, y)$ and can be used to generate new
+data.  Discriminative models, on the other hand, describe the conditional probability
+distribution $\Prob(y \mid x)$ and are used to make predictions. Generative models are
+usually much more complex than discriminative models, but they hold more information about
+the data, solving indirectly the conditional probability.  As a general rule, if you only
+need to solve the predictive problem, use a discriminative model.
+
+\paragraph{Multiclass classification}
+In the binary classification task, the output $y$ is
+a binary variable.  However, it is possible to have a multiclass classification task,
+where  $y$ can take on more than two possible values.  Although some learning methods can
+address directly the multiclass classification task, it is possible to transform the
+problem into a binary classification task.  The most common method is the
+\emph{one-versus-all} method where we train $l$ binary classifiers, one for each class,
+and the class with the highest score is the predicted class.  Another method is the
+\emph{one-versus-one} method, where we train $l(l-1)/2$ binary classifiers, one for each
+pair of classes, and the class with the most votes is the predicted class.
+
+\paragraph{Number of inputs and outputs}
+Note that the definition of the learning problem does not restrict the number of inputs
+and outputs.  The input data can be a scalar, a vector, a matrix, or a tensor, and the
+output as well.  The learning machine must be able to handle the input and output data
+according to the problem.
 
 \section{ERM inductive principle}
 
