@@ -5,3 +5,170 @@
   {\fontspec[Scale=2]{Symbola}\color{black!80}\symbol{"1F5E1}}
   It's dangerous to go alone! Take this.
   \par\raggedleft--- \textup{Unnamed Old Man}, The Legend of Zelda}
+
+One fundamental step in the development of a data driven solution for a task is the
+evaluation of the model. This chapter presents strategies to measure performance of
+classifiers and regressors, and how to interpret the results.
+
+We consider the following setup.  Let $D = \{(\vec{x}_i, y_i)\}_{i=1,\dots,n}$ be the
+dataset, where $\vec{x}_i$ is a feature vector and $y_i$ is the target value.  We assume
+that the dataset is split into a training set, given by indices
+$\mathcal{I}_\text{training}$, and a test set, given by indices $\mathcal{I}_\text{test}$,
+where $\mathcal{I}_\text{training} \cap \mathcal{I}_\text{test} = \emptyset$ and
+$\mathcal{I}_\text{training} \cup \mathcal{I}_\text{test} = \{1,\dots,n\}$.
+
+For evaluation, we assume that the model has been trained on the training set and that
+predictions are made on the test set.  We denote the predicted values as $\hat{y}_i$ for
+$i \in \mathcal{I}_\text{test}$, such that
+\begin{equation*}
+  \hat{y}_i = f_\theta(\vec{x}_i)\text{,}
+\end{equation*}
+where $\theta$ is the solution found by the learning algorithm from the training set, see
+\cref{eq:risk}.
+
+\section{Binary classification evaluation}
+
+% \begin{frame}{Classificação de dados}
+%     \begin{block}{Como avaliar a qualidade de uma solução?}
+%         \begin{itemize}
+%             \item Para avaliação de soluções em tarefas de classificação de dados,
+%             precisamos saber quais exemplos foram classificados em quais classes
+%             \item Para isso, construímos a matriz de confusão
+%             \item Essa matriz serve de base para as \emph{medidas de desempenho}
+%         \end{itemize}
+%     \end{block}
+% \end{frame}
+%
+% \begin{frame}{Classificação de dados}
+%     \textcolor{red}{Matriz de confusão}
+%     \begin{itemize}
+%         \item Linhas representam classes verdadeiras
+%         \item Colunas representam classes preditas
+%         \item Diagonal representa acertos
+%         \item Demais elementos representam erros
+%     \end{itemize}
+%     \vfill
+%     {}
+% \end{frame}
+%
+% \begin{frame}{Classificação de dados}
+%     No caso de classificação binária, temos:
+%     \[
+%         \begin{blockarray}{cccc}
+%             & & \multicolumn{2}{c}{Classe predita} \\
+%             & & + & - \\
+%             \begin{block}{l c (c c)}
+%                 Classe   & + & VP & FN \\
+%                 esperada & - & FP & VN \\
+%             \end{block}
+%         \end{blockarray}
+%     \]
+%     \begin{itemize}
+%         \item VP: verdadeiros positivos
+%         \item VN: verdadeiros negativos
+%         \item FP: falsos positivos
+%         \item FN: falsos negativos
+%     \end{itemize}
+% \end{frame}
+
+In order to assess the quality of a binary classification model, we need to know which
+samples in the test set were classified into which classes.  This information is
+summarized in the \emph{confusion matrix}, which is the basis for performance measures in
+classification tasks.
+
+\subsection{Confusion matrix}
+
+The confusion matrix is a table where the rows represent the true classes and the columns
+represent the predicted classes.  The diagonal of the matrix represents the correct
+classifications, while the off-diagonal elements represent errors.  For binary
+classification, the confusion matrix is given by
+\begin{equation*}
+  \begin{blockarray}{cccc}
+    & & \multicolumn{2}{c}{\text{Predicted}} \\
+    & & 1 & 0 \\
+    \begin{block}{l c (c c)}
+      \text{Expected} & 1 & \text{TP} & \text{FN} \\
+      & 0 & \text{FP} & \text{TN} \\
+    \end{block}
+  \end{blockarray}
+\end{equation*}
+where
+\begin{itemize}
+  \item FP is the number of false positives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 0 \land \hat{y}_i = 1 \}|$,
+  \item FN is the number of false negatives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 1 \land \hat{y}_i = 0 \}|$,
+  \item TP is the number of true positives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 1 \land \hat{y}_i = 1 \}|$, and
+  \item TN is the number of true negatives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 0 \land \hat{y}_i = 0 \}|$.
+\end{itemize}
+
+\subsection{Performance measures}
+
+From the confusion matrix, we can derive several performance measures.  The most common
+ones are the accuracy, precision, recall, and F-score.
+
+\paragraph{Accuracy} is the proportion of correct predictions over the total number of
+samples in the test set, given by
+\begin{equation*}
+  \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\text{.}
+\end{equation*}
+This measure is simple and easy to interpret, but it can be misleading when the classes
+are imbalanced --- i.e. when the number of samples in each class is very different.
+Consider the case where the dataset has 90\% of samples in class 0 and 10\% in class 1;
+a classifier that always predicts class 0 will have an accuracy of 90\%, but it is not
+useful for the task.
+
+\paragraph{Precision} is the proportion of true positive predictions over the total number
+of samples predicted as positive, given by
+\begin{equation*}
+  \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}\text{.}
+\end{equation*}
+This measure is useful when the cost of false positives is high, as it quantifies the
+ability of the classifier to avoid false positives.  For example, in a medical diagnosis
+task, precision is important to avoid unnecessary treatments.  However, precision does not
+consider false negatives, which can be problematic in other scenarios.  For instance, in
+fraud detection, a false negative means that a fraudulent transaction was not detected.
+A classifier that always predicts class 1 will have a precision of 10\% in the example
+above.  On the other hand, a classifier that always predicts class 0 will have a precision
+of 0\% --- consider $0/0 = 0$.
+
+\paragraph{Recall} is the proportion of true positive predictions over the total number of
+samples that are actually positive, given by
+\begin{equation*}
+  \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{.}
+\end{equation*}
+This measure is useful when the cost of false negatives is high, as it quantifies the
+ability of the classifier to avoid false negatives.  It can also be interpreted as the
+``completeness'' of the classifier: how many positive samples were correctly identified.
+For example, in a medical diagnosis task, recall is important to avoid missing a
+diagnosis.  A classifier that always predicts class 1 will have a recall of 100\% in the
+example above.  On the other hand, a classifier that always predicts class 0 will have a
+recall of 0\%.
+
+\paragraph{F-score} is the weighted harmonic mean of precision and recall given by
+\begin{equation*}
+  \text{F-score}(\beta) =
+    \frac%
+      {(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}
+      {\beta^2 \cdot \text{Precision} + \text{Recall}}\text{,}
+\end{equation*}
+where $\beta$ is a parameter that controls the weight of precision in the measure.  The
+most common value for $\beta$ is 1, which gives the F$_1$-score.  The F-score is useful
+when we want to balance precision and recall, as it considers both false positives and
+false negatives.  For instance, a classifier that always predicts class 1 will have an
+F$_1$-score of 0.18 in the example above.  On the other hand, a classifier that always
+predicts class 0 will have an F$_1$-score of 0.  Note that, although guessing $1$ is
+better than guessing $0$ in terms of F$_1$-score, this measure is much better than
+accuracy to evaluate the performance of the classifier in imbalanced problems.
+
+\section{Regression estimation evaluation}
+
+
+\section{Probabilistic classification evaluation}
+
+\section{Other variations}
+
+Some other points:
+\begin{itemize}
+  \item measures for classification are asymmetric;
+  \item multiclass how to evaluate?
+  \item customize to address the real problem.
+\end{itemize}
