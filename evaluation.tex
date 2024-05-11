@@ -28,49 +28,6 @@ where $\theta$ is the solution found by the learning algorithm from the training
 
 \section{Binary classification evaluation}
 
-% \begin{frame}{Classificação de dados}
-%     \begin{block}{Como avaliar a qualidade de uma solução?}
-%         \begin{itemize}
-%             \item Para avaliação de soluções em tarefas de classificação de dados,
-%             precisamos saber quais exemplos foram classificados em quais classes
-%             \item Para isso, construímos a matriz de confusão
-%             \item Essa matriz serve de base para as \emph{medidas de desempenho}
-%         \end{itemize}
-%     \end{block}
-% \end{frame}
-%
-% \begin{frame}{Classificação de dados}
-%     \textcolor{red}{Matriz de confusão}
-%     \begin{itemize}
-%         \item Linhas representam classes verdadeiras
-%         \item Colunas representam classes preditas
-%         \item Diagonal representa acertos
-%         \item Demais elementos representam erros
-%     \end{itemize}
-%     \vfill
-%     {}
-% \end{frame}
-%
-% \begin{frame}{Classificação de dados}
-%     No caso de classificação binária, temos:
-%     \[
-%         \begin{blockarray}{cccc}
-%             & & \multicolumn{2}{c}{Classe predita} \\
-%             & & + & - \\
-%             \begin{block}{l c (c c)}
-%                 Classe   & + & VP & FN \\
-%                 esperada & - & FP & VN \\
-%             \end{block}
-%         \end{blockarray}
-%     \]
-%     \begin{itemize}
-%         \item VP: verdadeiros positivos
-%         \item VN: verdadeiros negativos
-%         \item FP: falsos positivos
-%         \item FN: falsos negativos
-%     \end{itemize}
-% \end{frame}
-
 In order to assess the quality of a binary classification model, we need to know which
 samples in the test set were classified into which classes.  This information is
 summarized in the \emph{confusion matrix}, which is the basis for performance measures in
@@ -161,6 +118,40 @@ accuracy to evaluate the performance of the classifier in imbalanced problems.
 
 \section{Regression estimation evaluation}
 
+Performance measures for regression tasks are calculated based on the error or residual
+$\epsilon_i = y_i - \hat{y}_i$ for all $i \in \mathcal{I}_\text{test}$.  The most common measures
+are the mean absolute error, mean squared error, and coefficient of determination.
+
+\paragraph{Mean absolute error} is the average of the absolute values of the residuals,
+given by
+\begin{equation*}
+  \text{MAE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i |\text{.}
+\end{equation*}
+This measure is easy to interpret and gives an idea of the average error of the model.
+
+\paragraph{Mean squared error} is the average of the squared residuals, given by
+\begin{equation*}
+  \text{MSE} = \frac{1}{n} \sum_{i=1}^n \epsilon_i^2\text{.}
+\end{equation*}
+This measure penalizes large errors more than the mean absolute error, as the squared
+residuals are summed.
+
+\paragraph{Root mean squared error} is the square root of the mean squared error, given by
+\begin{equation*}
+  \text{RMSE} = \sqrt{\text{MSE}}\text{.}
+\end{equation*}
+This measure is in the same unit as the target variable, which makes it easier to
+interpret.
+
+\paragraph{Coefficient of determination} is a measure of how well the model explains the
+variance of the target variable, given by
+\begin{equation*}
+  R^2 = 1 - \frac{1}{(n-1)s^2} \sum_{i=1}^n \epsilon_i^2\text{,}
+\end{equation*}
+where $s^2$ is the sample variance of the target variable $y_i : i \in
+\mathcal{I}_\text{test}$.  The coefficient of determination ranges from $-\infty$ to 1,
+where 1 indicates a perfect fit and 0 indicates that the model is as good as the mean of
+the target variable.  Negative values indicate that the model is worse than the mean.
 
 \section{Probabilistic classification evaluation}
 
@@ -169,6 +160,7 @@ accuracy to evaluate the performance of the classifier in imbalanced problems.
 Some other points:
 \begin{itemize}
   \item measures for classification are asymmetric;
+  \item prefer measures that work well with averaging;
   \item multiclass how to evaluate?
   \item customize to address the real problem.
 \end{itemize}
