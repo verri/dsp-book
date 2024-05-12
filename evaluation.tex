@@ -191,11 +191,23 @@ threshold $\tau$:
   \end{cases}
 \end{equation*}
 
+Before we discuss the performance measures for probabilistic classifiers, let us define
+some rates that are used in the evaluation.  The true positive rate (TPR) is the proportion
+of true positive predictions over the total number of samples that are actually positive,
+\begin{equation*}
+  \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{,}
+\end{equation*}
+and the false positive rate (FPR) is the proportion of false positive predictions over the
+total number of samples that are actually negative,
+\begin{equation*}
+  \text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}\text{.}
+\end{equation*}
+
 The performance of the possible variations of the classifiers can be evaluated using
 appropriate measures.  Consider the example below of a given test set and the predictions
 of a regressor.  We first sort the samples by the predicted probabilities and then
 % TODO: define TPR, FPR, FNR somewhere else
-calculate the true positive rate (TPR) and false positive rate (FPR) for each threshold.
+calculate the true positive rate and false positive rate for each threshold.
 We need to consider only thresholds equal to the unique predicted values to understand the
 variations.
 
@@ -221,28 +233,102 @@ variations.
   \end{tabular}
 \end{tablebox}
 
+From this table, we can calculate the performance measures that are useful for
+probabilistic classifiers.
+
 \subsection{Receiver operating characteristic}
 
-% \begin{frame}{Análise da curva ROC}
-%     \begin{block}{Definição}
-%         \begin{itemize}
-%             \item \emph{Receiver operating characteristic}
-%             \item Consiste no gráfico TPR (TP/TP+FN) vs FPR (FP/FP+VN) ao variar $\tau$
-%             \begin{itemize}
-%                 \item Analisa o trade-off ao variar o limiar
-%             \end{itemize}
-%             \item Pode ser resumido usando a área sob a curva (AUC) (scale invariant)
-%             \item Formato de gráfico permite explorar possíveis conflitos de objetivos do projeto
-%             \item Possibilita que o cliente entenda e altere o limiar conforme necessidade
-%         \end{itemize}
-%     \end{block}
-% \end{frame}
+The receiver operating characteristic (ROC) curve is a graphical representation of the
+trade-off between the true positive rate and the false positive rate as the threshold
+$\tau$ is varied.  The ROC curve is obtained by plotting the TPR against the FPR for all
+possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
+\cref{tab:prob-reg-example}.
 
-TPR vs FPR\dots
+\begin{figurebox}[label=fig:roc-example]{Illustrative example of ROC curve.}
+  \centering
+  \begin{tikzpicture}
+    \datavisualization [
+      scientific axes=clean,
+      visualize as line/.list={curve, diagonal},
+      x axis={label={FPR}, include value=0.0, include value=1.0, length=5cm},
+      y axis={label={TPR}, include value=0.0, include value=1.0, length=5cm},
+      all axes={grid},
+      style sheet=vary dashing,
+    ] data [set=curve] {
+      % based on the table above
+      x, y
+      0.0, 0.0
+      0.0, 0.2
+      0.0, 0.4
+      0.2, 0.4
+      0.2, 0.6
+      0.2, 0.8
+      0.4, 0.8
+      0.6, 0.8
+      0.6, 1.0
+      0.8, 1.0
+      1.0, 1.0
+    } data [set=diagonal] {
+      x, y
+      0.0, 0.0
+      1.0, 1.0
+    };
+  \end{tikzpicture}
+  \tcblower
+  ROC curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
+  a random classifier, and points above the diagonal are better than random.
+\end{figurebox}
+
+The ROC curve is useful to explore the trade-off between recall and specificity.  The
+diagonal line represents a random classifier, and points above the diagonal are better
+than random.  The area under the ROC curve (AUC) is a possible measure of the performance
+of the classifier.  The AUC is scale invariant, which means that it measures how well
+predictions are ranked, rather than their absolute values.  In our example, the AUC is
+$0.8$.
 
 \subsection{Detection error trade-off}
 
-FNR (1 - TPR) vs FPR\dots
+The detection error trade-off (DET) curve is a graphical representation of the trade-off
+between the false positive rate and the false negative rate (FNR),
+\begin{equation*}
+  \text{FNR} = \frac{\text{FN}}{\text{TP} + \text{FN}} = 1 - \text{TPR}\text{.}
+\end{equation*}
+The DET curve is similar to the ROC curve, but by plotting only the FPR and FNR, it gives
+a better view of the ``cost'' (errors) of different thresholds.  The DET curve is
+especially useful when the cost of false positives and false negatives is different.
+
+Usually, the DET curve is plotted in a logarithmic scale, which makes  more linear than
+ROC curves.  The DET curve of our example is shown in \cref{fig:det-example}.
+
+\begin{figurebox}[label=fig:det-example]{Illustrative example of DET curve.}
+  \centering
+  \begin{tikzpicture}
+    \datavisualization [
+      scientific axes=clean,
+      visualize as line,
+      x axis={label={FPR}, include value=0.0, include value=1.0, length=5cm},
+      y axis={label={FNR}, include value=0.0, include value=1.0, length=5cm},
+      all axes={grid},
+    ] data {
+      % based on the table above
+      x, y
+      0.0, 1.0
+      0.0, 0.8,
+      0.0, 0.6,
+      0.2, 0.6,
+      0.2, 0.4,
+      0.2, 0.2,
+      0.4, 0.2,
+      0.6, 0.2,
+      0.6, 0.0,
+      0.8, 0.0,
+      1.0, 0.0,
+    };
+  \end{tikzpicture}
+  \tcblower
+  DET curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
+  a random classifier, and points below the diagonal are better than random.
+\end{figurebox}
 
 \section{Other variations}
 
