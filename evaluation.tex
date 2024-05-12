@@ -73,6 +73,19 @@ Consider the case where the dataset has 90\% of samples in class 0 and 10\% in c
 a classifier that always predicts class 0 will have an accuracy of 90\%, but it is not
 useful for the task.
 
+\paragraph{Specificity} is the proportion of true negative predictions over the total
+number of samples that are actually negative, given by
+\begin{equation*}
+  \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}}\text{.}
+\end{equation*}
+This measure is useful when the cost of false positives is high, as it quantifies the
+ability of the classifier to avoid false positives.  A test with a higher specificity has
+a lower type I error rate.  In terms of a medical diagnosis, a type I error corresponds to
+diagnosing a patient as sick\footnote{Sick is the positive class} when they are healthy.
+A classifier that always predicts class 1 will have a specificity of 0\% in the example
+above.  On the other hand, a classifier that always predicts class 0 will have a specificity
+of 100\%.
+
 \paragraph{Precision} is the proportion of true positive predictions over the total number
 of samples predicted as positive, given by
 \begin{equation*}
@@ -154,6 +167,82 @@ where 1 indicates a perfect fit and 0 indicates that the model is as good as the
 the target variable.  Negative values indicate that the model is worse than the mean.
 
 \section{Probabilistic classification evaluation}
+
+A particular case of the regression estimation is when we want to estimate the
+probability\footnote{Although the term probability is used, the output of the regressor
+does not need to be a probability in the strict sense.  It is a confidence level in the
+interval $[0, 1]$ that can be interpreted as a probability.} of a sample belonging to the
+positive class --- i.e. $y = 1$.  In this case, the output of the model should be a
+probability in the interval $[0, 1]$.  We can use a threshold $\tau$ to convert the
+probabilities into binary predictions.  The default threshold is usually $\tau = 0.5$ ---
+a sample is positive if the probability is greater than or equal to 0.5 and negative
+otherwise ---, but it can be adjusted to change the trade-off between recall and
+specificity. A low threshold, $\tau \approx 0$, will increase recall at the expense of
+specificity, while a high threshold, $\tau \approx 1$, will increase specificity at the
+expense of recall.
+
+Thus, any regressor $f_R : \mathcal{X} \rightarrow [0, 1]$ can be converted into a binary
+classifier $f_C : \mathcal{X} \rightarrow \{0, 1\}$ by comparing the output with the
+threshold $\tau$:
+\begin{equation*}
+  f_C(\vec{x}) = \begin{cases}
+    1 & \text{if } f_R(\vec{x}) \geq \tau\text{,} \\
+    0 & \text{otherwise}\text{.}
+  \end{cases}
+\end{equation*}
+
+The performance of the possible variations of the classifiers can be evaluated using
+appropriate measures.  Consider the example below of a given test set and the predictions
+of a regressor.  We first sort the samples by the predicted probabilities and then
+% TODO: define TPR, FPR, FNR somewhere else
+calculate the true positive rate (TPR) and false positive rate (FPR) for each threshold.
+We need to consider only thresholds equal to the unique predicted values to understand the
+variations.
+
+\begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of probability .}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{rrrr}
+    \toprule
+    \textbf{Predicted/Threshold} & \textbf{Expected} & \textbf{TPR} & \textbf{FPR}  \\
+    \midrule
+    - / $\infty$ & - & $0/5$ & $0/5$ \\
+    $0.98$       & 1 & $1/5$ & $0/5$ \\
+    $0.97$       & 1 & $2/5$ & $0/5$ \\
+    $0.80$       & 0 & $2/5$ & $1/5$ \\
+    $0.72$       & 1 & $3/5$ & $1/5$ \\
+    $0.70$       & 1 & $4/5$ & $1/5$ \\
+    $0.66$       & 0 & $4/5$ & $2/5$ \\
+    $0.52$       & 0 & $4/5$ & $3/5$ \\
+    $0.40$       & 1 & $5/5$ & $3/5$ \\
+    $0.25$       & 0 & $5/5$ & $4/5$ \\
+    $0.10$       & 0 & $5/5$ & $5/5$ \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+\subsection{Receiver operating characteristic}
+
+% \begin{frame}{Análise da curva ROC}
+%     \begin{block}{Definição}
+%         \begin{itemize}
+%             \item \emph{Receiver operating characteristic}
+%             \item Consiste no gráfico TPR (TP/TP+FN) vs FPR (FP/FP+VN) ao variar $\tau$
+%             \begin{itemize}
+%                 \item Analisa o trade-off ao variar o limiar
+%             \end{itemize}
+%             \item Pode ser resumido usando a área sob a curva (AUC) (scale invariant)
+%             \item Formato de gráfico permite explorar possíveis conflitos de objetivos do projeto
+%             \item Possibilita que o cliente entenda e altere o limiar conforme necessidade
+%         \end{itemize}
+%     \end{block}
+% \end{frame}
+
+TPR vs FPR\dots
+
+\subsection{Detection error trade-off}
+
+FNR (1 - TPR) vs FPR\dots
 
 \section{Other variations}
 
