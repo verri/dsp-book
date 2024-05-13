@@ -1,11 +1,11 @@
 all: watch
 
 watch:
-	latexmk -pdfxe -pvc -interaction=nonstopmode main.tex -output-directory=build
+	latexmk -shell-escape -pdfxe -pvc -interaction=nonstopmode main.tex -output-directory=build
 
 web:
-	latexmk -pdfxe main.tex -output-directory=build
-	latexmk -pdfxe main-courses.tex -output-directory=build-courses
+	latexmk -shell-escape -pdfxe main.tex -output-directory=build
+	latexmk -shell-escape -pdfxe main-courses.tex -output-directory=build-courses
 	pdfjam --keepinfo --paper a5paper --outfile build/main-fixed.pdf build/main.pdf "2-"
 	a5toa4 build/main-fixed.pdf
 	nmcli con up vpita-intranet

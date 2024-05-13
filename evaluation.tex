@@ -296,9 +296,7 @@ between the false positive rate and the false negative rate (FNR),
 The DET curve is similar to the ROC curve, but by plotting only the FPR and FNR, it gives
 a better view of the ``cost'' (errors) of different thresholds.  The DET curve is
 especially useful when the cost of false positives and false negatives is different.
-
-Usually, the DET curve is plotted in a logarithmic scale, which makes  more linear than
-ROC curves.  The DET curve of our example is shown in \cref{fig:det-example}.
+The DET curve of our example is shown in \cref{fig:det-example}.
 
 \begin{figurebox}[label=fig:det-example]{Illustrative example of DET curve.}
   \centering
@@ -329,6 +327,50 @@ ROC curves.  The DET curve of our example is shown in \cref{fig:det-example}.
   DET curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
   a random classifier, and points below the diagonal are better than random.
 \end{figurebox}
+
+Usually, the DET curve is plotted in a normal deviate scale~\parencite{Martin1997}.  In
+this scale, the axes are transformed to show the error rates in a more linear way.
+
+\begin{figurebox}[label=fig:det-example-normal]{Illustrative example of DET curve (normal deviate scale).}
+  \centering
+  \begin{tikzpicture}
+    \datavisualization [
+      scientific axes=clean,
+      visualize as line,
+      x axis={%
+        label={FPR},
+        include value=0.001, include value=0.999,
+        scaling=-3 at 0cm and 3 at 5cm,
+        ticks={%
+        %   major={at={0.001, 0.005, 0.02, 0.05, 0.1, 0.2, 0.5, 0.8, 0.9, 0.95, 0.98, 0.995, 0.999}},
+          tick typesetter/.code={%
+            \gnuplotNorm{##1}
+            \pgfmathprintnumber{##1}$\sigma$% (\pgfmathprintnumber{\gnuplotResult})%
+          },%
+        },%
+        % function=\pgfdvmathinvnorm{\pgfvalue}{\pgfvalue}%
+      }%
+    ] data {
+      x,y
+      -3.090232306167813,3.090232306167813
+      -2.5758293035489,2.5758293035489
+      -2.0537489106318225,2.053748910631822
+      -1.6448536269514726,1.6448536269514715
+      -1.2815515655446008,1.2815515655446008
+      -0.8416212335729142,0.8416212335729144
+      0,0
+      0.8416212335729144,-0.8416212335729142
+      1.2815515655446008,-1.2815515655446008
+      1.6448536269514715,-1.6448536269514726
+      2.053748910631822,-2.0537489106318225
+      2.5758293035489,-2.5758293035489
+      3.090232306167813,-3.090232306167813
+    };
+  \end{tikzpicture}
+\end{figurebox}
+
+% \gnuplotInvnorm{0.001}
+% Result is \gnuplotResult
 
 \section{Other variations}
 
