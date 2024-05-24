@@ -131,9 +131,9 @@ accuracy to evaluate the performance of the classifier in imbalanced problems.
 
 \section{Regression estimation evaluation}
 
-Performance measures for regression tasks are calculated based on the error or residual
-$\epsilon_i = y_i - \hat{y}_i$ for all $i \in \mathcal{I}_\text{test}$.  The most common measures
-are the mean absolute error, mean squared error, and coefficient of determination.
+Performance measures for regression tasks are usally calculated based on the error or residual
+$\epsilon_i = \hat{y}_i - y_i$ for all $i \in \mathcal{I}_\text{test}$.  The most common measures
+are the mean absolute error, mean squared error.
 
 \paragraph{Mean absolute error} is the average of the absolute values of the residuals,
 given by
@@ -156,15 +156,20 @@ residuals are summed.
 This measure is in the same unit as the target variable, which makes it easier to
 interpret.
 
-\paragraph{Coefficient of determination} is a measure of how well the model explains the
-variance of the target variable, given by
-\begin{equation*}
-  R^2 = 1 - \frac{1}{(n-1)s^2} \sum_{i=1}^n \epsilon_i^2\text{,}
-\end{equation*}
-where $s^2$ is the sample variance of the target variable $y_i : i \in
-\mathcal{I}_\text{test}$.  The coefficient of determination ranges from $-\infty$ to 1,
-where 1 indicates a perfect fit and 0 indicates that the model is as good as the mean of
-the target variable.  Negative values indicate that the model is worse than the mean.
+% Deixar de fora.
+% \paragraph{Coefficient of determination} is a measure of how well the model explains the
+% variance of the target variable, given by
+% \begin{equation*}
+%   R^2 = 1 - \frac{1}{(n-1)s^2} \sum_{i=1}^n \epsilon_i^2\text{,}
+% \end{equation*}
+% where $s^2$ is the sample variance of the target variable $y_i : i \in
+% \mathcal{I}_\text{test}$.  The coefficient of determination ranges from $-\infty$ to 1,
+% where 1 indicates a perfect fit and 0 indicates that the model is as good as the mean of
+% the target variable.  Negative values indicate that the model is worse than the mean.
+
+% Sometimes, \dots
+% Falar do RMSLE, plotar a curva em função da diferença. RMSLE incurs a larger penalty for
+% the underestimation of the Actual variable than the Overestimation.
 
 \section{Probabilistic classification evaluation}
 

@@ -86,13 +86,13 @@ Consider the set
 \end{equation}
 where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
 $y_i \in \mathcal{Y}$.  We assume that samples are random independent identically
-distributed (i.i.d.) observations drawn according to $$\Prob(x, y) = \Prob(x) \Prob(y | x)\text{.}$$
-Both $\Prob(x)$ and $\Prob(y|x)$ are fixed but unknown.
+distributed (i.i.d.) observations drawn according to $$\Prob(x, y) = \Prob(y \mid x) \Prob(x)\text{.}$$
+Both $\Prob(x)$ and $\Prob(y \mid x)$ are fixed but unknown.
 
 This is equivalent to the original learning problem stated by \textcite{Vapnik1999b}, where
 a generator produce random vectors $\vec{x}$ according to a fixed but unknown
 probability distribution $\Prob(x)$ and a supervisor returns an output value $y$ for every
-input vector $x$ according to a conditional distribution function $\Prob(y|x)$, also fixed but
+input vector $x$ according to a conditional distribution function $\Prob(y \mid x)$, also fixed but
 unknown.
 
 Moreover, note that this setup is compatible with the idea of tidy data and 3NF (see
