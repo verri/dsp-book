@@ -203,7 +203,15 @@ and outputs.  The input data can be a scalar, a vector, a matrix, or a tensor, a
 output as well.  The learning machine must be able to handle the input and output data
 according to the problem.
 
-\paragraph{Parametric vs nonparametric models} \dots
+\paragraph{Parametric vs nonparametric models}
+The learning machine generates a set of functions $f_\theta$ where $|\theta|$ can be fixed
+or not.  If $|\theta|$ is always fixed, the model is called \emph{parametric}.  If
+$|\theta|$ is not fixed beforehand, the model is called \emph{nonparametric}.  Parametric
+models are usually simpler and faster, but they are less flexible.  In other words, it is
+up to the researcher to choose the best model ``size'' for the problem.  If the model is
+too small, it will not be able to capture the complexity of the data.  If the model is too
+large, it will be too complex, too slow to train and might overfit to the data. Non
+parametric models are more flexible, but they usually require more data to be trained.
 
 \section{ERM inductive principle}
 
