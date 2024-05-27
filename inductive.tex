@@ -382,24 +382,45 @@ illustrated in \cref{fig:trivial-consistency}.
 
 \subsection{Regression estimation methods}
 
+\newpage
 \section{Learning bias}
 
 \emph{Learning bias}, or \emph{inductive bias}, is the set of assumptions that the
 learning machine uses to generate the set of functions $\left\{ f_\theta : \theta \in
-\Theta \right\}$.  Vapnik shows that the learning bias is the key to the generalization
+\Theta \right\}$ --- see \cref{fig:learning-bias}.  Vapnik shows that the learning bias is the key to the generalization
 ability of the learning process: the smaller the learning bias, the better the
 generalization ability \parencite{Vapnik1999b}.  In an illustrative thought experiment,
 one can see that ``no bias means no learning,'' since the learning machine would generate
 all possible functions, which is impossible, including the function that perfectly fits
 the training data but fails to generalize.
 
-It is important to understand the learning bias of the main learning methods.  Let's
+\begin{figurebox}[label=fig:learning-bias]{Learning bias illustration.}
+  % A figure with points in the sapce \Theta and arrows between possible solutions
+  \centering
+  \begin{tikzpicture}
+    \draw[outline] (0,0) circle (25mm) node {};
+    \node at (0, 3) {$\Theta$};
+
+    \node (a) at (0, 1) {$\theta_1$};
+    \node (b) at (1, -1) {$\theta_2$};
+    \node (c) at (-1, -1) {$\theta_3$};
+
+    \draw[->] (a) -- (b);
+    \draw[->] (b) -- (c);
+  \end{tikzpicture}
+  \tcblower
+  A learning machine searches for the best parameter $\theta$ in the space $\Theta$.
+  The learning bias is the set of assumptions that the learning machine uses to control
+  how and where to search for the best parameter.
+\end{figurebox}
+
+It is important to understand the learning bias of the main machine-learning methods.  Let's
 consider the binary classification task, which is more intuitive.  Some common learning
 methods are the perceptron, the multi-layer perceptron, the decision tree, and the
 $k$-nearest neighbors.
 
 For the examples in the following subsections, we consider the dataset for the XOR
-problem.
+problem --- see \cref{tab:xor}.
 
 \begin{tablebox}[label=tab:xor]{XOR dataset.}
   \centering
@@ -422,4 +443,48 @@ problem.
 \subsection{Perceptron learning bias}
 
 The perceptron is a linear classifier that generates a hyperplane that separates the
-classes.
+classes.  The model for our example is
+\begin{equation*}
+  f(x_1, x_2; \theta = \vec{w} = \left[w_0, w_1, w_2\right]) =  \begin{cases}
+    1 & \text{if } w_0 + w_1 x_1 + w_2 x_2 > 0 \\
+    0 & \text{otherwise.}
+  \end{cases}
+\end{equation*}
+As one can see, the perceptron learning bias is the assumption that the classes are
+linearly separable --- $\vec{w} \cdot \vec{x} > 0$, where $\vec{x} = [1, x_1, x_2]$ is
+just the equation of a hyperplane.
+
+\begin{figurebox}[label=fig:perceptron]{Perceptron learning bias.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        grid=both,
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+        (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+        (0, 0) (1, 1)
+      };
+      \addplot+[domain=0:1.5, mark=none, black] {-0.5 + x};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The perceptron learning bias is the assumption that the classes are linearly separable.
+  The hyperplane that separates the classes is the learning machine model.
+  In this case, $w_0 = 0.5$, $w_1 = 1$, and $w_2 = 1$.
+\end{figurebox}
+
+In \cref{fig:perceptron}, we show the hyperplane that the model $\vec{w} = [0.5, 1, 1]$
+generates for the XOR dataset.  As one can see, the classes are not linearly separable,
+and the perceptron model fails to classify the dataset correctly.
