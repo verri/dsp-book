@@ -419,8 +419,8 @@ consider the binary classification task, which is more intuitive.  Some common l
 methods are the perceptron, the multi-layer perceptron, the decision tree, and the
 $k$-nearest neighbors.
 
-For the examples in the following subsections, we consider the dataset for the XOR
-problem --- see \cref{tab:xor}.
+For the examples in the following subsections, we consider the datasets for the AND
+--- see \cref{tab:and} --- and the XOR problem --- see \cref{tab:xor}.
 
 \begin{tablebox}[label=tab:xor]{XOR dataset.}
   \centering
@@ -451,8 +451,8 @@ classes.  The model for our example is
   \end{cases}
 \end{equation*}
 As one can see, the perceptron learning bias is the assumption that the classes are
-linearly separable --- $\vec{w} \cdot \vec{x} > 0$, where $\vec{x} = [1, x_1, x_2]$ is
-just the equation of a hyperplane.
+linearly separable. The equation $\vec{w} \cdot \vec{x} = 0$, where $\vec{x} = [1, x_1,
+x_2]$, is the equation of a hyperplane.
 
 \begin{figurebox}[label=fig:perceptron]{Perceptron learning bias.}
   \centering
@@ -482,9 +482,114 @@ just the equation of a hyperplane.
   \tcblower
   The perceptron learning bias is the assumption that the classes are linearly separable.
   The hyperplane that separates the classes is the learning machine model.
-  In this case, $w_0 = 0.5$, $w_1 = 1$, and $w_2 = 1$.
+  In this case, $w_0 = -0.5$, $w_1 = 1$, and $w_2 = -1$.
 \end{figurebox}
 
-In \cref{fig:perceptron}, we show the hyperplane that the model $\vec{w} = [0.5, 1, 1]$
+In \cref{fig:perceptron}, we show the hyperplane that the model $\vec{w} = [-0.5, 1, -1]$
 generates for the XOR dataset.  As one can see, the classes are not linearly separable,
-and the perceptron model fails to classify the dataset correctly.
+and the perceptron model fails to classify the dataset correctly, see \cref{tab:xor-perceptron}.
+
+\begin{tablebox}[label=tab:xor-perceptron]{Truth table for the predictions of the perceptron.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc|cc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ & $-0.5 + x_1 - x_2$ & $\hat{y}$ \\
+    \midrule
+    0 & 0 & 0 & -0.5 & 0 \\
+    0 & 1 & 1 & -1.5 & 0 \\
+    1 & 0 & 1 & 0.5 & 1 \\
+    1 & 1 & 0 & -0.5 & 0 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  The perceptron model with parameters $w_0 = -0.5$, $w_1 = 1$, and $w_2 = -1$
+  fails to classify the XOR dataset correctly --- as any other perceptron would do.
+\end{tablebox}
+
+\begin{mainbox}{Think about\dots}
+  What happens if we remove $w_0$ from the model?
+\end{mainbox}
+
+\subsection{Multi-layer perceptron learning bias}
+
+The multi-layer perceptron (MLP) is a non-linear classifier that generates a set of hyperplanes
+that separates the classes.  In order to simplify the understanding, consider the
+that the activation function of the hidden layer is the discrete step function
+\begin{equation*}
+  \sigma(x) = \begin{cases}
+    1 & \text{if } x > 0 \\
+    0 & \text{otherwise.}
+  \end{cases}
+\end{equation*}
+A model with two neurons in the hidden layer (effectively the combination of three
+perceptrons) is
+\begin{multline*}
+  f(x_1, x_2; \theta = \left\{ \vec{w}^{(1)}, \vec{w}^{(2)}, \vec{w}^{(3)} \right\}) = \\
+  \sigma\left(
+    \vec{w}^{(3)} \cdot \left[1, \sigma(\vec{w}^{(1)} \cdot \vec{x}), \sigma(\vec{w}^{(2)} \cdot \vec{x})\right]
+  \right)\text{.}
+\end{multline*}
+
+The parameters $\vec{w}^{(1)}$ and $\vec{w}^{(2)}$ represent the hyperplanes that separate
+the classes in the hidden layer, and $\vec{w}^{(3)}$ represents how the hyperplanes are
+combined to generate the output.  If we set $\vec{w}^{(1)} = [-0.5, 1, -1]$ (like the
+perceptron in the previous example) and $\vec{w}^{(2)} = [-0.5, -1, 1]$, we use the third neuron
+to combine the results of the first two neurons.  This way, solution for the problem is
+setting $\vec{w}^{(3)} = [0, 1, 1]$.
+
+\begin{figurebox}[label=fig:mlp]{MLP learning bias.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        grid=both,
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+        (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+        (0, 0) (1, 1)
+      };
+      \addplot+[domain=0:1.5, mark=none, black] {-0.5 + x};
+      \addplot+[domain=-0.5:1.5, mark=none, black] {0.5 + x};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  \dots
+\end{figurebox}
+
+\begin{tablebox}[label=tab:xor-mlp]{Truth table for the predictions of the MLP.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc|cccc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ & \nth{1} neuron & \nth{2} neuron & $\hat{y}$ \\
+    \midrule
+    0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 1 & 0 & 1 & 1 \\
+    1 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 1 & 0 & 0 & 0 & 0 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  \dots
+\end{tablebox}
+
+\begin{mainbox}{Think about\dots}
+  Note that there are many possible solutions for the XOR problem using the MLP.
+\end{mainbox}
+
+\subsection{Decision tree learning bias}
+
+The decision tree is a non-linear classifier that generates a set of hyperplanes that
+are orthogonal to the axes.  The model for our example is
