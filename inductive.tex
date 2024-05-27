@@ -420,14 +420,29 @@ methods are the perceptron, the multi-layer perceptron, the decision tree, and t
 $k$-nearest neighbors.
 
 For the examples in the following subsections, we consider the datasets for the AND
---- see \cref{tab:and} --- and the XOR problem --- see \cref{tab:xor}.
+and the XOR problem --- see \cref{tab:and-xor}.
 
-\begin{tablebox}[label=tab:xor]{XOR dataset.}
+\begin{tablebox}[label=tab:and-xor]{AND and XOR datasets.}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \rowcolors{2}{black!10!white}{}
+    \begin{tabular}{ccc}
+      \toprule
+      $x_1$ & $x_2$ & $y = x_1 \land x_2$ \\
+      \midrule
+      0 & 0 & 0 \\
+      0 & 1 & 1 \\
+      1 & 0 & 1 \\
+      1 & 1 & 1 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}{0.45\textwidth}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
-    $x_1$ & $x_2$ & $y$ \\
+    $x_1$ & $x_2$ & $y = x_1 \oplus x_2$ \\
     \midrule
     0 & 0 & 0 \\
     0 & 1 & 1 \\
@@ -435,9 +450,11 @@ For the examples in the following subsections, we consider the datasets for the 
     1 & 1 & 0 \\
     \bottomrule
   \end{tabular}
+  \end{minipage}
   \tcblower
-  The XOR dataset is a binary classification dataset where the output $y$ is the exclusive
-  OR of the inputs $x_1$ and $x_2$, i.e. $y = x_1 \oplus x_2$.
+  The AND and XOR datasets are binary classification datasets where the output $y$ is the
+  ``logical AND'' and the ``exclusive OR'' of the inputs $x_1$ and $x_2$, i.e.
+  $y = x_1 \land x_2$ and $y = x_1 \oplus x_2$.
 \end{tablebox}
 
 \subsection{Perceptron learning bias}
@@ -535,7 +552,7 @@ The parameters $\vec{w}^{(1)}$ and $\vec{w}^{(2)}$ represent the hyperplanes tha
 the classes in the hidden layer, and $\vec{w}^{(3)}$ represents how the hyperplanes are
 combined to generate the output.  If we set $\vec{w}^{(1)} = [-0.5, 1, -1]$ (like the
 perceptron in the previous example) and $\vec{w}^{(2)} = [-0.5, -1, 1]$, we use the third neuron
-to combine the results of the first two neurons.  This way, solution for the problem is
+to combine the results of the first two neurons.  This way, solution for the XOR problem is
 setting $\vec{w}^{(3)} = [0, 1, 1]$.
 
 \begin{figurebox}[label=fig:mlp]{MLP learning bias.}
@@ -592,4 +609,63 @@ setting $\vec{w}^{(3)} = [0, 1, 1]$.
 \subsection{Decision tree learning bias}
 
 The decision tree is a non-linear classifier that generates a set of hyperplanes that
-are orthogonal to the axes.  The model for our example is
+are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
+
+\begin{figurebox}[label=fig:tree-and]{Decision tree representation.}
+  \centering
+  \begin{tikzpicture}
+    \node[decision] (x1) at (0, 0) {$x_1$};
+    \node[block] (n1) at (-2, -1.5) {$\hat{y} = 0$};
+    \node[decision] (x2) at (2, -1.5) {$x_2$};
+    \node[block] (n2) at (0, -3) {$\hat{y} = 0$};
+    \node[block] (p) at (4, -3) {$\hat{y} = 1$};
+
+    \draw (x1) -| (n1) node [midway, above] {$\leq 0.5$};
+    \draw (x1) -| (x2) node [midway, above] {$>0.5$};
+    \draw (x2) -| (n2) node [midway, above] {$\leq 0.5$};
+    \draw (x2) -| (p) node [midway, above] {$>0.5$};
+  \end{tikzpicture}
+  \tcblower
+  The decision tree that separates the AND dataset.
+\end{figurebox}
+
+\begin{figurebox}[label=fig:tree-bias]{Decision tree learning bias.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        grid=both,
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+        (1, 1)
+      };
+      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[domain=-0.5:1.5, mark=none, black, thick] {0.5};
+      \addplot+[mark=none, black, thick] coordinates {(0.5, 0.5) (0.5, 1.5)};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The decision tree learning bias is the assumption that the classes can be separated with
+  hyperplanes orthogonal to the axes.
+\end{figurebox}
+
+\begin{mainbox}{Think about\dots}
+  Decision tree are nonparametric models, one can easily increase the depth of the tree to
+  fit the data.
+\end{mainbox}
+
+\subsection{$k$-nearest neighbors learning bias}
+
+The $k$-nearest neighbors ($k$-NN) is a non-linear nonparametric classifier that
+generate arbitrarily complex decision boundaries by ``memoring'' the training data.
