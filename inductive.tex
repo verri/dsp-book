@@ -381,3 +381,45 @@ illustrated in \cref{fig:trivial-consistency}.
 \subsection{Data classification methods}
 
 \subsection{Regression estimation methods}
+
+\section{Learning bias}
+
+\emph{Learning bias}, or \emph{inductive bias}, is the set of assumptions that the
+learning machine uses to generate the set of functions $\left\{ f_\theta : \theta \in
+\Theta \right\}$.  Vapnik shows that the learning bias is the key to the generalization
+ability of the learning process: the smaller the learning bias, the better the
+generalization ability \parencite{Vapnik1999b}.  In an illustrative thought experiment,
+one can see that ``no bias means no learning,'' since the learning machine would generate
+all possible functions, which is impossible, including the function that perfectly fits
+the training data but fails to generalize.
+
+It is important to understand the learning bias of the main learning methods.  Let's
+consider the binary classification task, which is more intuitive.  Some common learning
+methods are the perceptron, the multi-layer perceptron, the decision tree, and the
+$k$-nearest neighbors.
+
+For the examples in the following subsections, we consider the dataset for the XOR
+problem.
+
+\begin{tablebox}[label=tab:xor]{XOR dataset.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ \\
+    \midrule
+    0 & 0 & 0 \\
+    0 & 1 & 1 \\
+    1 & 0 & 1 \\
+    1 & 1 & 0 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  The XOR dataset is a binary classification dataset where the output $y$ is the exclusive
+  OR of the inputs $x_1$ and $x_2$, i.e. $y = x_1 \oplus x_2$.
+\end{tablebox}
+
+\subsection{Perceptron learning bias}
+
+The perceptron is a linear classifier that generates a hyperplane that separates the
+classes.
