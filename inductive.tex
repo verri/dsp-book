@@ -419,10 +419,24 @@ consider the binary classification task, which is more intuitive.  Some common l
 methods are the perceptron, the multi-layer perceptron, the decision tree, and the
 $k$-nearest neighbors.
 
+\begin{tablebox}[label=tab:paradigm]{Learning machines paradigms and characteristics.}
+  \begin{tabularx}{\textwidth}{lX@{}X@{}}
+    \toprule
+    Method & Paradigm & Characteristics \\
+    \midrule
+    Perceptron & Functional (parametric) & The perceptron is a linear classifier that generates a hyperplane that separates the classes. \\
+    MLP & Functional (parametric) & The multi-layer perceptron is a non-linear classifier that generates a set of hyperplanes that separates the classes. \\
+    DT & Symbolic (nonparametric) & The decision tree is a classifier that comprises a set of rules that separate the classes. \\
+    $k$-NN & Instance-based (nonparametric) & The $k$-nearest neighbors is a classifier that classifies the data based on the majority of the $k$-nearest neighbors. \\
+    \bottomrule
+  \end{tabularx}
+\end{tablebox}
+
 For the examples in the following subsections, we consider the datasets for the AND
 and the XOR problem --- see \cref{tab:and-xor}.
 
 \begin{tablebox}[label=tab:and-xor]{AND and XOR datasets.}
+  \centering
   \begin{minipage}{0.45\textwidth}
     \centering
     \rowcolors{2}{black!10!white}{}
