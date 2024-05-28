@@ -445,8 +445,8 @@ and the XOR problem --- see \cref{tab:and-xor}.
       $x_1$ & $x_2$ & $y = x_1 \land x_2$ \\
       \midrule
       0 & 0 & 0 \\
-      0 & 1 & 1 \\
-      1 & 0 & 1 \\
+      0 & 1 & 0 \\
+      1 & 0 & 0 \\
       1 & 1 & 1 \\
       \bottomrule
     \end{tabular}
@@ -665,8 +665,8 @@ are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
       \addplot+[only marks, mark=*, mark size=3pt] coordinates {
         (0, 0) (0, 1) (1, 0)
       };
-      \addplot+[domain=-0.5:1.5, mark=none, black, thick] {0.5};
-      \addplot+[mark=none, black, thick] coordinates {(0.5, 0.5) (0.5, 1.5)};
+      \addplot+[domain=0.5:1.5, mark=none, black, thick] {0.5};
+      \addplot+[mark=none, black, thick] coordinates {(0.5, -0.5) (0.5, 1.5)};
     \end{axis}
   \end{tikzpicture}
   \tcblower
@@ -703,10 +703,10 @@ uses to find the nearest neighbors of a point.
         ymin=-0.5, ymax=1.5,
       ]
       \addplot+[only marks, mark=+, mark size=3pt] coordinates {
-        (0, 0) (0, 1) (1, 0)
+        (1, 1)
       };
       \addplot+[only marks, mark=*, mark size=3pt] coordinates {
-        (1, 1)
+        (0, 0) (0, 1) (1, 0)
       };
       \addplot+[domain=0.5:1.5, mark=none, black, thick] {0.5};
       \addplot+[mark=none, black, thick] coordinates {(0.5, 0.5) (0.5, 1.5)};
