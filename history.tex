@@ -22,30 +22,44 @@ simultaneously in different fields, such as statistics, computer science, and en
 The history of data-driven sciences is long and rich. I present a timeline of the ages of
 data handling and the most important markers of data analysis.
 
+I do not intend to provide a comprehensive history of data science.  I aim to provide
+enough context to support the development of the material in the following chapters,
+sometimes avoiding directions that are not relevant in the inductive learning context.
+
 \begin{mainbox}{Chapter remarks}
   \boxsubtitle{Context}
 
   \begin{itemize}
-    \item The term ``data science'' is recent and has been used to label rather different fields.
+    \item The term ``data science'' is recent and has been used to label rather different
+      fields.
     \item The history of data-driven sciences is long and rich.
+    \item Many important theories and methods in data science have been developed
+      simultaneously in different fields.
+    \item The history of data-driven sciences is important to understand the evolution of
+      the field.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
     \item Understand the history of the term ``data science.''
-    \item Understand the history of data-driven sciences.
+    \item Understand the major milestones in the history of data-driven sciences.
+    \item Identify important figures in the history of data-driven sciences.
   \end{itemize}
 
   \boxsubtitle{Takeways}
 
   \begin{itemize}
-    \item There is no consensus on the definition of data science.
-    \item There is enough evidence to support data science as a new science.
+    \item We have evolved both in terms of theory and application of data-driven sciences.
+    \item There is no consensus on the definition of data science (including which fields
+      it encompasses).
+    \item However, there is enough evidence to support data science as a new science.
   \end{itemize}
 \end{mainbox}
 
-\newpage
+{}
+\clearpage
+
 \section{The term ``data science''}
 
 The term data science is recent and has been used to label rather different fields of
@@ -60,6 +74,43 @@ study.  In the following, I emphasize the history of a few notable usage of the 
 
 \tikzset{filled/.style={fill=circle area, draw=circle edge, thick},
     outline/.style={draw=circle edge, thick}}
+
+\paragraph{Peter Naur (1928 -- 2016)}
+
+The term ``data science'' itself was coined in the 1960s by Peter Naur (/naʊə/). Naur was
+a Danish computer scientist and mathematician who made significant contributions to the
+field of computer science, including his work on the development of programming
+languages\footnote{He is best remembered as a contributor, with John Backus, to the
+Backus–Naur form (BNF) notation used in describing the syntax for most programming
+languages.}.
+His ideas and concepts laid the groundwork for the way we think about programming and data
+processing today.
+
+% \begin{slidebox}{Peter Naur}{}
+%   \begin{itemize}
+%     \item Danish computer scientist and mathematician.
+%     \item Coined the term ``data science'' in the 1960s.
+%     \item Proposed the term ``datalogy'' as an alternative to computer science.
+%   \end{itemize}
+% \end{slidebox}
+
+Naur disliked the term computer science and suggested it be called datalogy or data
+science.  In the 1960s, the subject was practised in Denmark under Peter
+Naur's term datalogy, which means the science of data and data processes.
+
+He coined this term to emphasize the importance of data as a fundamental component of
+computer science and to encourage a broader perspective on the field that included
+data-related aspects. At that time, the field was primarily centered on programming
+techniques, but Naur's concept broadened the scope to recognize the intrinsic role of data
+in computation.
+
+In his book\footfullcite{Naur1974}, ``Concise Survey of Computer Methods'', he
+parts from the concept that \emph{data} is ``a representation of facts or ideas in a
+formalised manner capable of being communicated or manipulated by some
+process.''\footnote{I. H. Gould (ed.): ‘IFIP guide to concepts and terms in data
+processing’, North-Holland Publ. Co., Amsterdam, 1971.} Note however that his view of the
+science only ``deals with data [\dots] while the relation of data to what they represent
+is delegated to other fields and sciences.''
 
 \begin{figurebox}[label=fig:naur]{Naur's view of data science.}
   \centering
@@ -78,49 +129,41 @@ study.  In the following, I emphasize the history of a few notable usage of the 
     with data, but he delegates the meaning of data to other fields.
 \end{figurebox}
 
-\paragraph{Peter Naur (1928 -- 2016)}
-
-The term ``data science'' itself was coined in the 1960s by Peter Naur (/naʊə/). Naur was
-a Danish computer scientist and mathematician who made significant contributions to the
-field of computer science, including his work on the development of programming
-languages\footnote{He is best remembered as a contributor, with John Backus, to the
-Backus–Naur form (BNF) notation used in describing the syntax for most programming
-languages.}.
-His ideas and concepts laid the groundwork for the way we think about programming and data
-processing today.
-
-\begin{slidebox}{Peter Naur}{}
-  \begin{itemize}
-    \item Danish computer scientist and mathematician.
-    \item Coined the term ``data science'' in the 1960s.
-    \item Proposed the term ``datalogy'' as an alternative to computer science.
-  \end{itemize}
-\end{slidebox}
-
-Naur disliked the term computer science and suggested it be called datalogy or data
-science.  In the 1960s, the subject was practised in Denmark under Peter
-Naur's term datalogy, which means the science of data and data processes.
-
-He coined this term to emphasize the importance of data as a fundamental component of
-computer science and to encourage a broader perspective on the field that included
-data-related aspects. At that time, the field was primarily centered on programming
-techniques, but Naur's concept broadened the scope to recognize the intrinsic role of data
-in computation.
-
-In his book\footnote{Peter Naur: Concise Survey of Computer Methods, 397 p.
-Studentlitteratur, Lund, Sweden, ISBN 91-44-07881-1, 1974.
-\url{http://www.naur.com/Conc.Surv.html}}, ``Concise Survey of Computer Methods'', he
-parts from the concept that \emph{data} is ``a representation of facts or ideas in a
-formalised manner capable of being communicated or manipulated by some
-process.''\footnote{I. H. Gould (ed.): ‘IFIP guide to concepts and terms in data
-processing’, North-Holland Publ. Co., Amsterdam, 1971.} Note however that his view of the
-science only ``deals with data [\dots] while the relation of data to what they represent
-is delegated to other fields and sciences.''
+It is interesting to see the central role he gave to data in the field of computer
+science. His view that the relation of data to what they represent is delegated to other
+fields and sciences is still debatable today.  Some scientists argue that data science
+should focus on the techniques to deal with data, while others argue that data science
+should encompass the whole business domain.  A depiction of Naur's view of data science is
+shown in \cref{fig:naur}.
 
 \def\clevelandds{(0,0) circle (20mm)}
 \def\clevelandst{(0:-5mm) circle (15mm)}
 \def\clevelandde {(2,1) circle (15mm)}
 \def\clevelandcs {(2,-1) circle (15mm)}
+
+\paragraph{William Cleveland (born 1943)}
+
+In 2001, a prominent statistician used the term ``data science'' in his work to describe a
+new discipline that comes from his ``plan to enlarge the major areas of technical work of
+the field of statistics\footfullcite{Cleveland2001}.''
+In 2014, that work was republished\footnote{W. S. Cleveland.
+Data Science: An Action Plan for the Field of Statistics. Statistical Analysis and Data
+Mining, 7:414–417, 2014. reprinting of 2001 article in ISI Review, Vol 69.}.
+He advocates the expansion of statistics beyond theory into technical areas, significantly
+changing statistics.  Thus, it warranted a new name.
+
+% \begin{slidebox}{William Cleveland}{}
+%   \begin{itemize}
+%     \item American statistician.
+%     \item Proposed the discipline ``data science'' in 2001.
+%     \item Proposed the term ``data science'' as the new name for expansion of statistics.
+%   \end{itemize}
+% \end{slidebox}
+
+As a result, William Swain Cleveland II is credited to define data science as it is most
+used today. He is a highly influential figure in the fields of statistics, machine
+learning, data visualization, data analysis for multidisciplinary studies, and high
+performance computing for deep data analysis.
 
 \begin{figurebox}[label=fig:cleveland]{Cleveland's view of data science.}
   \centering
@@ -142,36 +185,18 @@ is delegated to other fields and sciences.''
     where it is enlarged by computer science and domain expertise.
 \end{figurebox}
 
-\paragraph{William Cleveland (born 1943)}
-
-In 2001, a prominent statistician used the term ``data science" in his work to describe a
-new discipline that comes from his ``plan to enlarge the major areas of technical work of
-the field of statistics\footnote{W. S. Cleveland. Data Science: An Action Plan for
-Expanding the Technical Areas of the Field of Statistics. ISI Review, 69:21–26, 2001.}.''
-In 2014, that work was republished\footnote{W. S. Cleveland.
-Data Science: An Action Plan for the Field of Statistics. Statistical Analysis and Data
-Mining, 7:414–417, 2014. reprinting of 2001 article in ISI Review, Vol 69.}.
-He advocates the expansion of statistics beyond theory into technical areas, significantly
-changing statistics.  Thus, it warranted a new name.
-
-\begin{slidebox}{William Cleveland}{}
-  \begin{itemize}
-    \item American statistician.
-    \item Proposed the discipline ``data science'' in 2001.
-    \item Proposed the term ``data science'' as the new name for expansion of statistics.
-  \end{itemize}
-\end{slidebox}
-
-As a result, William Swain Cleveland II is credited to define data science as it is most
-used today. He is a highly influential figure in the fields of statistics, machine
-learning, data visualization, data analysis for multidisciplinary studies, and high
-performance computing for deep data analysis.
+In his view, data science is the ``modern'' statistics, where it is enlarged by computer
+science methods and domain expertise.  An illustration of Cleveland's view of data science
+is shown in \cref{fig:cleveland}.  It is important to note that Cleveland never defined a
+explicit list of computer science fields and business domains that should be included in
+the new discipline.  The main idea is that statistics should rely on computational methods
+and that the domain expertise should be considered in the analysis.
 
 \paragraph{Buzzword or a new science?}
 
-Be aware that literature has no consensus on the definition of data science, and it is still considered
-by some to be a buzzword\footnote{Press, Gil. "Data Science: What's The Half-Life of a
-Buzzword?". Forbes. Available at
+Be aware that scientific literature has no consensus on the definition of data science, and it is still considered
+by some to be a buzzword\footnote{Press, Gil. ``Data Science: What's The Half-Life of a
+Buzzword?''. Forbes. Available at
 \url{https://www.forbes.com/sites/gilpress/2013/08/19/data-science-whats-the-half-life-of-a-buzzword/}}.
 
 Most of the usages of the term in literature and in the media are either a rough
@@ -187,23 +212,24 @@ In \cref{chap:data}, I dare to provide a (yet another) definition for the term. 
 argue that its object of study can be precisely established to support it as a new
 science.
 
-\begin{slidebox}{A new science}{}
-  \begin{itemize}
-    \item Both Naur and Cleveland do not see data science as an independent field of study.
-    \item I argue that data science is not a buzzword.
-    \item Our social and economical reality demands a new science.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{A new science}{}
+%   \begin{itemize}
+%     \item Both Naur and Cleveland do not see data science as an independent field of study.
+%     \item I argue that data science is not a buzzword.
+%     \item Our social and economical reality demands a new science.
+%   \end{itemize}
+% \end{slidebox}
 
 \section{Timeline and historical markers}
 
-\textcite{Kelleher2018} provides an interesting time line of data-driven methods and
+\textcite{Kelleher2018} provides an interesting timeline of data-driven methods and
 influential figures in the field.  I reproduce it here with some changes, including
-some omissions and additions.  On the subject of data analysis, I include some remarks
+some omissions and additions.  On the subject of data analysis, I include some of the
+exceptional remarks
 from \textcite{Vapnik1999b}.
 
 I first address data handling --- which I include data sources, collection, organization,
-storage, and transformation---, and then data analysis and knowledge extraction.
+storage, and transformation ---, and then data analysis and knowledge extraction.
 
 \subsection{Timeline of data handling}
 
@@ -230,7 +256,11 @@ of data handling.
   \end{tikzpicture}
 \end{figurebox}
 
-\Cref{fig:data-handling-history} illutrates the timeline.
+\Cref{fig:data-handling-history} illutrates the proposed timeline.  Ages are not strict
+boundaries, but rather periods where some important events happened.  Also, observe that
+the timescale is not linear.  The Pre-digital Age is the longest period, and one could
+divide it into smaller periods.  My choices of ages and their boundaries are motivated by
+didactic reasons.
 
 \subsubsection{Pre-digital age}
 
@@ -256,8 +286,8 @@ commodities using clay tokens and to record transactions\footfullcite{Ifrah1998}
 
 ``Data storage'' was also a challenge.  Some important devices that increased our capacity
 to register textual information are the Sumerian clay tablets (3,500 BC), the Egyptian
-papyrus (3,000 BC), the Greek alphabet (800 BC), the Roman wax tablets (100 BC), the codex
-(100 AD), the Chinese paper (200 AD), the printing press (1440), the typewriter (1868).
+papyrus (3,000 BC), the Roman wax tablets (100 BC), the codex
+(100 AD), the Chinese paper (200 AD), the printing press (1440), and the typewriter (1868).
 
 % Talvez citar na parte de análise de dados
 % Other mechanisms were also developed to store information in a more structured way.  Some
@@ -268,56 +298,60 @@ papyrus (3,000 BC), the Greek alphabet (800 BC), the Roman wax tablets (100 BC),
 
 Besides those improvements in unstructured data storage, at least in the Western and
 Middle Eastern world, there are no significant advances in structured data collection
-until the \nth{19} century.  (A Eastern timeline research is pending.)
+until the \nth{19} century.  (A Eastern timeline research seems much hard to perform.
+Unfortunally, I left it out in this book.)
 
 I consider a major influential figure in the history of data
 collection to be Florence Nightingale (1820 -- 1910).  She was a passionate statistician
 and probably the first person to use statistics to influence public and official
 opinion.  The meticulous records she kept during the Crimean War
-(1853 -- 1856) were the evidence that saved lives.  She was also the first to use
+(1853 -- 1856) were the evidence that saved lives --- part of the mortality came from lack
+of sanitation.  She was also the first to use
 statistical graphics to present data in a way that was easy to understand.  She is
 credited with developing a form of the pie chart now known as the polar area
 diagram.  She also reformed healthcare in the United Kingdom and
-is considered the founder of modern nursing\footfullcite{Grajalez2013}.
+is considered the founder of modern nursing; where great part of the work was to collect
+data in a standardized way to quickly draw conclusions\footfullcite{Grajalez2013}.
 
-\begin{slidebox}{Pre-digital age}{}
-  \begin{itemize}
-    \item Babylonian census (3,800 BC)
-    \item Sumerian archaic (pre-cuneiform) writing (3,500 BC)
-    \item Egyptian papyrus (3,000 BC)
-    \item Phoenician alphabet (1,000 BC)
-    \item Greek alphabet (800 BC)
-    \item Roman wax tablets (100 BC)
-    \item Codex (100 AD)
-    \item Chinese paper (200 AD)
-    \item Printing press (1440)
-    \item Typewriter (1868)
-    \item Florence Nightingale (1820 -- 1910)
-  \end{itemize}
-\end{slidebox}
-
-\begin{slidebox}{Florence Nightingale}{}
-  \begin{itemize}
-    \item Passionate statistician.
-    \item First person to use statistics to influence public and official opinion.
-    \item Organized data from garden fruits and vegetables into numerical tables at the age of 9.
-    \item At 20 she was receiving two-hour lessons from a Cambridge-trained mathematician.
-    \item She found the sight of a long column of figures ``perfectly reviving.''
-    \item She went out to the Crimean War, to Scutari in Turkey, in 1854.
-    \item She found that not even the numbers of soldiers entering the hospitals, or leaving them – alive or dead – was known.
-    \item From the first she kept meticulous records.
-    \item The data she collected was the evidence that saved lives.
-    \item She was the first to use statistical graphics to present data in a way that was easy to understand.
-    \item She is credited with developing a form of the pie chart now known as the polar area diagram.
-    \item She reformed healthcare in the United Kingdom and is considered the founder of modern nursing.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Pre-digital age}{}
+%   \begin{itemize}
+%     \item Babylonian census (3,800 BC)
+%     \item Sumerian archaic (pre-cuneiform) writing (3,500 BC)
+%     \item Egyptian papyrus (3,000 BC)
+%     \item Phoenician alphabet (1,000 BC)
+%     \item Greek alphabet (800 BC)
+%     \item Roman wax tablets (100 BC)
+%     \item Codex (100 AD)
+%     \item Chinese paper (200 AD)
+%     \item Printing press (1440)
+%     \item Typewriter (1868)
+%     \item Florence Nightingale (1820 -- 1910)
+%   \end{itemize}
+% \end{slidebox}
+%
+% \begin{slidebox}{Florence Nightingale}{}
+%   \begin{itemize}
+%     \item Passionate statistician.
+%     \item First person to use statistics to influence public and official opinion.
+%     \item Organized data from garden fruits and vegetables into numerical tables at the age of 9.
+%     \item At 20 she was receiving two-hour lessons from a Cambridge-trained mathematician.
+%     \item She found the sight of a long column of figures ``perfectly reviving.''
+%     \item She went out to the Crimean War, to Scutari in Turkey, in 1854.
+%     \item She found that not even the numbers of soldiers entering the hospitals, or leaving them – alive or dead – was known.
+%     \item From the first she kept meticulous records.
+%     \item The data she collected was the evidence that saved lives.
+%     \item She was the first to use statistical graphics to present data in a way that was easy to understand.
+%     \item She is credited with developing a form of the pie chart now known as the polar area diagram.
+%     \item She reformed healthcare in the United Kingdom and is considered the founder of modern nursing.
+%   \end{itemize}
+% \end{slidebox}
 
 \subsubsection{Digital age}
 
 In the modern period, several devices were developed to store digital\footnote{Digital
 means the representation of information in (finite) discrete form.  The term comes from the Latin
-digitus, meaning finger, because it is the natural way to count using fingers.}
+digitus, meaning finger, because it is the natural way to count using fingers.  Digital
+here do not mean electronic.}
 information.  One particular device that is important for data collection is the punched
 card.  It is a piece of stiff paper that contains digital information represented by the
 presence or absence of holes in predefined positions.  The information can be read by a
@@ -353,21 +387,26 @@ scaled to a level that was unimaginable before.  However, ``where'' storing data
 not the only challenge.  ``How'' to store data is also a challenge.  The next period of
 history addresses this issue.
 
-\begin{slidebox}{Digital age}{}
-  \begin{itemize}
-    \item Punched card (1725)
-    \item 1890 census and Hollerith's tabulating machine (1890)
-    \item ENIAC (1945)
-    \item UNIVAC I used by the United Census Bureau (1950)
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Digital age}{}
+%   \begin{itemize}
+%     \item Punched card (1725)
+%     \item 1890 census and Hollerith's tabulating machine (1890)
+%     \item ENIAC (1945)
+%     \item UNIVAC I used by the United Census Bureau (1950)
+%   \end{itemize}
+% \end{slidebox}
 
 \subsubsection{Formal age}
 
 In 1970, Edgar Frank Codd (1923 -- 2003) published a paper entitled ``A Relational Model
 of Data for Large Shared Data Banks''\footfullcite{Codd1970}.  In this paper, he introduced
-the concept of a relational model for database management {\color{red}
-provide more details}.
+the concept of a relational model for database management.
+
+A relational model organizes data in tables (relations) where each row represents a record
+and each column represents an attribute of the record.  The tables are related by common
+fields.  Codd showed means to organize the tables of a relational database to minimize
+data redundancy and improve data integrity.  \Cref{sec:normalization} provides more details
+on the topic.
 
 His work was a breakthrough in the field of data management.  The standardization of
 relational databases led to the development of Structured Query Language (SQL) in 1974.
@@ -377,16 +416,16 @@ in a relational database management system (RDBMS).
 As a result, a new challenge rapidly emerged: how to aggregate data from different
 sources. Once data is stored in a relational database, it is easy to query and manage
 it. However, data is usually stored in different databases, and it is not always possible
-to combine them.
+to directly combine them.
 
-\begin{slidebox}{Edgar Frank Codd}{}
-  \begin{itemize}
-    \item British computer scientist
-    \item Introduced the concept of a relational model for database management
-    \item Standardized relational databases
-    \item Led the development of Structured Query Language (SQL)
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Edgar Frank Codd}{}
+%   \begin{itemize}
+%     \item British computer scientist
+%     \item Introduced the concept of a relational model for database management
+%     \item Standardized relational databases
+%     \item Led the development of Structured Query Language (SQL)
+%   \end{itemize}
+% \end{slidebox}
 
 \subsubsection{Integrated age}
 
@@ -396,46 +435,44 @@ several sources, transforming it into a format that can be analyzed, and loading
 data warehouse.
 
 The concept of data warehousing dates back to the late 1980s when IBM researchers Barry
-Devlin and Paul Murphy developed the "business data warehouse"
+Devlin and Paul Murphy developed the ``business data warehouse.''
 
-\textcolor{red}{
 Two major figures in the history of ETL are Ralph Kimball and Bill Inmon.  Although they
 differ in their approaches, they both agree that data warehousing is the foundation for
 business intelligence (BI) and analytics, and that data warehouses should be designed to
 be easy to understand and fast to query for business users.
-}
 
-\textcolor{red}{
 A famous debate between Kimball and Inmon is the top-down versus bottom-up approach to
 data warehousing.  Inmon's approach is top-down, where the data warehouse is designed
-first and then the data marts\footnote{A data mart is a specialized subset of a data warehouse that is designed to serve the needs of a specific business unit, department, or functional area within an organization.} are created from the data warehouse.  Kimball's approach is
-bottom-up, where the data marts are created first and then the data warehouse is created
-from the data marts.
-}
+first and then the data marts\footnote{A data mart is a specialized subset of a data
+warehouse that is designed to serve the needs of a specific business unit, department, or
+functional area within an organization.} are created from the data warehouse.  Kimball's
+approach is bottom-up, where the data marts are created first and then the data warehouse
+is created from the data marts.
 
-\begin{slidebox}{Ralph Kimball}{}
-  \begin{itemize}
-    \item American computer scientist.
-    \item Developed the bottom-up approach to data warehousing.
-    \item From available data marts, the data warehouse is created.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Ralph Kimball}{}
+%   \begin{itemize}
+%     \item American computer scientist.
+%     \item Developed the bottom-up approach to data warehousing.
+%     \item From available data marts, the data warehouse is created.
+%   \end{itemize}
+% \end{slidebox}
+%
+% \begin{slidebox}{Bill Inmon}{}
+%   \begin{itemize}
+%     \item American computer scientist.
+%     \item Developed the top-down approach to data warehousing.
+%     \item Design the data warehouse first and then the data marts are created from the data warehouse.
+%   \end{itemize}
+% \end{slidebox}
 
-\begin{slidebox}{Bill Inmon}{}
-  \begin{itemize}
-    \item American computer scientist.
-    \item Developed the top-down approach to data warehousing.
-    \item Design the data warehouse first and then the data marts are created from the data warehouse.
-  \end{itemize}
-\end{slidebox}
-
-\textcolor{red}{
 One of the earliest and most famous case studies of the implementation of a data warehouse
 is that of Walmart. In the early 1990s, Walmart faced the challenge of managing and
 analyzing vast amounts of data from its stores across the United States. The company
 needed a solution that would enable comprehensive reporting and analysis to support
-decision-making processes.
-}
+decision-making processes.  The solution was to implement a data warehouse that would
+integrate data from various sources and provide a single source of truth for the
+organization.
 
 \subsubsection{Ubiquitous age}
 
