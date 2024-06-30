@@ -22,6 +22,7 @@
 \usepackage{csquotes}
 \usepackage{multirow}
 \usepackage[table]{xcolor}
+\usepackage{titletoc}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -164,9 +165,12 @@
 
 \newtcolorbox{mainbox}[1]{
   float=ht,
+  spread downwards,
   colframe=black!20!white,
   fonttitle=\bfseries,
-  base={#1}
+  base={#1},
+  left=20mm,
+  right=20mm,
 }
 
 \newtcolorbox[blend into=figures]{figurebox}[2][]{%
