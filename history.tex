@@ -492,22 +492,23 @@ The ubiquity of data generation and the evolution of data-centric technologies h
 made possible by a multitude of figures across various domains.
 
 \begin{itemize}
-  \item Tim Berners-Lee, credited with inventing the World Wide Web, laid the foundation
-    for the massive data flow on the internet.
-  \item Vinton Cerf and Robert Kahn, often referred to as the ``Fathers of the Internet,''
-    developed the TCP/IP protocols, which are fundamental to internet communication.
-  \item Steve Jobs and Steve Wozniak (Apple Inc.) and Bill Gates (Microsoft Corporation),
-    the introduction of personal computers, leading to the democratization of data
+  \item Vinton Gray Cerf (born 1943) and Robert Elliot Kahn (born 1938), often referred to
+    as the ``Fathers of the Internet,'' developed the TCP/IP protocols, which are
+    fundamental to internet communication.
+  \item Tim Berners-Lee (born 1955), credited with inventing the World Wide Web, laid the
+    foundation for the massive data flow on the internet.
+  \item Steven Paul Jobs (1955 -- 2011) and Stephen Wozniak (born 1950), from Apple Inc.,
+    and William Henry Gates III (born 1955), from Microsoft Corporation, were responsible
+    for the introduction of personal computers, leading to the democratization of data
     generation.
-  \item Mark Zuckerberg, the co-founder of Facebook, played a crucial role in the rise of
-    social media and the generation of vast amounts of user-generated content.
-  \item Larry Page and Sergey Brin, the founders of Google, transformed how we access and
-    search for information.
-  \item Elon Musk and Tesla, the rise of the Internet of Things (IoT) and connected
-    devices.
+  \item Lawrence Edward Page (born 1973) and Sergey Mikhailovich Brin (born 1973), the
+    founders of Google, transformed how we access and search for information.
+  \item Mark Elliot Zuckerberg (born 1984), the co-founder of Facebook, played a crucial
+    role in the rise of social media and the generation of vast amounts of user-generated
+    content.
 \end{itemize}
 
-In terms of data handling, this change in the data landscape has brought about the
+In terms of data handling, this change of landscape has brought about the
 development of new technologies and techniques for data storage and processing.  Especially
 the development of NoSQL databases and distributed computing frameworks.
 
@@ -515,22 +516,17 @@ NoSQL databases are non-relational databases that can store and process large vo
 unstructured, semi-structured, and structured data.  They are highly scalable and
 flexible, making them ideal for big data applications.
 
-\begin{slidebox}{The V's of big data}{}
-  \begin{itemize}
-    \item Volume: The amount of data generated is massive
-    \item Velocity: The speed at which data is generated is high
-    \item Variety: The types of data generated are diverse
-    \item Veracity: The quality of data generated is questionable
-    \item Value: The value of data generated is high
-  \end{itemize}
-\end{slidebox}
+Some authors argue that the rise of big data is characterized by the five V's of big data:
+Volume, Velocity, Variety, Veracity, and Value.  The amount of data generated is massive,
+the speed at which data is generated is high, the types of data generated are diverse, the
+quality of data generated is questionable, and the value of data generated is high.
 
 Once massive amounts of unstructured data became available, the need for new data
 processing techniques arose.  The development of distributed computing frameworks such as
 Apache Hadoop and Apache Spark enabled the processing of massive amounts of data in a
 distributed manner.
 
-Doug Cutting and Mike Cafarella, the developers of Apache Hadoop, revolutionized big data
+Douglass Read Cutting and Michael Cafarella, the developers of Apache Hadoop,
 proposed the Hadoop Distributed File System (HDFS) and MapReduce, which are the
 cornerstones of the Hadoop framework, in 2006.  Hadoop's distributed storage and
 processing capabilities enabled organizations to handle and analyze massive volumes of
@@ -538,22 +534,47 @@ data.
 
 Currently, Google holds a patent for
 MapReduce\footnote{\url{http://static.googleusercontent.com/media/research.google.com/es/us/archive/mapreduce-osdi04.pdf}}.
-However, their framework inherits from the architeture proposed in \textcite{Hillis1985}
-thesis.
-
+However, their framework inherits from the architeture proposed in
+\textcite{Hillis1985}\footfullcite{Hillis1985} thesis.
 MapReduce is not particularly novel, but its simplicity and scalability made it popular.
 
 Nowadays, another important topic is Internet of Things (IoT).  IoT is a system of
 interrelated computing devices that communicate with each other over the internet.
 The devices can be anything from cellphones, coffee makers, washing machines, headphones,
-lamps, wearable devices, and almost anything else you can think of.  IoT increased the
+lamps, wearable devices, and almost anything else you can think of.  The reality of IoT increased the
 challenges of data handling, especially in terms of data storage and processing.
+
+In summary, we currently live in a world where data is ubiquitous and comes in many
+different forms.  The challenge is to collect, store, and process this data in a way that
+is meaningful and useful, also respecting privacy and security.
 
 \subsection{Timeline of data analysis}
 
 The way we think about data and knowledge extraction has evolved significantly over the
 years.  In the following, I present some of the most important milestones in the history
-of data analysis.
+of data analysis and knowledge extraction.
+
+\begin{figurebox}[label=fig:data-analysis-history]{Timeline of the ages of data analysis.}
+  \centering
+  \begin{tikzpicture}
+    \draw (0,0) -- (8,0);
+    \foreach \x in {0,1,...,8} {
+      \draw (\x,-0.1) -- (\x,0.1);
+    }
+    \foreach \x/\y/\z in {%
+        0/Summary statistics/{3,800 BC -- 16th c.},
+        4/Probability advent/{17th c. -- 19th c.},
+        7/Learning from data/{20th c. -- present}} {
+      \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
+      \node[anchor=south] at (\x,0.1) {\footnotesize\z};
+    }
+  \end{tikzpicture}
+\end{figurebox}
+
+\Cref{fig:data-analysis-history} illutrates the proposed timeline.  I consider changes of
+ages to be smooth transitions, and not strict boundaries.  The theoretical advances are
+slower than the technological ones --- the latter influences more data handling than data
+analysis ---, so not much has changed since the beginning of the \nth{20} century.
 
 \subsubsection{Summary statistics}
 
@@ -603,22 +624,24 @@ war with France in the 1790s.  He invented several types of diagram between 1780
 1800s, such as the line, area and bar chart of economic data, and the pie chart and circle
 graph to show proportions.
 
-\begin{slidebox}{Probability advent}{}
-  \begin{itemize}
-    \item Foundations by Blaise Pascal, Pierre de Fermat, Christiaan Huygens, Jacob
-      Bernoulli, and others (\nth{17} century)
-    \item Bayes' rule by Thomas Bayes (1763)
-    \item Gauss' method of least squares by Johann Carl Friedrich Gauss (1794)
-    \item Playfair's data visualization by William Playfair (1780s -- 1800s)
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Probability advent}{}
+%   \begin{itemize}
+%     \item Foundations by Blaise Pascal, Pierre de Fermat, Christiaan Huygens, Jacob
+%       Bernoulli, and others (\nth{17} century)
+%     \item Bayes' rule by Thomas Bayes (1763)
+%     \item Gauss' method of least squares by Johann Carl Friedrich Gauss (1794)
+%     \item Playfair's data visualization by William Playfair (1780s -- 1800s)
+%   \end{itemize}
+% \end{slidebox}
 
 \subsubsection{Learning from data}
 
-In the twentieth century and beyond, new advances were made in the field of statistics.  The
-development of learning methods\footnote{Vapnik uses the terminology \emph{learning
-machines}.} enabled the development of new techniques for
-data analysis.
+In the twentieth century and beyond, new advances were made in the field of statistics.
+The development of learning machines enabled the development of new techniques for data
+analysis.
+
+The recent advances in computation and data storage are crucial for the large-scale
+application of these techniques.
 
 \paragraph{Fisher's discriminant analysis}
 
@@ -627,7 +650,7 @@ considered a problem of constructing a decision rule to assign a vector to one o
 categories using given probability distribution functions\footnote{After, Rosenblatt's work,
 however, it was used to solve inductive inference as well.}.
 
-See \cref{sub:fisher} for more details about the technique.
+% See \cref{sub:fisher} for more details about the technique.
 
 \paragraph{Shannon's information theory}
 
@@ -635,16 +658,19 @@ The field, that studies quantification, storage and communication of information
 originally established by the works of Harry Nyquist (1889 -- 1976) and Ralph Hartley
 (1888 -- 1970) in the 1920s, and Claude Shannon (1916 -- 2001) in the 1940s.
 Information theory brought many important concepts to the field of data analysis, such as
-entropy, mutual information, and information gain.
+entropy, mutual information, and information gain.  This theory is the foundation of
+several machine learning algorithms.
 
 \paragraph{K-Nearest Neighbors}
 
 In 1951, Evelyn Fix (1904 -- 1965) and Joseph Lawson Hodges Jr. (1922 -- 2000) wrote a
 technical report entitled ``Discriminatory Analysis, Nonparametric Discrimination:
 Consistency Properties.''  In this paper, they proposed the k-nearest neighbors algorithm,
-which is a non-parametric method used for classification and regression.
+which is a non-parametric method used for classification and regression.  The algorithm
+marks a shift from the traditional parametric methods --- and purely statistical ---
+to non-parametric methods.
 
-See \cref{sub:knn} for more details about the technique.
+% See \cref{sub:knn} for more details about the technique.
 
 \paragraph{Rosenblatt's perceptron}
 
@@ -653,25 +679,27 @@ a learning machine.  While the idea of a mathematical neuron was not new, he was
 to describe the model as a program, showing the ability of the perceptron to learn simple
 tasks such as the logical operations AND and OR.
 
-See \cref{sub:perceptron} for more details about the technique.
+% See \cref{sub:perceptron} for more details about the technique.
 
 \paragraph{Hunt inducing trees}
 
 In 1966, \citeauthor{Hunt1966}'s book\footfullcite{Hunt1966} described a way to induce decision trees from
 data.  The algorithm is based on the concept of information entropy and is a precursor of
 the \citeauthor{Quinlan1986}'s ID3 algorithm\footfullcite{Quinlan1986} and its variations.
+These algorithm gave rise to the field of decision trees, which is a popular method for
+classification and regression.
 
-See \cref{sub:tree} for more details about the technique.
+% See \cref{sub:tree} for more details about the technique.
 
-\begin{slidebox}{Learning from data (part I)}{}
-  \begin{itemize}
-    \item Fisher's discriminant analysis by Ronald Fisher (1930s)
-    \item Shannon's information theory by Claude Shannon (1940s)
-    \item K-Nearest Neighbors by Evelyn Fix and Joseph Lawson Hodges Jr. (1951)
-    \item Rosenblatt's perceptron by Frank Rosenblatt (1960s)
-    \item Hunt inducing trees by John Ross Quinlan (1966)
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Learning from data (part I)}{}
+%   \begin{itemize}
+%     \item Fisher's discriminant analysis by Ronald Fisher (1930s)
+%     \item Shannon's information theory by Claude Shannon (1940s)
+%     \item K-Nearest Neighbors by Evelyn Fix and Joseph Lawson Hodges Jr. (1951)
+%     \item Rosenblatt's perceptron by Frank Rosenblatt (1960s)
+%     \item Hunt inducing trees by John Ross Quinlan (1966)
+%   \end{itemize}
+% \end{slidebox}
 
 \paragraph{Empirical risk minimization principle}
 
@@ -681,7 +709,8 @@ significantly the understanding of the general problem of learning from data.  B
 data analysis was basically stagnant.  The main reason for that was the lack of a
 theoretical framework to support the development of new learning machines.
 
-However, these years were not completely unfruitful.  As early as 1968, Vladimir Vapnik (1936 -- )
+However, these years were not completely unfruitful.  As early as 1968, Vladimir Vapnik
+(born 1936)
 and Alexey Chervonenkis (1938 -- 2014) developed the foundamental concepts of VC entropy
 and VC dimension for the data classification problems.  As a result, a novel inductive
 principle was proposed: the Empirical Risk Minimization (ERM) principle.
@@ -709,11 +738,19 @@ evolutionary computation.
 Following the new approach, ensemble methods were developed.  Based on ideas of
 boosting\footfullcite{Schapire1990} and bagging\footfullcite{Breiman1996}, ensemble
 methods combine multiple learning machines to improve the performance of the individual
-machines.  The most famous ensemble methods are random forests\footfullcite{Ho1995}.
+machines.
+
+The difference between boosting and bagging is the way the ensemble is built.  In
+boosting, the ensemble is built sequentially, where each new model tries to correct the
+errors of the previous models.  In bagging, the ensemble is built in parallel, where each
+model is trained independently with small changes in the data.  The most famous bagging
+ensemble methods are random forests\footfullcite{Ho1995}, while XGBoost, a gradient
+boosting method\footfullcite{Friedman2001}, has been extensively used in machine learning
+competitions.
 
 \paragraph{Support vector machines}
 
-In 1995, \citeauthor{Cortes1995} proposed the support vector machine (SVM) algorithm, a
+In 1995, \citeauthor{Cortes1995}\footfullcite{Cortes1995} proposed the support vector machine (SVM) algorithm, a
 learning machine based on the VC theory and the ERM principle.  Based on Cover's
 theorem\footfullcite{Cover1965}, they developed a method that finds the optimal hyperplane
 that separates two classes of data with the maximum margin in a high-dimensional space.
@@ -726,7 +763,7 @@ only in the late 2000s the field of deep learning caught the attention of the sc
 community by achieving state-of-the-art results in computer vision and natural language
 processing.  Yoshua Bengio, Geoffrey
 Hinton and Yann LeCun are recognized for their for conceptual and engineering
-breakthroughs in the field, winning the 2018 Turing Award.
+breakthroughs in the field, winning the 2018 Turing Award\footnote{\url{https://awards.acm.org/about/2018-turing}}.
 
 % \paragraph{Knowledge discovery in databases}
 %
@@ -745,7 +782,7 @@ models are the generative transformers and generative adversarial networks.
 
 \paragraph{LUSI learning theory}
 
-In 2010s, Vapnik and Rauf Izmailov proposed the Learning Using Statistical Invariants
+In 2010s, \citeauthor{Vapnik2015}\footfullcite{Vapnik2015} proposed the Learning Using Statistical Invariants
 (LUSI) principle, which is an extension of the statistical learning theory.  The LUSI
 theory is based on the concept of statistical invariants, which are properties of
 the data that are preserved under transformations.  The theory is the foundation of the
@@ -753,14 +790,14 @@ learning from intelligent teachers paradigm.  They regard the LUSI theory as the
 next step in the evolution of learning theory, calling it the ``complete statistical
 theory of learning''.
 
-\begin{slidebox}{Learning from data (part II)}{}
-  \begin{itemize}
-    \item Empirical risk minimization principle by Vladimir Vapnik and Alexey Chervonenkis (1968)
-    \item Resurgence of neural networks (1986)
-    \item Ensembles (1990s)
-    \item Support vector machines by Vladimir Vapnik and Corinna Cortes (1995)
-    \item Deep learning revolution (2000s)
-    \item Generative models (2010s)
-    \item LUSI learning theory by Vladimir Vapnik and Rauf Izmailov (2010s)
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Learning from data (part II)}{}
+%   \begin{itemize}
+%     \item Empirical risk minimization principle by Vladimir Vapnik and Alexey Chervonenkis (1968)
+%     \item Resurgence of neural networks (1986)
+%     \item Ensembles (1990s)
+%     \item Support vector machines by Vladimir Vapnik and Corinna Cortes (1995)
+%     \item Deep learning revolution (2000s)
+%     \item Generative models (2010s)
+%     \item LUSI learning theory by Vladimir Vapnik and Rauf Izmailov (2010s)
+%   \end{itemize}
+% \end{slidebox}
