@@ -23,6 +23,7 @@
 \usepackage{multirow}
 \usepackage[table]{xcolor}
 \usepackage{titletoc}
+\usepackage[noend,noline,linesnumbered]{algorithm2e}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -115,6 +116,12 @@
 \maxtocdepth{subsection}
 
 \babelhyphenation[english]{par-a-digm}
+
+\newtcolorbox[auto counter, number within=chapter, crefname={algorithm}{algorithms}]{algobox}[2][]{%
+  float=thbp, base={Algorithm \thetcbcounter: #2},
+  colframe=black!20!white, #1,
+  before upper={\begin{algorithm}[H]},
+  after upper={\end{algorithm}}}
 
 \begin{document}
 

@@ -71,13 +71,66 @@ My suggestion of a comprehensive book about algorithms and data structures is
 
 \subsection{Algoritmic paradigms}
 
-Some techniques are used to solve a wide variety of problems.  They are called
+Some programming techniques are used to solve a wide variety of problems.  They are called
 algorithmic paradigms.  The most common ones are listed below.
 
 \paragraph{Divide and conquer}  The problem is divided into smaller subproblems that are
 solved recursively.  The solutions to the subproblems are then combined to give a solution
 to the original problem.  Some example algorithms are merge sort, quick sort, and binary
 search.
+
+\begin{algobox}[label=alg:bsearch]{Binary search algorithm.}
+  \KwData{A sorted array $A = \left[a_1, a_2, \dots, a_n\right]$ and a key $x$}
+  \KwResult{True if $x$ is in $A$, false otherwise}
+  $l \gets 1$\;
+  $r \gets n$\;
+  \While{$l \leq r$}{
+    $m \gets \left\lfloor \frac{l + r}{2} \right\rfloor$\;
+    \If{$x = a_m$}{
+      \Return{\emph{true}}
+    }
+    \eIf{$x < a_m$}{
+      $r \gets m - 1$\;
+    }{
+      $l \gets m + 1$\;
+    }
+  }
+  \Return{\emph{false}}
+  \tcblower
+  An iterative algorithm that searches for a key in a sorted array.
+\end{algobox}
+
+Consider as an example the \cref{alg:bsearch} that solves the binary search problem.  Given a
+$n$-elements sorted array $A = \left[a_1, a_2, \dots, a_n\right]$, $a_1 \leq a_2 \leq
+\dots \leq a_n$, and a key $x$, the algorithm returns true if $x$ is in $A$ and false
+otherwise.  The algorithm works by dividing the array in half at each step and comparing
+the key with the middle element.  Each time the key is not found, the search space is
+reduced by half.
+
+\begin{algobox}[label=alg:bsearch2]{Recursive binary search algorithm.}
+  \SetKwProg{Fn}{function}{ is}{end}
+  \Fn{$\operatorname{bsearch}(\left[a_1, a_2, \dots, a_n\right], x)$}{
+    \If{$n = 0$}{
+      \Return{\emph{false}}
+    }
+    $m \gets \left\lfloor \frac{n}{2} \right\rfloor$\;
+    \If{$x = a_m$}{
+      \Return{\emph{true}}
+    }
+    \eIf{$x < a_m$}{
+      \Return{$\operatorname{bsearch}(\left[a_1, \dots, a_{m-1}\right], x)$}
+    }{
+      \Return{$\operatorname{bsearch}(\left[a_{m+1}, \dots, a_{n}\right], x)$}
+    }
+  }
+  \tcblower
+  A recursive algorithm that searches for a key in a sorted array.
+\end{algobox}
+
+Divide and conquer algorithms are usually implemented using recursion.  \emph{Recursion}
+is a programming technique where a function calls itself to solve smaller instances of the
+same problem.  The recursion stops when the problem is small enough to be solved directly.
+\Cref{alg:bsearch2} shows a recursive implementation of the binary search algorithm.
 
 % \paragraph{Dynamic programming}  The problem is divided into overlapping subproblems, and
 % the solutions to the subproblems are only solved once. The subproblems are then optimized
@@ -86,11 +139,13 @@ search.
 
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
 is locally optimal.  The overall solution is not guaranteed to be (but might be) optimal.  Some example
-algorithms are Dijkstra's algorithm and Prim's algorithm
+algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithm are usually
+very efficient in terms of time complexity --- see more in the following.
 
 \paragraph{Backtracking}  The problem is solved incrementally, one piece at a time.  If a
 piece does not fit, it is removed and replaced by another piece.  Some example algorithms
-are the naïve solutions for N-queens problem and the Sudoku problem.
+are the naïve solutions for N-queens problem and the Sudoku problem.  Backtracking usually
+leads to exponential time complexity --- see more in the following.
 
 \subsection{Computational complexity}
 
@@ -110,6 +165,9 @@ n_0$, where $n_0$ is a natural number.
 We can order functions by their asymptotic complexity.  For example, $O(1) < O(\log n) <
 O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$.  The Big-O notation is used to describe
 the asymptotic complexity of algorithms.
+
+As an example, \cref{alg:bsearch} has a worst-case time complexity of $O(\log n)$, where
+$n$ is the number of elements in the array $A$.
 
 \subsection{Data structures}
 
