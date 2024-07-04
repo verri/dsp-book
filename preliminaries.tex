@@ -69,6 +69,34 @@ to express algorithms.
 My suggestion of a comprehensive book about algorithms and data structures is
 \textcite{Cormen2022}\footfullcite{Cormen2022}.
 
+\subsection{Computational complexity}
+
+The computational complexity of an algorithm is the amount of resources it uses to
+run as a function of the size of the input.  The most common resources are time and
+space.
+
+Usually, we are interested in the asymptotic complexity of an algorithm, i.e. how
+the complexity grows as the size of the input grows.  The most common notation for
+asymptotic complexity is the Big-O notation.
+
+\paragraph{Big-O notation}  Let $f$ and $g$ be functions from the set of natural numbers
+to the set of real numbers, i.e. $f, g : \mathbb{N} \rightarrow \mathbb{R}$.  We say that $f$ is
+$O(g)$ if there exists a constant $c > 0$ such that $f(n) \leq c g(n)$ for all $n \geq
+n_0$, where $n_0$ is a natural number.
+We can order functions by their asymptotic complexity.  For example, $O(1) < O(\log n) <
+O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$\footnote{Throughout this book, we consider
+$\log n = \log_2 n$.}.
+
+The asymptotic analysis of algorithms is usually done in the worst-case scenario, i.e.
+the maximum amount of resources the algorithm uses for any input of size $n$.  Thus,
+it gives us an upper bound on the complexity of the algorithm.  In other words, an
+algorithm with complexity $O(g(n))$ is guaranteed to run in at most $c g(n)$ time for some
+constant $c$.
+
+It does not mean, for instance, that an algorithm with time complexity $O(n)$ will always run
+faster than an algorithm with time complexity $O(n^2)$, but that the former will run faster
+for a large enough input size.
+
 \subsection{Algoritmic paradigms}
 
 Some programming techniques are used to solve a wide variety of problems.  They are called
@@ -124,50 +152,86 @@ reduced by half.
     }
   }
   \tcblower
-  A recursive algorithm that searches for a key in a sorted array.
+  A recursive algorithm that searches for a key in a sorted array.  Note that trivial
+  conditions --- $n = 0$ and key found --- are handled first, so the recursion stops
+  when the problem is small enough.
 \end{algobox}
 
-Divide and conquer algorithms are usually implemented using recursion.  \emph{Recursion}
-is a programming technique where a function calls itself to solve smaller instances of the
+Divide and conquer algorithms can be implemented using recursion.  \emph{Recursion}
+is also a algorithmic paradigm where a function calls itself to solve smaller instances of the
 same problem.  The recursion stops when the problem is small enough to be solved directly.
 \Cref{alg:bsearch2} shows a recursive implementation of the binary search algorithm.
+The smaller instances, or so called \emph{base cases}, are when the array is empty or the key
+is found in the middle.  Other conditions --- key is smaller or greater than the middle element ---
+are handled by calling the function recursively with the left or right half of the array.
 
 % \paragraph{Dynamic programming}  The problem is divided into overlapping subproblems, and
 % the solutions to the subproblems are only solved once. The subproblems are then optimized
 % to find the overall solution.  Some example algorithms are the Bellman-Ford algorithm,
 % Floyd-Warshall algorithm, and the Knapsack problem.
 
+This algorithm --- both versions --- has a worst-case time complexity of $O(\log n)$. The
+search space is halved at each step, thus, in the $i$-th iteration, the remaining number
+of elements in the array is $n / 2^i$.  In the worst-case, the algorithm stops when the
+search space has size $1$, i.e.
+\[
+  \frac{n}{2^i} = 1 \implies i = \log n\text{.}
+\]
+
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
-is locally optimal.  The overall solution is not guaranteed to be (but might be) optimal.  Some example
+is locally optimal.  The overall solution is not guaranteed to (but might) be optimal.  Some example
 algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithm are usually
 very efficient in terms of time complexity --- see more in the following.
+
+One example of suboptimal greedy algorithm is the naïve solution for the knapsack problem.
+The \emph{knapsack problem} is a combinatorial optimization problem where the goal is to
+maximize the value of items in a knapsack without exceeding its capacity.  The problem is
+mathematically defined as
+\[
+  \text{maximize }~\sum_{i = 1}^n v_i x_i\text{,}
+\]
+\[
+  \text{subject to }~\sum_{i = 1}^n w_i x_i \leq W\text{,}
+\]
+where $v_i$ is the value of item $i$, $w_i$ is the weight of item $i$, $x_i$ is a binary
+variable that indicates if item $i$ is in the knapsack, and $W$ is the capacity of the
+knapsack.
+
+\begin{algobox}[label=alg:knapsack]{Naïve solution for the knapsack problem.}
+  \KwData{A list of $n$ items, each with a value $v_i$ and a weight $w_i$, and a capacity $W$}
+  \KwResult{The binary variable $x_i$ for each item $i$ that maximizes the total value}
+  Sort the items in decreasing order of value\;
+  $V \gets 0$\;
+  $x_i \gets 0,~\forall i$\;
+  \For{$i \gets 1$ \KwTo $n$}{
+    \If{$w_i \leq W$}{
+      $x_i \gets 1$\;
+      $V \gets V + v_i$\;
+      $W \gets W - w_i$\;
+    }
+  }
+  \Return{$x_i,~\forall i$}
+  \tcblower
+  A naïve greedy algorithm that solves the knapsack problem.  The algorithm iterates over
+  the items in decreasing order of value and puts the item in the knapsack if it fits.
+\end{algobox}
+
+A naïve greedy algorithm for the knapsack problem is shown in \cref{alg:knapsack}.  The
+algorithm iterates over the items in decreasing order of value and puts the item in the
+knapsack if it fits.  The algorithm is suboptimal because there might exist small-value
+items that, when combined, would fit in the knapsack and yield a higher total value.
+
+Note that the most costly operation in the algorithm is the sorting of the items in
+decreasing order of value, which has a time complexity of $O(n \log n)$\footnote{%
+Considering the worst-case time complexity of the sorting algorithm, consult
+\textcite{Cormen2022} for more details.}.
 
 \paragraph{Backtracking}  The problem is solved incrementally, one piece at a time.  If a
 piece does not fit, it is removed and replaced by another piece.  Some example algorithms
 are the naïve solutions for N-queens problem and the Sudoku problem.  Backtracking usually
 leads to exponential time complexity --- see more in the following.
 
-\subsection{Computational complexity}
 
-The computational complexity of an algorithm is the amount of resources it uses to
-run as a function of the size of the input.  The most common resources are time and
-space.
-
-Usually, we are interested in the asymptotic complexity of an algorithm, i.e. how
-the complexity grows as the size of the input grows.  The most common notation for
-asymptotic complexity is the Big-O notation.
-
-\paragraph{Big-O notation}  Let $f$ and $g$ be functions from the set of natural numbers
-to the set of real numbers, i.e. $f, g : \mathbb{N} \rightarrow \mathbb{R}$.  We say that $f$ is
-$O(g)$ if there exists a constant $c > 0$ such that $f(n) \leq c g(n)$ for all $n \geq
-n_0$, where $n_0$ is a natural number.
-
-We can order functions by their asymptotic complexity.  For example, $O(1) < O(\log n) <
-O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$.  The Big-O notation is used to describe
-the asymptotic complexity of algorithms.
-
-As an example, \cref{alg:bsearch} has a worst-case time complexity of $O(\log n)$, where
-$n$ is the number of elements in the array $A$.
 
 \subsection{Data structures}
 
