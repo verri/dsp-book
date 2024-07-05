@@ -183,7 +183,7 @@ is locally optimal.  The overall solution is not guaranteed to (but might) be op
 algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithm are usually
 very efficient in terms of time complexity --- see more in the following.
 
-One example of suboptimal greedy algorithm is the naïve solution for the knapsack problem.
+One example of suboptimal greedy algorithm is a heuristic solution for the knapsack problem.
 The \emph{knapsack problem} is a combinatorial optimization problem where the goal is to
 maximize the value of items in a knapsack without exceeding its capacity.  The problem is
 mathematically defined as
@@ -197,7 +197,7 @@ where $v_i$ is the value of item $i$, $w_i$ is the weight of item $i$, $x_i$ is 
 variable that indicates if item $i$ is in the knapsack, and $W$ is the capacity of the
 knapsack.
 
-\begin{algobox}[label=alg:knapsack]{Naïve solution for the knapsack problem.}
+\begin{algobox}[label=alg:knapsack]{Heuristic solution for the knapsack problem.}
   \KwData{A list of $n$ items, each with a value $v_i$ and a weight $w_i$, and a capacity $W$}
   \KwResult{The binary variable $x_i$ for each item $i$ that maximizes the total value}
   Sort the items in decreasing order of value\;
@@ -212,11 +212,11 @@ knapsack.
   }
   \Return{$x_i,~\forall i$}
   \tcblower
-  A naïve greedy algorithm that solves the knapsack problem.  The algorithm iterates over
+  A greedy algorithm that solves suboptimally the knapsack problem.  The algorithm iterates over
   the items in decreasing order of value and puts the item in the knapsack if it fits.
 \end{algobox}
 
-A naïve greedy algorithm for the knapsack problem is shown in \cref{alg:knapsack}.  The
+A greedy algorithm for the knapsack problem is shown in \cref{alg:knapsack}.  The
 algorithm iterates over the items in decreasing order of value and puts the item in the
 knapsack if it fits.  The algorithm is suboptimal because there might exist small-value
 items that, when combined, would fit in the knapsack and yield a higher total value.
@@ -226,12 +226,173 @@ decreasing order of value, which has a time complexity of $O(n \log n)$\footnote
 Considering the worst-case time complexity of the sorting algorithm, consult
 \textcite{Cormen2022} for more details.}.
 
+\paragraph{Brute force}  The problem is solved by trying all possible solutions.  Most of
+the time, brute force algorithms have exponential time complexity, leading to impractical
+solutions for large instances of the problem.  On the other hand, brute force algorithms
+are usually easy to implement and understand, as well as guaranteed to find the optimal
+solution.
+
+In the previous example, a brute force algorithm for the knapsack problem would
+try all possible combinations of items and select the one that maximizes the total value
+without exceeding the capacity.  One can easily see that the time complexity of such an
+algorithm is $O(2^n)$, where $n$ is the number of items, as there are $2^n$ possible
+combinations of items.
+
 \paragraph{Backtracking}  The problem is solved incrementally, one piece at a time.  If a
 piece does not fit, it is removed and replaced by another piece.  Some example algorithms
-are the naïve solutions for N-queens problem and the Sudoku problem.  Backtracking usually
-leads to exponential time complexity --- see more in the following.
+are the naïve solutions for N-queens problem and for the Sudoku problem.  Backtracking, as
+a special case of brute force, usually leads to exponential (or worse) time complexity.
 
+\begin{figurebox}[label=fig:sudoku]{Backtracking to solve a Sudoku puzzle.}
+  \centering
+  \begin{tikzpicture}
+    % a tree like structure with the Sudoku puzzle at the root, and tries to fill each cell
+    % with a number, backtracking when a number does not fit
 
+    % an almost complete Sudoku puzzle
+    \node (root) at (1, 0) {$\begin{array} {|c|c|c|c|}
+      \hline
+      ? &   &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with first cell filled with 1
+    \node (n1) at (-3.6, -3) {$\begin{array} {|c|c|c|c|}
+      \hline
+      \color{gray} 1 &   &   & \color{gray} 1 \\
+      \hline
+      \color{gray} 1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with first cell filled with 2
+    \node (n2) at (-1.2, -3) {$\begin{array} {|c|c|c|c|}
+      \hline
+      \color{gray} 2  &   &   & 1 \\
+      \hline
+      1 & \color{gray} 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      \color{gray} 2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with first cell filled with 3
+    \node (n3) at (1.2, -5) {$\begin{array} {|c|c|c|c|}
+      \hline
+      3  & ? &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with first cell filled with 4
+    \node (n4) at (3.6, -3) {$\begin{array} {|c|c|c|c|}
+      \hline
+      4  & ?  &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with the second cell filled with 1
+    \node (n5) at (-3.6, -8) {$\begin{array} {|c|c|c|c|}
+      \hline
+      3 & \color{gray} 1 &   & \color{gray} 1 \\
+      \hline
+      \color{gray} 1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with the second cell filled with 2
+    \node (n6) at (-1.2, -8) {$\begin{array} {|c|c|c|c|}
+      \hline
+      3 & \color{gray} 2 &   & 1 \\
+      \hline
+      1 & \color{gray} 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with the second cell filled with 3
+    \node (n7) at (1.2, -8) {$\begin{array} {|c|c|c|c|}
+      \hline
+      \color{gray} 3 & \color{gray} 3 &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % node with the second cell filled with 4
+    \node (n8) at (3.6, -8) {$\begin{array} {|c|c|c|c|}
+      \hline
+      3 & \color{gray} 4 &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & \color{gray} 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    % etc
+    \node (dots) at (3.6, -5) {\dots};
+    % arrows
+    \draw[-Stealth] (root.west) -- (n1.north);
+    \draw[-Stealth] (n1.north) -- (root.south west);
+    \draw[-Stealth] (root.south west) -- (n2.north);
+    \draw[-Stealth] (n2.north) -- (root.south);
+    \draw[-Stealth] (root.south) -- (n3.north west);
+
+    \draw[-Stealth] (n3.north west) -- (n5.north);
+    \draw[-Stealth] (n5.north) -- (n3.south west);
+    \draw[-Stealth] (n3.south west) -- (n6.north);
+    \draw[-Stealth] (n6.north) -- (n3.south);
+    \draw[-Stealth] (n3.south) -- (n7.north);
+    \draw[-Stealth] (n7.north) -- (n3.south east);
+    \draw[-Stealth] (n3.south east) -- (n8.north);
+    \draw[-Stealth] (n8.north) -- (n3.north east);
+
+    \draw[-Stealth] (n3.north east) -- (root.south east);
+    \draw[-Stealth] (root.south east) -- (n4.north);
+
+    \draw[-Stealth] (n4.south) -- (dots);
+  \end{tikzpicture}
+  \tcblower
+  A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
+  numbers in each cell and backtracking when a number does not fit.  The solution is found
+  when all cells are filled and the constraints are satisfied.  Arrows indicate the
+  backtracking steps.  Invalid numbers are shown in gray.
+\end{figurebox}
+
+An illustration of backtracking to solve a Sudoku puzzle is shown in \cref{fig:sudoku}.
+The puzzle is solved by trying all possible numbers in each cell and backtracking when a
+number does not fit.  The solution is found when all cells are filled and the constraints
+are satisfied.  Arrows indicate the the steps of the backtracking algorithm.  Every time a
+constraint is violated --- indicated in gray ---, the algorithm backtracks to the previous
+cell and tries a different number.
 
 \subsection{Data structures}
 
