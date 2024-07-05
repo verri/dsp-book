@@ -240,7 +240,7 @@ items that, when combined, would fit in the knapsack and yield a higher total va
 The most costly operation in the algorithm is the sorting of the items in
 decreasing order of value, which has a time complexity\footnote{%
 Considering the worst-case time complexity of the sorting algorithm, consult
-\textcite{Cormen2022} for more details.} of $O(n \log n)$.
+\fullcite{Cormen2022} for more details.} of $O(n \log n)$.
 
 \paragraph{Brute force}  The problem is solved by trying all possible solutions.  Most of
 the time, brute force algorithms have exponential time complexity, leading to impractical
@@ -437,7 +437,7 @@ too costly.
 
 Data structures are ways of organizing data to solve problems.  The most common ones
 are listed below.  A comprehensive material about the properties and implementations of
-data structures can be found in \textcite{Cormen2022}.
+data structures can be found in \textcite{Cormen2022}\footfullcite{Cormen2022}.
 
 \paragraph{Arrays}  An array is a homogeneous collection of elements that are accessed by
 an integer index.  The elements are usually stored in contiguous memory locations.
@@ -542,34 +542,88 @@ A set is a collection of elements.  The elements of a set can be anything, inclu
 other sets.  The elements of a set are unordered, and each element is unique.  The
 most common notation for sets is the curly braces notation, e.g. $\{1, 2, 3\}$.
 
-\subsection{Set operations}
+Some special sets are listed below.
 
-\paragraph{Union}  The union of two sets $A$ and $B$ is the set of elements that are in
-$A$ or $B$.  It is denoted by $A \cup B$.
-
-\paragraph{Intersection}  The intersection of two sets $A$ and $B$ is the set of elements
-that are in both $A$ and $B$.  It is denoted by $A \cap B$.
-
-\paragraph{Difference}  The difference of two sets $A$ and $B$ is the set of elements
-that are in $A$ but not in $B$.  It is denoted by $A \setminus B$.
-
-Union and intersection are commutative, associative and distributive.
-
-\paragraph{Universe set}  The universe set is the set of all elements.  It is denoted
-by $\Omega$.
+\paragraph{Universe set}  The universe set is the set of all elements in a given context.
+It is denoted by $\Omega$.
 
 \paragraph{Empty set}  The empty set is the set with no elements.  It is denoted by
 $\emptyset$.
 
+\subsection{Set operations}
+
+The basic operations on sets are union, intersection, difference, and complement.
+
+\paragraph{Union}  The union of two sets $A$ and $B$ is the set of elements that are in
+$A$ or $B$.  It is denoted by $A \cup B$.  For example, the union of $\{1, 2, 3\}$ and
+$\{3, 4, 5\}$ is $\{1, 2, 3, 4, 5\}$.
+
+\paragraph{Intersection}  The intersection of two sets $A$ and $B$ is the set of elements
+that are in both $A$ and $B$.  It is denoted by $A \cap B$.  For example, the intersection
+of $\{1, 2, 3\}$ and $\{3, 4, 5\}$ is $\{3\}$.
+
+\paragraph{Difference}  The difference of two sets $A$ and $B$ is the set of elements
+that are in $A$ but not in $B$.  It is denoted by $A \setminus B$.  For example, the
+difference of $\{1, 2, 3\}$ and $\{3, 4, 5\}$ is $\{1, 2\}$.
+
 \paragraph{Complement}  The complement of a set $A$ is the set of elements that are not
 in $A$.  It is denoted by $A^c = \Omega \setminus A$.
 
-\paragraph{Inclusion}  Given sets $A$, $B$, and $C$, the following statements hold:
+\paragraph{Inclusion}  Inclusion is a relation between sets.  A set $A$ is included in a
+set $B$ if all elements of $A$ are also elements of $B$.  It is denoted by $A \subseteq B$.
+
+\subsection{Set operations properties}
+
+Union and intersection are commutative, associative and distributive.  Thus, given sets
+$A$, $B$, and $C$, the following statements hold:
+\begin{itemize}
+  \item \emph{Commutativity:} $A \cup B = B \cup A$ and $A \cap B = B \cap A$;
+  \item \emph{Associativity:} $(A \cup B) \cup C = A \cup (B \cup C)$ and $(A \cap B) \cap C = A \cap (B \cap C)$;
+  \item \emph{Distributivity:} $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$ and $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
+\end{itemize}
+
+The difference operation can be expressed in terms of union and intersection as
+\[
+  A \setminus B = A \cap B^c\text{.}
+\]
+
+The complement of the union of two sets is the intersection of their complements, i.e.
+\[
+  (A \cup B)^c = A^c \cap B^c\text{.}
+\]
+Similarly, the complement of the intersection of two sets is the union of their complements, i.e.
+\[
+  (A \cap B)^c = A^c \cup B^c\text{.}
+\]
+This property is known as De Morgan's laws.
+
+In terms of inclusion, given sets $A$, $B$, and $C$, the following statements hold:
 \begin{itemize}
   \item \emph{Reflexity:} $A \subseteq A$;
   \item \emph{Antisymmetry:} $A \subseteq B$ and $B \subseteq A$ if and only if $A = B$;
   \item \emph{Transitivity:} $A \subseteq B$ and $B \subseteq C$ implies $A \subseteq C$.
 \end{itemize}
+
+\subsection{Relation to Boolean algebra}
+
+Set operations are closely related to Boolean algebra.  In Boolean algebra, the elements
+of a set are either true or false, many times represented by $1$ and $0$, respectively.
+The union operation is equivalent to the logical OR operation, expressed by the symbol
+$\lor$; and the intersection operation is equivalent to the logical AND operation,
+expressed by the symbol $\land$.  The compliment operation is equivalent to the logical
+NOT operation, expressed by the symbol $\lnot$.
+
+The distributive property of set operations is equivalent to the distributive property of
+Boolean algebra.  Important properties like De Morgan's laws also hold in Boolean algebra,
+i.e. $\lnot (A \lor B) = \lnot A \land \lnot B$ and $\lnot (A \land B) = \lnot A \lor
+\lnot B$.
+
+Boolean algebra is the foundation of digital electronics and computer science.  The
+logical operations are implemented in hardware using logic gates, and the logical
+operations are used in programming languages to control the flow of a program.
+
+Reader interested in more details about Boolean algebra and Discrete Mathematics
+should consult \textcite{Rosen2018}\footfullcite{Rosen2018}.
 
 \section{Linear algebra}
 
