@@ -97,6 +97,13 @@ It does not mean, for instance, that an algorithm with time complexity $O(n)$ wi
 faster than an algorithm with time complexity $O(n^2)$, but that the former will run faster
 for a large enough input size.
 
+An important property of the Big-O notation is that
+\[
+  O(f) + O(g) = O(\max(f, g))\text{,}
+\]
+i.e. if an algorithm has two sequential steps with time complexity $O(f)$ and $O(g)$, the
+highest complexity is the one that determines the overall complexity.
+
 \subsection{Algoritmic paradigms}
 
 Some programming techniques are used to solve a wide variety of problems.  They are called
@@ -108,8 +115,8 @@ to the original problem.  Some example algorithms are merge sort, quick sort, an
 search.
 
 \begin{algobox}[label=alg:bsearch]{Binary search algorithm.}
-  \KwData{A sorted array $A = \left[a_1, a_2, \dots, a_n\right]$ and a key $x$}
-  \KwResult{True if $x$ is in $A$, false otherwise}
+  \KwData{A sorted array $\vec{a} = \left[a_1, a_2, \dots, a_n\right]$ and a key $x$}
+  \KwResult{True if $x$ is in $\vec{a}$, false otherwise}
   $l \gets 1$\;
   $r \gets n$\;
   \While{$l \leq r$}{
@@ -129,7 +136,7 @@ search.
 \end{algobox}
 
 Consider as an example the \cref{alg:bsearch} that solves the binary search problem.  Given a
-$n$-elements sorted array $A = \left[a_1, a_2, \dots, a_n\right]$, $a_1 \leq a_2 \leq
+$n$-elements sorted array $\vec{a} = \left[a_1, a_2, \dots, a_n\right]$, $a_1 \leq a_2 \leq
 \dots \leq a_n$, and a key $x$, the algorithm returns true if $x$ is in $A$ and false
 otherwise.  The algorithm works by dividing the array in half at each step and comparing
 the key with the middle element.  Each time the key is not found, the search space is
@@ -160,6 +167,7 @@ reduced by half.
 Divide and conquer algorithms can be implemented using recursion.  \emph{Recursion}
 is also a algorithmic paradigm where a function calls itself to solve smaller instances of the
 same problem.  The recursion stops when the problem is small enough to be solved directly.
+
 \Cref{alg:bsearch2} shows a recursive implementation of the binary search algorithm.
 The smaller instances, or so called \emph{base cases}, are when the array is empty or the key
 is found in the middle.  Other conditions --- key is smaller or greater than the middle element ---
@@ -170,13 +178,13 @@ are handled by calling the function recursively with the left or right half of t
 % to find the overall solution.  Some example algorithms are the Bellman-Ford algorithm,
 % Floyd-Warshall algorithm, and the Knapsack problem.
 
-This algorithm --- both versions --- has a worst-case time complexity of $O(\log n)$. The
+This solution --- both algorithms --- has a worst-case time complexity of $O(\log n)$. The
 search space is halved at each step, thus, in the $i$-th iteration, the remaining number
 of elements in the array is $n / 2^{i-1}$.  In the worst-case, the algorithm stops when the
 search space has size $1$ or smaller, i.e.
 \[
-  \left\lceil \frac{n}{2^{i-1}} \right\rceil = 1 \implies
-  i = 1 + \left\lfloor \log n \right\rfloor\text{.}
+  \frac{n}{2^{i-1}} = 1 \implies
+  i = 1 + \log n\text{.}
 \]
 
 Note this strategy leads to such a low time complexity that we can solve large instances
@@ -184,6 +192,7 @@ of the problem in a reasonable amount of time.  Consider the case of an array wi
 = 18{,}446{,}744{,}073{,}709{,}551{,}616$ elements, the algorithm will find the key in at most $65$
 steps.
 
+\clearpage
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
 is locally optimal.  The overall solution is not guaranteed to (but might) be optimal.  Some example
 algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithm are usually
@@ -195,7 +204,8 @@ maximize the value of items in a knapsack without exceeding its capacity.  The p
 mathematically defined as
 \[
   \text{maximize }~\sum_{i = 1}^n v_i x_i\text{,}
-  \quad
+\]
+\[
   \text{subject to }~\sum_{i = 1}^n w_i x_i \leq W\text{,}
 \]
 where $v_i$ is the value of item $i$, $w_i$ is the weight of item $i$, $x_i$ is a binary
@@ -245,11 +255,21 @@ algorithm is $O(2^n)$, where $n$ is the number of items, as there are $2^n$ poss
 combinations of items.  Such an \emph{exhaustive search} is impractical for large $n$,
 but it is guaranteed to find the optimal solution.
 
+One should avoid brute force algorithms whenever possible, as they are usually too costly
+to be practical.  However, they are useful for small instances of the problem, for
+verification of the results of other algorithms, and for educational purposes.
+
 \paragraph{Backtracking}  The problem is solved incrementally, one piece at a time.  If a
 piece does not fit, it is removed and replaced by another piece.  Some example algorithms
 are the naïve solutions for N-queens problem and for the Sudoku problem.  Backtracking, as
 a special case of brute force, often leads to exponential (or worse) time complexity.
 
+Many times, backtracking algorithms are combined with other techniques to reduce the
+search space and make the algorithm more efficient.  For example, the backtracking
+algorithm for the Sudoku problem is combined with constraint propagation to reduce the
+number of possible solutions.
+
+\clearpage
 A Sudoku puzzle consists of an $n \times n$ grid, divided into $n$ subgrids of size
 $\sqrt{n} \times \sqrt{n}$.  The goal is to fill the grid with numbers from $1$ to $n$
 such that each row, each column, and each subgrid contains all numbers from $1$ to $n$ but
@@ -396,7 +416,8 @@ no repetitions.  The most common grid size is $9 \times 9$.
   A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
   numbers in each cell and backtracking when a number does not fit.  The solution is found
   when all cells are filled and the constraints are satisfied.  Arrows indicate the
-  backtracking steps.  Invalid tries and the constraints violated are shown in gray.
+  backtracking steps.  The question mark indicates an empty cell that needs to be filled
+  at that step.  Constraints violation are shown in gray.
 \end{figurebox}
 
 An illustration of backtracking to solve a $4 \times 4$ Sudoku puzzle\footnote{%
@@ -415,27 +436,40 @@ too costly.
 \subsection{Data structures}
 
 Data structures are ways of organizing data to solve problems.  The most common ones
-are listed below.
+are listed below.  A comprehensive material about the properties and implementations of
+data structures can be found in \textcite{Cormen2022}.
 
 \paragraph{Arrays}  An array is a homogeneous collection of elements that are accessed by
 an integer index.  The elements are usually stored in contiguous memory locations.
+In the scope of this book, it is equivalent to a mathematical vector whose element's type
+are not necessarily numerical.  Thus, a $n$-elements array $\vec{a}$ is denoted by
+$\left[a_1, a_2, \dots, a_n\right]$, where the $i$ in $a_i$ is the index of the element.
 
-\paragraph{Linked lists}  A linked list is a collection of elements called nodes.  Each
-node contains a value and a pointer to the next node in the list.  The first node is
-called the head, and the last node is called the tail.  The tail points to a null
-reference.
+% \paragraph{Linked lists}  A linked list is a collection of elements called nodes.  Each
+% node contains a value and a pointer to the next node in the list.  The first node is
+% called the head, and the last node is called the tail.  The tail points to a null
+% reference.
 
 \paragraph{Stacks}  A stack is a collection of elements that are accessed in a
 last-in-first-out (LIFO) order.  Elements are added to the top of the stack and
-removed from the top of the stack.
+removed from the top of the stack.  In other words, only two operations are
+allowed: push (add an element to the top of the stack) and pop (remove the top element).
+Only the top element is accessible.
 
 \paragraph{Queues}  A queue is a collection of elements that are accessed in a
 first-in-first-out (FIFO) order.  Elements are added to the back of the queue and
-removed from the front of the queue.
+removed from the front of the queue.  The two operations allowed are enqueue (add an
+element to the back of the queue) and dequeue (remove the front element).  Only the
+front and back elements are accessible.
 
 \paragraph{Trees}  A tree is a collection of nodes.  Each node contains a value and a
 list of references to its children.  The first node is called the root.  A node with
-no children is called a leaf.
+no children is called a leaf.  The most common type of tree is the binary tree, where
+each node has at most two children.
+
+Mathematically, a binary tree is a recursive data structure.  A binary tree is either
+empty or consists of a root node and two binary trees, called the left and right
+children.
 
 \paragraph{Graphs}  A graph is a collection of nodes.  Each node contains a value and a
 list of references to its neighbors; the references are called edges.  A graph can be
