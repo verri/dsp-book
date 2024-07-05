@@ -462,21 +462,79 @@ removed from the front of the queue.  The two operations allowed are enqueue (ad
 element to the back of the queue) and dequeue (remove the front element).  Only the
 front and back elements are accessible.
 
-\paragraph{Trees}  A tree is a collection of nodes.  Each node contains a value and a
-list of references to its children.  The first node is called the root.  A node with
-no children is called a leaf.  The most common type of tree is the binary tree, where
-each node has at most two children.
+\paragraph{Trees}  A tree is a collection of nodes.  Each node contains a value and a list
+of references to its children.  The first node is called the root.  A node with no
+children is called a leaf.  No cycles are allowed in a tree, i.e. a child cannot be an
+ancestor of its parent. The most common type of tree is the binary tree, where each node
+has at most two children.
 
 Mathematically, a binary tree is a recursive data structure.  A binary tree is either
 empty or consists of a root node and two binary trees, called the left and right
-children.
+children.   Thus, a binary tree $T$ is
+\[
+  T = \begin{cases}
+    \emptyset & \text{if it is empty, or} \\
+    \left(v, T_l, T_r\right) & \text{if it has a value $v$ and two children $T_l$ and $T_r$.}
+  \end{cases}
+\]
+Note that the left and right children are themselves binary trees.  If $T$ is a leaf,
+then $T_l = T_r = \emptyset$.
 
-\paragraph{Graphs}  A graph is a collection of nodes.  Each node contains a value and a
+This properties makes it easy to represent a binary tree using parentheses notation.  For
+example, $(1, (2, \emptyset, \emptyset), (3, \emptyset, \emptyset))$ is a binary tree
+with root $1$, left child $2$, and right child $3$.
+
+\paragraph{Graphs}  A graph is also a collection of nodes.  Each node contains a value and a
 list of references to its neighbors; the references are called edges.  A graph can be
 directed or undirected.  A graph is directed if the edges have a direction.
 
-\paragraph{Map} A map is a collection of key-value pairs.  The keys are unique, and
-each key is associated with a value.  The keys are used to access the values.
+Mathematically, a graph is a pair $G = (V, E)$, where $V$ is a set of vertices and $E \in
+V \times V$ is a set of edges.  An edge is a pair of vertices, i.e. $e = (v_i, v_j)$,
+where $v_i, v_j \in V$. If the graph is directed, the edge is an ordered pair, i.e. $e =
+(v_i, v_j) \neq (v_j, v_i)$.
+
+Not only each node can hold a value, but also each edge can have a weight.  A weighted
+graph is a graph where there exists a function $w : E \rightarrow \mathbb{R}$ that assigns
+a real number to each edge.
+
+\begin{figurebox}[label=fig:graph]{A graph with four vertices and five edges.}
+  \centering
+  \begin{tikzpicture}
+    % a graph with four vertices and five edges
+    \node (v1) at (0, 0) {1};
+    \node (v2) at (2, 0) {2};
+    \node (v3) at (2, 2) {3};
+    \node (v4) at (0, 2) {4};
+    \draw[->] (v1) -- (v2);
+    \draw[->] (v2) -- (v3);
+    \draw[->] (v3) -- (v4);
+    \draw[->] (v4) -- (v1);
+    \draw[->] (v1) -- (v3);
+  \end{tikzpicture}
+  \tcblower
+  A graph with four vertices and five edges.  Vertices are numbered from $1$ to $4$, and
+  edges are represented by arrows.  The graph is directed, as the edges have a direction.
+\end{figurebox}
+
+A graphical representation of a directed graph with four vertices and five edges is shown
+in \cref{fig:graph}.  The vertices are numbered from $1$ to $4$, and the edges are
+represented by arrows.
+
+Another common representation of a graph is the adjacency matrix.  An adjacency matrix is
+a square matrix $A$ of size $n \times n$, where $n$ is the number of vertices.  The
+$i, j$-th entry of the matrix is $1$ if there is an edge from vertex $i$ to vertex $j$,
+and $0$ otherwise.  The adjacency matrix of the graph in \cref{fig:graph} is
+\[
+  A = \begin{pmatrix}
+    0 & 1 & 1 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1 \\
+    1 & 0 & 0 & 0
+  \end{pmatrix}\text{.}
+\]
+
+% \paragraph{Map} A map is a collection of key-value pairs.  The keys are unique, and
+% each key is associated with a value.  The keys are used to access the values.
 
 \section{Set theory}
 
