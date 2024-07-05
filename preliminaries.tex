@@ -172,11 +172,17 @@ are handled by calling the function recursively with the left or right half of t
 
 This algorithm --- both versions --- has a worst-case time complexity of $O(\log n)$. The
 search space is halved at each step, thus, in the $i$-th iteration, the remaining number
-of elements in the array is $n / 2^i$.  In the worst-case, the algorithm stops when the
-search space has size $1$, i.e.
+of elements in the array is $n / 2^{i-1}$.  In the worst-case, the algorithm stops when the
+search space has size $1$ or smaller, i.e.
 \[
-  \frac{n}{2^i} = 1 \implies i = \log n\text{.}
+  \left\lceil \frac{n}{2^{i-1}} \right\rceil = 1 \implies
+  i = 1 + \left\lfloor \log n \right\rfloor\text{.}
 \]
+
+Note this strategy leads to such a low time complexity that we can solve large instances
+of the problem in a reasonable amount of time.  Consider the case of an array with $2^{64}
+= 18{,}446{,}744{,}073{,}709{,}551{,}616$ elements, the algorithm will find the key in at most $65$
+steps.
 
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
 is locally optimal.  The overall solution is not guaranteed to (but might) be optimal.  Some example
@@ -189,8 +195,7 @@ maximize the value of items in a knapsack without exceeding its capacity.  The p
 mathematically defined as
 \[
   \text{maximize }~\sum_{i = 1}^n v_i x_i\text{,}
-\]
-\[
+  \quad
   \text{subject to }~\sum_{i = 1}^n w_i x_i \leq W\text{,}
 \]
 where $v_i$ is the value of item $i$, $w_i$ is the weight of item $i$, $x_i$ is a binary
@@ -216,15 +221,16 @@ knapsack.
   the items in decreasing order of value and puts the item in the knapsack if it fits.
 \end{algobox}
 
-A greedy algorithm for the knapsack problem is shown in \cref{alg:knapsack}.  The
-algorithm iterates over the items in decreasing order of value and puts the item in the
+An algorithm that finds a suboptimal solution for the knapsack problem is shown in
+\cref{alg:knapsack}.
+It iterates over the items in decreasing order of value and puts the item in the
 knapsack if it fits.  The algorithm is suboptimal because there might exist small-value
 items that, when combined, would fit in the knapsack and yield a higher total value.
 
-Note that the most costly operation in the algorithm is the sorting of the items in
-decreasing order of value, which has a time complexity of $O(n \log n)$\footnote{%
+The most costly operation in the algorithm is the sorting of the items in
+decreasing order of value, which has a time complexity\footnote{%
 Considering the worst-case time complexity of the sorting algorithm, consult
-\textcite{Cormen2022} for more details.}.
+\textcite{Cormen2022} for more details.} of $O(n \log n)$.
 
 \paragraph{Brute force}  The problem is solved by trying all possible solutions.  Most of
 the time, brute force algorithms have exponential time complexity, leading to impractical
@@ -236,12 +242,18 @@ In the previous example, a brute force algorithm for the knapsack problem would
 try all possible combinations of items and select the one that maximizes the total value
 without exceeding the capacity.  One can easily see that the time complexity of such an
 algorithm is $O(2^n)$, where $n$ is the number of items, as there are $2^n$ possible
-combinations of items.
+combinations of items.  Such an \emph{exhaustive search} is impractical for large $n$,
+but it is guaranteed to find the optimal solution.
 
 \paragraph{Backtracking}  The problem is solved incrementally, one piece at a time.  If a
 piece does not fit, it is removed and replaced by another piece.  Some example algorithms
 are the naïve solutions for N-queens problem and for the Sudoku problem.  Backtracking, as
-a special case of brute force, usually leads to exponential (or worse) time complexity.
+a special case of brute force, often leads to exponential (or worse) time complexity.
+
+A Sudoku puzzle consists of an $n \times n$ grid, divided into $n$ subgrids of size
+$\sqrt{n} \times \sqrt{n}$.  The goal is to fill the grid with numbers from $1$ to $n$
+such that each row, each column, and each subgrid contains all numbers from $1$ to $n$ but
+no repetitions.  The most common grid size is $9 \times 9$.
 
 \begin{figurebox}[label=fig:sudoku]{Backtracking to solve a Sudoku puzzle.}
   \centering
@@ -384,15 +396,21 @@ a special case of brute force, usually leads to exponential (or worse) time comp
   A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
   numbers in each cell and backtracking when a number does not fit.  The solution is found
   when all cells are filled and the constraints are satisfied.  Arrows indicate the
-  backtracking steps.  Invalid numbers are shown in gray.
+  backtracking steps.  Invalid tries and the constraints violated are shown in gray.
 \end{figurebox}
 
-An illustration of backtracking to solve a Sudoku puzzle is shown in \cref{fig:sudoku}.
+An illustration of backtracking to solve a $4 \times 4$ Sudoku puzzle\footnote{%
+Smaller puzzles are more didactic, but the same principles apply to larger puzzles.}
+is shown in \cref{fig:sudoku}.
 The puzzle is solved by trying all possible numbers in each cell and backtracking when a
 number does not fit.  The solution is found when all cells are filled and the constraints
 are satisfied.  Arrows indicate the the steps of the backtracking algorithm.  Every time a
 constraint is violated --- indicated in gray ---, the algorithm backtracks to the previous
 cell and tries a different number.
+
+One can easily see that a puzzle with $m$ missing cells has $n^m$ possible solutions.  For
+small values of $m$ and $n$, the algorithm is practical, but for large values, it becomes
+too costly.
 
 \subsection{Data structures}
 
