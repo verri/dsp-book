@@ -627,6 +627,10 @@ should consult \textcite{Rosen2018}\footfullcite{Rosen2018}.
 
 \section{Linear algebra}
 
+Linear algebra is the branch of mathematics that studies vector spaces and linear
+transformations.  It is a fundamental tool in many areas of science and engineering.
+The basic objects of linear algebra are vectors and matrices.
+
 \paragraph{Vector}  A vector is an ordered collection of numbers.  It is denoted by a bold
 lowercase letter, e.g. $\vec{v} = [v_i]_{i= 1,\dots, n}$ is a vector of length $n$.
 
@@ -634,7 +638,14 @@ lowercase letter, e.g. $\vec{v} = [v_i]_{i= 1,\dots, n}$ is a vector of length $
 uppercase letter, e.g. $A = (a_{ij})_{i = 1, \dots, n;~j = 1, \dots, m}$ is the matrix
 with $n$ rows and $m$ columns.
 
+\paragraph{Tensor}  Tensors are generalizations of vectors and matrices.  A tensor of rank
+$k$ is a multidimensional array with $k$ indices.  Scalars are tensors of rank $0$,
+vectors are tensors of rank $1$, and matrices are tensors of rank $2$.  Tensors are
+commonly used in machine learning and physics.
+
 \subsection{Operations}
+
+The main operations in linear algebra are presented below.
 
 \paragraph{Addition}  The sum of two vectors $\vec{v}$ and $\vec{w}$ is the vector
 $\vec{v} + \vec{w}$ whose $i$-th entry is $v_i + w_i$.  The sum of two matrices $A$ and
@@ -642,7 +653,7 @@ $B$ is the matrix $A + B$ whose $i, j$-th entry is $a_{ij} + b_{ij}$.  (The same
 to subtraction.)
 
 \paragraph{Scalar multiplication}  The product of a scalar $\alpha$ and a vector $\vec{v}$
-is the vector $\alpha \vec{v}$ whose $i$-th entry is $\alpha v_i$.  The product of a
+is the vector $\alpha \vec{v}$ whose $i$-th entry is $\alpha v_i$.  Similarly, the product of a
 scalar $\alpha$ and a matrix $A$ is the matrix $\alpha A$ whose $i, j$-th entry is
 $\alpha a_{ij}$.
 
@@ -652,7 +663,10 @@ the inner product.
 
 \paragraph{Matrix multiplication}  The product of two matrices $A$ and $B$ is the matrix
 $C = A B$ whose $i, j$-th entry is $$c_{ij} = \sum_{k = 1}^n a_{ik} b_{kj}\text{.}$$
-Unless otherwise stated, we consider the vector $\vec{v}$ as a column matrix.
+The number of columns of $A$ must be equal to the number of rows of $B$, and the
+resulting matrix $C$ has the same number of rows as $A$ and the same number of columns as $B$.
+Unless otherwise stated, we consider the vector $\vec{v}$ with length $n$ as a column
+matrix, i.e. a matrix with one column and $n$ rows.
 
 \paragraph{Transpose}  The transpose of a matrix $A$ is the matrix $A^T$ whose $i, j$-th
 entry is the $j, i$-th entry of $A$.  If $A$ is a square matrix, then $A^T$ is the
@@ -675,15 +689,16 @@ $A^{-1}$ if
 \[
   A A^{-1} = A^{-1} A = I_n\text{,}
 \]
-where $I_n$ is the $n \times n$ identity matrix.  If such a matrix exists, $A$ is said
+where $I_n$ is the $n \times n$ identity matrix, i.e. a matrix whose diagonal entries are
+$1$ and all other entries are $0$. If such a matrix exists, $A$ is said
 \emph{invertible}.  A square matrix that is not invertible is called singular. A square
 matrix with entries in a field is singular if and only if its determinant is zero.
 
 To calculate the inverse of a matrix, we can use the formula
 \[
-  A^{-1} = \frac{1}{\det(A)} \text{adj}(A)\text{,}
+  A^{-1} = \frac{1}{\det(A)} \operatorname{adj}(A)\text{,}
 \]
-where $\text{adj}(A)$ is the adjugate (or adjoint) of $A$, i.e. the transpose of the cofactor matrix
+where $\operatorname{adj}(A)$ is the adjugate (or adjoint) of $A$, i.e. the transpose of the cofactor matrix
 of $A$.
 
 The cofactor of the $i, j$-th entry of a matrix $A$ is the determinant of the matrix
@@ -767,7 +782,7 @@ solution is $\vec{x} = A^{-1} \vec{b}$.
 
 \subsection{Eigenvalues and eigenvectors}
 
-An eigenvalue of a square matrix $A$ is a scalar $\lambda$ such that there exists a
+An eigenvalue of an $n \times n$ square matrix $A$ is a scalar $\lambda$ such that there exists a
 non-zero vector $\vec{v}$ satisfying
 \begin{equation}
   \label{eq:eig}
@@ -776,7 +791,7 @@ non-zero vector $\vec{v}$ satisfying
 The vector $\vec{v}$ is called an eigenvector of $A$ corresponding to $\lambda$.
 
 The eigenvalues of a matrix are the roots of its characteristic polynomial, i.e. the
-roots of the polynomial $\det(A - \lambda I) = 0$, where $I$ is the identity matrix.
+roots of the polynomial $\det(A - \lambda I_n) = 0$, where $I_n$ is the $n \times n$ identity matrix.
 
 \section{Probability}
 
