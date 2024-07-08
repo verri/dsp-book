@@ -1015,7 +1015,7 @@ sample $X_1, \dots, X_n$ such that $X_i \sim X$ for all $i$, the sample kurtosis
 Kurtosis is positive if the tails are heavier than a normal distribution, and negative if
 the tails are lighter.
 
-\subsection{Probability distributions}
+\subsection{Common probability distributions}
 
 Several phenomena in nature and society can be modeled as random variables.  Some
 distributions are frequently used to model these phenomena.  The main ones are
@@ -1118,12 +1118,22 @@ results in a posterior distribution that is of the same family as the prior.
 
 \subsection{Permutations and combinations}
 
-\paragraph{Permutation}  A permutation is an arrangement of a set of elements.  The
-number of permutations of $n$ elements is $n!$.
+For the sake of the reference, we present some definitions and formulas from
+combinatorics. Combinatorics is the branch of mathematics that studies the counting of
+objects.
 
-\paragraph{Combination}  A combination is a selection of a subset of elements from a
-set.  The number of combinations of $k$ elements from a set of $n$ elements is
-$$\binom{n}{k} = \frac{n!}{k!(n - k)!}\text{.}$$
+\paragraph{Factorial}  The factorial of a non-negative integer $n$ is the product of all
+positive integers up to $n$.  It is denoted by $n!$.  By definition, $0! = 1$.
+
+\paragraph{Permutation}  A permutation is an arrangement of a set of elements.  The
+number of permutations of $n$ elements is $n!$.  Permutations are used in combinatorics
+to count the number of ways to arrange a set of elements.
+
+\paragraph{Combination}  A combination is a selection of a subset of elements from a set.
+The number of combinations of $k$ elements from a set of $n$ elements is $$\binom{n}{k} =
+\frac{n!}{k!(n - k)!}\text{.}$$  Combinations are used in combinatorics to count the
+number of ways to select a subset of elements from a set.  The binomial coefficient
+$\binom{n}{k}$ is also called a choose function.
 
 % \section{Optimization}
 %
