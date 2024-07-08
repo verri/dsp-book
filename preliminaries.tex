@@ -548,7 +548,7 @@ Some special sets are listed below.
 It is denoted by $\Omega$.
 
 \paragraph{Empty set}  The empty set is the set with no elements.  It is denoted by
-$\emptyset$.
+the symbol $\emptyset$.  Depending on the context, it can also be denoted by $\{\}$.
 
 \subsection{Set operations}
 
@@ -864,19 +864,21 @@ Formally, let $X : \Omega \rightarrow E$ be a random variable.  The
 probability that $X$ takes on a value in a set $A \subseteq E$ is
 \begin{equation}
   \label{eq:rv}
-  P(X \in A) = P(\{\omega \in \Omega : X(\omega) \in A\})\text{.}
+  \Prob(X \in A) = \Prob(\{\omega \in \Omega : X(\omega) \in A\})\text{.}
 \end{equation}
 
 If $E = \mathbb{R}$, then $X$ is a continuous random variable.  If $E = \mathbb{Z}$,
-then $X$ is a discrete random variable.
+then $X$ is a discrete random variable.  The random variable $X$ is said to follow
+a certain probability distribution $P$ --- denoted by $X \sim P$ --- given by its
+probability mass function or probability density function --- see below.
 
 \paragraph{Probability mass function}
 
 The probability mass function (PMF) of a discrete random variable $X$ is the
-function $p_X : \mathbb{R} \rightarrow [0, 1]$ defined by
+function $p_X : \mathbb{Z} \rightarrow [0, 1]$ defined by
 \begin{equation}
   \label{eq:pmf}
-  p_X(x) = P(X = x)\text{.}
+  p_X(x) = \Prob(X = x)\text{.}
 \end{equation}
 
 \paragraph{Probability density function}
@@ -885,7 +887,7 @@ The probability density function (PDF) of a continuous random variable $X$ is th
 function $f_X : \mathbb{R} \rightarrow [0, \infty)$ defined by
 \begin{equation}
   \label{eq:pdf}
-  P(a \leq X \leq b) = \int_a^b f_X(x) dx\text{.}
+  \Prob(a \leq X \leq b) = \int_a^b f_X(x) dx\text{.}
 \end{equation}
 
 \paragraph{Cumulative distribution function}
@@ -894,7 +896,7 @@ The cumulative distribution function (CDF) of a random variable $X$ is the funct
 $F_X : \mathbb{R} \rightarrow [0, 1]$ defined by
 \begin{equation}
   \label{eq:cdf}
-  F_X(x) = P(X \leq x)\text{.}
+  F_X(x) = \Prob(X \leq x)\text{.}
 \end{equation}
 
 \subsection{Expectation and moments}
@@ -903,59 +905,115 @@ Expectation is a measure of the average value of a random variable.  Moments are
 measures of the shape of a probability distribution.
 
 \paragraph{Expectation}  The expectation of a random variable $X$ is the average
-value of $X$.  It is denoted by $E[X]$.  By definition, it is
-\begin{equation}
-  \label{eq:expectation}
-  E[X] = \begin{dcases}
-    \sum_{x} x \cdot p_X(x) & \text{if $X$ is discrete; } \\
-    \int_{-\infty}^{\infty} x \cdot f_X(x) dx & \text{if $X$ is continuous.}
-  \end{dcases}
-\end{equation}
+value of $X$.  It is denoted by $\E[X]$.  By definition, it is
+\begin{equation*}
+  \E[X] = \sum_{x} x \cdot p_X(x)\text{,}
+\end{equation*}
+if $X$ is discrete, or
+\begin{equation*}
+  \E[X] = \int_{-\infty}^{\infty} x \cdot f_X(x) dx\text{,}
+\end{equation*}
+if $X$ is continuous.
 
-Given $\alpha$ a real number, the expectation of $\alpha X$ is $\alpha E[X]$.
+The main properties of expectation are listed below.
 
-Given $c$ a real number, the expectation of $X + c$ is $E[X] + c$.
+The expectation operator is linear.  Given two random variables $X$ and $Y$ and a real
+number $c$, we have
+\begin{equation*}
+  \E[c X] = c \E[X]\text{,}
+\end{equation*}
+\begin{equation*}
+  \E[X + c] = \E[X] + c\text{,}
+\end{equation*}
+and
+\begin{equation*}
+  \E[X + Y] = \E[X] + \E[Y]\text{.}
+\end{equation*}
 
-For any two random variables $X$ and $Y$, the expectation of $X + Y$ is $E[X] + E[Y]$.
-
-For a function $g : \mathbb{R} \rightarrow \mathbb{R}$, the expectation of $g(X)$ is
-\begin{equation}
-  \label{eq:egx}
-  E[g(X)] = \begin{dcases}
-    \sum_{x} g(x) \cdot p_X(x) & \text{if $X$ is discrete; } \\
-    \int_{-\infty}^{\infty} g(x) \cdot f_X(x) dx & \text{if $X$ is continuous.}
-  \end{dcases}
-\end{equation}
+Under a more general setting, given a function $g : \mathbb{R} \rightarrow \mathbb{R}$,
+the expectation of $g(X)$ is
+\begin{equation*}
+  \E[g(X)] = \sum_{x} g(x) \cdot p_X(x)\text{,}
+\end{equation*}
+if $X$ is discrete, or
+\begin{equation*}
+  \E[g(X)] = \int_{-\infty}^{\infty} g(x) \cdot f_X(x) dx\text{,}
+\end{equation*}
+if $X$ is continuous.
 
 \paragraph{Variance}  The variance of a random variable $X$ is a measure of how
-spread out the values of $X$ are.  It is denoted by $V(X)$.  By definition, it is
+spread out the values of $X$ are.  It is denoted by $\Var(X)$.  By definition, it is
 \begin{equation}
   \label{eq:variance}
-  V(X) = E\!\left[\left(X - E[X]\right)^2\right]\text{.}
+  \Var(X) = \E\!\left[\left(X - \E[X]\right)^2\right]\text{.}
 \end{equation}
 
-Note that, as a consequence, the expectation of $X^2$ is
+Note that, as a consequence, the expectation of $X^2$ --- called second moment --- is
 \[
-  E[X^2] = V(X) + E[X]^2\text{,}
+  \E[X^2] = \Var(X) + \E[X]^2\text{,}
 \]
 since
 \begin{align*}
-  V(X)
-    &= E\!\left[\left(X - E[X]\right)^2\right] \\
-    &= E\!\left[X^2 - 2 X E[X] + E[X]^2\right] \\
-    &= E[X^2] - 2 E[X] E[X] + E[X]^2 \\
-    &= E[X^2] - E[X]^2\text{.}
+  \Var(X)
+    &= \E\!\left[\left(X - \E[X]\right)^2\right] \\
+    &= \E\!\left[X^2 - 2 X \E[X] + \E[X]^2\right] \\
+    &= \E[X^2] - 2 \E[X] \E[X] + \E[X]^2 \\
+    &= \E[X^2] - \E[X]^2\text{.}
 \end{align*}
 
-Higher moments are defined similarly, look for skewness and kurtosis.
+Higher moments are defined similarly.  The $k$-th moment of $X$ is
+\begin{equation*}
+  \E[X^k] = \sum_{x} x^k \cdot p_X(x)\text{,}
+\end{equation*}
+if $X$ is discrete, or
+\begin{equation*}
+  \E[X^k] = \int_{-\infty}^{\infty} x^k \cdot f_X(x) dx\text{,}
+\end{equation*}
+if $X$ is continuous.
+
+\paragraph{Sample mean}  The sample mean is the average of a sample of random variables.
+Given a sample $X_1, \dots, X_n$ such that $X_i \sim X$ for all $i$, the sample mean is
+\begin{equation*}
+  \bar{X} = \frac{1}{n} \sum_{i = 1}^n X_i\text{.}
+\end{equation*}
 
 \paragraph{Law of large numbers}  The law of large numbers states that the average of
-a large number of independent and identically distributed random variables converges
+a large number of independent and identically distributed (i.i.d.) random variables converges
 to the expectation of the random variable.  Mathematically,
 \begin{equation*}
-  \lim_{n \rightarrow \infty} \frac{1}{n} \sum_{i = 1}^n X_i = E[X]\text{,}
+  \lim_{n \rightarrow \infty} \frac{1}{n} \sum_{i = 1}^n X_i = \E[X]\text{,}
 \end{equation*}
 given $X_i \sim X$ for all $i$.
+
+\paragraph{Sample variance}  The sample variance is a measure of how spread out the
+values of a sample are.  Given a sample $X_1, \dots, X_n$ such that $X_i \sim X$ for all
+$i$, the sample variance is
+\begin{equation*}
+  S^2 = \frac{1}{n - 1} \sum_{i = 1}^n (X_i - \bar{X})^2\text{.}
+\end{equation*}
+Note that the denominator is $n - 1$ instead of $n$ to correct the bias of the sample
+variance.
+
+\paragraph{Sample standard deviation}  The sample standard deviation is the square root
+of the sample variance, i.e. $S = \sqrt{S^2}$.
+
+\paragraph{Sample skewness}  The skewness is a measure of the asymmetry of a probability
+distribution.  The sample skewness is based on the third moment of the sample.  Given a
+sample $X_1, \dots, X_n$ such that $X_i \sim X$ for all $i$, the sample skewness is
+\begin{equation*}
+  \text{Skewness} = \frac{\frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^3}{S^3}\text{.}
+\end{equation*}
+Skewness is zero for a symmetric distribution, positive for a right-skewed distribution,
+and negative for a left-skewed distribution.
+
+\paragraph{Sample kurtosis}  The kurtosis is a measure of the tailedness of a probability
+distribution.  The sample kurtosis is based on the fourth moment of the sample.  Given a
+sample $X_1, \dots, X_n$ such that $X_i \sim X$ for all $i$, the sample kurtosis is
+\begin{equation*}
+  \text{Kurtosis} = \frac{\frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^4}{S^4} - 3\text{.}
+\end{equation*}
+Kurtosis is positive if the tails are heavier than a normal distribution, and negative if
+the tails are lighter.
 
 \subsection{Probability distributions}
 
@@ -968,8 +1026,22 @@ distribution with two possible outcomes, usually called success and failure.  It
 parametrized by a single parameter $p \in [0, 1]$, which is the probability of
 success.  It is denoted by $\text{Bern}(p)$.
 
-The expected value of $X \sim \text{Bern}(p)$ is $E[X] = p$, and the variance is
-$V(X) = p(1 - p)$.
+The expected value of $X \sim \text{Bern}(p)$ is $\E[X] = p$, and the variance is
+$\Var(X) = p(1 - p)$.
+
+\paragraph{Poisson distribution}  The Poisson distribution is a discrete distribution
+that models the number of events occurring in a fixed interval of time or space.  It is
+parametrized by a single parameter $\lambda > 0$, which is the average number of events
+in the interval.  It is denoted by $\text{Poisson}(\lambda)$.
+
+The probability mass function of $X \sim \text{Poisson}(\lambda)$ is
+\begin{equation}
+  \label{eq:poisson}
+  p_X(x) = \frac{e^{-\lambda} \lambda^x}{x!}\text{.}
+\end{equation}
+
+The expected value of $X \sim \text{Poisson}(\lambda)$ is $\E[X] = \lambda$, and the
+variance is $\Var(X) = \lambda$.
 
 \paragraph{Normal distribution} The normal distribution is a continuous distribution
 with a bell-shaped density.  It is parametrized by two parameters, the mean $\mu \in
@@ -985,8 +1057,25 @@ The probability density function of $X \sim \mathcal{N}(\mu, \sigma^2)$ is
   f_X(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2 \sigma^2}\right)\text{.}
 \end{equation}
 
-The expected value of $X \sim \mathcal{N}(\mu, \sigma^2)$ is $E[X] = \mu$, and the
-variance is $V(X) = \sigma^2$.
+The expected value of $X \sim \mathcal{N}(\mu, \sigma^2)$ is $\E[X] = \mu$, and the
+variance is $\Var(X) = \sigma^2$.
+
+\paragraph{Central limit theorem}  The central limit theorem states that the normalized
+version of the sample mean converges to a standard normal distribution\footnote{This
+statement of the central limit theorem is known as the Lindeberg-Levy CLT.  There are
+other versions of the central limit theorem, some more general and some more
+restrictive.}. Given $X_1, \dots, X_n$ i.i.d. random variables with mean $\mu$ and finite
+variance $\sigma^2 < \infty$,
+\begin{equation*}
+  \sqrt{n} (\bar{X} - \mu) \sim \mathcal{N}(0, \sigma^2)\text{,}
+\end{equation*}
+as $n \rightarrow \infty$.  In other words, for a large enough $n$, the distribution of
+the sample mean gets closer\footnote{Formally, this is called convergence in distribution,
+refer to \fullcite{Billingsley1995} for more details.} to a normal distribution with mean
+$\mu$ and variance $\sigma^2/n$.
+
+The central limit theorem is one of the most important results in probability theory and
+statistics.  Its implications are fundamental in many areas of science and engineering.
 
 \paragraph{T distribution} The T distribution is a continuous distribution with a
 bell-shaped density.  It is parametrized by a single parameter $\nu > 0$, called the
@@ -1005,6 +1094,27 @@ the scale parameter.  Thus, given $X \sim \mathcal{T}(\nu)$, we have that
 $\mu + \sigma X \sim \mathcal{T}(\mu, \sigma^2, \nu)$.
 
 Note that $$\lim_{\nu \rightarrow \infty} \mathcal{T}(\nu) = \mathcal{N}(0, 1)\text{.}$$
+Thus, the T distribution converges to the standard normal distribution as the degrees of
+freedom go to infinity.
+
+\paragraph{Gamma distribution} The Gamma distribution is a continuous distribution with a
+right-skewed density.  It is parametrized by two parameters, the shape parameter $\alpha
+> 0$ and the rate parameter $\beta > 0$.  It is denoted by $\text{Gamma}(\alpha, \beta)$.
+
+The probability density function of $X \sim \text{Gamma}(\alpha, \beta)$ is
+\begin{equation}
+  \label{eq:gamma}
+  f_X(x) = \frac{\beta^\alpha x^{\alpha - 1} e^{-\beta x}}{\Gamma(\alpha)}\text{,}
+\end{equation}
+where $\Gamma(\alpha)$ is the gamma function, defined by
+\begin{equation}
+  \label{eq:gammaf}
+  \Gamma(\alpha) = \int_0^\infty t^{\alpha - 1} e^{-t} dt\text{.}
+\end{equation}
+
+In Bayesian analysis, the gamma distribution is commonly used as a conjugate prior.
+A conjugate prior is a prior distribution that, when combined with the likelihood,
+results in a posterior distribution that is of the same family as the prior.
 
 \subsection{Permutations and combinations}
 
