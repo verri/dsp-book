@@ -159,12 +159,6 @@
   }
 }
 
-\newtcbtheorem[auto counter, number within=chapter]{slidebox}{Slide}{
-  float=p,
-  colframe=blue!50!white,
-  base
-}{sld}
-
 \newtcbtheorem[auto counter, number within=chapter]{defbox}{Definition}{
   float=h!,
   colframe=black!20!white,
@@ -179,6 +173,13 @@
   base={#1},
   left=20mm,
   right=20mm,
+}
+
+\newtcolorbox{hlbox}[1]{
+  float=h,
+  colframe=black!20!white,
+  fonttitle=\bfseries,
+  base={#1},
 }
 
 \newtcolorbox[blend into=figures]{figurebox}[2][]{%

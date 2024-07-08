@@ -57,17 +57,17 @@ They often refer to the same or similar operations, but the terminology can be c
 In this section, I present a summary of these operations mostly based on
 \textcite{Wickham2023} definitions\footnote{Which are called \emph{verbs}.}.
 
-\begin{slidebox}{Data handling operators}{}
-  \begin{itemize}
-    \item Filtering rows;
-    \item Selecting columns;
-    \item Mutating columns;
-    \item Aggregating rows;
-    \item Binding datasets;
-    \item Joining datasets;
-    \item Pivoting (spreading) and unpivoting (gathering) datasets.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Data handling operators}{}
+%   \begin{itemize}
+%     \item Filtering rows;
+%     \item Selecting columns;
+%     \item Mutating columns;
+%     \item Aggregating rows;
+%     \item Binding datasets;
+%     \item Joining datasets;
+%     \item Pivoting (spreading) and unpivoting (gathering) datasets.
+%   \end{itemize}
+% \end{slidebox}
 
 These operations are the building blocks of the data handling tasks we will discuss in the
 next sections.  They can also be extensively parametrized and combined to create more
@@ -86,16 +86,16 @@ We use the following terminology to refer to the data handling parameters:
     columns or to modify existing ones.
 \end{itemize}
 
-\begin{slidebox}{Data handling pipelines}{}
-  \begin{itemize}
-    \item Data handling operations can be combined to create complex pipelines;
-    \item Operators may be reversible;
-    \item Operators are vectorized;
-    \item They can be parametrized with predicates, aggregation functions, and expressions;
-    \item They operate on datasets and return new datasets as output.
-    \item They are declarative.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Data handling pipelines}{}
+%   \begin{itemize}
+%     \item Data handling operations can be combined to create complex pipelines;
+%     \item Operators may be reversible;
+%     \item Operators are vectorized;
+%     \item They can be parametrized with predicates, aggregation functions, and expressions;
+%     \item They operate on datasets and return new datasets as output.
+%     \item They are declarative.
+%   \end{itemize}
+% \end{slidebox}
 
 Operators are also vectorized, meaning that they can be applied to multiple columns or
 rows at once.  This is a key feature of data handling operations, as it allows for
@@ -144,7 +144,7 @@ When dealing with real values, be aware of floating-point precision issues.  In 
 words, do not use the equality operator to compare real numbers.  Most of libraries
 provide operators to compare real numbers within a given tolerance.
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use filtering to remove rows that are not relevant to your analysis;
     \item Use predicates to define the conditions under which rows should be removed;
@@ -152,7 +152,7 @@ provide operators to compare real numbers within a given tolerance.
       the order of the rows;
     \item Be aware of floating-point precision issues when comparing real numbers.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 \subsection{Selecting columns}
 
@@ -196,7 +196,7 @@ Finally, it is very common to find libraries and framework in which the order of
 columns is important.  As a result, columns can be selected by position as well.
 I find this practice error-prone and I recommend avoiding it whenever possible.
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use selecting to remove columns that are not relevant to your analysis;
     \item Use column names or regular expressions (or hierarchical names) to select columns;
@@ -204,7 +204,7 @@ I find this practice error-prone and I recommend avoiding it whenever possible.
       under which columns should be selected;
     \item Avoid depending on the order of the columns.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 \subsection{Mutating columns}
 
@@ -235,7 +235,7 @@ Practically speaking, mutation can overwrite existing columns.  This is useful w
 new column is a replacement for the old one.  Formally, overwriting is just a sequence of
 mutation and selection operations.
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use mutating to create new columns that are relevant to your analysis;
     \item Use expressions to define the values of the new columns;
@@ -243,7 +243,7 @@ mutation and selection operations.
       groups and order;
     \item Use the same expression to create multiple columns when the new columns are related.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 \subsection{Aggregating rows}
 
@@ -264,7 +264,7 @@ For instance, the aggregation function \texttt{mean(x) group by category} will c
 new dataset with one row for each different value of \texttt{category} and a new column
 with the mean of the \texttt{x} column for each group.
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use aggregation to summarize the data in a dataset;
     \item Use aggregation functions to define the values of the new columns;
@@ -272,7 +272,7 @@ with the mean of the \texttt{x} column for each group.
     \item Use the group and order parameters to define the groups and the behavior of the
       aggregation function.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 \subsection{Binding datasets}
 
@@ -301,14 +301,14 @@ situations, this is equivalent to a join operation by the row number or the key 
 assuming that both datasets contains the same observations.}. The resulting dataset will
 contain all the columns of the original datasets.  The rows remain unchanged.
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use binding to combine datasets that represent different parts of the same dataset;
     \item Use binding by rows to combine datasets that have the same columns --- in this
       case, create a new column that represents the source of each row;
     \item Use binding by columns to combine datasets that have the same number of rows.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 {\color{red} Talk about splitting as the reverse function, and the reason why missing
 columns may be a problem. Example of the unit of measurement.}
@@ -340,14 +340,14 @@ variations are possible.
     table, it will be filled with a missing value.
 \end{itemize}
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use joining to integrate datasets;
     \item Be aware of the risks of joining datasets (\cref{sec:normalization}), for
       example, that some joins may create invalid rows;
     \item Use the appropriate variation of the join operation in applications.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 \subsection{Pivoting and unpivoting}
 
@@ -408,13 +408,13 @@ the right table is in the wide format.  The name column is \texttt{year}, the va
 is \texttt{value}, and the remaining column is \texttt{name} which is an unique identifier
 of the rows in the wide format.
 
-\begin{mainbox}{Practical tips}
+\begin{hlbox}{Practical tips}
   \begin{itemize}
     \item Use pivoting to transform datasets from a long format to a wide format;
     \item Use unpivoting to transform datasets from a wide format to a long format;
     \item Be aware of the need to aggregate rows before unpivoting.
   \end{itemize}
-\end{mainbox}
+\end{hlbox}
 
 \subsection{An algebra for statistical transformations}
 
@@ -495,14 +495,14 @@ is fixed.  However, the operation \texttt{standardize(A)} is parametrized by the
 the standard deviation of the values in \texttt{A}.  These values are not fixed until the
 first data is given as input.
 
-\begin{mainbox}{A note about fixed parameters}
+\begin{hlbox}{A note about fixed parameters}
   Even if your data handling pipeline contains operations that have fixed parameters and
   can be safely applied to data before the model search, \emph{I strongly recommend} that
   you declare the pipeline as a whole.  This is because it is easier to maintain and
   reproduce the data handling process, especially in deployment.  Performing ad hoc
   handling in your data is a source of errors and important transformations can be
   forgotten when receiving new data.
-\end{mainbox}
+\end{hlbox}
 
 In a practical scenario, the source code of the \emph{model search} method includes not
 only strategies for the model, but also the data handling pipeline.  Moreover, the deployment
@@ -513,25 +513,25 @@ the values in \texttt{A} should be stored and used in deployed models.
 In terms of reproducibility and validation, having a single consolidated pipeline is
 crucial.
 
-\begin{mainbox}{A note about ``filtering'' operations}
+\begin{hlbox}{A note about ``filtering'' operations}
   Some operations may conditionally remove rows from the dataset.  For instance, after
   observing that there exists few missing values in an important column, one might decide
   to remove rows with missing values in it.  In production, this means that some new
   observations might be discarded before reaching the model itself.  However, the user
   still expects an answer from the model.  In this case, one must define either a default
   value for the answer or a default behavior to handle discarded examples.
-\end{mainbox}
+\end{hlbox}
 
-\begin{slidebox}{Data handling pipeline}{}
-  \begin{itemize}
-    \item A data handling pipeline is a sequence of operations that depend on the input data;
-    \item The pipeline must be declared before applying the operations;
-    \item The pipeline is fitted to the data;
-    \item The selected pipeline is part of the model search and deployment.
-    \item Even operations that have fixed parameters or that can be safely applied to data
-      before the model search should be declared in the pipeline.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Data handling pipeline}{}
+%   \begin{itemize}
+%     \item A data handling pipeline is a sequence of operations that depend on the input data;
+%     \item The pipeline must be declared before applying the operations;
+%     \item The pipeline is fitted to the data;
+%     \item The selected pipeline is part of the model search and deployment.
+%     \item Even operations that have fixed parameters or that can be safely applied to data
+%       before the model search should be declared in the pipeline.
+%   \end{itemize}
+% \end{slidebox}
 
 \textcolor{red}{XXX: maybe state that before reaching the pipeline data is already tidy,
 this way simple integration (not enhancement), pivoting and aggregating are kept outside
@@ -573,19 +573,19 @@ variables.  Selecting is usually done to remove irrelevant variables or highly c
 ones.  Aggregating in a reshaping task is usually applied together with pivoting to change the
 observational unit of the dataset.
 
-\begin{slidebox}{Reshaping}{}
-  \begin{itemize}
-    \item Reshaping is the process of changing the format of the data;
-    \item The most common reshaping operations are pivoting and unpivoting;
-    \item Other common operation include:
-      \begin{itemize}
-        \item Splitting a column into multiple columns;
-        \item Filtering to reduce the scope of the data;
-        \item Selecting to remove irrelevant variables or highly correlated ones;
-        \item Aggregating to change the observational unit of the dataset.
-      \end{itemize}
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Reshaping}{}
+%   \begin{itemize}
+%     \item Reshaping is the process of changing the format of the data;
+%     \item The most common reshaping operations are pivoting and unpivoting;
+%     \item Other common operation include:
+%       \begin{itemize}
+%         \item Splitting a column into multiple columns;
+%         \item Filtering to reduce the scope of the data;
+%         \item Selecting to remove irrelevant variables or highly correlated ones;
+%         \item Aggregating to change the observational unit of the dataset.
+%       \end{itemize}
+%   \end{itemize}
+% \end{slidebox}
 
 \subsection{Type conversion}
 
@@ -599,13 +599,13 @@ for each possible value of the categorical variable.  This transformation is als
 one-hot encoding.  The latter is usually done by binning (discretizing) the numerical variable, either by
 frequency or by range.
 
-\begin{slidebox}{Type conversion}{}
-  \begin{itemize}
-    \item Type conversion is the process of changing the type of the values in the columns;
-    \item Use one-hot encoding to convert categorical variables to numerical;
-    \item Use binning to convert numerical variables to categorical.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Type conversion}{}
+%   \begin{itemize}
+%     \item Type conversion is the process of changing the type of the values in the columns;
+%     \item Use one-hot encoding to convert categorical variables to numerical;
+%     \item Use binning to convert numerical variables to categorical.
+%   \end{itemize}
+% \end{slidebox}
 
 \subsection{Normalization}
 
@@ -617,24 +617,24 @@ The most common normalization methods are standardization and rescaling.  The fo
 by subtracting the mean and dividing by the standard deviation of the values in the column.
 The latter is performed so the values are in a specific range, usually $[0, 1]$ or $[-1, 1]$.
 
-\begin{mainbox}{Clamping after rescaling}
+\begin{hlbox}{Clamping after rescaling}
   In production, it is common to clamp the values after rescaling.  This is done to avoid
   the model to make predictions that are out of the range of the training data.
-\end{mainbox}
+\end{hlbox}
 
 Related to normalization is the log transformation.  This is usually done to make the data
 more symmetric or to reduce the effect of outliers.  The log transformation is the process
 of taking the logarithm of the values in the column.
 
-\begin{slidebox}{Normalization}{}
-  \begin{itemize}
-    \item Normalization is the process of scaling the values in the columns;
-    \item Use standardization to make the values have mean 0 and standard deviation 1;
-    \item Use rescaling to make the values be in a specific range;
-    \item Use the log transformation to make the data more symmetric or to reduce the effect
-      of outliers.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Normalization}{}
+%   \begin{itemize}
+%     \item Normalization is the process of scaling the values in the columns;
+%     \item Use standardization to make the values have mean 0 and standard deviation 1;
+%     \item Use rescaling to make the values be in a specific range;
+%     \item Use the log transformation to make the data more symmetric or to reduce the effect
+%       of outliers.
+%   \end{itemize}
+% \end{slidebox}
 
 \subsection{Sampling}
 
@@ -673,18 +673,18 @@ Feature extraction is usually done by linear methods, such as principal componen
 (PCA), or by non-linear methods, such as autoencoders.  These methods are able to
 compress the information in the data into a smaller number of variables.
 
-\begin{slidebox}{Dimensionality reduction}{}
-  \begin{itemize}
-    \item Dimensionality reduction is the process of reducing the number of variables in the data;
-    \item Use feature selection to select a subset of the variables that leads to the best models;
-    \item Use feature extraction to create new variables that are combinations of the original ones.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Dimensionality reduction}{}
+%   \begin{itemize}
+%     \item Dimensionality reduction is the process of reducing the number of variables in the data;
+%     \item Use feature selection to select a subset of the variables that leads to the best models;
+%     \item Use feature extraction to create new variables that are combinations of the original ones.
+%   \end{itemize}
+% \end{slidebox}
 
-\begin{mainbox}{Practice!}
+\begin{hlbox}{Practice!}
   Can you identify which data transformation operations are used to make datasets
   presented in \cref{chap:data} tidy?
-\end{mainbox}
+\end{hlbox}
 
 \section{Data cleaning}
 
@@ -748,24 +748,24 @@ modeling.
 
 There are many outliers detection methods, consult TODO.
 
-\begin{slidebox}{Data cleaning}{}
-  \begin{itemize}
-    \item Data cleaning is the process of removing errors and inconsistencies from the data;
-    \item Use the following strategies to deal with missing data:
-      \begin{itemize}
-        \item Remove the rows with missing data;
-        \item Remove the columns with missing data;
-        \item Impute the missing data;
-        \item Use an indicator variable to mark the missing data.
-      \end{itemize}
-    \item Replace special codes with more appropriate values;
-    \item Create a dictionary to map different names to a single one;
-    \item Check whether all columns that store physical quantities have the same unit of
-      measurement;
-    \item Check whether the values are within the expected range;
-    \item Use outlier detection methods to deal with outliers.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Data cleaning}{}
+%   \begin{itemize}
+%     \item Data cleaning is the process of removing errors and inconsistencies from the data;
+%     \item Use the following strategies to deal with missing data:
+%       \begin{itemize}
+%         \item Remove the rows with missing data;
+%         \item Remove the columns with missing data;
+%         \item Impute the missing data;
+%         \item Use an indicator variable to mark the missing data.
+%       \end{itemize}
+%     \item Replace special codes with more appropriate values;
+%     \item Create a dictionary to map different names to a single one;
+%     \item Check whether all columns that store physical quantities have the same unit of
+%       measurement;
+%     \item Check whether the values are within the expected range;
+%     \item Use outlier detection methods to deal with outliers.
+%   \end{itemize}
+% \end{slidebox}
 
 \section{Data integration}
 
@@ -784,14 +784,14 @@ Additionally, one must consider the following points:
     variable must be created.
 \end{itemize}
 
-\begin{slidebox}{Data integration}{}
-  \begin{itemize}
-    \item Data integration is the process of combining data from different sources into a single dataset;
-    \item Not every join is possible, consider the discussions in \cref{sec:normalization,sub:bridge};
-    \item Remove redundant columns;
-    \item Create new variables to represent the hidden variables.
-  \end{itemize}
-\end{slidebox}
+% \begin{slidebox}{Data integration}{}
+%   \begin{itemize}
+%     \item Data integration is the process of combining data from different sources into a single dataset;
+%     \item Not every join is possible, consider the discussions in \cref{sec:normalization,sub:bridge};
+%     \item Remove redundant columns;
+%     \item Create new variables to represent the hidden variables.
+%   \end{itemize}
+% \end{slidebox}
 
 \textcolor{red}{Hard to incorporate in the pipeline when joins only, but data enhancement
 works better inside the pipeline.}
