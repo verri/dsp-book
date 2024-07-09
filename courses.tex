@@ -21,10 +21,10 @@ Prof. Filipe A. N. Verri
 \paragraph{Course load:} 3--0--0--4
 
 \paragraph{Requirements:} Advanced programming skills, strong statistics background, and
-beginner level machine learning skills.
+beginner-level machine-learning skills.
 
 \paragraph{Course program:}
-Brief history of data science.  Fundamental data concepts. Stages in a Data Science
+Brief history of data science.  Fundamental data concepts. Stages in a data science
 project.  Data Infrastructure. Data integration from multiple sources. Data engineering
 and shaping.  Inductive learning and principles of statistical learning theory.
 Application of machine learning models in real-world problems.  Experimental planning for
@@ -43,9 +43,9 @@ hours, including programming and scientific paper writing.  All classes will be 
 English.  Students are encouraged to ask questions in English, but Portuguese is also
 allowed. All written and oral assignments must be in English.
 
-\paragraph{Grading:} Two individual written tests in the \nth{1} ($T_1$ and $T_2$) and
+\paragraph{Grading:} Two individual written tests in the \nth{1} quarter ($T_1$ and $T_2$) and
 another in the \nth{2} quarter ($T_3$).  Also, a group activity that includes writting a
-scientific paper, developing a data science product, and a 30 minutes presentation ($L$).
+scientific paper (optional), developing a data science product, and a 30 minutes presentation ($L$).
 
 Final grades will be calculated as
 \begin{equation*}
@@ -54,12 +54,13 @@ Final grades will be calculated as
   \text{Exam} = L\text{.}
 \end{equation*}
 
-\paragraph{Case study:} Exactly 6 groups will be formed.  Each group will be responsible for
+\paragraph{Case study:} At most 6 groups will be formed.  Each group will be responsible for
 a case study.  Students must choose a real-world problem and develop a data science
-project, including data collection, data transformation, inductive learning, validation,
-documentation, and deployment.  The results must be presented in a scientific paper
-format and a 30 minutes presentation.  The trained models must be incorporated in a
-data science product, such as a web application, a mobile application, or a web service.
+project, including data collection, data handling, inductive learning, validation,
+documentation, and deployment.  The results must be presented in a 30 minutes presentation.
+Extra points will be given to groups that write a scientific paper about the case study.
+The trained models must be incorporated in a data science product, such as a web
+application, a mobile application, or a web service.
 
 \paragraph{Bibliography:}
 \begin{itemize}
@@ -69,7 +70,7 @@ data science product, such as a web application, a mobile application, or a web 
   \item \fullcite{Kelleher2018}.
 \end{itemize}
 
-The first two books (\citeauthor{Zumel2019,Wickham2023}) are available online for free.
+The first two books --- \textcite{Zumel2019,Wickham2023} --- are available online for free.
 
 % \paragraph{Must read:}
 % \begin{itemize}
@@ -98,15 +99,15 @@ Any required extra material will be made available in Google Classroom.
     \midrule
     2 & \bfseries Written test \\
     \midrule
-    \multirow{2}{*}{3} & Fundamental data concepts \pcref{chap:data} \\
-      & Stages in a data science project \\
+    3 & Fundamental data concepts \pcref{chap:data} \\
     \midrule
-    4 & \multirow{2}{*}{Inductive learning and statistical learning theory} \\
-    5 &  \\
+    4 & Stages in a data science project \pcref{chap:project} \\
     \midrule
-    6 & Data infrastructure and data integration from multiple sources \\
+    5 & \multirow{2}{*}{Statistical learning theory \pcref{chap:slt}} \\
+    6 &  \\
     \midrule
-    7 & Data engineering and shaping \\
+    6 & \multirow{2}{*}{Data handling \pcref{chap:handling}} \\
+    7 &  \\
     \midrule
     8 & \bfseries Written test \\
     \bottomrule
@@ -120,20 +121,19 @@ Any required extra material will be made available in Google Classroom.
     \midrule
     Week & Topics \\
     \midrule
-    1 & \multirow{2}{*}{Application of machine learning models in real-world problems} \\
-    2 &  \\
+    1 & Evaluation \pcref{chap:evaluation} \\
     \midrule
-    3 & \multirow{2}{*}{Experimental planning for data science} \\
-    4 & \\
+    2 & Experimental planning \pcref{chap:planning} \\
     \midrule
-    5 & \multirow{2}{*}{Model evaluation and Bayesian analysis} \\
-    6 & \\
+    3 & Ethics, privacy and legal issues \pcref{chap:ethics} \\
     \midrule
-    7 & \bfseries Written test \\
+    4 & \bfseries Written test \\
     \midrule
-    \multirow{3}{*}{8} & Documentation and deployment \\
-      & Ethical and legal issues in data science \\
-      & Privacy-preserving computational approaches \\
+    5 & \multirow{2}{*}{Project discussion} \\
+    6 &  \\
+    \midrule
+    7 & \multirow{2}{*}{\bfseries Presentations} \\
+    8 & \\
     \bottomrule
   \end{tabular}
 \end{center}
@@ -172,7 +172,7 @@ the mathematical foundations to ensure the correct usage of Data Science techniq
 
 The specific goals are:
 \begin{itemize}
-  \item Understanding the steps and people involved in Data Science projects;
+  \item Understanding the steps and people involved in a Data Science project;
   \item Developing an end-to-end case study, including data collection, data transformation,
     inductive learning, validation, documentation, and deployment; and
   \item Critically evaluate the results and implications of the case study.
@@ -182,35 +182,29 @@ The specific goals are:
 Expository classes in common classroom, using whiteboard, slide presentations, coding
 examples, books and scientific papers. Supplementary didactic materials will be available
 in Google Classroom. The development of the case study will happen during laboratory
-classes and home study hours, including programming and writing essays.
+classes and home study hours.
 
 \paragraph{Grading:} One individual written test in the \nth{1} and another in the \nth{2} quarter.
-Essay and oral presentation about the case study (in groups) for the final exam.
+Software development and oral presentation about the case study (in groups) for the final exam.
 
-\paragraph{Case study:} Exactly 6 groups will be formed.  Each group will be responsible for
+\paragraph{Case study:} At most 6 groups will be formed.  Each group will be responsible for
 a case study.  Students must choose a real-world problem and develop a data science
-project, including data collection, data transformation, inductive learning, validation,
-documentation, and deployment.  The results must be presented in a short essay (max. 3
-pages) and a 30 minutes presentation.  The trained models must be incorporated in a data
+project, including data collection, data handling, inductive learning, validation,
+documentation, and deployment.  The results must be presented in a 30 minutes presentation.
+The trained models must be incorporated in a data
 science product, such as a web application, a mobile application, or a web service.
 
 \thispagestyle{empty}
 \paragraph{Bibliography:}
 \begin{itemize}
-  \item Nina Zumel and John Mount. Practical Data Science with R. Manning, 2nd Edition, 2019.
-  \item Hadley Wickham and Garret Grolemund, R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media, 2017.
-  \item John D. Kelleher and Brendan Tierney. Data Science, MIT Press, 2018.
+  \itemsep 0pt
+  \item \fullcite{Zumel2019}.
+  \item \fullcite{Wickham2023}.
+  \item \fullcite{Kelleher2018}.
 \end{itemize}
 
-The first two books (Zumel and Mount, and Wickham and Grolemund) are available online for free.
+The first two books --- \textcite{Zumel2019,Wickham2023} --- are available online for free.
 
-\thispagestyle{empty}
-\paragraph{Recommended reading:}
-\begin{itemize}
-  \item In-progress textbook at \href{https://comp.ita.br/~verri/dsp-book}{comp.ita.br/\textasciitilde{}verri/dsp-book}.
-  \item \fullcite{Vapnik1999}.
-  \item \fullcite{Benavoli2017}.
-\end{itemize}
 Any extra material will be made available in Google Classroom.
 
 \newpage
@@ -224,7 +218,7 @@ Any extra material will be made available in Google Classroom.
     \midrule
     Week & Topics \\
     \midrule
-    1 & Brief history of Data Science and CMC-13 review \\
+    1 & Brief history of Data Science \\
     2 & Stages in a Data Science project \\
     3 & Tidy Data and data integration from multiple sources \\
     4 & Data engineering and shaping \\
@@ -243,8 +237,8 @@ Any extra material will be made available in Google Classroom.
     \midrule
     Week & Topics \\
     \midrule
-    1 & Experimental planning for Data Science \\
-    2 & Model evaluation \\
+    1 & Model evaluation \\
+    2 & Experimental planning for Data Science \\
     3 & Bayesian Analysis \\
     4 & Documentation and deployment \\
     5 & Privacy-preserving computational approaches \\
