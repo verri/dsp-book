@@ -24,6 +24,7 @@
 \usepackage[table]{xcolor}
 \usepackage{titletoc}
 \usepackage[noend,noline,linesnumbered]{algorithm2e}
+\usepackage[automake]{glossaries-extra}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -123,6 +124,8 @@
   colframe=black!20!white, #1,
   before upper={\begin{algorithm}[H]},
   after upper={\end{algorithm}}}
+
+\input{glossary}
 
 \begin{document}
 
@@ -298,5 +301,6 @@ visit
 \input{ethics}
 
 \printbibliography
+\printglossary
 
 \end{document}

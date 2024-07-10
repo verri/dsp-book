@@ -88,7 +88,7 @@ The term ``data science'' itself was coined in the 1960s by Peter Naur (/naʊə/
 a Danish computer scientist and mathematician who made significant contributions to the
 field of computer science, including his work on the development of programming
 languages\footnote{He is best remembered as a contributor, with John Backus, to the
-Backus–Naur form (BNF) notation used in describing the syntax for most programming
+\gls{bnf} notation used in describing the syntax for most programming
 languages.}.
 His ideas and concepts laid the groundwork for the way we think about programming and data
 processing today.
@@ -371,7 +371,7 @@ However, the 1890 census in the United States was the first to use machine-reada
 punched cards to tabulate data. Processing 1880 census data took eight years, so the
 Census Bureau contracted Herman Hollerith (1860 -- 1929) to design and build a tabulating
 machine.  He founded the Tabulating Machine Company in 1896, which later merged with other
-companies to become International Business Machines Corporation (IBM) in 1924. Later
+companies to become \gls{ibm} in 1924. Later
 models of the tabulating machine were widely used for business applications such as
 accounting and inventory control. Punched card technology remained a prevalent method of
 data processing for several decades until more advanced electronic computers were
@@ -417,9 +417,9 @@ data redundancy and improve data integrity.  \Cref{sec:normalization} provides m
 on the topic.
 
 His work was a breakthrough in the field of data management.  The standardization of
-relational databases led to the development of Structured Query Language (SQL) in 1974.
+relational databases led to the development of \gls{sql} in 1974.
 SQL is a domain-specific language used in programming and designed for managing data held
-in a relational database management system (RDBMS).
+in a \gls{rdbms}.
 
 As a result, a new challenge rapidly emerged: how to aggregate data from different
 sources. Once data is stored in a relational database, it is easy to query and manage
@@ -437,18 +437,18 @@ to directly combine them.
 
 \subsubsection{Integrated age}
 
-The solution to this problem was the development of the Extract, Transform, Load (ETL)
-process.  ETL is a process in data warehousing responsible for extracting data from
+The solution to this problem was the development of the \gls{etl}
+process.  \gls{etl} is a process in data warehousing responsible for extracting data from
 several sources, transforming it into a format that can be analyzed, and loading it into a
 data warehouse.
 
 The concept of data warehousing dates back to the late 1980s when IBM researchers Barry
 Devlin and Paul Murphy developed the ``business data warehouse.''
 
-Two major figures in the history of ETL are Ralph Kimball (born 1944) and Bill Inmon (born
+Two major figures in the history of \gls{etl} are Ralph Kimball (born 1944) and Bill Inmon (born
 1945), both American computer scientists.  Although they
 differ in their approaches, they both agree that data warehousing is the foundation for
-business intelligence (BI) and analytics, and that data warehouses should be designed to
+\gls{bi} and analytics, and that data warehouses should be designed to
 be easy to understand and fast to query for business users.
 
 A famous debate between Kimball and Inmon is the top-down versus bottom-up approach to
@@ -527,7 +527,7 @@ Apache Hadoop and Apache Spark enabled the processing of massive amounts of data
 distributed manner.
 
 Douglass Read Cutting and Michael Cafarella, the developers of Apache Hadoop,
-proposed the Hadoop Distributed File System (HDFS) and MapReduce, which are the
+proposed the \gls{hdfs} and MapReduce, which are the
 cornerstones of the Hadoop framework, in 2006.  Hadoop's distributed storage and
 processing capabilities enabled organizations to handle and analyze massive volumes of
 data.
@@ -538,7 +538,7 @@ However, their framework inherits from the architeture proposed in
 \textcite{Hillis1985}\footfullcite{Hillis1985} thesis.
 MapReduce is not particularly novel, but its simplicity and scalability made it popular.
 
-Nowadays, another important topic is Internet of Things (IoT).  IoT is a system of
+Nowadays, another important topic is \gls{iot}.  IoT is a system of
 interrelated computing devices that communicate with each other over the internet.
 The devices can be anything from cellphones, coffee makers, washing machines, headphones,
 lamps, wearable devices, and almost anything else you can think of.  The reality of IoT increased the
@@ -713,7 +713,7 @@ However, these years were not completely unfruitful.  As early as 1968, Vladimir
 (born 1936)
 and Alexey Chervonenkis (1938 -- 2014) developed the foundamental concepts of VC entropy
 and VC dimension for the data classification problems.  As a result, a novel inductive
-principle was proposed: the Empirical Risk Minimization (ERM) principle.
+principle was proposed: the \gls{erm} principle.
 This principle is the foundation of statistical learning theory.
 
 % \paragraph{Algorithmic complexity}
@@ -750,10 +750,10 @@ competitions.
 
 \paragraph{Support vector machines}
 
-In 1995, \citeauthor{Cortes1995}\footfullcite{Cortes1995} proposed the support vector machine (SVM) algorithm, a
-learning machine based on the VC theory and the ERM principle.  Based on Cover's
+In 1995, \citeauthor{Cortes1995}\footfullcite{Cortes1995} proposed the \gls{svm} algorithm, a
+learning machine based on the VC theory and the \gls{erm} principle.  Based on Cover's
 theorem\footfullcite{Cover1965}, they developed a method that finds the optimal hyperplane
-that separates two classes of data with the maximum margin in a high-dimensional space.
+that separates two classes of data in a high-dimensional space with the maximum margins.
 The resulting method led to practical and efficient learning machines.
 
 \paragraph{Deep learning revolution}
@@ -782,11 +782,11 @@ models are the generative transformers and generative adversarial networks.
 
 \paragraph{LUSI learning theory}
 
-In 2010s, \citeauthor{Vapnik2015}\footfullcite{Vapnik2015} proposed the Learning Using Statistical Invariants
-(LUSI) principle, which is an extension of the statistical learning theory.  The LUSI
+In 2010s, \citeauthor{Vapnik2015}\footfullcite{Vapnik2015} proposed the \gls{lusi}
+principle, which is an extension of the statistical learning theory.  The \gls{lusi}
 theory is based on the concept of statistical invariants, which are properties of
 the data that are preserved under transformations.  The theory is the foundation of the
-learning from intelligent teachers paradigm.  They regard the LUSI theory as the
+learning from intelligent teachers paradigm.  They regard the \gls{lusi} theory as the
 next step in the evolution of learning theory, calling it the ``complete statistical
 theory of learning''.
 
