@@ -66,7 +66,9 @@ discussing their common mathematical foundations.
 
 \section{Data science definition}
 
-For \textcite{Zumel2019}, \emph{``data science is a cross-disciplinary practice that draws
+In literature, we can find many definitions and descriptions of data science.
+
+For \textcite{Zumel2019}\footfullcite{Zumel2019}, \emph{``data science is a cross-disciplinary practice that draws
 on methods from data engineering, descriptive statistics, data mining, machine learning,
 and predictive analytics.''}  They compare the area with the operations research, stating
 that data science focuses on implementing data-driven decisions and managing their
@@ -81,7 +83,7 @@ consequences.
 %   \end{itemize}
 % \end{slidebox}
 
-\textcite{Wickham2023} state that \emph{``data science is an exciting discipline that
+\textcite{Wickham2023}\footfullcite{Wickham2023} state that \emph{``data science is an exciting discipline that
 allows you to transform raw data into understanding, insight, and knowledge.''}
 
 % \begin{slidebox}{Wickham's definition}{}
@@ -90,6 +92,11 @@ allows you to transform raw data into understanding, insight, and knowledge.''}
 %     \item Not necessarily a definition; describes the purpose of data science.
 %   \end{itemize}
 % \end{slidebox}
+
+\textcite{Hayashi1998}\footfullcite{Hayashi1998} says that data science ``is not only a
+synthetic concept to unify statistics, data analysis and their related methods, but also
+comprises its results'' and that it ``intends to analyze and understand actual phenomena
+with `data.'{}''
 
 I find the first definition too restrictive once new methods and techniques are always
 under development.  We never know when new ``data-related'' methods will become obsolete
@@ -102,9 +109,18 @@ terms standardized throughout chapters, sometimes avoiding popular terms that ma
 ambiguities or confusion.
 
 The second one is not really a definition.  However, it states clearly \emph{what} data
-science enables us to do.  From these thoughts, let's define the term.
+science enables us to do.  The terms ``understanding,'' ``insight,'' and ``knowledge'' are
+very important in the context of data science.  They are the goals of a data science
+project.
 
-\begin{defbox}{}{ds}
+The third definition brings an important aspect behind the data: the phenomena from which
+they come.  Data science is not only about data, but about understanding the phenomena
+they represent.
+
+Note that these definitions do not contradict each other.  But, they do not attempt to
+emphasize the ``science'' aspect of it.  From these thoughts, let us define the term.
+
+\begin{defbox}{Data science}{ds}
   Data science is the study of computational methods to extract knowledge from
   measurable phenomena.
 \end{defbox}
@@ -113,7 +129,11 @@ I want to highlight the meaning of some terms in this definition.  \emph{Computa
 that data science methods use computers to handle data and perform the calculations.
 \emph{Knowledge} means information that humans can easily understand or apply to solve
 problems.  \emph{Measurable phenomena} are events or processes where raw data can be
-quantified in some way\footnote{TODO: talk about non-measurable phenomena}.  \emph{Raw data} are data collected directly from some source and
+quantified in some way\footnote{%
+  Nonmeasurable phenomena are related to metaphysics and are not the object of study in
+  data science.  However, they may be the object of study in other sciences, such as
+  philosophy, theology, etc.%
+}.  \emph{Raw data} are data collected directly from some source and
 that have not been subject to any other transformation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
 
@@ -146,21 +166,28 @@ and questions related to data ethics and regulation.''
 %   \end{itemize}
 % \end{slidebox}
 
-Data science contrasts with conventional sciences.  Usually, a ``science'' is named after
+Data science naming contrasts with conventional sciences.  Usually, a ``science'' is named after
 its object of study.  Biology is the study of the life, Earth science studies the planet
 Earth, and so on.  I argue that data science does not study data itself, but how we can
-use them to understand a phenomenon.
+use them to understand a certain phenomenon.
 
-Besides, the conventional scientific paradigm is
+One similar example is ``computer science.''  Computer science is not the study of
+computers themselves, but the study of computing and computer systems.  Similarly, one
+could state that data science studies knowledge extraction\footnote{Related to data
+analysis, see \cref{sub:time-analysis}.} and data systems\footnote{Related to data
+handling, see \cref{sub:time-handling}.}.
+
+Moreover, the conventional scientific paradigm is
 essentially model-driven: we observe a phenomenon related to the object of study, we
 reason the possible explanation (the model or hypothesis), and we validate our hypothesis
 (most of the time using data, though).  In data science, however, we extract the knowledge
 directly and primarily from the data.  The expert knowledge and reasoning may be taken
 into account, but we give data the opportunity to surprise us.
 
-Thus, the objects of the
-study in data science are the computational methods and processes that can extract
-reliable and ethical knowledge from huge amounts of data.
+Thus, while the objects of the study in conventional sciences are the phenomena themselves
+and the models that can explain them, in data science the objects of the study in data
+science are the computational methods and processes that can extract reliable and ethical
+knowledge from data acquired from the phenomenon of interest.
 
 \def\verrids{(0,0) circle (20mm)}
 \def\verrist{(-2.5,0) circle (15mm)}
@@ -189,6 +216,10 @@ reliable and ethical knowledge from huge amounts of data.
     to extract knowledge from measurable phenomena) is particular enough to unfold
     new scientific questions -- such as data ethics, data collection, etc.
 \end{figurebox}
+
+\Cref{fig:myview} shows my view of data science.  Data science is an entire new science
+that incorporates concepts from other sciences.  In the next section, I argue the reasons
+it is useful to understand data science as a new science.
 
 % \begin{slidebox}{Data science vs conventional sciences}{}
 %   \begin{itemize}

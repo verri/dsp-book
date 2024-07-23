@@ -80,8 +80,9 @@ to the set of real numbers, i.e. $f, g : \mathbb{N} \rightarrow \mathbb{R}$.  We
 $O(g)$ if there exists a constant $c > 0$ such that $f(n) \leq c g(n)$ for all $n \geq
 n_0$, where $n_0$ is a natural number.
 We can order functions by their asymptotic complexity.  For example, $O(1) < O(\log n) <
-O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$\footnote{Throughout this book, we consider
-$\log n = \log_2 n$.}.
+O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$.  Throughout this book, we consider
+$\log n = \log_2 n$, i.e. whenever the base of the logarithm is not specified, it is
+assumed to be $2$.
 
 The asymptotic analysis of algorithms is usually done in the worst-case scenario, i.e.
 the maximum amount of resources the algorithm uses for any input of size $n$.  Thus,
@@ -188,7 +189,6 @@ of the problem in a reasonable amount of time.  Consider the case of an array wi
 = 18{,}446{,}744{,}073{,}709{,}551{,}616$ elements, the algorithm will find the key in at most $65$
 steps.
 
-\clearpage
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
 is locally optimal.  The overall solution is not guaranteed to (but might) be optimal.  Some example
 algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithm are usually
@@ -265,7 +265,6 @@ search space and make the algorithm more efficient.  For example, the backtracki
 algorithm for the Sudoku problem is combined with constraint propagation to reduce the
 number of possible solutions.
 
-\clearpage
 A Sudoku puzzle consists of an $n \times n$ grid, divided into $n$ subgrids of size
 $\sqrt{n} \times \sqrt{n}$.  The goal is to fill the grid with numbers from $1$ to $n$
 such that each row, each column, and each subgrid contains all numbers from $1$ to $n$ but
