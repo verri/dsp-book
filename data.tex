@@ -131,8 +131,9 @@ that data science methods use computers to handle data and perform the calculati
 problems.  \emph{Measurable phenomena} are events or processes where raw data can be
 quantified in some way\footnote{%
   Nonmeasurable phenomena are related to metaphysics and are not the object of study in
-  data science.  However, they may be the object of study in other sciences, such as
-  philosophy, theology, etc.%
+  data science.  They are be the object of study in other sciences, such as
+  philosophy, theology, etc.  However, many metaphysics concepts are borrowed to
+  explain data science concepts.%
 }.  \emph{Raw data} are data collected directly from some source and
 that have not been subject to any other transformation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
@@ -185,7 +186,7 @@ directly and primarily from the data.  The expert knowledge and reasoning may be
 into account, but we give data the opportunity to surprise us.
 
 Thus, while the objects of the study in conventional sciences are the phenomena themselves
-and the models that can explain them, in data science the objects of the study in data
+and the models that can explain them, the objects of the study in data
 science are the computational methods and processes that can extract reliable and ethical
 knowledge from data acquired from the phenomenon of interest.
 
@@ -204,10 +205,10 @@ knowledge from data acquired from the phenomenon of interest.
       \fill[filled] \verrics;
     \end{scope}
     \draw[outline] \verrids node(ds) {};
-    \draw[outline] \verrist node {statistics};
-    \draw[outline, text width=27mm, text centered] \verride node {domain expertise philosophy};
-    \draw[outline] \verrics node {computer science};
-    \node[anchor=north,above] at (0, 1) {data science};
+    \draw[outline] \verrist node {Statistics};
+    \draw[outline, text width=27mm, text centered] \verride node {Philosophy / domain expertise};
+    \draw[outline] \verrics node {Computer science};
+    \node[anchor=north,above] at (0, 1) {Data science};
   \end{tikzpicture}
   \tcblower
     Data science is an entire new science.  Being a new science
@@ -215,11 +216,13 @@ knowledge from data acquired from the phenomenon of interest.
     data science come from other sciences, but its object of study (computational methods
     to extract knowledge from measurable phenomena) is particular enough to unfold
     new scientific questions -- such as data ethics, data collection, etc.
+    Note that I emphasize philosophy over domain expertise because, in terms
+    of scientific knowledge, the former is more general than the latter.
 \end{figurebox}
 
 \Cref{fig:myview} shows my view of data science.  Data science is an entire new science
 that incorporates concepts from other sciences.  In the next section, I argue the reasons
-it is useful to understand data science as a new science.
+to understand data science as a new science.
 
 % \begin{slidebox}{Data science vs conventional sciences}{}
 %   \begin{itemize}
@@ -232,11 +235,78 @@ it is useful to understand data science as a new science.
 
 \section{The data science continuum}
 
-From which point a subject becomes a new science?
+In the previous section, I argued that data science is a new science defining its object
+of study.  This is just the first step to establish a new science, especially because the
+object of study in data science is not new.  Computer science, statistics, and other
+sciences have been studying methods to process data for a long time.
+
+One key aspect of the establishment of a new science is the social demand and the
+importance of the object of study in our society.  Many say that ``data is the new oil.''
+This is because the generation, storage and processing of data has increased exponentially
+in the last decades.  As a consequence, whoever holds the data and can effectively extract
+knowledge from them has a competitive advantage.
+
+As a consequence of the demand, a set of methods are developed and then experiments are
+designed to assess their effectiveness.  If the methods are effective, they gain
+credibility, are widely accepted, and become the foundation of a new scientific
+discipline.
+
+Usually, a practical consequence of academic recognition is the creation of a new courses
+and programs in universities.  This is the case of data science.  Many universities have
+created data science programs in the last years.
+
+Once efforts to develop the subject increase, it is natural that methodologies evolve and
+that questions not particularly related to any other science.  This effect produces what I
+call the ``data science continuum.''
+
+In a continuum, the subject is not a new science yet.  It is a set of methods and
+techniques borrowed from other sciences.  However, some principles emerge that are
+connected with more than one already established science.  (For instance, a traditional
+computational method adapted to assume statistical properties of the data.)  With time,
+the premises and hypothesis of new methods become distinctive.  The particular properties
+of the methods lead to the inception of methodologies to validate them. While validating
+the methods, new questions arise.
+
+\begin{figurebox}[label=fig:continuum]{The data science continuum.}
+  \centering
+  \begin{tikzpicture}[node distance=10mm and 3mm]
+    % Base Layer: Established Sciences
+    \node (stats) [block] {Statistics};
+    \node (cs) [block, right=of stats] {Computer science};
+    \node (ds) [block, right=of cs] {Philosophy and others};
+    % A box around the Base Layer
+    \node (basebox) [draw, dashed, inner sep=0.5cm, fit={(stats) (ds)}, label=above:{Established sciences}] {};
+    % Middle Layer: Emergence of Principles
+    \node (principles) [darkblock, below=of basebox, minimum width=6cm, text width=5cm] {Emergence of principles};
+    % Top Layer: Unique Methods and Validation
+    \node (methods) [block, below=of principles, minimum width=6cm, text width=5cm] {Unique methods};
+    \node (validation) [darkblock, below=of methods, minimum width=6cm, text width=5cm] {Validation and new challenges};
+    % Arrows
+    \draw[-{Stealth}] (basebox) -- (principles);
+    \draw[-{Stealth}] (principles) -- (methods);
+    \draw[-{Stealth}] (methods) -- (validation);
+  \end{tikzpicture}
+  \tcblower
+    The data science continuum is the process of development of data science as a new
+    science.  It began by borrowing methods and techniques from established sciences. Over
+    time, distinct principles emerged that spanned multiple disciplines. As these
+    principles developed, new methods and their premises became unique. This uniqueness
+    led to the creation of specific methodologies for validating these methods. During the
+    validation process, new questions and challenges arose, further distinguishing data
+    science from its parent disciplines.
+\end{figurebox}
+
+The data science continuum is an instance of this process; see \cref{fig:continuum}.  At
+first glance, data science seems like just a combination of computer science, statistics,
+linear algebra, etc. However, the principles and priorities of data science are not the
+same as the ones in that disciplines.  Similarly, the accepted methodologies in data
+science differ, and keep evolving, from the ones in the other sciences.  New questions
+like data ethics, data collection, data integration, etc., arise.
+
 
 \section{Fundamental data theory}
 
-As expected, data science is not a isolated science.  It incorporates several concepts
+As I stated, data science is not a isolated science.  It incorporates several concepts
 from other fields and sciences.  In this section, I explain the basis of each component of
 the provided definition.
 
