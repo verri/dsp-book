@@ -308,7 +308,7 @@ like data ethics, data collection, data integration, etc., arise.
 
 As I stated, data science is not a isolated science.  It incorporates several concepts
 from other fields and sciences.  In this section, I explain the basis of each component of
-the provided definition.
+\cref{def:ds}.
 
 \subsection{Phenomena}
 
@@ -317,39 +317,69 @@ source we use to understand the world around us.  In general, we use our senses 
 perceive phenomena.  To make sense of them, we use our knowledge and reasoning.
 
 Philosophy is the study of knowledge and reasoning.  It is a very broad field of study
-that has been divided into many subfields.  One of them is epistemology, which is the
-study of knowledge.  Epistemology is the field of philosophy that studies how we can
-acquire knowledge and how we can distinguish between knowledge and opinion.  In
-particular, epistemology studies the nature of knowledge, justification, and the
-rationality of belief.
+that has been divided into many subfields.  One possible starting point is \gls{ontology},
+which is the study of being, existence, and reality.  Ontology studies what exists and how
+we can classify it.  In particular, ontology describes the nature of categories,
+properties, and relations.
 
-Another important subfield in philosophy is ontology, which is the study of being.  It
-studies the nature of being, existence, or reality.  Ontology is the field of philosophy
-that studies what exists and how we can classify it.  In particular, ontology studies the
-nature of categories, properties, and relations.
+Aristotle (384 -- 322 BC) is one of the first philosophers to study ontology. In
+Κατηγορίαι\footnote{For Portuguese readers, I suggest \fullcite{CategoriesUnesp}.}, he
+proposed a classification of the world into ten categories. Substance, or οὐσία,
+is the most important one.  It is the category of being.  The other categories
+are properties, quantity, quality, relation, place, time, position, state, and action.
+
+Although rudimentary\footnote{Most historians agree that Categories was written before
+Aristotle's other works.  Many concepts are further developed in his later works.},
+Aristotle's categories served as a basis for the development of logical reasoning and
+scientific classification, especially in the Western world.  The categories are still
+still used in many applications, including computer systems and data systems.
+
+Aristotle marked a rupture with many previous philosophers.  While Heraclitus (\nth{6}
+century -- \nth{5} century BC) defended that everything is in a constant state of flux and
+Plato (c. 427 -- 348 BC) defended that only the perfect can be known, Aristotle focused in
+the world we can perceive and understand.  His practical view also opposed Antisthenes (c.
+446 -- 366 BC) view that the predicate determines the object, which leads to the
+impossibility of negation and consequently contradiction.
+
+What is the importance of ontology for data science?  Describing, which is basically
+reducing the complexity of the world to simple, small pieces, is the first step to
+understand any phenomenon.  Drawing a simplistic parallel, phenomena are like the
+substance category, and the data we collect are like the other categories, which describe
+the properties, relations, and states of the substance.  A person that can easily organize
+their thoughts to identify the entities and their properties in a problem is more likely
+to collect relevant data.  Also, the understanding of logical and grammatical limitations
+--- such as univocal and equivocal terms --- is important to avoid errors in data
+science applications\footnote{It is very common to see data scientists reducing the
+meaning of the columns in a dataset to a single word.  Or even worse, the assume
+that the same word in different columns have the same meaning.  This is a common source
+of errors in data science projects.}.
+
+Similarly to Aristotle's work, data scientists focus on the world we can perceive with
+our senses.  In a more restrictive way, we focus on the world we can measure\footnote{%
+Some phenomena might be knowable but not measurable.  For example, the existence of God
+is a knowable phenomenon, but it is not measurable.}.
+
+Another important field in Philosophy is epistemology, which is the study of knowledge.
+Epistemology elaborates on how we can acquire knowledge and how we can distinguish between
+knowledge and opinion.  In particular, epistemology studies the nature of knowledge,
+justification, and the rationality of belief.
 
 Finally, logic is the study of reasoning.  It studies the nature of reasoning and
 argumentation.  In particular, logic studies the nature of inference, validity, and
 fallacies.
 
-% \begin{slidebox}{Philosophy}{}
-%   \begin{itemize}
-%     \item Epistemology: the study of knowledge.
-%     \item Ontology: the study of being.
-%     \item Logic: the study of reasoning.
-%   \end{itemize}
-% \end{slidebox}
+I further discuss knowledge and reasoning in \cref{sub:knowledge}.
 
-In the context of data science, we usually focus on phenomena from particular domain of
-expertise.  For example, we may be interested in the phenomena related to the stock
-market, the phenomena related to the weather, or the phenomena related to the human
+In the context of a data science project, we usually focus on phenomena from particular domain of
+expertise.  For example, we may be interested in a phenomena related to the stock
+market, or related to the weather, or related to the human
 health.  Thus, we need to understand the nature of the phenomena we are studying.
 
-Thus, fully understading the phenomena we are tackling requires both a general knowledge
+Fully understading the phenomena we are tackling requires both a general knowledge
 of epistemology, ontology, and logic, and a particular knowledge of the domain of
 expertise.
 
-Observe as well that we do not restrict ourselves to the ``qualitative'' understanding of
+Observe as well that we do not restrict ourselves to the intellectual understanding of
 philosophy.  There are several computational methods that implements the concepts of
 epistemology, ontology, and logic.  For example, we can use a computer to perform
 deductive reasoning, to classify objects, or to validate an argument.  Also, we have
@@ -359,7 +389,7 @@ properties.
 The reason we need to understand the nature of the phenomena we are studying is that we
 need to guarantee that the data we are collecting are relevant to the problem we are
 trying to solve.  Incorrectly perception of the phenomena may lead to incorrect data
-collection, which may lead to incorrect conclusions.
+collection, which centainly lead to incorrect conclusions.
 
 % \begin{slidebox}{Phenomena}{}
 %   \begin{itemize}
@@ -425,6 +455,7 @@ subfields, I highlight:
 % \end{slidebox}
 
 \subsection{Knowledge extraction}
+\label{sub:knowledge}
 
 Once we have collected and stored the data, we need to extract knowledge from them.  In
 data science, we use computational methods to extract knowledge from data.  These
