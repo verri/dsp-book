@@ -354,11 +354,6 @@ meaning of the columns in a dataset to a single word.  Or even worse, the assume
 that the same word in different columns have the same meaning.  This is a common source
 of errors in data science projects.}.
 
-Similarly to Aristotle's work, data scientists focus on the world we can perceive with
-our senses.  In a more restrictive way, we focus on the world we can measure\footnote{%
-Some phenomena might be knowable but not measurable.  For example, the existence of God
-is a knowable phenomenon, but it is not measurable.}.
-
 Another important field in Philosophy is epistemology, which is the study of knowledge.
 Epistemology elaborates on how we can acquire knowledge and how we can distinguish between
 knowledge and opinion.  In particular, epistemology studies the nature of knowledge,
@@ -406,7 +401,11 @@ collection, which centainly lead to incorrect conclusions.
 
 \subsection{Measurements}
 
-In data science, we are interested in measurable phenomena.  Measurable phenomena are
+Similarly to Aristotle's work, data scientists focus on the world we can perceive with our
+senses (or using external sensors).  In a more restrictive way, we focus on the world we
+can measure\footnote{Some phenomena might be knowable but not measurable.  For example,
+the existence of God is a knowable phenomenon, but it is not measurable.}. Measurable
+phenomena are
 those that we can quantify in some way.  For example, the temperature of a room is a
 measurable phenomenon because we can measure it using a thermometer.  The number of
 people in a room is also a measurable phenomenon because we can count them.
@@ -437,6 +436,10 @@ subfields, I highlight:
   \item Databases: the study of storing and retrieving data.
 \end{itemize}
 
+The basic concepts are the same independently of the programming language, hardware
+architecture, or the \gls{rdbms} we are using.  As a consequence, in this book, I focus on
+the concepts and not on the tools.
+
 % \begin{slidebox}{Measurable phenomena}{}
 %   \begin{itemize}
 %     \item Measurable phenomena are those that we can quantify in some way.
@@ -457,15 +460,37 @@ subfields, I highlight:
 \subsection{Knowledge extraction}
 \label{sub:knowledge}
 
-Once we have collected and stored the data, we need to extract knowledge from them.  In
-data science, we use computational methods to extract knowledge from data.  These
+Like discussed before, knowledge and reasoning are important aspects of data science.
+Philosophical and mathematical foundations from epistemology and logic provide us ways
+to obtain knowledge from a set of premises and known (and accepted) facts\footnote{In
+mathematics, we call the premises and accepted facts as axioms.  Corollaries,
+lemmas, and theorems are the results of the reasoning process.}.
+
+Deductive reasoning is the process of deriving a conclusion (or new knowledge) from
+a set of previous knowledge.  Deductive reasoning, thus, enables us to infer general
+rules from general rules.
+
+Important figures that bridged the gap between philosophy and mathematics are
+René Descartes (1596 -- 1650) and Gottfried Wilhelm Leibniz (1646 -- 1716).  Descartes
+was the first to use algebra to solve knowledge problems, effectively creating
+methods to mechanize reasoning.  Leibniz, after Descartes, envisioned a universal
+algebraic language that would emcompass logical principles and methods. Their work
+influenced the development of calculus, Boolean algebra, and many other fields.
+
+Once we have collected and stored the data, we need to extract knowledge from them.
+Knowledge extraction is the process of obtaining knowledge from data.  The reasoning
+principle here is inductive reasoning.  Inductive reasoning is the process of deriving
+general rules from specific observations.  Inductive reasoning and data analysis
+are closely related.  Refer to \cref{sub:time-analysis} for a timeline of the development
+of data analysis.
+
+In data science, we use computational methods to extract knowledge from data.  These
 computational methods may come from many different fields.  In particular, I highlight:
 \begin{itemize}
   \item Statistics: the study of data collection, organization, analysis, interpretation,
     and presentation.
   \item Machine learning: the study of computational methods that can automatically learn from data.
-  \item Artificial intelligence: the study of computational methods that can mimic human
-    intelligence.
+    It is a branch of artificial intelligence.
 \end{itemize}
 
 Also, many other fields contribute to the development of domain-specific computational
@@ -489,6 +514,34 @@ integration. Data cleaning is the process of detecting and correcting (or removi
 corrupt or inaccurate pieces of data.  Data transformation is the process of converting
 data from one format or type to another.  Data integration is the process of combining
 data from different sources into a single, unified view.
+
+\subsubsection{Final remarks}
+
+In this subsection, we established the principles of the data science theory.  Its
+definition connects the phenomena we are studying to the ways we can extract knowledge
+from them.  Data appears as the bridge between the two.  Many concepts inherited
+from statistics, computer science, and philosophy are important to understand the
+nature of the data and the computational methods we are using.
+
+% A figure connecting the concepts in the definition and data as the bridge
+\begin{figurebox}[label=fig:knowledge]{Principles of data science theory.}
+  \centering
+  \begin{tikzpicture}[node distance=10mm and 3mm]
+    \node (phenomena) [block] {Phenomena};
+    \node (data) [darkblock, below=of phenomena] {Data};
+    \node (knowledge) [block, below=of data] {Knowledge extraction};
+    % Arrows
+    \draw[-{Stealth}] (phenomena) -- (data);
+    \draw[-{Stealth}] (data) -- (knowledge);
+    \node (fundamental) [draw, dashed, inner sep=0.5cm, fit={(phenomena) (knowledge)}, label=above:{Fundamental data theory}] {};
+  \end{tikzpicture}
+  \tcblower
+  Data is the bridge between the phenomena we are studying and the knowledge we can
+  extract from them.
+\end{figurebox}
+
+In the following, I further discuss data format and the principles of data interpretation
+and organization.
 
 % \begin{slidebox}{Knowledge extraction}{}
 %   \begin{itemize}
