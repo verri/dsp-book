@@ -5,12 +5,6 @@
   \par\raggedleft but the prudent gives thought to his steps.
   \par\raggedleft--- \textup{Proverbs 14:15} (ESV)}
 
-% \begin{itemize}
-%   \item Variables, types etc
-%   \item Records
-%   \item Tidy data
-% \end{itemize}
-
 A useful start point for someone studying data science is a definition of the term itself.
 In this chapter, I discuss some definitions in literature and provide a definition of my
 own.  As discussed in \cref{chap:history}, there is no consensus on the definition of data
@@ -579,9 +573,9 @@ and each column represents a variable that describes the observation.
 We restrict the kind of information we store in each cell, i.e. the data type of each
 measurement.  Each column has a data type.  The data type restrict the operations we can
 perform on the data.  For example, we can perform arithmetic operations on numbers, but
-not on text.
+not on text.  All cells in the same column must share the same data type.
 
-The most common classification of data types is Stevens’s types: nominal, ordinal,
+The most common classification of data types is Stevens' types: nominal, ordinal,
 interval, and ratio.  Nominal data are data that can be classified into categories.
 Ordinal data are data that can be classified into categories and ordered.  Interval data
 are data that can be classified into categories, ordered, and measured in fixed units.
@@ -589,7 +583,7 @@ Ratio data are data that can be classified into categories, ordered, measured in
 units, and have a true zero.  In practice, they differ on the logical and arithmetic operations
 we can perform on them.
 
-\begin{tablebox}{Stevens’s types.}
+\begin{tablebox}[label=tab:stevens]{Stevens' types.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cc}
@@ -602,9 +596,18 @@ we can perform on them.
     Ratio & $=, <, +, -, \times, \div$ \\
     \bottomrule
   \end{tabular}
+  \tcblower
+  Stevens' types are a classification of data types based on the operations we can perform
+  on them.
 \end{tablebox}
 
-However, Stevens’s types do not exhaust all possibilities for data types.  For example,
+\Cref{tab:stevens} summarizes the allowed operations for each of Stevens' type.  All types
+enable equality comparison.  Ordinal data can also be tested in terms of their order, but
+they do not allow quantitative difference.  Interval data, on the other hand, allow
+addition and subtraction.  Finally, the true zero of ratio data enable us to calculate
+relative differences (multiplication and division).
+
+However, Stevens' types do not exhaust all possibilities for data types.  For example,
 probabilities are bounded at both ends, and thus do not tolerate arbitrary scale shifts.
 \textcite{Paul1993} provide interesting insights about data types.  Although I do not
 agree with all his points, I think it is a good reading.  In particular, I agree with
@@ -617,46 +620,41 @@ I think that data scientists should be aware of the data types they are working 
 how they affect the analysis.  With no bias, there is no learning.  There is no such a
 thing as a ``bias-free'' analysis, the amount of possible combinations of assumptions
 easily grows out of control.  The data scientist must take responsibility for the
-consequences of their assumptions.  Good assumptions and hypothesis are a key part of the
+consequences of their assumptions.  Good assumptions and hypotheses are a key part of the
 data science methodology.
-
-% \begin{slidebox}{Structured data}{}
-%   \begin{itemize}
-%     \item Structured data are data that are organized in a tabular format.
-%     \item Each row in the table represents a single observation.
-%     \item Each column represents a variable that describes the observation.
-%     \item Each column has a data type.
-%     \item The data type restrict the operations we can perform on the data.
-%     \item The most common classification of data types is Stevens’s types: nominal,
-%       ordinal, interval, and ratio.
-%     \item Stevens’s types do not exhaust all possibilities for data types.
-%     \item Data scientists should be aware of the data types they are working with and
-%       how they affect the analysis.
-%     \item Inevitably, data scientists make assumptions about the data types.
-%   \end{itemize}
-% \end{slidebox}
 
 When we work with structured data, two concepts are very important: database normalization
 and tidy data.  Database normalization is mainly focused on the data storage.  Tidy data is
 mainly focused on the requirements of data for analysis.  Both concepts have their
-mathematical foundations and tools for data handling.
+mathematical/logical foundations and tools for data handling.
 
 \subsection{Database normalization}
 \label{sec:normalization}
 
 Database normalization is the process of organizing the columns and tables of a relational
-database to minimize data redundancy and improve data integrity.
+database to minimize data redundancy and improve data integrity.  The need for database
+normalization comes from the fact that the same data can be stored in many different ways.
 
 Normal form is a state of a database that is free of certain types of data redundancy.
 Before studying normal forms, we need to understand basic concepts in the database theory
 and the basic operations in relational algebra.
 
+% TODO: illustrative example?
+
 \subsubsection{Relational database theory}
+
+Consider the following concepts.
+
+\paragraph{Relation}  A relation is a table with rows and columns that represent
+an entity.  Each row, or tuple, is assumed to appear only once in the relation.  Each
+column, or attribute, is assumed to have a unique name.
 
 \paragraph{Projection}  The projection of a relation is the operation that returns a
 relation with only the columns specified in the projection.  For example, if we have a
 relation $X[A, B, C]$ and we perform the projection $\pi_{A, C}(X)$, we get a
-relation with only the columns $A$ and $C$, i.e. $X[A, C]$.
+relation with only the columns $A$ and $C$, i.e. $X[A, C]$.  The number of rows
+in the resulting relation might be less than the number of rows in the original relation
+because of repeated rows.
 
 \paragraph{Join}  The (natural) join of two relations is the operation that returns a
 relation with the columns of both relations.  For example, if we have two relations $S[U
@@ -684,6 +682,11 @@ attributes (not necessarily disjoint) in a relation.  $R$ obeys the join depende
 R[X_n] \right\}$.
 
 \subsubsection{Normal forms}
+
+The normal forms are a series of progressive conditions that a relation must satisfy to
+be considered normalized.  The normal forms are cumulative, i.e. a relation that is in
+$n$-th normal form is also in $(n-1)$-th normal form.  The normal forms are a way to
+reduce redundancy and improve data integrity.
 
 \paragraph{First normal form (1NF)}  A relation is in 1NF if and only if all attributes
 are atomic.  An attribute is atomic if it is not a set of attributes.  For example, the
@@ -767,15 +770,62 @@ previous example, the join of the decomposed relations always contains valid tup
 The reason is that all join dependencies implied by the key dependencies are trivial when
 reduced\footnote{\color{red}A proof in under development based on \fullcite{Vincent1997}.}.
 
-% \begin{slidebox}{Database normalization}{}
-%   \begin{itemize}
-%     \item Minimizes data redundancy.
-%     \item Improves data integrity.
-%     \item Semantics is expressed in terms of dependencies (functional, multivalued, join),
-%       which is usually not clear.
-%     \item Appropriate to store data.
-%   \end{itemize}
-% \end{slidebox}
+% TODO Illustrative example?
+\paragraph{Illustrative example of data integrity}  Consider a relation of students and
+their grades.  The relation contains the attributes ``student'', ``course'', ``course
+credits'', and ``grade''.  The primary key is the composite of ``student'' and ``course''.
+The functional dependencies are ``student'' and ``course'' determine ``grade'', and
+``course'' determines ``course credits''.  The relation is in 2NF but not 3NF.
+
+\begin{tablebox}[label=tab:student-grade-illustration]{Student grade relation.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{Student} & \textbf{Course} & \textbf{Course credits} & \textbf{Grade} \\
+    \midrule
+    Alice & Math & 4 & A \\
+    Alice & Physics & 3 & B \\
+    Bob & Math & 4 & B \\
+    Bob & Physics & 3 & A \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  An example of a relation of students and their grades in 2NF.
+\end{tablebox}
+
+\Cref{tab:student-grade-illustration} shows an example of possible values of the relation.
+If we decide to change the course credits of the course ``Math'' to 5, we must update the
+two rows, otherwise the relation will be inconsistent.  A 3NF relation (see
+\cref{tab:student-grade-illustration2}) would have the attributes ``course'' and ``course
+credits'' in a separate relation, avoiding the possibility of data inconsistency.  If
+needed, the relation would be reconstructed by a join operation.
+
+\begin{tablebox}[label=tab:student-grade-illustration2]{Student grade relation in 3NF.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cc}
+    \toprule
+    \textbf{Course} & \textbf{Course credits} \\
+    \midrule
+    Math & 4 \\
+    Physics & 3 \\
+    \bottomrule
+  \end{tabular}
+  \quad
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Student} & \textbf{Course} & \textbf{Grade} \\
+    \midrule
+    Alice & Math & A \\
+    Alice & Physics & B \\
+    Bob & Math & B \\
+    Bob & Physics & A \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  An example of a relation of students and their grades in 3NF.
+\end{tablebox}
 
 \subsection{Tidy data}
 
