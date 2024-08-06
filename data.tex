@@ -678,8 +678,8 @@ R[UV] \bowtie R[UW]$, where $W$ are the remaining attributes.
 
 \paragraph{Join dependency}  A join dependency is a constraint between subsets of
 attributes (not necessarily disjoint) in a relation.  $R$ obeys the join dependency $*
-\left\{ X_1, X_2, \dots, X_n \right\}$ if $R = \bowtie \left\{ R[X_1], R[X_2], \dots,
-R[X_n] \right\}$.
+\left\{ X_1, X_2, \dots, X_n \right\}$ if $R = {\bowtie \left\{ R[X_1], R[X_2], \dots,
+R[X_n] \right\}}$.
 
 \subsubsection{Normal forms}
 
@@ -719,9 +719,12 @@ V$ in $R$, the functional dependency $U \to X$ is in $R$.  In other words, a rel
 in 4NF if and only if every multi-valued dependency is the result of keys.
 
 \paragraph{Projection join normal form (PJNF)} A relation $R$ with attributes $X$ is in
-PJNF\footnote{Also known as fifth normal form (5NF).} if and only if it is in 2NF and
+PJNF\footnote{Also known as fifth normal form (5NF).  The authors themselves prefer
+the term PJNF because it emphasizes to which operations the normal form applies.}
+if and only if it is in 2NF and
 the set of key dependencies\footnote{Key dependency is a functional dependency in the form
-$K \to X$.} of $R$ impllies each join dependency of $R$.  The PJNF guarantees that the
+$K \to X$, where $X$ emcompasses all attributes of the relation.} of $R$ implies each join
+dependency of $R$.  The PJNF guarantees that the
 table cannot be decomposed without losing information (except by decompositions based on
 keys).
 
@@ -758,8 +761,13 @@ It is iteresting to notice that in this case, the relation $R_1 \bowtie R_2$ mig
 contain tuples that do not make sense in the context of the original relation.  For
 example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join contains
 $(a, b, c')$, which might not be a valid tuple in the original relation if $(b, c')$ is
-not in $R_3$.  \emph{This is very important to notice, as it is a common mistake to assume
-that the join of the decomposed relations always contains valid tuples.}
+not in $R_3$.
+
+\begin{hlbox}{Important note on PJNF}
+  \em
+  This is very important to notice, as it is a common mistake to assume
+  that the join of the decomposed relations always contains valid tuples.
+\end{hlbox}
 
 \paragraph{Example 3}  Consider the 2NF relation $R[A, B, C, D, E]$ with the functional
 dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
@@ -768,7 +776,7 @@ be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike t
 previous example, the join of the decomposed relations always contains valid tuples
 --- excluding degenerate joins, where there are no common attributes.
 The reason is that all join dependencies implied by the key dependencies are trivial when
-reduced\footnote{\color{red}A proof in under development based on \fullcite{Vincent1997}.}.
+reduced\footnote{\color{red}A formal proof in under development based on \fullcite{Vincent1997}.}.
 
 % TODO Illustrative example?
 \paragraph{Illustrative example of data integrity}  Consider a relation of students and
@@ -834,7 +842,8 @@ Usually, the same process is repeated many times in different datasets. The idei
 organized data carries the meaning of the data, reducing the time spent on handling
 the data to get it into the right format for analysis.
 
-Tidy data is a data format that provides a standardized way to organize data values within
+Tidy data, proposed by \textcite{Wickham2014}\footfullcite{Wickham2014},
+is a data format that provides a standardized way to organize data values within
 a dataset.  The main advantage of tidy data is that it provides clear semantics with focus
 on only one view of the data.
 
@@ -850,7 +859,8 @@ tasks.
 \end{hlbox}
 
 In an unrestricted table, the meaning of rows and columns are not fixed.  In a tidy table,
-the meaning of rows and columns are fixed.
+the meaning of rows and columns are fixed.  The semantics is more restrictive than usually
+required for general structured data.
 
 It is based on the idea that a dataset is a collection of values, where:
 \begin{itemize}
@@ -883,7 +893,8 @@ If we follow this structure, the meaning of data is implicit in the table itself
 However, it is not always trivial to organize data in a tidy format.  Usually, we have
 more than one level of observational units, each one represented by a table.  Moreover,
 there might exist more than one way to define what are the observational units in a
-dataset.
+dataset\footnote{Although, Wickham himself implies that there is only one possible way to
+define the observational units of the dataset.}.
 
 To organize data in a tidy format, one can consider that:
 \begin{itemize}
@@ -894,8 +905,8 @@ To organize data in a tidy format, one can consider that:
 \end{itemize}
 
 A particular point that tidy data do not address is that values in a column might not be
-in the same scale or unit of measurement\footnote{Attention: observational unit is not
-unit of measurement.}.  For example, a column might contain the
+in the same scale or unit of measurement\footnote{Observational unit is not the same
+concept as unit of measurement.}.  For example, a column might contain the
 temperature in an experiment, and another column might contain the unit of measurement
 that was used to measure the temperature.  This is a common problem in databases, and it
 must be addressed for machine learning and statistical methods to work properly.
@@ -909,14 +920,19 @@ are \emph{measured variables}.  Also, arranging rows by some variable might high
 pattern in the data.
 
 Usually, columns are named --- the collection of all column names is called the
-header, while rows are numerically indexed.
+header, while rows are usually numerically indexed.
 
 \subsubsection{Common messy datasets}
 
-\textcite{Wickham2014} lists some common problems with messy datasets and how to tidy
-them\footnote{Operations are presented in \cref{chap:handling}.}.  The problems are
-summarized below.
+\textcite{Wickham2014}\footfullcite{Wickham2014} lists some common problems with messy
+datasets and how to tidy them.  In this subsection, we focus on the problems and the
+tidy solutions.  The data handling operations that enables us to tidy the data are
+presented in \cref{chap:handling}.  Readers interested in a step by step guide for data
+tidying are encouraged to read \textcite{Wickham2023}\footfullcite{Wickham2023}.
 
+The problems are summarized below.
+
+\clearpage
 \paragraph{Headers are values, not variable names}  For example, consider
 \cref{tab:messy1}.  This table is not tidy because the column headers are values, not
 variable names.  This format is frequently used in presentations since it is more compact.
@@ -963,6 +979,7 @@ names, not values.
   \end{tabular}
 \end{tablebox}
 
+\clearpage
 \paragraph{Multiple variables are stored in one column}  For example, consider the
 \cref{tab:messy2}.  This table is not tidy because the column --- interestly called
 \emph{column} ---, contains multiple variables.  This format is frequent, and sometimes the
@@ -1007,7 +1024,7 @@ calculating ratios and frequency.
   \end{tabular}
 \end{tablebox}
 
-
+\clearpage
 \paragraph{Variables are stored in both rows and columns}  For example, consider the
 \cref{tab:messy3}.  This is the most complicated case of messy data.  Usually, one of the
 columns contains the names of the variables, in this case the column \emph{element}.
@@ -1201,6 +1218,7 @@ shown in \cref{tab:tidy5}.
   \end{tabular}
 \end{tablebox}
 
+\clearpage
 \subsection{Bridging normalization, tidyness, and data theory}
 \label{sub:bridge}
 
@@ -1214,6 +1232,17 @@ exists a normal form that is free of redundancy.  In tidy data,
 formal proof.  Since tidy data focuses on data analysis and not on data storage, I argue
 that there is more than one way to organize the data in a tidy format.  It actually
 depends on what you define as the observational unit.
+
+Moreover, both of them are related to the philosophical concept of substance (οὐσία).
+Entities and observational units are substances while attributes are predicates.
+Each tuple or observation are primary substances, i.e. substances that contrasts with
+everything else, particular, individual.
+
+We can also understand primary keys and fixed variables as the same concept.  They both
+describe uniquely the conditions of the sample.  They connect the entities/observational
+units to the remaining of the attributes.  They also should never be feed into a learning
+machine (more details in \cref{chap:slt}), since they are individual and thus not
+appropriate to generalize.
 
 Consider the following example.  We want to study the \emph{phenomenon} temperature in a
 certain city.  We fix three sensors in different locations to measure the temperature.  We
@@ -1264,7 +1293,8 @@ In the second case, the primary key is the composite of the columns \emph{date} 
 
 One can state that the first form is more appropriate, since it is flexible to add more
 sensors.  However, the second form is very natural for machine learning and statistical
-methods.  Given the definition of tidy data, I believe both forms are correct.
+methods.  Given the definition of tidy data, I believe both forms are correct.  It is
+just a matter of what ontological view you have of the data.
 
 Another very interesting conjecture is whether we can formalize the eventual \emph{change
 of observational unit} in terms of the order that joins and grouping operations are
@@ -1328,7 +1358,7 @@ $\mathcal{K} \cap \mathcal{N} = \emptyset$ is the simplest we can have.
 Observe, however, that transitive dependencies\footnote{Actually, when an attribute is
 both key and non-prime, some joins may generate invalid tables.} and complex join
 dependencies restrict even further the joins we are allowed to perform.
-\textcolor{red}{Further formalization and study is under progress.}
+% \textcolor{red}{Further formalization and study is under progress.}
 
 Now, consider a very common case: in our dataset, keys are unknown.  Let $A$ be a student
 id, $B$ be the course id, $D$ be the student age, $E$ be the course load, and $C$ be the
@@ -1349,7 +1379,10 @@ contain a different value of $A$.  The second join results in relation $R[ADFG] 
 (which is also tidy).
 
 Unfortunately, it is not trivial to calculate all possible decomposition trees for a given
-dataset.  \textcolor{red}{Further formalization and study is under progress.}
+dataset.  It is up to the data scientist to decide which directions to follow.  However,
+it is important to notice that the order of the joins and summarization operations are
+crucial to the final result.
+%\textcolor{red}{Further formalization and study is under progress.}
 
 \subsection{Data semantics and interpretation}
 
@@ -1370,7 +1403,7 @@ Following wrong assumptions can lead to wrong conclusions.  For example, if we a
 the observations are independent, but they are not, we might underestimate the variance of
 the estimators.
 
-Although we not focus on time series, we must consider the temporal dependence of the
+Although we do not focus on time series, we must consider the temporal dependence of the
 observations.  For example, we might want to know how the observation $x_t$ is affected by
 $x_{t-1}$, $x_{t-2}$, and so on.  We might also want to know if Markov property holds,
 and if there is periodicity and seasonality in the data.
