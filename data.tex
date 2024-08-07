@@ -229,8 +229,6 @@ to understand data science as a new science.
 
 \section{The data science continuum}
 
-% TODO documentation and communication
-
 In the previous section, I argued that data science is a new science defining its object
 of study.  This is just the first step to establish a new science, especially because the
 object of study in data science is not new.  Computer science, statistics, and other
@@ -277,10 +275,12 @@ the methods, new questions arise.
     % Top Layer: Unique Methods and Validation
     \node (methods) [block, below=of principles, minimum width=6cm, text width=5cm] {Unique methods};
     \node (validation) [darkblock, below=of methods, minimum width=6cm, text width=5cm] {Validation and new challenges};
+    \node (science) [block, below=of validation, minimum width=6cm, text width=5cm] {Data science};
     % Arrows
     \draw[-{Stealth}] (basebox) -- (principles);
     \draw[-{Stealth}] (principles) -- (methods);
     \draw[-{Stealth}] (methods) -- (validation);
+    \draw[-{Stealth}] (validation) -- (science);
   \end{tikzpicture}
   \tcblower
     The data science continuum is the process of development of data science as a new
@@ -297,8 +297,13 @@ first glance, data science seems like just a combination of computer science, st
 linear algebra, etc. However, the principles and priorities of data science are not the
 same as the ones in that disciplines.  Similarly, the accepted methodologies in data
 science differ, and keep evolving, from the ones in the other sciences.  New questions
-like data ethics, data collection, data integration, etc., arise.
-
+like arise such as:
+\begin{itemize}
+  \item How can we guarantee that the data we are using are reliable?
+  \item How can we collect data in a way that does not bias our conclusions?
+  \item How can we guarantee that the data we are using are ethical?
+  \item How can we present our results in a way that is understandable to non-experts?
+\end{itemize}
 
 \section{Fundamental data theory}
 
@@ -641,8 +646,6 @@ Normal form is a state of a database that is free of certain types of data redun
 Before studying normal forms, we need to understand basic concepts in the database theory
 and the basic operations in relational algebra.
 
-% TODO: illustrative example?
-
 \subsubsection{Relational database theory}
 
 Consider the following concepts.
@@ -780,7 +783,6 @@ previous example, the join of the decomposed relations always contains valid tup
 The reason is that all join dependencies implied by the key dependencies are trivial when
 reduced\footnote{\color{red}A formal proof in under development based on \fullcite{Vincent1997}.}.
 
-% TODO Illustrative example?
 \paragraph{Illustrative example of data integrity}  Consider a relation of students and
 their grades.  The relation contains the attributes ``student'', ``course'', ``course
 credits'', and ``grade''.  The primary key is the composite of ``student'' and ``course''.

@@ -528,7 +528,14 @@ impact of measurement error\footnote{The method was first published by Adrien-Ma
 Legendre (1752 -- 1833) in 1805, but Gauss claimed in 1809 that he
 had been using it since circa 1794.}.
 
+The method of least squares marked the beginning of the field of regression analysis.  It
+marked a shift to find the solution of systems of equations --- especially, overdetermined
+systems --- using data instead of theoretical models.
+
 \paragraph{Playfair's data visualization}
+
+Another change in the way we analyze data was the development of data visualization.  Data
+visualization is the graphical representation of information and data.
 
 William Playfair (1759 -- 1823) was a secret agent on behalf of Great Britain during its
 war with France in the 1790s.  He invented several types of diagram between 1780s and
@@ -544,12 +551,25 @@ analysis.
 The recent advances in computation and data storage are crucial for the large-scale
 application of these techniques.
 
+This era is characterized by a change of focus from trying to fit data to a theoretical
+model to trying to extract knowledge from data.  The main goal is to develop algorithms
+that can learn from data with minimal human intervention.
+
 \paragraph{Fisher's discriminant analysis}
 
-In the 1930s, Ronald Fisher (1890 -- 1962) developed discriminant analysis, which was
-considered a problem of constructing a decision rule to assign a vector to one of two
-categories using given probability distribution functions\footnote{After, Rosenblatt's work,
-however, it was used to solve inductive inference as well.}.
+In the 1930s, Sir Ronald Aylmer Fisher (1890 -- 1962), a British polymath, developed
+discriminant analysis\footnote{\url{https://digital.library.adelaide.edu.au/dspace/bitstream/2440/15227/1/138.pdf}},
+which was initially used find linear functions to solve the problem of separating two or
+more classes of objects\footnote{After, Rosenblatt's work, however, it was used to solve
+inductive inference (classification) as well.  For curiosity, Fisher's paper
+introduced the famous Iris data set.}.
+
+The method is based on the concept of the Fisher discriminant, which is a linear
+combination of variables.  The method can be used not only for classification but also for
+dimensionality reduction.
+
+Tackling the problem of the importance of the variables for a particular task, Fisher's
+increased the understanding of the importance of feature selection in data analysis.
 
 % See \cref{sub:fisher} for more details about the technique.
 
@@ -562,6 +582,13 @@ Information theory brought many important concepts to the field of data analysis
 entropy, mutual information, and information gain.  This theory is the foundation of
 several machine learning algorithms.
 
+Information theory sees data as a sequence of symbols that can be compressed and
+transmitted.  The theory is used to quantify the amount of information in a data set.
+It also changed dominant paradigms in the field of statistics, such as the use of
+likelihood functions and the Bayesian approach.
+
+% See \cref{sub:shannon} for more details about the theory.
+
 \paragraph{K-Nearest Neighbors}
 
 In 1951, Evelyn Fix (1904 -- 1965) and Joseph Lawson Hodges Jr. (1922 -- 2000) wrote a
@@ -570,6 +597,10 @@ Consistency Properties.''  In this paper, they proposed the k-nearest neighbors 
 which is a non-parametric method used for classification and regression.  The algorithm
 marks a shift from the traditional parametric methods --- and purely statistical ---
 to non-parametric methods.
+
+It also shows how intuitive models can be used to solve complex problems.  The k-nearest
+neighbors algorithm is based on the idea that objects that are similar are likely to be in
+the same class.
 
 % See \cref{sub:knn} for more details about the technique.
 
@@ -580,6 +611,25 @@ a learning machine.  While the idea of a mathematical neuron was not new, he was
 to describe the model as a program, showing the ability of the perceptron to learn simple
 tasks such as the logical operations AND and OR.
 
+This work was the foundation of the field of artificial neural networks.  The ``training''
+of the perceptron was a breakthrough in the field of learning machines, drawing attention
+to the field of artificial intelligence.
+
+% In their famous book entitled Perceptrons: An Introduction to Computational Geometry,
+% Minsky and Papert show that a perceptron can't solve the XOR problem. This contributed
+% to the first AI winter, resulting in funding cuts for neural networks. However, now we
+% know that a multilayer perceptron can solve the XOR problem easily.
+
+A few years after, the book ``Perceptrons: an introduction to computational geometry'' by
+Marvin Minsky and Seymour Papert in 1969 draw attention to the limitations of the
+perceptron\footnote{Although the Rosenblatt was aware of the limitations of the perceptron
+and was probably working on solutions, he died in 1971.}. They showed that a single-layer
+perceptron was limited to linearly separable problems, which led to a decline in the
+interest in neural networks.
+
+This fact contributed to the first AI winter, resulting in funding cuts for neural
+network research.
+
 % See \cref{sub:perceptron} for more details about the technique.
 
 \paragraph{Hunt inducing trees}
@@ -589,6 +639,9 @@ data.  The algorithm is based on the concept of information entropy and is a pre
 the \citeauthor{Quinlan1986}'s ID3 algorithm\footfullcite{Quinlan1986} and its variations.
 These algorithm gave rise to the field of decision trees, which is a popular method for
 classification and regression.
+
+Trees are intuitive models that can be easily interpreted by humans.  They are based on
+symbolic rules that can be used to explain the decision-making process.
 
 % See \cref{sub:tree} for more details about the technique.
 
@@ -614,9 +667,11 @@ This principle is the foundation of statistical learning theory.
 
 \paragraph{Resurgence of neural networks}
 
-In 1986, researchers developed independently a method to optimize coefficients of a neural
+In 1986, researchers developed independently a method to optimize coefficients of a
+multi-layer neural
 network\footfullcite{LeCun1986,Rumelhart1986}.  The method is called backpropagation and
-is the foundation of the resurgence of neural networks.
+is the foundation of the resurgence of neural networks.  The technique enabled the
+training of artificial networks that can solve non linearly separable problems.
 
 This rebirth of neural networks happened in a scenario very different from the 1960s.
 The availability of data and computational power fueled a new approach to the problem of
@@ -680,3 +735,5 @@ the data that are preserved under transformations.  The theory is the foundation
 learning from intelligent teachers paradigm.  They regard the \gls{lusi} theory as the
 next step in the evolution of learning theory, calling it the ``complete statistical
 theory of learning.''
+
+% vim: set spell spelllang=en
