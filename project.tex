@@ -81,7 +81,6 @@ widely used today.
 
 CRISP-DM is a cyclic process.  The process is composed of six phases:
 \begin{enumerate}
-  \itemsep0em
   \item Business understanding: this is the phase where the project objectives are
     defined.  The objectives must be defined in a way that is measurable.  The phase also
     includes the definition of the project plan.
@@ -103,9 +102,12 @@ CRISP-DM is a cyclic process.  The process is composed of six phases:
     monitoring requirements.
 \end{enumerate}
 
-\Cref{fig:cripdm} shows a diagram of the CRISP-DM process.  Note that the process is
-cyclic and completly focused on the data.  The process do not address the software
-development aspects of the project.
+CRISP-DM is cyclic and completly focused on the data.  However, it does not address the
+software development aspects of the project.  The ``product'' of the project is both
+models and findings, not the full software solution.  As a result, aspects such as user
+interface, communication and integration are not addressed by the methodology.
+
+\clearpage
 
 \begin{figurebox}[label=fig:cripdm]{Diagram of the CRISP-DM process.}
   \centering
@@ -146,26 +148,41 @@ development aspects of the project.
   the process.  Arrows represent the transitions between the phases.
 \end{figurebox}
 
+\Cref{fig:cripdm} shows a diagram of the CRISP-DM process.  The double arrow between the
+business understanding and the data understanding phases represents the iterative nature
+of these steps.  Once we are satisfied with the data understanding, we can go further to
+the data preparation phase.  The same iteration is possible between the data preparation
+and the modeling phases, since modeling methods can require different data preparation
+methods. Finally, an evaluation is performed.  If the model is satisfactory, we go to the
+deployment phase.  Otherwise, we go back to the business understanding phase.  The ideia
+to go back to the business understanding phase is to rethink the project objectives and
+the project plan.
+
 The CRISP-DM methodology is a good starting point for data science projects.  However, it
-does not mean that should be followed strictly.  The process is cyclic and flexible, and
-adaptations are possible at any stage of the process.
+does not mean that should be followed strictly.  The process is flexible, and
+adaptations are possible at any stage.
 
-\section{ZN approach}
+\section{ZM approach}
 
-\textcite{Zumel2019} also propose a methodology for data science projects --- which we
-call the ZN approach.  Besides
+\textcite{Zumel2019}\footfullcite{Zumel2019} also propose a methodology for data science projects --- which we
+call the ZM approach.  Besides
 describing each step in a data science project, they further address the roles of each
 individual involved in the project.  They state that data science projects are always
 collaborative, as they require domain expertise, data expertise, and software expertise.
-The requirements are dynamic, and the project has many exploratory phases.  Usually,
+
+Requirements of a data science project are dynamic, and we need to perform many
+exploratory phases.  Unlike traditional software projects, we should expect the
+great changes in the initial requirements and project goals.
+
+Usually,
 projects based on data are urgent, and they must be completed in a short time --- not
 only due to the business requirements, but also because the data changes over time.
 The authors state that agile methodologies are suitable (and necessary) for data science
 projects.
 
-\subsection{Roles of the ZN approach}
+\subsection{Roles of the ZM approach}
 
-In their approach, five roles are defined.
+In their approach, they define five roles.  The roles are:
 
 \paragraph{Project sponsor}  It is the main stakeholder of the project, the one that needs the
 results of the project.  He represents the business interests and champions the project.
@@ -195,7 +212,7 @@ that receives instructions to adapt the data storage and means to collect data.
 deploys final project results.  He is responsible to define requirements such as response
 time, programming language, and the infrastructure to run the software.
 
-\subsection{Processes of the ZN approach}
+\subsection{Processes of the ZM approach}
 
 \citeauthor{Zumel2019}'s model is similar to CRISP-DM, but emphasizes that back-and-forth
 is possible at any stage of the process.  \Cref{fig:zumel} shows a diagram of the process.
@@ -207,7 +224,7 @@ The phases are:
   \item Build the model: find patterns in the data that may solve the problem.
   \item Evaluate the model: is the model good enough to solve the problem?
   \item Present results and document: establish that we can solve the problem and how we
-    did it. (This step is a differentiator from CRISP-DM.  In ZN approach, result
+    did it. (This step is a differentiator from CRISP-DM.  In ZM approach, result
     presentation is essential; data scientists must be able to communicate their results
     effectively to the client/sponsor.)
   \item Deploy the model: make the model available to the end users.
