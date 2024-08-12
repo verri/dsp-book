@@ -39,19 +39,28 @@ discussing their common mathematical foundations.
   \boxsubtitle{Context}
 
   \begin{itemize}
-    \item \dots
+    \itemsep0em
+    \item There is no consensus on the definition of data science.
+    \item Understanding the nature of data is important to extract knowledge from them.
+    \item Structured data are data that are organized in a tabular format.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
-    \item \dots
+    \itemsep0em
+    \item Define data science.
+    \item Present the main concepts about data theory.
   \end{itemize}
 
   \boxsubtitle{Takeways}
 
   \begin{itemize}
-    \item \dots
+    \itemsep0em
+    \item Data science is a new science that studies the knowledge extraction from
+      measurable phenomena using computational methods.
+    \item Database normalization and tidy data are complementary concepts that interact
+      with each other.
   \end{itemize}
 \end{mainbox}
 
@@ -68,24 +77,8 @@ and predictive analytics.''}  They compare the area with the operations research
 that data science focuses on implementing data-driven decisions and managing their
 consequences.
 
-% \begin{slidebox}{Zumel and Mount's definition}{}
-%   \begin{itemize}
-%     \item Cross-disciplinary practice that draws on methods from data
-%     engineering, descriptive statistics, data mining, machine learning, and predictive
-%     analytics.
-%     \item Focuses on implementing data-driven decisions and managing their consequences.
-%   \end{itemize}
-% \end{slidebox}
-
 \textcite{Wickham2023}\footfullcite{Wickham2023} state that \emph{``data science is an exciting discipline that
 allows you to transform raw data into understanding, insight, and knowledge.''}
-
-% \begin{slidebox}{Wickham's definition}{}
-%   \begin{itemize}
-%     \item Transform raw data into understanding, insight, and knowledge.
-%     \item Not necessarily a definition; describes the purpose of data science.
-%   \end{itemize}
-% \end{slidebox}
 
 \textcite{Hayashi1998}\footfullcite{Hayashi1998} says that data science ``is not only a
 synthetic concept to unify statistics, data analysis and their related methods, but also
@@ -132,34 +125,11 @@ quantified in some way\footnote{%
 that have not been subject to any other transformation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
 
-% \begin{slidebox}{My definition}{}
-%   \begin{itemize}
-%     \item Data science is the study of computational methods to extract knowledge from
-%       measurable phenomena.
-%     \item Computational methods use computers to handle data and perform the calculations.
-%     \item Knowledge is information that humans can easily understand or apply to solve
-%       problems.
-%     \item Measurable phenomena are events or processes where raw data can be quantified
-%       in some way.
-%     \item Raw data are data collected directly from some source and that have not been
-%       subject to any other transformation by a software program or a human expert.
-%     \item Data is any piece of information that can be digitally stored.
-%   \end{itemize}
-% \end{slidebox}
 
 \textcite{Kelleher2018} summarize very well the challenges data science takes up:
 ``extracting non-obvious and useful patterns from large data sets [\dots]; capturing,
 cleaning, and transforming [\dots] data; [storing and processing] big [\dots] data sets;
 and questions related to data ethics and regulation.''
-
-% \begin{slidebox}{Kelleher and Tierney's challenges}{}
-%   \begin{itemize}
-%     \item Extracting non-obvious and useful patterns from large data sets.
-%     \item Capturing, cleaning, and transforming data.
-%     \item Storing and processing big data sets.
-%     \item Questions related to data ethics and regulation.
-%   \end{itemize}
-% \end{slidebox}
 
 Data science naming contrasts with conventional sciences.  Usually, a ``science'' is named after
 its object of study.  Biology is the study of the life, Earth science studies the planet
@@ -291,6 +261,7 @@ same as the ones in that disciplines.  Similarly, the accepted methodologies in 
 science differ, and keep evolving, from the ones in the other sciences.  New questions
 like arise such as:
 \begin{itemize}
+  \itemsep0em
   \item How can we guarantee that the data we are using are reliable?
   \item How can we collect data in a way that does not bias our conclusions?
   \item How can we guarantee that the data we are using are ethical?
@@ -379,19 +350,6 @@ need to guarantee that the data we are collecting are relevant to the problem we
 trying to solve.  Incorrectly perception of the phenomena may lead to incorrect data
 collection, which centainly lead to incorrect conclusions.
 
-% \begin{slidebox}{Phenomena}{}
-%   \begin{itemize}
-%     \item Phenomena are the source we use to understand the world around us.
-%     \item We use our senses to perceive phenomena.
-%     \item We use our knowledge and reasoning to make sense of them.
-%     \item Computational methods can be used to implement knowledge and reasoning.
-%     \item Phenomena are the source of data.
-%     \item We need to understand the nature of the phenomena we are studying.
-%     \item Incorrectly perception of the phenomena may lead to incorrect data collection,
-%       which may lead to incorrect conclusions.
-%   \end{itemize}
-% \end{slidebox}
-
 \subsection{Measurements}
 
 Similarly to Aristotle's work, data scientists focus on the world we can perceive with our
@@ -424,6 +382,7 @@ are using.  Data types also restrict the operations we can perform on the data.
 The foundation and tools to understand data types come from computer science.  Among the
 subfields, I highlight:
 \begin{itemize}
+  \itemsep0em
   \item Algorithms and data structures: the study of data types and the computational
     methods to manipulate them.
   \item Databases: the study of storing and retrieving data.
@@ -432,23 +391,6 @@ subfields, I highlight:
 The basic concepts are the same independently of the programming language, hardware
 architecture, or the \gls{rdbms} we are using.  As a consequence, in this book, I focus on
 the concepts and not on the tools.
-
-% \begin{slidebox}{Measurable phenomena}{}
-%   \begin{itemize}
-%     \item Measurable phenomena are those that we can quantify in some way.
-%     \item Data collection is the process of gathering data on targeted phenomenon in an
-%       established systematic way.
-%     \item The collection/sampling bias influence our conclusions.
-%     \item Data storage is the process of storing data in a computer.
-%     \item Data are any piece of information that can be digitally stored.
-%     \item Data can be stored in many different formats.
-%     \item Data can be stored in many different types.
-%     \item Data types need to correctly reflect the nature of the source phenomenon and be
-%       compatible with the computational methods we are using.
-%     \item Algorithms, data structures, and databases are important subfields of computer
-%       science when studying data collection, data storage, and data types.
-%   \end{itemize}
-% \end{slidebox}
 
 \subsection{Knowledge extraction}
 \label{sub:knowledge}
@@ -480,6 +422,7 @@ of data analysis.
 In data science, we use computational methods to extract knowledge from data.  These
 computational methods may come from many different fields.  In particular, I highlight:
 \begin{itemize}
+  \itemsep0em
   \item Statistics: the study of data collection, organization, analysis, interpretation,
     and presentation.
   \item Machine learning: the study of computational methods that can automatically learn from data.
@@ -535,25 +478,6 @@ nature of the data and the computational methods we are using.
 
 In the following, I further discuss data format and the principles of data interpretation
 and organization.
-
-% \begin{slidebox}{Knowledge extraction}{}
-%   \begin{itemize}
-%     \item We use computational methods to extract knowledge from data.
-%     \item Statistics, machine learning, and artificial intelligence are important
-%       sciences when studying knowledge extraction.
-%     \item Computational methods always have their own assumptions and limitations.
-%     \item Data handling is the process of adjusting data to the requirements of the
-%       computational methods, which includes:
-%     \begin{itemize}
-%     \item Data cleaning is the process of detecting and correcting (or removing) corrupt
-%       or inaccurate pieces of data.
-%     \item Data transformation is the process of converting data from one format or type
-%       to another.
-%     \item Data integration is the process of combining data from different sources into
-%       a single, unified view.
-%     \end{itemize}
-%   \end{itemize}
-% \end{slidebox}
 
 \section{Structured data}
 
@@ -860,6 +784,7 @@ required for general structured data.
 
 It is based on the idea that a dataset is a collection of values, where:
 \begin{itemize}
+  \itemsep0em
   \item Each \emph{value} belongs to a variable and an observation.
   \item Each \emph{variable}, represented by a column, contains all values that measure
     the same attribute across (observational) units.
@@ -894,6 +819,7 @@ define the observational units of the dataset.}.
 
 To organize data in a tidy format, one can consider that:
 \begin{itemize}
+  \itemsep0em
   \item Attributes are functionally related among themselves --- e.g. Z is a linear
     combination of X and Y, or X and Y are correlated, or $P(X, Y)$ follows some joint distribution.
   \item Units can be grouped or compared --- e.g. person A is taller than person B, or
