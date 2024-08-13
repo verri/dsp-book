@@ -661,47 +661,12 @@ or eliminate inconsistencies.  In practice, it means that if a relation is in PJ
 careless joins --- i.e. those that violate a join dependency --- produce
 inconsistent results.
 
-\paragraph{Example 1}  Consider the 2NF relation $R[A, B, C, D]$ with the functional
+\paragraph{Simple example}  Consider the 2NF relation $R[A, B, C, D]$ with the functional
 dependencies $A \to B,~B \to C,~C \to D$.  The relation is not in 3NF because $C$ is
 transitively dependent on $A$.  To normalize it, we can decompose it into the
 relations $R_1[A, B, C]$ and $R_2[C, D]$.  Now, $R_2$ is in 3NF and $R_1$ is in 2NF, but
 not in 3NF.  We can decompose $R_1$ into the relations $R_3[A, B]$ and $R_4[B, C]$.
 The original relation can be reconstructed by $\bowtie \left\{ R_2, R_3, R_4 \right\}$.
-
-\paragraph{Example 2} Consider the 2NF relation $R[ABC]$\footnote{Here we abreviate ${A,
-B, C}$ as $ABC$.} such that the primary key is the composite of $A$, $B$, and $C$.  The
-relation is thus in the 4NF, as no column is a determinant of another column.  Suppose,
-however, the following constraint: if $(a, b, c')$, $(a, b', c)$, and $(a', b, c)$ are in
-$R$, then $(a, b, c)$ is also in $R$.  This can be illustrated if we consider $A$ as a
-agent, $B$ as a product, and $C$ as a company.  If an agent $a$ represents companies $c$ and
-$c'$, and product $b$ is in his portfolio, then assuming both companies make $b$, $a$
-must offer $b$ from both companies.
-
-The relation is not in PJNF, as the join dependency $* \left\{ AB, AC, BC \right\}$ is not
-implied by the primary key.  (In fact, the only functional dependency is the trivial $ABC
-\to ABC$.)  In this case, to avoid redundancies and inconsistencies, we must split the
-relation into the relations $R_1[AB]$, $R_2[AC]$, and $R_3[BC]$.
-
-It is iteresting to notice that in this case, the relation $R_1 \bowtie R_2$ might
-contain tuples that do not make sense in the context of the original relation.  For
-example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join contains
-$(a, b, c')$, which might not be a valid tuple in the original relation if $(b, c')$ is
-not in $R_3$.
-
-\begin{hlbox}{Important note on PJNF}
-  \em
-  This is very important to notice, as it is a common mistake to assume
-  that the join of the decomposed relations always contains valid tuples.
-\end{hlbox}
-
-\paragraph{Example 3}  Consider the 2NF relation $R[A, B, C, D, E]$ with the functional
-dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
-into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
-be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the
-previous example, the join of the decomposed relations always contains valid tuples
---- excluding degenerate joins, where there are no common attributes.
-The reason is that all join dependencies implied by the key dependencies are trivial when
-reduced\footnote{\color{red}A formal proof in under development based on \fullcite{Vincent1997}.}.
 
 \paragraph{Illustrative example of data integrity}  Consider a relation of students and
 their grades.  The relation contains the attributes ``student'', ``course'', ``course
@@ -758,6 +723,41 @@ needed, the relation would be reconstructed by a join operation.
   \tcblower
   An example of a relation of students and their grades in 3NF.
 \end{tablebox}
+
+\paragraph{Invalid join example} Consider the 2NF relation $R[ABC]$\footnote{Here we abreviate ${A,
+B, C}$ as $ABC$.} such that the primary key is the composite of $A$, $B$, and $C$.  The
+relation is thus in the 4NF, as no column is a determinant of another column.  Suppose,
+however, the following constraint: if $(a, b, c')$, $(a, b', c)$, and $(a', b, c)$ are in
+$R$, then $(a, b, c)$ is also in $R$.  This can be illustrated if we consider $A$ as a
+agent, $B$ as a product, and $C$ as a company.  If an agent $a$ represents companies $c$ and
+$c'$, and product $b$ is in his portfolio, then assuming both companies make $b$, $a$
+must offer $b$ from both companies.
+
+The relation is not in PJNF, as the join dependency $* \left\{ AB, AC, BC \right\}$ is not
+implied by the primary key.  (In fact, the only functional dependency is the trivial $ABC
+\to ABC$.)  In this case, to avoid redundancies and inconsistencies, we must split the
+relation into the relations $R_1[AB]$, $R_2[AC]$, and $R_3[BC]$.
+
+It is interesting to notice that in this case, the relation $R_1 \bowtie R_2$ might
+contain tuples that do not make sense in the context of the original relation.  For
+example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join contains
+$(a, b, c')$, which might not be a valid tuple in the original relation if $(b, c')$ is
+not in $R_3$.
+
+\begin{hlbox}{Important note on PJNF}
+  \em
+  This is very important to notice, as it is a common mistake to assume
+  that the join of the decomposed relations always contains valid tuples.
+\end{hlbox}
+
+\paragraph{Valid joins example}  Consider the 2NF relation $R[A, B, C, D, E]$ with the functional
+dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
+into the relations $R_1[A, D]$, $R_2[A, B, C]$, and $R_3[B, E]$.  The original relation can
+be reconstructed by $\bowtie \left\{ R_1, R_2, R_3 \right\}$.  However, unlike the
+previous example, the join of the decomposed relations always contains valid tuples
+--- excluding degenerate joins, where there are no common attributes.
+The reason is that all join dependencies implied by the key dependencies are trivial when
+reduced\footnote{\color{red}A formal proof in under investigation based on \fullcite{Vincent1997}.}.
 
 \subsection{Tidy data}
 
