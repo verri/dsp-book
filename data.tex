@@ -531,9 +531,20 @@ they do not allow quantitative difference.  Interval data, on the other hand, al
 addition and subtraction.  Finally, the true zero of ratio data enable us to calculate
 relative differences (multiplication and division).
 
+For example, color are nominal data.  We can classify colors into categories, but we cannot
+order them.  A categorical variable that classifies sizes in small, medium, and large is
+ordinal data.  We can order the sizes, but we cannot say that the difference between small
+and medium is the same as the difference between medium and large.  Temperature in Celsius
+is interval data.  We can order temperatures, and we can say that the difference between
+10 and 20 degrees is the same as the difference between 20 and 30 degrees.  However, we
+cannot say that 20 degrees is twice as hot as 10 degrees.  Finally, weight is ratio data.
+We can order weights, we can say that the difference between 10 and 20 kilograms is the
+same as the difference between 20 and 30 kilograms, and we can say that 20 kilograms is
+twice as heavy as 10 kilograms.
+
 However, Stevens' types do not exhaust all possibilities for data types.  For example,
 probabilities are bounded at both ends, and thus do not tolerate arbitrary scale shifts.
-\textcite{Paul1993} provide interesting insights about data types.  Although I do not
+\textcite{Paul1993}\footfullcite{Paul1993} provide interesting insights about data types.  Although I do not
 agree with all his points, I think it is a good reading.  In particular, I agree with
 his criticism of statements that data types are evident from the data independent of the
 questions asked.  The same data can be interpreted in different ways depending on the
@@ -852,7 +863,7 @@ Table \ref{tab:tidy} summarizes the main concepts.
     \midrule
     Brazil & 2019 & 100 \\
     Brazil & 2020 & 200 \\
-    USA & 2019 & 200 \\
+    USA & 2019 & \\
     USA & 2020 & 400 \\
     \bottomrule
   \end{tabular}
@@ -1241,6 +1252,8 @@ appropriate to generalize.
 \Cref{fig:bridge} summarizes the equivalence (or similarity) of terms in different
 contexts.
 
+\subsubsection{Tidy or not tidy?}
+
 Consider the following example.  We want to study the \emph{phenomenon} temperature in a
 certain city.  We fix three sensors in different locations to measure the temperature.  We
 collect data three times a day.  If we consider as the observational unit the
@@ -1289,15 +1302,69 @@ In the second case, the primary key is the composite of the columns \emph{date} 
 \emph{time}.
 
 One can state that the first form is more appropriate, since it is flexible to add more
-sensors.  However, the second form is very natural for machine learning and statistical
+sensors or sensor-specific attributes (using an extra table).  However, the second form is very natural for machine learning and statistical
 methods.  Given the definition of tidy data, I believe both forms are correct.  It is
 just a matter of what ontological view you have of the data.
+
+\begin{tablebox}[label=tab:body1]{Tidy data for measuments of a person body.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{name} & \textbf{chest} & \textbf{waist} & \textbf{hip} \\
+    \midrule
+    Alice & 90 & 70 & 100 \\
+    Bob & 100 & 110 & 110 \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+Still, one can still argue that the sensors share the same nature and thus only the first
+form is correct (or can even insist that the more flexible form is the correct one).
+Consider however the data in \cref{tab:body1}.  The observational unit is the person, and
+the attributes are the body measurements.
+
+\begin{tablebox}[label=tab:body2]{Another tidy data for measurements of a person body.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llc}
+    \toprule
+    \textbf{name} & \textbf{body part} & \textbf{measurement} \\
+    \midrule
+    Alice & chest & 90 \\
+    Alice & waist & 70 \\
+    Alice & hip & 100 \\
+    Bob & chest & 100 \\
+    Bob & waist & 110 \\
+    Bob & hip & 110 \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+If we apply the same logic of \cref{tab:temp1}, data in \cref{tab:body1} becomes
+\cref{tab:body2}.  Now, the observational unit is the measurement of a body part of a
+given person.  Now, we can easily include more body parts.  Let us say that we want to add
+the head circumference.  We just need to include rows such as ``Alice, head, 50'' and
+``Bob, head, 55''.  Moreoer, what if we want to add the height of the person? Should we
+create another table (with ``name'' and ``height'') or should we consider ``height'' seen
+as another body part (even though it seems weird to consider the full body a part of the
+body)?
+
+In the first version of the data (\cref{tab:temp1}), it would be trivial to include head
+circumference and height.  In the second version, the choice becomes inconvenient.  This
+table seems ``overtidy''.  If the first fits enough for the analysis, it should be
+preferred.
+
+In summary, tidyness is a matter of perspective.
+
+\subsubsection{Change of observational unit and handling operations}
 
 Another very interesting conjecture is whether we can formalize the eventual \emph{change
 of observational unit} in terms of the order that joins and grouping operations are
 performed.
 
-\paragraph{Example}
 Consider the following example: the relation $R[A, B, C, D, E]$ and the functional
 dependencies $A \to D$, $B \to E$, and $AB \to C$.  The relation can be normalized up to
 3NF by following one of the decomposition trees shown in \cref{fig:decomp}.
