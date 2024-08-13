@@ -427,6 +427,7 @@ computational methods may come from many different fields.  In particular, I hig
     and presentation.
   \item Machine learning: the study of computational methods that can automatically learn from data.
     It is a branch of artificial intelligence.
+  \item Operations research: the study of computational methods to optimize decisions.
 \end{itemize}
 
 Also, many other fields contribute to the development of domain-specific computational
@@ -592,10 +593,13 @@ dependency} $U \to V$ holds in $R$ if and only if for every pair of tuples $t_1$
 in $R$ such that $t_1[U] = t_2[U]$, it is also true that $t_1[V] = t_2[V]$.
 
 \paragraph{Multi-valued dependency}  A multi-valued dependency is a constraint between
-two sets of attributes in a relation.  It is a statement that if two tuples agree on
-certain attributes, then they must agree on another set of attributes.  Specifically, the
+two sets of attributes in a relation.  The
 \emph{multi-valued dependency} $U \twoheadrightarrow V$ holds in $R$ if and only if $R =
-R[UV] \bowtie R[UW]$, where $W$ are the remaining attributes.
+R[UV] \bowtie R[UW]$, where $W$ are the remaining attributes.  Note, however, that unlike
+functional dependencies, multi-valued dependencies are not simple to interpret, so we
+restrict our discussion to its mathematical properties\footnote{In fact, one might
+naively think that a multi-valued dependency is a functional dependency between
+many attributes.  However, this is not the case.}.
 
 \paragraph{Join dependency}  A join dependency is a constraint between subsets of
 attributes (not necessarily disjoint) in a relation.  $R$ obeys the join dependency $*
@@ -782,6 +786,8 @@ In an unrestricted table, the meaning of rows and columns are not fixed.  In a t
 the meaning of rows and columns are fixed.  The semantics is more restrictive than usually
 required for general structured data.
 
+% TODO: adaptar exemplo messy do CEDS
+
 It is based on the idea that a dataset is a collection of values, where:
 \begin{itemize}
   \itemsep0em
@@ -809,6 +815,8 @@ Table \ref{tab:tidy} summarizes the main concepts.
     \bottomrule
   \end{tabular}
 \end{tablebox}
+
+% TODO: adaptar exemplo tidy do CEDS
 
 If we follow this structure, the meaning of data is implicit in the table itself.
 However, it is not always trivial to organize data in a tidy format.  Usually, we have
@@ -1162,7 +1170,7 @@ everything else, particular, individual.
 
 We can also understand primary keys and fixed variables as the same concept.  They both
 describe uniquely the conditions of the sample.  They connect the entities/observational
-units to the remaining of the attributes.  They also should never be feed into a learning
+units to the remaining of the attributes.  They also should never be fed into a learning
 machine (more details in \cref{chap:slt}), since they are individual and thus not
 appropriate to generalize.
 
@@ -1174,9 +1182,10 @@ appropriate to generalize.
     \textbf{Relational theory} & \textbf{Tidy data} & \textbf{Philosophy} \\
     \midrule
     Entities & Observational units & Substance \\
-    Primary key & Fixed variables & - \\
-    Attribute & Attribute & Predicate \\
     Tuple & Observation & Primary substance \\
+    %Attribute & Attribute & Predicate \\
+    Primary key & Fixed variables & Univocal name \\
+    Non-prime attribute & Measured variable & Predicate \\
     \bottomrule
   \end{tabular}
   \tcblower
@@ -1320,6 +1329,8 @@ It is important to notice that, after the summarization operation, all observati
 contain a different value of $A$.  The second join results in relation $R[ADFG] = R[AD]
 \bowtie R[AFG]$.  This relation has functional dependency $A \to DFG$, and it is in 3NF
 (which is also tidy).
+
+% TODO: figure or table to illustrate the paragraph above.
 
 Unfortunately, it is not trivial to calculate all possible decomposition trees for a given
 dataset.  It is up to the data scientist to decide which directions to follow.  However,
