@@ -784,9 +784,36 @@ tasks.
 
 In an unrestricted table, the meaning of rows and columns are not fixed.  In a tidy table,
 the meaning of rows and columns are fixed.  The semantics is more restrictive than usually
-required for general structured data.
+required for general tabular data.
 
-% TODO: adaptar exemplo messy do CEDS
+\begin{tablebox}[label=tab:simple-messy]{Example of same data in different formats.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+     & \textbf{Cases (2019)} & \textbf{Cases (2020)} \\
+    \midrule
+    \textbf{Brazil} & 100 & 200 \\
+    \textbf{USA} & & 400 \\
+    \bottomrule
+  \end{tabular}
+  \\[1em]
+  \begin{tabular}{ccc}
+    \toprule
+    & \textbf{Brazil} & \textbf{USA} \\
+    \midrule
+    \textbf{Cases (2019)} & 100 & \\
+    \textbf{Cases (2020)} & 200 & 400 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  The same data in different formats.  Both are considered messy by Wickham.
+\end{tablebox}
+
+\Cref{tab:simple-messy} shows an example of the same data in different formats.  Although
+they emphasize different aspects (especially for visualization) of the data, both contain
+the same amount of information.  They are considered messy by Wickham because the meaning
+of the rows and columns are not fixed.
 
 It is based on the idea that a dataset is a collection of values, where:
 \begin{itemize}
@@ -816,9 +843,27 @@ Table \ref{tab:tidy} summarizes the main concepts.
   \end{tabular}
 \end{tablebox}
 
-% TODO: adaptar exemplo tidy do CEDS
+\begin{tablebox}[label=tab:simple-tidy]{Example of tidy data.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Country} & \textbf{Year} & \textbf{Cases} \\
+    \midrule
+    Brazil & 2019 & 100 \\
+    Brazil & 2020 & 200 \\
+    USA & 2019 & 200 \\
+    USA & 2020 & 400 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  An example of tidy data from the data in \cref{tab:simple-messy}.
+\end{tablebox}
 
 If we follow this structure, the meaning of data is implicit in the table itself.
+\Cref{tab:simple-tidy} shows the same data in a tidy format.  The table is now longer, but
+the variables and observations are clear from the table itself.
+
 However, it is not always trivial to organize data in a tidy format.  Usually, we have
 more than one level of observational units, each one represented by a table.  Moreover,
 there might exist more than one way to define what are the observational units in a
@@ -845,7 +890,7 @@ Note that the order of the rows and columns is not important.  However, it might
 convenient to sort data in a particular way to facilitate the understanding.  For
 instance, one usually expects that the first columns are \emph{fixed
 variables}\footnote{Closely related (and potentially the same as) key in database
-theory.}, i.e. variables that are not the result of a measurement, and the last columns
+theory.}, i.e. variables that are not the result of a measurement but describe the experimental design, and the last columns
 are \emph{measured variables}.  Also, arranging rows by some variable might highlight some
 pattern in the data.
 
