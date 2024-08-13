@@ -1363,19 +1363,46 @@ student grade at the course.  If only $CDE$ is known, the table $R[CDE]$ is alre
 --- and the observational unit is the enrollment --- once there is no key to perform any
 kind of normalization.  This happens in many cases where privacy is a concern.
 
+\begin{tablebox}[label=tab:student]{Example of a dataset where the observational unit is the student.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llll}
+    \toprule
+    A (student) & B (course) & C (grade) & E (load) \\
+    \midrule
+    1 & 1 & 7 & 60 \\
+    1 & 2 & 8 & 30 \\
+    2 & 1 & 7 & 60 \\
+    2 & 3 & 9 & 40 \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+  \\[1em]
+  \begin{tabular}{lll}
+    \toprule
+    A (student) & F (average grade) & G (total load) \\
+    \midrule
+    1 & 7.5 & 90 \\
+    2 & 8 & 100 \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Relation $R[ABCE]$ becomes $R[AFG]$ after the summarization operation.  Now each row
+  represents a student (values in $A$ are unique).
+\end{tablebox}
+
 But we can also consider that the observational unit is the student.  In this case, we
 must perform joins traversing the leftmost decomposition tree in \cref{fig:decomp} from
 bottom to top.  After each join, a summarization operation is performed on the relation
 considering the student as the observational unit, i.e. over attribute $A$.  The first
 join results in relation $R[ABCE]$ and the summarization operation results in a new
 relation $R[AFG]$ where $F$ is the average grade and $G$ is the total course load taken by
-the student.  They all calculated based on the rows that are grouped in function of $A$.
+the student (see \cref{tab:student}).  They all calculated based on the rows that are grouped in function of $A$.
 It is important to notice that, after the summarization operation, all observations must
 contain a different value of $A$.  The second join results in relation $R[ADFG] = R[AD]
 \bowtie R[AFG]$.  This relation has functional dependency $A \to DFG$, and it is in 3NF
 (which is also tidy).
-
-% TODO: figure or table to illustrate the paragraph above.
 
 Unfortunately, it is not trivial to calculate all possible decomposition trees for a given
 dataset.  It is up to the data scientist to decide which directions to follow.  However,
