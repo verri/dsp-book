@@ -480,7 +480,7 @@ nature of the data and the computational methods we are using.
 In the following, I further discuss data format and the principles of data interpretation
 and organization.
 
-\section{Structured data}
+\chapter{Structured data}
 
 As one expects, when we measure a phenomenon, the resulting data come in many different
 formats.  For example, we can measure the temperature of a room using a thermometer.  The
@@ -563,7 +563,7 @@ and tidy data.  Database normalization is mainly focused on the data storage.  T
 mainly focused on the requirements of data for analysis.  Both concepts have their
 mathematical/logical foundations and tools for data handling.
 
-\subsection{Database normalization}
+\section{Database normalization}
 \label{sec:normalization}
 
 Database normalization is the process of organizing the columns and tables of a relational
@@ -574,8 +574,9 @@ Normal form is a state of a database that is free of certain types of data redun
 Before studying normal forms, we need to understand basic concepts in the database theory
 and the basic operations in relational algebra.
 
-\subsubsection{Relational database theory}
+\subsection{Relational algebra}
 
+Relational algebra is a theory that uses algebraic structures to manipulate relations.
 Consider the following concepts.
 
 \paragraph{Relation}  A relation is a table with rows and columns that represent
@@ -617,7 +618,7 @@ attributes (not necessarily disjoint) in a relation.  $R$ obeys the join depende
 \left\{ X_1, X_2, \dots, X_n \right\}$ if $R = {\bowtie \left\{ R[X_1], R[X_2], \dots,
 R[X_n] \right\}}$.
 
-\subsubsection{Normal forms}
+\subsection{Normal forms}
 
 The normal forms are a series of progressive conditions that a relation must satisfy to
 be considered normalized.  The normal forms are cumulative, i.e. a relation that is in
@@ -770,7 +771,7 @@ previous example, the join of the decomposed relations always contains valid tup
 The reason is that all join dependencies implied by the key dependencies are trivial when
 reduced\footnote{\color{red}A formal proof in under investigation based on \fullcite{Vincent1997}.}.
 
-\subsection{Tidy data}
+\section{Tidy data}
 
 It is estimated that 80\% of the time spent on data analysis is spent on data preparation.
 Usually, the same process is repeated many times in different datasets. The ideia is that
@@ -908,7 +909,7 @@ pattern in the data.
 Usually, columns are named --- the collection of all column names is called the
 header, while rows are usually numerically indexed.
 
-\subsubsection{Common messy datasets}
+\subsection{Common messy datasets}
 
 \textcite{Wickham2014}\footfullcite{Wickham2014} lists some common problems with messy
 datasets and how to tidy them.  In this subsection, we focus on the problems and the
@@ -919,7 +920,7 @@ tidying are encouraged to read \textcite{Wickham2023}\footfullcite{Wickham2023}.
 The problems are summarized below.
 
 \clearpage
-\paragraph{Headers are values, not variable names}  For example, consider
+\subsubsection{Headers are values, not variable names}  For example, consider
 \cref{tab:messy1}.  This table is not tidy because the column headers are values, not
 variable names.  This format is frequently used in presentations since it is more compact.
 It is also useful to perform matrix operations. However, it is not appropriate for general
@@ -966,7 +967,7 @@ names, not values.
 \end{tablebox}
 
 \clearpage
-\paragraph{Multiple variables are stored in one column}  For example, consider the
+\subsubsection{Multiple variables are stored in one column}  For example, consider the
 \cref{tab:messy2}.  This table is not tidy because the column --- interestly called
 \emph{column} ---, contains multiple variables.  This format is frequent, and sometimes the
 column name contains the names of the variables.  Sometimes it is very hard to separate
@@ -1011,7 +1012,7 @@ calculating ratios and frequency.
 \end{tablebox}
 
 \clearpage
-\paragraph{Variables are stored in both rows and columns}  For example, consider the
+\subsubsection{Variables are stored in both rows and columns}  For example, consider the
 \cref{tab:messy3}.  This is the most complicated case of messy data.  Usually, one of the
 columns contains the names of the variables, in this case the column \emph{element}.
 
@@ -1073,7 +1074,7 @@ implicit information, as seen in \cref{tab:tidy3b}.
 % associado à normalização de bases de dados) No entanto, durante a análise é possível que
 % tenhamos que desnormalizá-las
 
-\paragraph{Multiple types of observational units are stored in the same table}  For
+\subsubsection{Multiple types of observational units are stored in the same table}  For
 example, consider the \cref{tab:messy4}.  It is very common during data collection that
 many observational units are registered in the same table.
 
@@ -1137,7 +1138,7 @@ two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
   \end{tabular}
 \end{tablebox}
 
-\paragraph{A single observational unit is stored in multiple tables}  For example, consider
+\subsubsection{A single observational unit is stored in multiple tables}  For example, consider
 \cref{tab:messy5a,tab:messy5b}.  It is very common during data
 collection that a single observational unit is stored in multiple tables.  Usually, the
 table (or file) itself represents the value of a variable.  When columns are compatible,
@@ -1205,7 +1206,7 @@ shown in \cref{tab:tidy5}.
 \end{tablebox}
 
 \clearpage
-\subsection{Bridging normalization, tidyness, and data theory}
+\section{Bridging normalization, tidyness, and data theory}
 \label{sub:bridge}
 
 First and foremost, both concepts, normalization and tidy data, are not in conflict.
@@ -1252,7 +1253,7 @@ appropriate to generalize.
 \Cref{fig:bridge} summarizes the equivalence (or similarity) of terms in different
 contexts.
 
-\subsubsection{Tidy or not tidy?}
+\subsection{Tidy or not tidy?}
 
 Consider the following example.  We want to study the \emph{phenomenon} temperature in a
 certain city.  We fix three sensors in different locations to measure the temperature.  We
@@ -1359,7 +1360,7 @@ preferred.
 
 In summary, tidyness is a matter of perspective.
 
-\subsubsection{Change of observational unit and handling operations}
+\subsection{Change of observational unit}
 
 Another very interesting conjecture is whether we can formalize the eventual \emph{change
 of observational unit} in terms of the order that joins and grouping operations are
@@ -1477,7 +1478,7 @@ it is important to notice that the order of the joins and summarization operatio
 crucial to the final result.
 %\textcolor{red}{Further formalization and study is under progress.}
 
-\subsection{Data semantics and interpretation}
+\section{Data semantics and interpretation}
 
 In the rest of the book, we focus on a statistical view of the data.  Besides the
 functional dependencies, we also consider the statistical dependencies of data.  For
