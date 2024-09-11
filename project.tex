@@ -291,23 +291,30 @@ is more important.
 
 \section{SCRUM framework}
 
-SCRUM is an agile framework for software development.  It is a process framework for
+SCRUM is an agile framework --- and probably the most popular one ---
+for software development.  It is a process framework for
 managing complex projects.  It is a lightweight, which means that it
 provides just enough guidance to be effective.
 
-Many consider that SCRUM is not adequate for data science projects.  The main reason is
+Some consider that SCRUM is not adequate for data science projects.  The main reason is
 that SCRUM is designed for projects where the requirements are known in advance.  Also,
 that data science projects have exploratory phases, which are not well supported by SCRUM.
 
 I argue that this view is wrong.  SCRUM is a framework, and it is designed to be adapted to
-the needs of the project.  SCRUM is not a rigid process.  In the following, I propose an
-extension to SCRUM that makes it suitable for data science projects.
+the needs of the project;  SCRUM is not a rigid process.  In the following, I propose an
+extension to SCRUM that makes it suitable for data science projects\footnote{Note that
+many other adaptations to SCRUM have been described in literature.  For example,
+\fullcite{Saltz2019,Baijens2020,Kraut2022}.}.
 
-(In real-world, most developers do not have hacking-level skills.  They are not autonomous
-enough to work without a plan.  This is especially true for ``data scientists,'' who are
-often not even developers.  SCRUM is a good compromise between the need for autonomy and
-the need for a detailed plan.  Project methodology is needed to ensure that the project is
-completed in time and within budget.)
+One of my major concerns in the proposal of the extension is that data science projects
+usually involve ``data scientists'' that are primarily developers, but statisticians or
+domain-experts.  They usually do not ``hacking-level'' skills, and they often do not know
+good practices of software development.
+
+SCRUM is a good starting point for a compromise between the need for autonomy (required in
+dynamic and exploratory projects) and the need for a detailed plan to guide the project
+(required to avoid bad practices and low quality software). A good project methodology is
+needed to ensure that the project is completed in time and within budget.
 
 \section{Our approach}
 
@@ -317,7 +324,7 @@ mining process, i.e. it does not explicitly address user interface or data colle
 \citeauthor{Zumel2019}'s approach addresses data collection and presentation of results, but
 delegates the software development to the operations role, barely mentioning it.  SCRUM is
 a good framework for software development, but it is not designed for data science
-projects.  It lacks the exploratory phases of data science projects.
+projects.  For instance, it lacks the exploratory phases of data science projects.
 
 Thus, we propose an extension to SCRUM that makes it suitable for data science projects.
 The extension is based on the following observations:
@@ -328,13 +335,15 @@ The extension is based on the following observations:
   \item The solution is usually modularized, parts of it are constructed from data while the
     other parts are constructed like traditional software;
   \item The solution is usually deployed as a service, that must be maintained and
-    monitored.
+    monitored;
+  \item Team members not familiar with software development practices must be guided to
+    produce high-quality software.
 \end{itemize}
 
 Moreover, we add two other values besides the agile manifesto values.  They are:
 \begin{itemize}
   \itemsep0em
-  \item Model confidence/understanding over model performance;
+  \item Confidence and understanding of the model over performance;
   \item Code version control over interactive environments.
 \end{itemize}
 
@@ -345,11 +354,16 @@ models that seems to perform well during evaluation steps\footnote{Of course, wh
 evaluation is not performed correctly.}, but that are not suitable for production.
 
 The second value is based on the observation that interactive environments are not suitable
-for the development of the model search code, for instance.  Interactive environments
+for the development of consistent and reproducible software solutions.  Interactive environments
 auxiliate the exploratory phases, but the final version of the code must be version
 controlled.  Often, we hear stories that models cannot be reproduced because the code that
 generated them are not runnable anymore.  This is a serious problem, and it is not
 acceptable for maintaining a software solution.
+
+As in the agile manifesto, the values on the right are not discarded, but the values on the
+left are more important.  We do not discard the importance of model performance or the
+convinience of interactive environments, but they are not the most important aspects of the
+project.
 
 These observations and values are the basis of our approach.  The roles and principles of
 our approach are described in the following sections.
