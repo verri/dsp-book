@@ -8,7 +8,7 @@
   \par\raggedleft--- \textup{Don Carlton}, Monsters University (2013)}
 
 First of all, \emph{a data science project is a software project}.  The difference between a data
-science software and a traditional software is that some components of the former is
+science software and a traditional software is that some components of the former are
 constructed from data.  This means that part of the solution cannot be designed from the
 knowledge of the domain expert, but must be extracted from the data.  Sometimes, a
 traditional solution would be too complex to design, and it is more efficient to infer it
@@ -64,7 +64,12 @@ extension to SCRUM adapted for data science projects.
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item The demands of the industry require from the development team not only data
+      analysis but also traditional software development.
+    \item Good methodologies take into account the software development aspects of the
+      project.
+    \item SCRUM is a good framework for software development, and it can be adapted for
+      data science projects.
   \end{itemize}
 \end{mainbox}
 
@@ -155,8 +160,8 @@ the data preparation phase.  The same iteration is possible between the data pre
 and the modeling phases, since modeling methods can require different data preparation
 methods. Finally, an evaluation is performed.  If the model is satisfactory, we go to the
 deployment phase.  Otherwise, we go back to the business understanding phase.  The ideia
-to go back to the business understanding phase is to rethink the project objectives and
-the project plan.
+to go back to the business understanding phase is to rethink the project objectives.% and
+% the project plan.
 
 The CRISP-DM methodology is a good starting point for data science projects.  However, it
 does not mean that should be followed strictly.  The process is flexible, and
@@ -216,19 +221,21 @@ time, programming language, and the infrastructure to run the software.
 
 \citeauthor{Zumel2019}'s model is similar to CRISP-DM, but emphasizes that back-and-forth
 is possible at any stage of the process.  \Cref{fig:zumel} shows a diagram of the process.
-The phases are:
+The phases and the answers we are looking for in each phase are:
 \begin{itemize}
   \itemsep0em
   \item Define the goal: what problem are we trying to solve?
   \item Collect and manage data: what information do we need?
-  \item Build the model: find patterns in the data that may solve the problem.
+  \item Build the model: what patterns in the data that may solve the problem?
   \item Evaluate the model: is the model good enough to solve the problem?
-  \item Present results and document: establish that we can solve the problem and how we
-    did it. (This step is a differentiator from CRISP-DM.  In ZM approach, result
-    presentation is essential; data scientists must be able to communicate their results
-    effectively to the client/sponsor.)
-  \item Deploy the model: make the model available to the end users.
+  \item Present results and document: how did we solve the problem?
+  \item Deploy the model: how to use the solution?
 \end{itemize}
+
+The step ``Present results and document'' is a differentiator from other approaches, like
+CRISP-DM.  In ZM approach, result presentation is essential; data scientists must be able
+to communicate their results effectively to the client/sponsor.  This phase is also
+emphasized in the view of \textcite{Wickham2023}.
 
 \begin{figurebox}[label=fig:zumel]{Diagram of the data science process proposed by \textcite{Zumel2019}.}
   \centering
@@ -269,7 +276,7 @@ Agile is a methodology for software development.  It is an alternative to the wa
 methodology.  The waterfall methodology is a sequential design where each phase
 must be completed before the next phase can begin.
 
-The four values of agile manifesto are:
+The methodology is based on the four values of agile manifesto\footnote{\url{https://agilemanifesto.org/}}:
 \begin{itemize}
   \itemsep0em
   \item Individuals and interactions over processes and tools;
@@ -277,6 +284,10 @@ The four values of agile manifesto are:
   \item Customer collaboration over contract negotiation;
   \item Responding to change over following a plan.
 \end{itemize}
+
+Note that the manifesto does not discard the items on the right, but values the items on
+the left more.  For example, comprehensive documentation is important, but working software
+is more important.
 
 \section{SCRUM framework}
 
