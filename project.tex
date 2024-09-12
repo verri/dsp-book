@@ -23,15 +23,15 @@ rather than from the knowledge of the designer.  The software is trained using a
 emails that are already classified as spam or non-spam.
 
 In this chapter, we discuss common methodologies for data science projects.  We also
-present the concept of agile methodologies and the SCRUM framework.  We finally propose an
-extension to SCRUM adapted for data science projects.
+present the concept of agile methodologies and the Scrum framework.  We finally propose an
+extension to Scrum adapted for data science projects.
 
 % TODO:
 % - the need of methodologies for data science projects
 % - CRISP-DM
 % - Nina's approach
 % - Agile
-% - Problems and advantages of SCRUM
+% - Problems and advantages of Scrum
 % - Our approach
 
 \begin{mainbox}{Chapter remarks}
@@ -56,8 +56,8 @@ extension to SCRUM adapted for data science projects.
   \begin{itemize}
     \itemsep0em
     \item Explore the common methodologies for data science projects.
-    \item Understand the agile methodologies and the SCRUM framework.
-    \item Propose an extension to SCRUM adapted for data science projects.
+    \item Understand the agile methodologies and the Scrum framework.
+    \item Propose an extension to Scrum adapted for data science projects.
   \end{itemize}
 
   \boxsubtitle{Takeways}
@@ -68,7 +68,7 @@ extension to SCRUM adapted for data science projects.
       analysis but also traditional software development.
     \item Good methodologies take into account the software development aspects of the
       project.
-    \item SCRUM is a good framework for software development, and it can be adapted for
+    \item Scrum is a good framework for software development, and it can be adapted for
       data science projects.
   \end{itemize}
 \end{mainbox}
@@ -159,7 +159,7 @@ of these steps.  Once we are satisfied with the data understanding, we can go fu
 the data preparation phase.  The same iteration is possible between the data preparation
 and the modeling phases, since modeling methods can require different data preparation
 methods. Finally, an evaluation is performed.  If the model is satisfactory, we go to the
-deployment phase.  Otherwise, we go back to the business understanding phase.  The ideia
+deployment phase.  Otherwise, we go back to the business understanding phase.  The idea
 to go back to the business understanding phase is to rethink the project objectives.% and
 % the project plan.
 
@@ -289,21 +289,33 @@ Note that the manifesto does not discard the items on the right, but values the 
 the left more.  For example, comprehensive documentation is important, but working software
 is more important.
 
-\section{SCRUM framework}
+\section{Scrum framework}
 
-SCRUM is an agile framework --- and probably the most popular one ---
+Scrum is an agile framework --- and probably the most popular one ---
 for software development.  It is a process framework for
 managing complex projects.  It is a lightweight, which means that it
 provides just enough guidance to be effective.
 
-Some consider that SCRUM is not adequate for data science projects.  The main reason is
-that SCRUM is designed for projects where the requirements are known in advance.  Also,
-that data science projects have exploratory phases, which are not well supported by SCRUM.
+\textcolor{red}{Briefly describe the Scrum framework.}
 
-I argue that this view is wrong.  SCRUM is a framework, and it is designed to be adapted to
-the needs of the project;  SCRUM is not a rigid process.  In the following, I propose an
-extension to SCRUM that makes it suitable for data science projects\footnote{Note that
-many other adaptations to SCRUM have been described in literature.  For example,
+\subsection{Scrum roles}
+
+\textcolor{red}{Briefly describe the Scrum roles.}
+
+\subsection{Sprints and backlog}
+
+\textcolor{red}{Briefly describe the Scrum artifacts.}
+
+\subsection{Scrum for data science projects}
+
+Some consider that Scrum is not adequate for data science projects.  The main reason is
+that Scrum is designed for projects where the requirements are known in advance.  Also,
+that data science projects have exploratory phases, which are not well supported by Scrum.
+
+I argue that this view is wrong.  Scrum is a framework, and it is designed to be adapted to
+the needs of the project;  Scrum is not a rigid process.  In the following, I propose an
+extension to Scrum that makes it suitable for data science projects\footnote{Note that
+many other adaptations to Scrum have been described in literature.  For example,
 \fullcite{Saltz2019,Baijens2020,Kraut2022}.}.
 
 One of my major concerns in the proposal of the extension is that data science projects
@@ -311,22 +323,23 @@ usually involve ``data scientists'' that are primarily developers, but statistic
 domain-experts.  They usually do not ``hacking-level'' skills, and they often do not know
 good practices of software development.
 
-SCRUM is a good starting point for a compromise between the need for autonomy (required in
+Scrum is a good starting point for a compromise between the need for autonomy (required in
 dynamic and exploratory projects) and the need for a detailed plan to guide the project
 (required to avoid bad practices and low quality software). A good project methodology is
 needed to ensure that the project is completed in time and within budget.
 
+\newpage
 \section{Our approach}
 
 The previously mentioned methodologies lack the focus on the software development aspects of
 the data science project.  For instance, CRISP-DM defines the stages only of the data
 mining process, i.e. it does not explicitly address user interface or data collection.
 \citeauthor{Zumel2019}'s approach addresses data collection and presentation of results, but
-delegates the software development to the operations role, barely mentioning it.  SCRUM is
+delegates the software development to the operations role, barely mentioning it.  Scrum is
 a good framework for software development, but it is not designed for data science
 projects.  For instance, it lacks the exploratory phases of data science projects.
 
-Thus, we propose an extension to SCRUM that makes it suitable for data science projects.
+Thus, we propose an extension to Scrum that makes it suitable for data science projects.
 The extension is based on the following observations:
 \begin{itemize}
   \itemsep0em
@@ -355,14 +368,14 @@ evaluation is not performed correctly.}, but that are not suitable for productio
 
 The second value is based on the observation that interactive environments are not suitable
 for the development of consistent and reproducible software solutions.  Interactive environments
-auxiliate the exploratory phases, but the final version of the code must be version
+help in the exploratory phases, but the final version of the code must be version
 controlled.  Often, we hear stories that models cannot be reproduced because the code that
 generated them are not runnable anymore.  This is a serious problem, and it is not
 acceptable for maintaining a software solution.
 
 As in the agile manifesto, the values on the right are not discarded, but the values on the
 left are more important.  We do not discard the importance of model performance or the
-convinience of interactive environments, but they are not the most important aspects of the
+convenience of interactive environments, but they are not the most important aspects of the
 project.
 
 These observations and values are the basis of our approach.  The roles and principles of
@@ -370,29 +383,57 @@ our approach are described in the following sections.
 
 \subsection{The roles of our approach}
 
-\textcolor{red}{Combine SCRUM roles with the roles defined by \textcite{Zumel2019}.}
+Although the roles of the ZM approach consider people potentially from different
+organizations and the roles of Scrum focus on the development team, we can associate the
+responsibilities between them.
 
-\begin{tablebox}[label=tab:roles]{Roles of our approach.}
+Parts of the responsibilities of the product owner (that represents the stakeholders) in a
+Scrum project are divided between the sponsor and the client in the ZM approach.  The data
+scientist is the one that leads the project in a similar way as the Scrum master.
+
+\begin{tablebox}[label=tab:roles]{Roles and responsibilities of our approach.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{lll}
+  \begin{tabular}{llp{2.5cm}}
     \toprule
-    \textbf{Our approach} & \textbf{SCRUM} & \textbf{ZM} \\
+    \textbf{Our approach} & \textbf{Scrum} & \textbf{ZM approach} \\
     \midrule
-    Sponsor & Product owner & Project sponsor \\
-    Client & Stakeholder & Client \\
-    Data scientist & Scrum master & Data scientist \\
-    Dev Team & & Data architect/operations \\
+    Business spokesman & Stakeholders & Sponsor/client \\
+    Client representative & Product owner & Client \\
+    Lead data scientist & Scrum master & Data scientist \\
+    Data science team & Developers & Data architect/operations \\
     \bottomrule
   \end{tabular}
   \tcblower
-  The roles of SCRUM are associated with the roles defined by \textcite{Zumel2019}.
+  The roles of Scrum are associated with the roles defined by \textcite{Zumel2019}.
+  Note that the association is not exact.
   In our approach, the data scientist leads the development team and interacts with the sponsor
   and the client.  The development team includes people with both database and software
   engineering expertise.
 \end{tablebox}
 
+In our approach, we consider four roles: the business spokesman, the client representative,
+the lead data scientist, and the data science team.  An association between the roles of
+our approach, Scrum, and the ZM approach is shown in \cref{tab:roles}.
+
+\paragraph{Business spokesman}  The business spokesman is the main stakeholder of the project.
+He is the one that needs the results of the project, and he participates in the sprint
+reviews to ensure that the project is aligned with the business goals.
+
+\paragraph{Client representative}  The client representative is the domain expert that
+maintains the backlog aligned with the business goals.  He is the one that translates the
+business goals into technical requirements.
+
+\paragraph{Lead data scientist}  The lead data scientist is the one that sets and executes
+the analytic strategy.  \textcolor{red}{\dots}
+
+\paragraph{Data science team}  The data science team is the development team.  It includes
+people with expertise in data science, database management, software engineering, and any
+other domain-specific expertise that is required for the project.
+
 \subsection{The principles of our approach}
+
+Before describing the functioning of our approach, we present the principles that guide it.
 
 \begin{enumerate}
   \item Modularize the solution. Usually, in four main modules: frontend, backend,
@@ -457,3 +498,5 @@ our approach are described in the following sections.
 
 TODO Move part of the \cref{chap:planning} here, dropping the sampling
 strategy but bringing the main defitions.
+
+% vim: set spell spelllang=en:
