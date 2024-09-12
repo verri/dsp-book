@@ -26,14 +26,6 @@ In this chapter, we discuss common methodologies for data science projects.  We 
 present the concept of agile methodologies and the Scrum framework.  We finally propose an
 extension to Scrum adapted for data science projects.
 
-% TODO:
-% - the need of methodologies for data science projects
-% - CRISP-DM
-% - Nina's approach
-% - Agile
-% - Problems and advantages of Scrum
-% - Our approach
-
 \begin{mainbox}{Chapter remarks}
 
   \boxsubtitle{Contents}
@@ -64,8 +56,6 @@ extension to Scrum adapted for data science projects.
 
   \begin{itemize}
     \itemsep0em
-    \item The demands of the industry require from the development team not only data
-      analysis but also traditional software development.
     \item Good methodologies take into account the software development aspects of the
       project.
     \item Scrum is a good framework for software development, and it can be adapted for
@@ -328,7 +318,6 @@ dynamic and exploratory projects) and the need for a detailed plan to guide the 
 (required to avoid bad practices and low quality software). A good project methodology is
 needed to ensure that the project is completed in time and within budget.
 
-\newpage
 \section{Our approach}
 
 The previously mentioned methodologies lack the focus on the software development aspects of
@@ -416,6 +405,8 @@ In our approach, we consider four roles: the business spokesman, the client repr
 the lead data scientist, and the data science team.  An association between the roles of
 our approach, Scrum, and the ZM approach is shown in \cref{tab:roles}.
 
+% TODO: more details on the roles.
+
 \paragraph{Business spokesman}  The business spokesman is the main stakeholder of the project.
 He is the one that needs the results of the project, and he participates in the sprint
 reviews to ensure that the project is aligned with the business goals.
@@ -425,7 +416,8 @@ maintains the backlog aligned with the business goals.  He is the one that trans
 business goals into technical requirements.
 
 \paragraph{Lead data scientist}  The lead data scientist is the one that sets and executes
-the analytic strategy.  \textcolor{red}{\dots}
+the analytic strategy.  Like the scrum master, he is the one that leads the development
+team.
 
 \paragraph{Data science team}  The data science team is the development team.  It includes
 people with expertise in data science, database management, software engineering, and any
@@ -435,64 +427,96 @@ other domain-specific expertise that is required for the project.
 
 Before describing the functioning of our approach, we present the principles that guide it.
 
-\begin{enumerate}
-  \item Modularize the solution. Usually, in four main modules: frontend, backend,
-    dataset, and model search.  The frontend is the user interface.  The backend is the
-    server-side code.  The dataset is the data that is used to train the model.  The model
-    search is the code that searches for the best model.
-  \item Version control everything.  This includes the code, the data, and the
-    documentation. The most used tool for code version control is Git.  For datasets,
-    extensions to Git exist, such as DVC\footnote{\url{https://dvc.org/}}.  One important aspect
-    is to version control the model search code.  Interactive environments such as Jupyter
-    notebooks are not suitable for this purpose.  They can be used to draft the code, but
-    the final version must be version controlled.
-  \item Continuous integration and continuous deployment.  This means that the code is
-    automatically (or at least semi-automatically) tested and deployed.  The backend and
-    frontend code is tested using unit tests.  The model search code is tested using
-    validation methods such as cross-validation and Bayesian analysis on the discovered
-    models.  Usually the model search code is very computationally intensive, and it is
-    not feasible to run it on every commit.  Instead, it is run periodically, for example
-    once a day.  If the clould infrastructure required to run the model search code is not
-    available to automate validation and deploymen, at least make sure that the code is
-    easily runnable.  This means that the code must be well documented, and that the
-    required infrastructure must be well documented.  Also aggregate commands using a
-    Makefile or a similar tool.  Pay attention on the dependences between dataset and the
-    model training.  If the dataset changes significantly, not only the deployed model
-    must be retrained, but the model search algorithm may need to be rethought.
-  \item Reports as deliverables.  During sprints, the deliverables of data exploration are
-    reports.  The reports must be version controlled and must be reproducible.  The reports
-    must be generated in a way that is understandable by the client and the sponsor.
-  \item Setup quantitative goals.  Do not fall on the trap of forever improving the model.
-    Instead, setup quantitative goals for the model performance.  For example, the model
-    must have a precision of at least 90\%.  Once you reach the goal, prioritize other
-    tasks.
-  \item Measure \emph{exactly} what you want.  During model validation, use your own
-    metrics based on the project goals.  Usually, more than one metric is needed, and they
-    might be conflicting.  Use strategies to balance the metrics, such as Pareto
-    optimization.  Beware of the metrics that are most used in the literature.  They might not
-    be suitable for your project.  Notice that during model training, some methods are
-    limited to the loss functions that they can optimize.  If possible, choose a method
-    that can optimize the loss function that you want.  Even if you are not explicitly
-    optimizing the wanted metric, you might find a model that performs well on that metric.
-    That is a reason validation is important.
-  \item Report model stability and performance variance.  Understanding the limitations
-    and characteristics of the model is more important than the model performance.  For
-    example, if the model performance is high, but the model is unstable, it is not
-    suitable for production.  Also, in some scenarios, interpretability is more important than
-    performance.
-  \item In user interface, mask data-science-specific terminology.  Usually, data science
-    software gives the user the option to choose the model.  In order to avoid confusion,
-    the user interface must mask the data-science-specific terminology.  This helps non
-    experts to use the software consciously.
-  \item Monitor model performance in production.  If possible setup feedback from the user
-    interface.  Avoid automation of model releases because concept drift usually requires
-    exploratory analysis.
-  \item Use the appropriate backend.  REST API vs websocket.  The choice depends on the
-    requirements of the project.  REST API is more suitable for stateless requests, while
-    websocket is more suitable for stateful requests.  For example, if the user interface
-    must be updated in real-time, websocket is more suitable.  If the user interface is
-    used to submit batch requests, REST API is more suitable.
-\end{enumerate}
+\paragraph{Modularize the solution}
+
+Data science projects usually contain four main modules: a front-end, a back-end, a
+dataset, and a ``solution search system''.  The front-end is the user interface, i.e.
+the part of the software that the client interacts with.  The back-end is the server-side
+code which usually contains the model.  The dataset is the curated data that is used to train the
+model.  Sometimes, the dataset is not static, but actually scripts and queries that
+produces a dynamic dataset.  The solution search system is the software that employs data
+handling and machine learning techniques, usually in a hyper-parameter optimization loop,
+to find the best solution, i.e. the combination of preprocessing and model that best
+solves the problem.
+
+\paragraph{Version control everything}
+
+This includes the code, the data, and the
+documentation. The most used tool for code version control is Git.  For datasets,
+extensions to Git exist, such as DVC\footnote{\url{https://dvc.org/}}.  One important aspect
+is to version control the model search code.  Interactive environments such as Jupyter
+notebooks are not suitable for this purpose.  They can be used to draft the code, but
+the final version must be version controlled.
+
+\paragraph{Continuous integration and continuous deployment}
+
+This means that the code is
+automatically (or at least semi-automatically) tested and deployed.  The backend and
+frontend code is tested using unit tests.  The model search code is tested using
+validation methods such as cross-validation and Bayesian analysis on the discovered
+models.  Usually the model search code is very computationally intensive, and it is
+not feasible to run it on every commit.  Instead, it is run periodically, for example
+once a day.  If the clould infrastructure required to run the model search code is not
+available to automate validation and deploymen, at least make sure that the code is
+easily runnable.  This means that the code must be well documented, and that the
+required infrastructure must be well documented.  Also aggregate commands using a
+Makefile or a similar tool.  Pay attention on the dependences between dataset and the
+model training.  If the dataset changes significantly, not only the deployed model
+must be retrained, but the model search algorithm may need to be rethought.
+
+\paragraph{Reports as deliverables}
+
+During sprints, the deliverables of data exploration are
+reports.  The reports must be version controlled and must be reproducible.  The reports
+must be generated in a way that is understandable by the client and the sponsor.
+
+\paragraph{Setup quantitative goals}
+
+Do not fall on the trap of forever improving the model.
+Instead, setup quantitative goals for the model performance.  For example, the model
+must have a precision of at least 90\%.  Once you reach the goal, prioritize other
+tasks.
+
+\paragraph{Measure \emph{exactly} what you want}
+
+During model validation, use your own
+metrics based on the project goals.  Usually, more than one metric is needed, and they
+might be conflicting.  Use strategies to balance the metrics, such as Pareto
+optimization.  Beware of the metrics that are most used in the literature.  They might not
+be suitable for your project.  Notice that during model training, some methods are
+limited to the loss functions that they can optimize.  If possible, choose a method
+that can optimize the loss function that you want.  Even if you are not explicitly
+optimizing the wanted metric, you might find a model that performs well on that metric.
+That is a reason validation is important.
+
+\paragraph{Report model stability and performance variance}
+
+Understanding the limitations
+and characteristics of the model is more important than the model performance.  For
+example, if the model performance is high, but the model is unstable, it is not
+suitable for production.  Also, in some scenarios, interpretability is more important than
+performance.
+
+\paragraph{In user interface, mask data-science-specific terminology}
+
+Usually, data science
+software gives the user the option to choose the model.  In order to avoid confusion,
+the user interface must mask the data-science-specific terminology.  This helps non
+experts to use the software consciously.
+
+\paragraph{Monitor model performance in production}
+
+If possible setup feedback from the user
+interface.  Avoid automation of model releases because concept drift usually requires
+exploratory analysis.
+
+\paragraph{Use the appropriate backend}
+
+REST API vs websocket.  The choice depends on the
+requirements of the project.  REST API is more suitable for stateless requests, while
+websocket is more suitable for stateful requests.  For example, if the user interface
+must be updated in real-time, websocket is more suitable.  If the user interface is
+used to submit batch requests, REST API is more suitable.
 
 \subsection{Solution search framework}
 
