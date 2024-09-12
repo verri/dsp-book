@@ -442,25 +442,40 @@ solves the problem.
 \paragraph{Version control everything}
 
 This includes the code, the data, and the
-documentation. The most used tool for code version control is Git.  For datasets,
+documentation. The most used tool for code version control is
+Git\footnote{\url{https://git-scm.com/}}.  For datasets,
 extensions to Git exist, such as DVC\footnote{\url{https://dvc.org/}}.  One important aspect
-is to version control the model search code.  Interactive environments such as Jupyter
-notebooks are not suitable for this purpose.  They can be used to draft the code, but
+is to version control the solution search code.  Interactive environments, such as Jupyter
+Notebooks or R Markdown, are not suitable for this purpose.  They can be used to draft the code, but
 the final version must be version controlled.
+
+Note that the preprocessing pipeline and the models themselves\footnote{The learned
+solution that is the result of the application a learning algorithm to the dataset.} are
+artefacts that result from a particular version of the dataset and the solution search
+code.  The same occurs with reports generated from exploratory analysis and validation
+steps.  They must be cached for important versions of the dataset and the solution search
+code.
 
 \paragraph{Continuous integration and continuous deployment}
 
 This means that the code is
-automatically (or at least semi-automatically) tested and deployed.  The backend and
-frontend code is tested using unit tests.  The model search code is tested using
-validation methods such as cross-validation and Bayesian analysis on the discovered
-models.  Usually the model search code is very computationally intensive, and it is
-not feasible to run it on every commit.  Instead, it is run periodically, for example
-once a day.  If the clould infrastructure required to run the model search code is not
-available to automate validation and deploymen, at least make sure that the code is
+automatically (or at least semi-automatically) tested and deployed.  The back-end and
+front-end are tested using unit tests.  The dataset is not exactly tested, but the
+exploratory analysis report should be updated for each version of the dataset.
+A human must validate the reports, but the reports must be generated automatically.
+The solution search code is tested using
+validation methods such as cross-validation and Bayesian analysis --- refer to
+\cref{chap:planning} --- on the discovered models.
+
+Usually the solution search code is computationally intensive, and it is
+not feasible to run it on every commit.  Instead, it is usually run periodically, for example
+once a day.  If the cloud infrastructure required to run the solution search code is not
+available to automate validation and deployment, at least make sure that the code is
 easily runnable.  This means that the code must be well documented, and that the
 required infrastructure must be well documented.  Also aggregate commands using a
-Makefile or a similar tool.  Pay attention on the dependences between dataset and the
+Makefile\footnote{\url{https://www.gnu.org/software/make/manual/make.html}} or a similar tool.
+
+Pay attention on the dependences between dataset and the
 model training.  If the dataset changes significantly, not only the deployed model
 must be retrained, but the model search algorithm may need to be rethought.
 
