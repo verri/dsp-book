@@ -436,7 +436,7 @@ code which usually contains the model.  The dataset is the curated data that is 
 model.  Sometimes, the dataset is not static, but actually scripts and queries that
 produces a dynamic dataset.  The solution search system is the software that employs data
 handling and machine learning techniques, usually in a hyper-parameter optimization loop,
-to find the best solution, i.e. the combination of preprocessing and model that best
+to find the best solution, i.e. the combination of preprocessor and model that best
 solves the problem.
 
 \paragraph{Version control everything}
@@ -449,7 +449,7 @@ is to version control the solution search code.  Interactive environments, such 
 Notebooks or R Markdown, are not suitable for this purpose.  They can be used to draft the code, but
 the final version must be version controlled.
 
-Note that the preprocessing pipeline and the models themselves\footnote{The learned
+Note that the preprocessors and the models themselves\footnote{The learned
 solution that is the result of the application a learning algorithm to the dataset.} are
 artefacts that result from a particular version of the dataset and the solution search
 code.  The same occurs with reports generated from exploratory analysis and validation
@@ -481,57 +481,94 @@ must be retrained, but the model search algorithm may need to be rethought.
 
 \paragraph{Reports as deliverables}
 
-During sprints, the deliverables of data exploration are
-reports.  The reports must be version controlled and must be reproducible.  The reports
-must be generated in a way that is understandable by the client and the sponsor.
+During sprints, the deliverables of exploratory analysis and solution search method are
+not only the source code, but also the reports generated.  That is probably the reason why
+interactive environments are so popular in data science projects.  However, the data
+scientist must guarantee that the reports are version controlled and reproducible.  The
+reports must be generated in a way that is understandable by the client and the sponsor.
 
 \paragraph{Setup quantitative goals}
 
-Do not fall on the trap of forever improving the model.
-Instead, setup quantitative goals for the model performance.  For example, the model
-must have a precision of at least 90\%.  Once you reach the goal, prioritize other
-tasks.
+Do not fall on the trap of forever improving the model. Instead, setup quantitative goals
+for the model performance or behavior in general.  For example, the model must have a
+precision of at least 90\% and recall of at least 80\%.  Once you reach the goal,
+prioritize other tasks.
 
 \paragraph{Measure \emph{exactly} what you want}
 
-During model validation, use your own
-metrics based on the project goals.  Usually, more than one metric is needed, and they
-might be conflicting.  Use strategies to balance the metrics, such as Pareto
-optimization.  Beware of the metrics that are most used in the literature.  They might not
-be suitable for your project.  Notice that during model training, some methods are
-limited to the loss functions that they can optimize.  If possible, choose a method
-that can optimize the loss function that you want.  Even if you are not explicitly
-optimizing the wanted metric, you might find a model that performs well on that metric.
-That is a reason validation is important.
+During model validation, if needed, use custom metrics based on the project goals.
+Usually, more than one metric is needed, and they might be conflicting.  Use strategies to
+balance the metrics, such as Pareto optimization.
+
+Beware of the metrics that are most used in the literature.  It is important to know their
+meanings, properties and limitations.  For example, the accuracy metric is not suitable
+for imbalanced datasets.  They might not be suitable for your project.
+
+Notice that during model training, some methods are limited to the loss functions that
+they can optimize.  However, if possible, choose a method that can optimize the loss
+function that you want.  Otherwise, even if you are not explicitly optimizing the wanted
+metric in the solution search metric, you might find a model that performs well on that
+metric.  This is why a good experimental design is important; so you can identify which
+strategies are more likely to find a good solution (preprocessor and model).
 
 \paragraph{Report model stability and performance variance}
 
-Understanding the limitations
-and characteristics of the model is more important than the model performance.  For
-example, if the model performance is high, but the model is unstable, it is not
-suitable for production.  Also, in some scenarios, interpretability is more important than
-performance.
+Understanding the limitations and characteristics of the generated model is more important
+than the model performance.  For example, if the model's expected performance is high, but
+the validation results showed instability, it is not suitable for production.  Also, in
+some scenarios, interpretability is more important than performance.
+
+It does not mean that performance is not important.  But we only consider optimizing the
+expected performance once we trust the solution search method.  If increasing the average
+performance of the models generated by the solution search method results other goals not
+being met, it is not worth it.
 
 \paragraph{In user interface, mask data-science-specific terminology}
 
-Usually, data science
-software gives the user the option to choose the model.  In order to avoid confusion,
-the user interface must mask the data-science-specific terminology.  This helps non
-experts to use the software consciously.
+Usually, data science software gives the user the option to choose different solutions.
+For instance, a regressor that predicts the probability of a binary outcome yields
+different classifiers depending on a threshold.  In this scenario, the user must be able
+to choose the threshold in terms of expected performance of (usually conflicting) metrics
+of interest.
+
+In order to avoid confusion, the user interface must mask the data-science-specific
+terminology, preferring domain-specific terms that are more understandable by the client.
+This helps non experts to use the software consciously.
 
 \paragraph{Monitor model performance in production}
 
-If possible setup feedback from the user
-interface.  Avoid automation of model releases because concept drift usually requires
-exploratory analysis.
+Good data science products do not end with the deployment of the model.  There should
+exist means to monitor the model behavior in production.  If possible, setup feedback from
+the user interface.  A history of usage is usually kept in a database.
 
-\paragraph{Use the appropriate backend}
+In most of the cases, the model loses performance over time, usually caused by changes in
+the data distribution.  This is called concept drift.
+If that happens with considerable effect on the model performance, the model must be
+retrained.  The retraining can be automated, but it must be monitored by robust validation
+methods. Sometimes, the solution must be rethought, restarting the project from the
+beginning.
 
-REST API vs websocket.  The choice depends on the
-requirements of the project.  REST API is more suitable for stateless requests, while
-websocket is more suitable for stateful requests.  For example, if the user interface
-must be updated in real-time, websocket is more suitable.  If the user interface is
-used to submit batch requests, REST API is more suitable.
+\paragraph{Use the appropriate infrastructure}
+
+Many data science projects require a lot of computational resources during development.
+The solution search method is usually computationally intensive.  The dataset can be
+large, and the model can be complex.  The infrastructure must be able to handle the
+computational requirements of the project.
+
+Unless the application is known to be very hard, projects should start with simple methods
+and small datasets.  Then, as the project evolves, the complexity of the methods and the
+size of the dataset can be increased.  Nowadays, cloud services are a good option for
+scalability.
+
+Finally, during the development, the requirements of the deployment infrastructure must be
+considered.  The deployment infrastructure must be able to handle the expected usage
+of the system.  For instance, in the back-end, one may need to consider the response time
+of the system, the programming language, and the infrastructure to run the software.
+The choice in the communication between the front-end and the back-end is also important.
+For instance, one may choose between a REST API or a WebSocket.  REST API is more suitable
+for stateless requests, while WebSocket is more suitable for stateful requests.  For
+example, if the user interface must be updated in real-time, WebSocket is more suitable.
+If the user interface is used to submit batch requests, REST API is more suitable.
 
 \subsection{Solution search framework}
 
