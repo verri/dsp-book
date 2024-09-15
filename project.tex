@@ -577,24 +577,57 @@ the Scrum framework by adding three kinds of sprints: data sprints, solution spr
 application sprints.  We also describe where exploratory and reporting phases fit in the
 workflow.
 
-\subsubsection{Product backlog}
+\paragraph{Product backlog}
 
-\textcolor{red}{TODO: explain that problem definition is dealt
-with the product backlog.}
+In the methodologies described in this chapter, the problem definition is the first step
+in a data science project.  In our methodology, this task is dealt with the product
+backlog.  The product backlog is a list of all desired work on the project. The product
+backlog is dynamic, and it is continuously updated by the client representative and the
+lead data scientist.
 
-\subsubsection{Sprints}
+Each item in the product backlog reflects a requirement or a feature the business
+spokesman wants to be implemented.  Like in the traditional Scrum, the items are ordered
+by priority.  Here, however, they are classified into three types: data tasks, solution
+search tasks, and application tasks.
+
+\paragraph{Sprints}
 
 The sprints are divided into three types: data sprints, solution sprints, and application
-sprints.
+sprints.  Sprints occur sequentially, but it is possible to have multiple sprints of the
+same type in sequence.  Like in traditional Scrum, the sprint review is performed at the
+end of each sprint.
 
-\paragraph{Data sprint}
+The \emph{data sprint} is focused on the data tasks: collection, integration, tidying, and
+exploration.  \Cref{chap:data} covers the subjects of collection, integration (database
+normalization and joins) and tidying.  Exploration refers to \emph{exploratory
+data analysis}, which is not covered in this book. % TODO yet (could be the next chapter)
+The products (deliverables) of the data sprint are the exploratory analysis report and the
+data itself.  The exploratory analysis report is a document that describes the main
+characteristics of the data, such as the distribution of the variables, the presence of
+missing values, and the presence of outliers.  In our context, this report should be
+generated automatically, and it should be version controlled.  The data is the curated
+data that is used to train the model.  The source code that generates the data ---
+usually scripts and queries that combine data from different places --- must be version
+controlled.  At this point of the project, the data scientist must guarantee that the data
+is of high quality and that it represents the data that the solution will ``see'' in
+production.  \emph{It is very important that, at this stage, no transformation based
+on the values of the dataset is performed.}  Failing to do so can lead to data leakage.
 
-\paragraph{Solution sprint}  Usually divide model and evaluation. But it is not a good
-idea, because we always do both together\dots
+The \emph{solution sprint} is focused on the solution search tasks: data handling, machine
+learning, and validation.  \Cref{chap:handling} covers the subjects of data handling ---
+adjust the data to be used by the machine learning algorithms ---, \cref{chap:slt}
+covers the subjects of learning machines, and \cref{chap:evaluation,chap:planning} cover
+the subjects of validation --- through evaluation we estimate performance for unseen
+data.  The products of the solution sprint are the validation report and the solution,
+which is the preprocessor and the model.  The validation report is a document that
+describes the expected performance of the solution.  The solution is the code that
+implements the preprocessor and the model.  Usually, a version-controlled code that
+searches for the best pair of preprocessor and model also provides the solution.
 
-\paragraph{Application sprint}
-
-\paragraph{Choice and order of sprints}
+The \emph{application sprint} is focused on the application itself.  The tasks in this
+sprint focus on the development of the user interface, the communication between the
+front-end and the back-end, and the monitoring of the solution in production.  Software
+documentation and unit tests are also part of this sprint.
 
 \begin{figurebox}[label=fig:our-sprints]{Tasks and results for each sprint types and their relationships.}
   \centering
@@ -641,28 +674,76 @@ idea, because we always do both together\dots
     \path [line, dashed] (application.east) -- (6.2, -9);
   \end{tikzpicture}
   \tcblower
-  \dots
+  Summary of the tasks and results for each sprint type and their relationships.
 \end{figurebox}
 
-\Cref{fig:our-sprints} shows \dots
+\Cref{fig:our-sprints} shows the tasks and results for each sprint type and their
+relationships.  Every time a data sprint results in modifications in the dataset, the
+solution search algorithm must be re-executed.  The same occurs when the solution search
+algorithm is modified: the application must be updated to use the new preprocessor
+and model.
 
-Sprints are sequential.  Commonly, a data sprint is followed by a solution sprint, and a
+\paragraph{Choice and order of sprints}
+
+Sprints are sequential.  Ordinarily, a data sprint is followed by a solution sprint, and a
 solution sprint is followed by an application sprint.  However, it is possible to have
-multiple sprints of the same type in sequence.  Like the back-and-forth of the CRISP-DM
-and ZM approaches, it is possible to go back to a previous sprint type, especially
+multiple sprints of the same type in sequence.  Moreover, like the back-and-forth property of the CRISP-DM
+and ZM approach, it is possible to go back to a previous sprint type, especially
 when new requirement or problems are identified.
 
-\subsubsection{Sprint reviews}
+% A figure that shows sprints sequentially
+\begin{figurebox}[label=fig:sprints]{Example of sprints of a data science project.}
+  \centering
+  \begin{tikzpicture}
+    \node [anchor=west] at (0, 0) (s1) {data};
+    \path [line] (s1.west) arc (-160:160:1);
+    \path [line] (1.5, -0.5) -- (2.5, -0.5);
+
+    \node [anchor=west] at (2.5, 0) (s2) {data};
+    \path [line] (s2.west) arc (-160:160:1);
+    \path [line] (4, -0.5) -- (5, -0.5);
+
+    \node [anchor=west] at (5, 0) (s3) {solution};
+    \path [line] (s3.west) arc (-160:160:1);
+    \path [line] (6.5, -0.5) -- (7.5, -0.5) node [anchor=west] {\dots};
+
+    \path [line] (0, -3.5) node [anchor=east] {\dots} -- (1, -3.5);
+    \node [anchor=west] at (1, -3) (s5) {data};
+    \path [line] (s5.west) arc (-160:160:1);
+    \path [line] (2.5, -3.5) -- (3.5, -3.5);
+
+    \node [anchor=west] at (3.5, -3) (s6) {solution};
+    \path [line] (s6.west) arc (-160:160:1);
+    \path [line] (5, -3.5) -- (6, -3.5);
+
+    \node [anchor=west] at (6, -3) (s7) {application};
+    \path [line] (s7.west) arc (-160:160:1);
+    \path [line] (7.5, -3.5) -- (8.5, -3.5) node [anchor=west] {\dots};
+  \end{tikzpicture}
+  \tcblower
+  Each loop represents a sprint of a different kind: data sprint, solution sprint, and
+  application sprint.  The arrows represent the transitions between the sprints.
+\end{figurebox}
+
+\Cref{fig:sprints} shows an example of a sequence of sprints of a data science project.
+The figure shows that the sprints are sequential and their types can appear in
+any order.
+
+\paragraph{Sprint reviews}
 
 A proper configured \gls{cicd} pipeline guarantees that by the end of the sprint,
-exploratory analysis and performance reports are ready for review. \textcolor{red}{\dots}
+exploratory analysis, performance reports and the working software are ready for review.
+The sprint review is a meeting where the team presents the results of the sprint to the
+business spokesman.  The business spokesman must approve the results of the sprint.
+It is important that the reports use the terminology of the client, and that the
+software is easy to use.
 
 % TODO: \subsubsection{Monitoring and maintenance} \textcolor{red}{\dots}
 
-\subsubsection{Relationship with other methodologies}
+\paragraph{Relationship with other methodologies}
 
-Since we are proposing an extension to Scrum, we must compare our approach with the other
-methodologies.
+Since we are proposing an extension to Scrum, which is not specific to data science
+projects, we must compare the phases of our approach with the other methodologies.
 
 \begin{tablebox}[label=tab:phases]{Relationship between coverage of other methodologies and our approach.}
   \centering
@@ -687,8 +768,8 @@ methodologies.
   methodologies.
 \end{tablebox}
 
-\Cref{tab:phases} shows that our approach covers all the phases that both CRISP-DM and the
-ZM approach cover.  Moreover, our approach includes aspects of the software development that
+\Cref{tab:phases} shows that our approach covers all aspects in the phases of CRISP-DM and
+ZM approach.  Moreover, our approach includes aspects of the software development that
 are not covered by the other methodologies.
 % TODO: in the future, when we have a monitoring chapter or similar:
 % We also explicitly emphasize the monitoring and maintenance of the solution, which is not
