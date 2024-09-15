@@ -1,7 +1,7 @@
 \chapter{Data science project}
 \label{chap:project}
 
-% %TODO: do not forget to talk about doucmentation and deployment
+% TODO: do not forget to talk about documentation and deployment
 
 \chapterprecishere{\raggedleft\textup{with contributions from} \textsc{Johnny C. Marques}
   \\[5mm] Figured I could throw myself a pity party or go back to school and learn the computers.
@@ -570,9 +570,128 @@ for stateless requests, while WebSocket is more suitable for stateful requests. 
 example, if the user interface must be updated in real-time, WebSocket is more suitable.
 If the user interface is used to submit batch requests, REST API is more suitable.
 
-\subsection{Solution search framework}
+\subsection{Proposed workflow}
 
-TODO Move part of the \cref{chap:planning} here, dropping the sampling
-strategy but bringing the main defitions.
+The proposed workflow is based on the principles described above.  Our approach adapts
+the Scrum framework by adding three kinds of sprints: data sprints, solution sprints, and
+application sprints.  We also describe where exploratory and reporting phases fit in the
+workflow.
+
+\subsubsection{Product backlog}
+
+\textcolor{red}{TODO: explain that problem definition is dealt
+with the product backlog.}
+
+\subsubsection{Sprints}
+
+The sprints are divided into three types: data sprints, solution sprints, and application
+sprints.
+
+\paragraph{Data sprint}
+
+\paragraph{Solution sprint}  Usually divide model and evaluation. But it is not a good
+idea, because we always do both together\dots
+
+\paragraph{Application sprint}
+
+\paragraph{Choice and order of sprints}
+
+\begin{figurebox}[label=fig:our-sprints]{Tasks and results for each sprint types and their relationships.}
+  \centering
+  \begin{tikzpicture}[%
+      % every label is left side and rotated 90 degrees
+      every label/.style={anchor=south, rotate=90, label position=left},
+      ]
+    % Data sprint
+    \node [smallblock] (collect) at (0, -0.5) {Collect data};
+    \node [smallblock] (integration) at (0, -1.0) {Integrate data};
+    \node [smallblock] (tidy) at (0, -1.5) {Tidy data};
+    \node [smallblock] (explore) at (0, -2.0) {Explore data};
+    \node [draw, dotted, fit=(collect) (tidy) (explore), label=Data tasks, inner sep=8pt, minimum width=2.5cm] (data-tasks) {};
+    \node [block] (data-report) at (4, -0.5) {Exploratory analysis};
+    \node [darkblock] (data) at (4, -2.0) {Data};
+    \path [line] (data-tasks) -- (data-report);
+    \path [line] (data-tasks) -- (data);
+    \node [draw, dashed, fit=(data-tasks) (data-report) (data), label=Data sprint, inner sep=1.5em] (data-sprint) {};
+    % Solution sprint
+    \node [smallblock] (handling) at (0, -5) {Data handling};
+    \node [smallblock] (learning) at (0, -5.5) {Machine learning};
+    \node [smallblock] (validation) at (0, -6) {Validation};
+    \node [draw, dotted, fit=(handling) (learning) (validation), label=Solution search, inner sep=8pt, minimum width=2.5cm] (solution-tasks) {};
+    \node [block] (validation-report) at (4, -4.5) {Validation report};
+    \node [darkblock] (solution) at (4, -6) {Preprocessor and model};
+    \path [line] (solution-tasks) -- (validation-report);
+    \path [line] (solution-tasks) -- (solution);
+    \node [draw, dashed, fit=(solution-tasks) (validation-report) (solution), label=Solution sprint, inner sep=1.5em] (solution-sprint) {};
+    % Application sprint
+    \node [smallblock] (user) at (0, -8.5) {User interface};
+    \node [smallblock] (communication) at (0, -9) {Communication};
+    \node [smallblock] (monitoring) at (0, -9.5) {Monitoring};
+    \node [draw, dotted, fit=(user) (communication) (monitoring), label=Application tasks, inner sep=8pt, minimum width=2.5cm] (application-tasks) {};
+    \node [darkblock] (application) at (4, -9) {Application};
+    \path [line] (application-tasks) -- (application);
+    \node [draw, dashed, fit=(application-tasks) (application), label=Application sprint, inner sep=1.5em] (application-sprint) {};
+    % Relationships between sprints
+    \path [line, dashed] (data) -- (solution-tasks);
+    \path [line, dashed] (solution) -- (application-tasks);
+    % At the right side a rectangle with sprint review written in 90 degrees
+    \node [draw, rectangle, rotate=90, minimum width=12cm, minimum height=1cm] (review) at (6.5, -5) {Sprint review};
+    \path [line, dashed] (data-report.east) -- (6.2, -0.5);
+    \path [line, dashed] (validation-report.east) -- (6.2, -4.5);
+    \path [line, dashed] (application.east) -- (6.2, -9);
+  \end{tikzpicture}
+  \tcblower
+  \dots
+\end{figurebox}
+
+\Cref{fig:our-sprints} shows \dots
+
+Sprints are sequential.  Commonly, a data sprint is followed by a solution sprint, and a
+solution sprint is followed by an application sprint.  However, it is possible to have
+multiple sprints of the same type in sequence.  Like the back-and-forth of the CRISP-DM
+and ZM approaches, it is possible to go back to a previous sprint type, especially
+when new requirement or problems are identified.
+
+\subsubsection{Sprint reviews}
+
+A proper configured \gls{cicd} pipeline guarantees that by the end of the sprint,
+exploratory analysis and performance reports are ready for review. \textcolor{red}{\dots}
+
+% TODO: \subsubsection{Monitoring and maintenance} \textcolor{red}{\dots}
+
+\subsubsection{Relationship with other methodologies}
+
+Since we are proposing an extension to Scrum, we must compare our approach with the other
+methodologies.
+
+\begin{tablebox}[label=tab:phases]{Relationship between coverage of other methodologies and our approach.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \small % TODO: ugly workaround
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{CRISP-DM} & \textbf{ZM approach} & \textbf{Our approach} \\
+    \midrule
+    Bus. understanding & Define the goal & Product backlog \\
+    Data understanding & Collect/manage data & Data sprint \\
+    Data preparation & Collect/manage data & Data sprint \\
+    Modeling & Build the model & Solution sprint \\
+    Evaluation & Evaluate the model & Solution sprint \\
+    & Present results & Sprint reviews \\
+    Deployment & Deploy the model & Application sprint \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  The phases of the CRISP-DM and the ZM approach are compared with the phases of our
+  approach.  The table shows that our approach covers all the phases of the other
+  methodologies.
+\end{tablebox}
+
+\Cref{tab:phases} shows that our approach covers all the phases that both CRISP-DM and the
+ZM approach cover.  Moreover, our approach includes aspects of the software development that
+are not covered by the other methodologies.
+% TODO: in the future, when we have a monitoring chapter or similar:
+% We also explicitly emphasize the monitoring and maintenance of the solution, which is not
+% covered by the other methodologies.
 
 % vim: set spell spelllang=en:
