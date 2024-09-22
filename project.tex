@@ -281,20 +281,105 @@ is more important.
 
 \section{Scrum framework}
 
-Scrum is an agile framework --- and probably the most popular one ---
-for software development.  It is a process framework for
-managing complex projects.  It is a lightweight, which means that it
-provides just enough guidance to be effective.
+The Scrum framework is one of the most widely adopted agile methodologies. It is an
+iterative, incremental process that enables teams to deliver high-value products
+efficiently while adapting to changing requirements. Scrum emphasizes teamwork,
+accountability, and continuous improvement. Developed by Ken Schwaber and Jeff Sutherland
+in the early 1990s, Scrum is based on three pillars: transparency, inspection, and
+adaptation. These principles help teams to navigate complex, adaptive problems and deliver
+productive outcomes \parencite{schwaber2020scrum}.
 
-\textcolor{red}{Briefly describe the Scrum framework.}
+Scrum organizes work into cycles called Sprints, and involves defined roles, ceremonies,
+and artifacts that ensure the progress and quality of the product. Key events such as
+daily stand-ups, sprint reviews, and retrospectives create regular opportunities to inspect
+and adapt, making Scrum a responsive and resilient framework \parencite{denning2016scrum}.
 
 \subsection{Scrum roles}
 
-\textcolor{red}{Briefly describe the Scrum roles.}
+Scrum defines three critical roles: the Product Owner, the Scrum Master, and the
+Development Team.
+
+\begin{itemize}
+  \item Product Owner: This role is responsible for defining the product vision and
+    maximizing the value of the work done by the team. The Product Owner manages the
+    Product Backlog, ensuring that it is visible, transparent, and prioritized according
+    to business needs. They serve as the main point of contact between stakeholders and
+    the development team \parencite{openagile2019roles}. The Product Owner must constantly
+    balance the requirements of the business and the technical capabilities of the team,
+    ensuring that the highest-value items are worked on first.
+  \item Scrum Master: The Scrum Master acts as a facilitator and coach for the Scrum team,
+    ensuring that the team adheres to the Scrum framework and agile principles. Unlike a
+    traditional project manager, the Scrum Master is not responsible for managing the team
+    directly but for enabling them to perform optimally by removing impediments and
+    fostering a self-organizing culture \parencite{cobb2015scrum}.
+  \item Development Team: The Development Team is a cross-functional group of professionals
+    responsible for delivering potentially shippable product increments at the end of each
+    sprint. The team is self-managing, meaning they decide how to achieve their goals
+    within the sprint. The team should be small enough to remain nimble but large enough
+    to complete meaningful work \parencite{rubin2012sprints}. The Development Team works
+    collaboratively and takes collective responsibility for the outcome of the sprint.
+\end{itemize}
+
+Each of these roles has specific responsibilities, and together they ensure that the Scrum
+process runs smoothly and that the product development aligns with the overall business
+objectives.
 
 \subsection{Sprints and backlog}
 
-\textcolor{red}{Briefly describe the Scrum artifacts.}
+A Sprint is the basic unit of work in Scrum, as presented in \cref{fig:scrum}. Sprints
+are time-boxed iterations, usually lasting between one to four weeks, during which a
+defined amount of work is completed. The goal is to deliver a potentially shippable
+product increment at the end of each sprint. Sprints are continuous, with no breaks in
+between, fostering a regular, predictable rhythm of work \parencite{cobb2015scrum}.
+
+% TODO: rewrite in TikZ
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{images/scrum.png}
+    \caption{Scrum Framework.}
+    \label{fig:scrum}
+\end{figure}
+
+Before a sprint starts, the Scrum team holds a Sprint Planning meeting to decide what will
+be worked on. The work for the sprint is selected from the Product Backlog, which is a
+prioritized list of features, enhancements, bug fixes, and other deliverables necessary
+for the product \parencite{schwaber2020scrum}. The Product Backlog is dynamic and evolves as
+new requirements and changes emerge. The items selected for the sprint become part of the
+Sprint Backlog, a subset of the Product Backlog that the Development Team commits to
+completing during the sprint.
+
+At the heart of the Scrum process is the Daily Scrum (or stand-up meeting), a brief
+meeting where the team discusses progress toward the sprint goal, any obstacles they are
+facing, and their plans for the next day. This daily inspection ensures that everyone
+stays aligned and can quickly adapt to any changes or challenges \parencite{cobb2015scrum}.
+
+The Burn Down/Up Chart is a visual tool widely used during the Sprint to track the Scrum
+team's progress against the planned tasks. It displays the amount of remaining work (in
+hours or story points) over time, allowing the team and the Product Owner to monitor
+whether the work is on pace to be completed by the end of the sprint. The chart's line
+decreases as tasks are finished, providing a clear indicator of potential delays or
+blockers. If progress is falling behind, the team can adjust their approach during the
+sprint by re-prioritizing tasks or removing impediments. Thus, the burn-down chart provides
+real-time visibility into the team’s efficiency and contributes to more agile and
+proactive work management.
+
+At the end of each sprint, the team holds a Sprint Review, during which they demonstrate
+the work completed during the sprint. The Sprint Review is an opportunity for stakeholders
+to see progress and provide feedback, which may lead to adjustments in the Product
+Backlog. Following the review, the team conducts a Sprint Retrospective to discuss what
+went well, what didn't, and how they can improve their processes moving forward
+\parencite{rubin2012sprints}. These continuous improvement cycles are key to Scrum's success,
+allowing teams to adapt both their work and their working methods iteratively.
+
+The Sprint Retrospective is a crucial event in the Scrum framework, held at the end of
+each sprint. Its primary purpose is to provide the Scrum team with an opportunity to
+reflect on the sprint that just concluded and identify areas for improvement. During the
+retrospective, the team discusses what went well, what challenges they encountered, and
+how they can enhance their processes for future sprints. This continuous improvement focus
+allows the team to adapt their workflow and collaboration methods, fostering a more
+efficient and effective development cycle. By encouraging open and honest feedback, the
+retrospective plays a vital role in maintaining team cohesion and driving productivity
+over time.
 
 \subsection{Scrum for data science projects}
 
