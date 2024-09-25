@@ -471,8 +471,8 @@ Before we study the data handling tasks, we need to understand that a data handl
 pipeline is a sequence of operations that \emph{does} depend on the input data.
 This might seem obvious, but the implications are not.
 
-A common error in data handling is to perform operations ad hoc, usually leading to data
-leakage.  For instance, one might impute missing values before splitting the data into
+A common error in data handling is to perform operations ad hoc, usually leading to
+\gls{leakage}.  For instance, one might impute missing values before splitting the data into
 training and testing sets.  This is a mistake because the imputation is based on the
 entire dataset, including the testing set.
 

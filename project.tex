@@ -543,6 +543,8 @@ code.
 
 \paragraph{Continuous integration and continuous deployment}
 
+% TODO: random seed
+
 This means that the code is
 automatically (or at least semi-automatically) tested and deployed.  The back-end and
 front-end are tested using unit tests.  The dataset is not exactly tested, but the
@@ -696,7 +698,16 @@ usually scripts and queries that combine data from different places --- must be 
 controlled.  At this point of the project, the data scientist must guarantee that the data
 is of high quality and that it represents the data that the solution will ``see'' in
 production.  \emph{It is very important that, at this stage, no transformation based
-on the values of the dataset is performed.}  Failing to do so can lead to data leakage.
+on the values of the dataset is performed.}  Failing to do so leads to \gls{leakage}.
+
+\begin{defbox}{Data leakage}{}
+  During the validation of the solution, we simulate the production environment by leaving
+  some data out of the training set --- consult \cref{chap:planning}.  The remaining
+  dataset, called test set, emulates unseen data.  \Gls{leakage} is the situation where
+  information from the test set is used to transform the training set in any way or to
+  train the model.  As a result, the validation performance of the solution is
+  overestimated.
+\end{defbox}
 
 The \emph{solution sprint} is focused on the solution search tasks: data handling, machine
 learning, and validation.  \Cref{chap:handling} covers the subjects of data handling ---
