@@ -1,0 +1,27 @@
+#!/bin/bash
+
+read -r -d '' SCRIPT << EOM
+library(tidyverse)
+pages <-
+  read_tsv(stdin()) %>%
+  mutate(Pages = c(diff(Pages), 0)) %>%
+  mutate(Pages = if_else(row_number() > 1, Pages, 0)) %>%
+  mutate(Chapter = fct_rev(fct_inorder(Chapter)))
+
+p <-
+  ggplot(pages, aes(x = Chapter, y = Pages)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Page count per chapter", x = "Chapter", y = "Pages") +
+  coord_flip()
+
+ggsave("page_count.png", p, width = 10, height = 5)
+print(pages)
+EOM
+
+mutool show build/main.pdf outline | \
+  cut -f2,3 | \
+  grep '^"' | \
+  sed 's/#//' | \
+  sed 's/\([0-9]\),.*/\1/' | \
+  cat <(echo -e "Chapter\tPages") - | \
+  Rscript --vanilla -e "$SCRIPT"
