@@ -662,6 +662,8 @@ More advanced sampling methods are usually used to create balanced datasets.  Fo
 instance, one can use the SMOTE algorithm\footfullcite{chawla2002smote} to create
 synthetic observations of the minority class.
 
+\textcolor{red}{In production, just ignore.}
+
 \subsection{Dimensionality reduction}
 
 Dimensionality reduction is the process of reducing the number of variables in the data.
@@ -678,7 +680,7 @@ Feature selection can be performed before modeling (filter), together with the m
 search (wrapper), or as a part of the model itself (embedded).
 
 Feature extraction is usually done by linear methods, such as principal component analysis
-(PCA), or by non-linear methods, such as autoencoders.  These methods are able to
+(PCA), or by non-linear methods, such as convolution layers and autoencoders.  These methods are able to
 compress the information in the data into a smaller number of variables.
 
 % \begin{slidebox}{Dimensionality reduction}{}
@@ -736,7 +738,7 @@ By doing so, the model can learn the importance of the missing data.
 
 Many times the indicator variable is already present in the data.  For instance, in a
 dataset that contains information about pregnancy, let us say the number of days since
-the last pregnancy.  This information certainly be missing if sex
+the last pregnancy.  This information certainly be missing if sex and number of children \dots
 
 
 \subsection{Dealing with invalid and inconsistent information}
