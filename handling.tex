@@ -485,6 +485,9 @@ The pipeline, like a model, must be ``fitted'' to the data.  This means that par
 the operations are not fixed until the first data is given as input.  Subsequent data fed
 to the pipeline will be handled keeping the first ``learned'' parameters.
 
+The fitted pipeline is called a \emph{preprocessor} in our context.  This is because the
+pipeline is used to preprocess the data before the model is applied.
+
 Consider the following example.  Suppose we have a dataset with missing values for
 variable \texttt{A}.  We want to impute the missing values and then standardize
 \texttt{A}.  The pipeline is created as follows:  \texttt{D -> impute\_zero(A) ->
@@ -533,16 +536,16 @@ crucial.
 %   \end{itemize}
 % \end{slidebox}
 
-\textcolor{red}{XXX: maybe state that before reaching the pipeline data is already tidy,
-this way simple integration (not enhancement), pivoting and aggregating are kept outside
-the pipeline. These operations must depend only on variable names and not variable values.}
+Just to be clear, before reaching the pipeline, data is already tidy.  Thus, simple
+integration (not enhancement), pivoting and aggregating are kept outside the pipeline.
+These operations must depend only on variable names and not variable values.
 
 \section{Data transformation}
 
-The first task in data handling is data transformation.  This is the process of adjusting
+One important task in data handling is data transformation.  This is the process of adjusting
 the format and the types of the data to make it suitable for analysis.
 
-Usually, the starting point of data transformation is to make the data tidy, i.e., to have
+Before data transformation we must make sure that data is tidy, i.e., to have
 each variable in a column and each observation in a row.  Remember that, depending on the
 problem definition, we target a particular observational unit.  Having a clear picture of
 the observational unit is important to define the columns and the rows of the dataset.
@@ -553,25 +556,25 @@ machine learning methods require the input variables to follow some restrictions
 instance, some methods require the input variables to be real numbers, others require the
 input variables are in a specific range, etc.
 
-\subsection{Reshaping}
-
-\textcolor{red}{TODO: pipeline exceptions: like pivoting and aggregating are kept outside
-the pipeline.}
-
-Reshaping is the process of changing the format of the data.  The most common reshaping
-operations are pivoting and unpivoting, which we have already discussed.  However, there
-are other reshaping operations that are useful in practice.
-
-For instance, one can reshape a dataset by splitting a column into multiple columns.  This
-is useful when a column contains multiple values that should be separated.  This can be
-done with mutation with appropriate expressions.  Some frameworks might provide special functions
-to do this, usually called splitting functions.
-
-We can also consider reshaping the operations of filtering, selecting, and aggregating.
-Filtering is usually done to reduce the scope of the data, given some conditions on the
-variables.  Selecting is usually done to remove irrelevant variables or highly correlated
-ones.  Aggregating in a reshaping task is usually applied together with pivoting to change the
-observational unit of the dataset.
+% \subsection{Reshaping}
+%
+% \textcolor{red}{TODO: pipeline exceptions: like pivoting and aggregating are kept outside
+% the pipeline.}
+%
+% Reshaping is the process of changing the format of the data.  The most common reshaping
+% operations are pivoting and unpivoting, which we have already discussed.  However, there
+% are other reshaping operations that are useful in practice.
+%
+% For instance, one can reshape a dataset by splitting a column into multiple columns.  This
+% is useful when a column contains multiple values that should be separated.  This can be
+% done with mutation with appropriate expressions.  Some frameworks might provide special functions
+% to do this, usually called splitting functions.
+%
+% We can also consider reshaping the operations of filtering, selecting, and aggregating.
+% Filtering is usually done to reduce the scope of the data, given some conditions on the
+% variables.  Selecting is usually done to remove irrelevant variables or highly correlated
+% ones.  Aggregating in a reshaping task is usually applied together with pivoting to change the
+% observational unit of the dataset.
 
 % \begin{slidebox}{Reshaping}{}
 %   \begin{itemize}
@@ -596,7 +599,8 @@ learning methods require the input variables to be real numbers.
 The most common type conversions are from categorical to numerical and from numerical to
 categorical.  The former is usually done by creating dummy variables, i.e., a new column
 for each possible value of the categorical variable.  This transformation is also known as
-one-hot encoding.  The latter is usually done by binning (discretizing) the numerical variable, either by
+one-hot encoding.  The latter is usually done by binning (discretization and quantization
+other concepts) the numerical variable, either by
 frequency or by range.
 
 % \begin{slidebox}{Type conversion}{}
@@ -654,6 +658,10 @@ increase the size of the data.  (Although this has some caveats.)  Moreover, res
 can also create variations of the original dataset with the same distribution of the
 values.
 
+More advanced sampling methods are usually used to create balanced datasets.  For
+instance, one can use the SMOTE algorithm\footfullcite{chawla2002smote} to create
+synthetic observations of the minority class.
+
 \subsection{Dimensionality reduction}
 
 Dimensionality reduction is the process of reducing the number of variables in the data.
@@ -681,10 +689,10 @@ compress the information in the data into a smaller number of variables.
 %   \end{itemize}
 % \end{slidebox}
 
-\begin{hlbox}{Practice!}
-  Can you identify which data transformation operations are used to make datasets
-  presented in \cref{chap:data} tidy?
-\end{hlbox}
+% \begin{hlbox}{Practice!}
+%   Can you identify which data transformation operations are used to make datasets
+%   presented in \cref{chap:data} tidy?
+% \end{hlbox}
 
 \section{Data cleaning}
 
@@ -707,7 +715,9 @@ There are four main strategies to deal with missing data:
 Removing rows and columns are commonly used when the number of missing data is small
 compared to the total number of rows or columns.  However, be aware that removing rows can
 artificially change data distribution, especially when the missing data is not missing at
-random.
+random.  Row removal suffers from the same problem as filtering operations in the
+pipeline; the developer must specify a default behavior for the model when a row is
+discarded in production.
 
 Imputing the missing data is usually done by replacing the missing values with some
 statistic of the available values in the column, such as the mean, the median, or the
@@ -718,15 +728,23 @@ of a systematic error or phenomenon.
 For this case, creating an indicator variable is a good strategy.  This is done by creating
 a new column that contains a logical value indicating whether the data is missing or
 not\footnote{Some kind of imputation is still needed, but we expect the model to deal
-better with it}.  By doing so, the model can learn the importance of the missing
-data\footnote{\color{red}Sometimes the indicator variable is already present: pregnancy and sex
-example.}.
+better with it since it can decide using both the indicator and the original variable.}.
+By doing so, the model can learn the importance of the missing data.
+
+% \footnote{\color{red}Sometimes the indicator variable is already present: pregnancy and sex
+% example.}.
+
+Many times the indicator variable is already present in the data.  For instance, in a
+dataset that contains information about pregnancy, let us say the number of days since
+the last pregnancy.  This information certainly be missing if sex
+
 
 \subsection{Dealing with invalid and inconsistent information}
 
 Sometimes, during data collection, information is recorded using special codes.  For
 instance, the value 9999 might be used to indicate that the data is missing.  Such codes
-must be replaced with more appropriate values before modeling.
+must be replaced with more appropriate values before modeling.  If a single variable
+encodes more than one concept, new variables must be created to represent each concept.
 
 Another common problem is inconsistent information.  For instance, the same category might
 be represented by different names.  This is usually done by creating a dictionary that
@@ -736,7 +754,7 @@ It is also useful to check whether all columns that store physical quantities ha
 same unit of measurement.  If not, one must convert the values to the same unit.
 
 If one knows that a variable has a specific range of values, it is useful to check
-whether the values are within this range.  If not, one must replace the values wit
+whether the values are within this range.  If not, one must replace the values with
 missing data or with the closest valid value.
 
 \subsection{Outliers}
@@ -746,7 +764,11 @@ They can be caused by errors in the data collection process or by the presence o
 different phenomenon.  In both cases, it is important to deal with outliers before
 modeling.
 
-There are many outliers detection methods, consult TODO.
+There are many outliers detection methods, such as the Z-score, the IQR, and the DBSCAN.
+% TODO
+
+Like filtering operations in the pipeline, the developer must specify a default behavior
+for the model when an outlier is detected in production.
 
 % \begin{slidebox}{Data cleaning}{}
 %   \begin{itemize}
@@ -793,7 +815,10 @@ Additionally, one must consider the following points:
 %   \end{itemize}
 % \end{slidebox}
 
-\textcolor{red}{Hard to incorporate in the pipeline when joins only, but data enhancement
-works better inside the pipeline.}
+In the data handling pipeline, data integration is useful for data enhancement.  This is
+the process of adding new columns to the dataset or single instances.  For example,
+imagine that in the tidy data we have a column with the zip code of the customers.  We can
+use this information to join (in this case a left join) a dataset with social and economic
+information about the region of the zip code.
 
 % vim: spell spelllang=en
