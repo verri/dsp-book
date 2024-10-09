@@ -9,18 +9,19 @@
 
 First of all, \emph{a data science project is a software project}.  The difference between a data
 science software and a traditional software is that some components of the former are
-constructed from data.  This means that part of the solution cannot be designed from the
-knowledge of the domain expert, but must be extracted from the data.  Sometimes, a
-traditional solution would be too complex to design, and it is more efficient to infer it
-from the data.
+constructed from data.  This means that part of the solution is not designed from the
+knowledge of the domain expert.
 
-One good example of project is a spam filter.  The spam filter is a software that
-classifies emails into two categories: spam and non-spam.  A traditional approach would be
-to design a set of filters that are known to be effective.  However, the effectiveness of
+One example of project is a spam filter that
+classifies emails into two categories: spam and non-spam.  A traditional approach is
+to design a set of rules that are known to be effective.  However, the effectiveness of
 the filters is limited by the knowledge of the designer and is cumbersome to maintain.  A
-data science approach is to design a software that learns the filters from the data,
-rather than from the knowledge of the designer.  The software is trained using a set of
+data science approach automatically learns the filters from a set of
 emails that are already classified as spam or non-spam.
+
+Another important difference in data science projects is that traditional testing methods,
+such as unit tests, are not enough.  The solution inferred from the data must be validated
+considering the stochastic nature of the data.
 
 In this chapter, we discuss common methodologies for data science projects.  We also
 present the concept of agile methodologies and the Scrum framework.  We finally propose an
