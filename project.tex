@@ -343,18 +343,17 @@ defined amount of work is completed. The goal is to deliver a potentially shippa
 product increment at the end of each sprint. Sprints are continuous, with no breaks in
 between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
 
-% TODO: rewrite in TikZ
-\begin{figure}
+\begin{figurebox}[label=fig:scrum]{Scrum framework overview.}
     \centering
     \begin{tikzpicture}[%
         font=\LARGE,
         every label/.style={font=\footnotesize},
       ]
-      \node[align=center, label=below:product owner] (po) at (0, 0) {\faUserTie};
-      \node[align=center, label=below:product backlog] (backlog) at (0, -1.5) {\faListOl};
+      \node[align=center, label=below:product owner] (po) at (0.5, 0) {\faUserTie};
+      \node[align=center, label=below:product backlog] (backlog) at (0.5, -1.5) {\faListOl};
 
-      \node[align=center, label=below:dev team] (dev) at (3, 0) {\faUsers};
-      \node[align=center, label=below:sprint backlog] (sbacklog) at (3, -1.5) {\faClipboardList};
+      \node[align=center, label=below:dev team] (dev) at (3.2, 0) {\faUsers};
+      \node[align=center, label=below:sprint backlog] (sbacklog) at (3.2, -1.5) {\faClipboardList};
 
       \draw[-Stealth] (backlog) -- (sbacklog) node[midway, above, font=\footnotesize] {sprint planning};
 
@@ -381,15 +380,12 @@ between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
       \node[draw, rectangle, dashed, align=center, label=above:sprint review] (review) at (8, 0) {\faUser~\faUsers};
       \node[draw, rectangle, dashed, align=center, label=above:incremental version] (version) at (8, -1.3) {\faBox~\faUserTie};
       \node[draw, rectangle, dashed, align=center, label=above:sprint retrospective] (retrospective) at (8, -2.6) {\faUserTie~\faUser~\faUsers};
-
     \end{tikzpicture}
-    \caption{
-      Scrum framework overview.  The development centers around the sprints, which are time-boxed
-      iterations.  Roles, other ceremonies, and artifacts support the sprints and ensure the
-      progress and quality of the product.
-    }
-    \label{fig:scrum}
-\end{figure}
+    \tcblower
+    The development centers around the sprints, which are time-boxed iterations.  Roles,
+    other ceremonies, and artifacts support the sprints and ensure the progress and
+    quality of the product.
+\end{figurebox}
 
 Before a sprint starts, the Scrum team holds a sprint planning meeting to decide what will
 be worked on. The work for the sprint is selected from the product backlog, which is a
@@ -418,7 +414,7 @@ At the end of each sprint, the team holds a sprint review, during which they dem
 the work completed during the sprint. The sprint review is an opportunity for stakeholders
 to see progress and provide feedback, which may lead to adjustments in the Product
 Backlog. Following the review, the team conducts a sprint retrospective to discuss what
-went well, what didn't, and how they can improve their processes moving forward%
+went well, what did not, and how they can improve their processes moving forward%
 \nocite{rubin2012sprints}. These continuous improvement cycles are key to Scrum's success,
 allowing teams to adapt both their work and their working methods iteratively.
 
