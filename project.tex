@@ -1,12 +1,14 @@
 \chapter{Data science project}
 \label{chap:project}
 
-% TODO: do not forget to talk about documentation and deployment
+% TODO: talk about documentation and deployment in the future
 
-\chapterprecishere{\raggedleft\textup{with contributions from} \textsc{Johnny C. Marques}
+\chapterprecishere{\raggedleft\textup{with contributions from} \textsc{Johnny C. Marques}~\orcidlink{0000-0002-1551-435X}
   \\[5mm] Figured I could throw myself a pity party or go back to school and learn the computers.
   \par\raggedleft--- \textup{Don Carlton}, Monsters University (2013)}
 
+Once we established what data science is, we can now discuss how to conduct a data science
+project.
 First of all, \emph{a data science project is a software project}.  The difference between a data
 science software and a traditional software is that some components of the former are
 constructed from data.  This means that part of the solution is not designed from the
@@ -57,7 +59,7 @@ extension to Scrum adapted for data science projects.
 
   \begin{itemize}
     \itemsep0em
-    \item Good methodologies take into account the software development aspects of the
+    \item Modern data science methodologies take into account the software development aspects of the
       project.
     \item Scrum is a good framework for software development, and it can be adapted for
       data science projects.
@@ -161,7 +163,7 @@ adaptations are possible at any stage.
 \section{ZM approach}
 
 \textcite{Zumel2019}\footfullcite{Zumel2019} also propose a methodology for data science projects --- which we
-call the ZM approach.  Besides
+call here the ZM approach.  Besides
 describing each step in a data science project, they further address the roles of each
 individual involved in the project.  They state that data science projects are always
 collaborative, as they require domain expertise, data expertise, and software expertise.
@@ -261,6 +263,14 @@ emphasized in the view of \textcite{Wickham2023}.
   can be back-and-forth.
 \end{figurebox}
 
+\subsection{Limitations of the ZM approach}
+
+ZM approach is particularly interesting in consulting projects, where the data scientist
+is not part of the organization.  Note that tasks beyond deployment, like maintenance and
+monitoring, are not directly addressed by the methodology but delegated to the operations
+role.  Like CRISP-DM, the ZM approach does not address the software development aspects of
+the project.
+
 \section{Agile methodology}
 
 Agile is a methodology for software development.  It is an alternative to the waterfall
@@ -285,45 +295,45 @@ is more important.
 The Scrum framework is one of the most widely adopted agile methodologies. It is an
 iterative, incremental process that enables teams to deliver high-value products
 efficiently while adapting to changing requirements. Scrum emphasizes teamwork,
-accountability, and continuous improvement. Developed by Ken Schwaber and Jeff Sutherland
+accountability, and continuous improvement. Developed by \citeauthor{schwaber2020scrum}%
+\footnote{Latest version of the Scrum Guide available at \fullcite{schwaber2020scrum}.}
 in the early 1990s, Scrum is based on three pillars: transparency, inspection, and
 adaptation. These principles help teams to navigate complex, adaptive problems and deliver
-productive outcomes \parencite{schwaber2020scrum}.
+productive outcomes.
 
-Scrum organizes work into cycles called Sprints, and involves defined roles, ceremonies,
+Scrum organizes work into cycles called sprints, and involves defined roles, ceremonies,
 and artifacts that ensure the progress and quality of the product. Key events such as
 daily stand-ups, sprint reviews, and retrospectives create regular opportunities to inspect
-and adapt, making Scrum a responsive and resilient framework \parencite{denning2016scrum}.
+and adapt, making Scrum a responsive and resilient framework\footfullcite{denning2016scrum}.
 
 \subsection{Scrum roles}
 
-Scrum defines three critical roles: the Product Owner, the Scrum Master, and the
-Development Team.
-
-\begin{itemize}
-  \item Product Owner: This role is responsible for defining the product vision and
-    maximizing the value of the work done by the team. The Product Owner manages the
-    Product Backlog, ensuring that it is visible, transparent, and prioritized according
-    to business needs. They serve as the main point of contact between stakeholders and
-    the development team \parencite{openagile2019roles}. The Product Owner must constantly
-    balance the requirements of the business and the technical capabilities of the team,
-    ensuring that the highest-value items are worked on first.
-  \item Scrum Master: The Scrum Master acts as a facilitator and coach for the Scrum team,
-    ensuring that the team adheres to the Scrum framework and agile principles. Unlike a
-    traditional project manager, the Scrum Master is not responsible for managing the team
-    directly but for enabling them to perform optimally by removing impediments and
-    fostering a self-organizing culture \parencite{cobb2015scrum}.
-  \item Development Team: The Development Team is a cross-functional group of professionals
-    responsible for delivering potentially shippable product increments at the end of each
-    sprint. The team is self-managing, meaning they decide how to achieve their goals
-    within the sprint. The team should be small enough to remain nimble but large enough
-    to complete meaningful work \parencite{rubin2012sprints}. The Development Team works
-    collaboratively and takes collective responsibility for the outcome of the sprint.
-\end{itemize}
-
+Scrum defines three critical roles: the product owner, the scrum master, and the
+development team.
 Each of these roles has specific responsibilities, and together they ensure that the Scrum
 process runs smoothly and that the product development aligns with the overall business
 objectives.
+
+\paragraph{Product owner} This role is responsible for defining the product vision and
+    maximizing the value of the work done by the team. The product owner manages the
+    product backlog, ensuring that it is visible, transparent, and prioritized according
+    to business needs. They serve as the main point of contact between stakeholders and
+    the development team\nocite{openagile2019roles}. The product owner must constantly
+    balance the requirements of the business and the technical capabilities of the team,
+    ensuring that the highest-value items are worked on first.
+
+\paragraph{Scrum master} The scrum master acts as a facilitator and coach for the Scrum team,
+    ensuring that the team adheres to the Scrum framework and agile principles. Unlike a
+    traditional project manager, the Scrum Master is not responsible for managing the team
+    directly but for enabling them to perform optimally by removing impediments and
+    fostering a self-organizing culture\nocite{cobb2015scrum}.
+
+\paragraph{Development team} The development team is a cross-functional group of professionals
+    responsible for delivering potentially shippable product increments at the end of each
+    sprint. The team is self-managing, meaning they decide how to achieve their goals
+    within the sprint. The team should be small enough to remain nimble but large enough
+    to complete meaningful work\nocite{rubin2012sprints}. The Development Team works
+    collaboratively and takes collective responsibility for the outcome of the sprint.
 
 \subsection{Sprints and backlog}
 
@@ -331,32 +341,64 @@ A Sprint is the basic unit of work in Scrum, as presented in \cref{fig:scrum}. S
 are time-boxed iterations, usually lasting between one to four weeks, during which a
 defined amount of work is completed. The goal is to deliver a potentially shippable
 product increment at the end of each sprint. Sprints are continuous, with no breaks in
-between, fostering a regular, predictable rhythm of work \parencite{cobb2015scrum}.
+between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
 
 % TODO: rewrite in TikZ
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{images/scrum.png}
-    \caption{Scrum Framework.}
+
+    \begin{tikzpicture}[%
+        font=\LARGE,
+        every label/.style={font=\footnotesize},
+      ]
+      \node[align=center, label=below:product owner] (po) at (0, 0) {\faUserTie};
+      \node[align=center, label=below:product backlog] (backlog) at (0, -1.5) {\faListOl};
+
+      \node[align=center, label=below:dev team] (dev) at (3, 0) {\faUsers};
+      \node[align=center, label=below:sprint backlog] (sbacklog) at (3, -1.5) {\faClipboardList};
+
+      \draw[-Stealth] (backlog) -- (sbacklog) node[midway, above, font=\footnotesize] {sprint planning};
+
+      % A circlying arrow
+      \draw[-Stealth, very thick] (sbacklog.east)
+        to[out=0, in=180] (5.6, -1.5)
+        to[out=0, in=0] (5.6, 0.5)
+        to[out=0, in=0] (5, 0.5)
+        to[out=180, in=130] (5, -1.4);
+
+      \node[font=\footnotesize] at (5.2, -0.5) {sprint};
+
+      % Scrum master on top of sprint
+      \node[align=center, label=above:scrum master] (sm) at (4.2, 0.8) {\faUser};
+
+      \draw[-Stealth, very thick] (6, -1.5) -- (7, -1.5);
+
+    \end{tikzpicture}
+    \caption{
+      Scrum framework overview.  The development centers around the sprints, which are time-boxed
+      iterations.  Roles, other ceremonies, and artifacts support the sprints and ensure the
+      progress and quality of the product.
+    }
     \label{fig:scrum}
 \end{figure}
 
-Before a sprint starts, the Scrum team holds a Sprint Planning meeting to decide what will
-be worked on. The work for the sprint is selected from the Product Backlog, which is a
+Before a sprint starts, the Scrum team holds a sprint planning meeting to decide what will
+be worked on. The work for the sprint is selected from the product backlog, which is a
 prioritized list of features, enhancements, bug fixes, and other deliverables necessary
-for the product \parencite{schwaber2020scrum}. The Product Backlog is dynamic and evolves as
+for the product\nocite{schwaber2020scrum}. The product backlog is dynamic and evolves as
 new requirements and changes emerge. The items selected for the sprint become part of the
-Sprint Backlog, a subset of the Product Backlog that the Development Team commits to
+Sprint Backlog, a subset of the product backlog that the Development Team commits to
 completing during the sprint.
 
-At the heart of the Scrum process is the Daily Scrum (or stand-up meeting), a brief
+At the heart of the Scrum process is the daily scrum (or stand-up meeting), a brief
 meeting where the team discusses progress toward the sprint goal, any obstacles they are
 facing, and their plans for the next day. This daily inspection ensures that everyone
-stays aligned and can quickly adapt to any changes or challenges \parencite{cobb2015scrum}.
+stays aligned and can quickly adapt to any changes or challenges\nocite{cobb2015scrum}.
 
-The Burn Down/Up Chart is a visual tool widely used during the Sprint to track the Scrum
+The burn down/up chart is a visual tool widely used during the Sprint to track the Scrum
 team's progress against the planned tasks. It displays the amount of remaining work (in
-hours or story points) over time, allowing the team and the Product Owner to monitor
+hours or story points) over time, allowing the team and the product owner to monitor
 whether the work is on pace to be completed by the end of the sprint. The chart's line
 decreases as tasks are finished, providing a clear indicator of potential delays or
 blockers. If progress is falling behind, the team can adjust their approach during the
@@ -364,15 +406,15 @@ sprint by re-prioritizing tasks or removing impediments. Thus, the burn-down cha
 real-time visibility into the team’s efficiency and contributes to more agile and
 proactive work management.
 
-At the end of each sprint, the team holds a Sprint Review, during which they demonstrate
-the work completed during the sprint. The Sprint Review is an opportunity for stakeholders
+At the end of each sprint, the team holds a sprint review, during which they demonstrate
+the work completed during the sprint. The sprint review is an opportunity for stakeholders
 to see progress and provide feedback, which may lead to adjustments in the Product
 Backlog. Following the review, the team conducts a Sprint Retrospective to discuss what
-went well, what didn't, and how they can improve their processes moving forward
-\parencite{rubin2012sprints}. These continuous improvement cycles are key to Scrum's success,
+went well, what didn't, and how they can improve their processes moving forward%
+\nocite{rubin2012sprints}. These continuous improvement cycles are key to Scrum's success,
 allowing teams to adapt both their work and their working methods iteratively.
 
-The Sprint Retrospective is a crucial event in the Scrum framework, held at the end of
+The sprint retrospective is a crucial event in the Scrum framework, held at the end of
 each sprint. Its primary purpose is to provide the Scrum team with an opportunity to
 reflect on the sprint that just concluded and identify areas for improvement. During the
 retrospective, the team discusses what went well, what challenges they encountered, and

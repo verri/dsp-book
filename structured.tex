@@ -2,25 +2,59 @@
 \label{chap:data}
 
 \chapterprecishere{%
-  Tidy datasets are all alike, but every messy dataset is messy in its own way.
+  Like families, tidy datasets are all alike, but every messy dataset is messy in its own way.
   \par\raggedleft--- \textup{Hadley Wickham}, Tidy Data}
 
 As one expects, when we measure a phenomenon, the resulting data come in many different
 formats.  For example, we can measure the temperature of a room using a thermometer.  The
 resulting data is a number.  We can assess English proficiency using an essay test.  The
-resulting data is a text.  We can register relationships between proteins and
-their functions.  The resulting data is a graph.
-
-Thus, it is important to understand the nature of the data we are working with.
+resulting data is a text.  We can register relationships between proteins and their
+functions.  The resulting data is a graph.  Thus, it is important to understand the nature
+of the data we are working with.
 
 The most common data format is the \emph{structured data}.  Structured data are data that
-are organized in a tabular format.  Each row in the table represents a single observation
-and each column represents a variable that describes the observation.
-
+are organized in a tabular format.
 We restrict the kind of information we store in each cell, i.e. the data type of each
 measurement.  Each column has a data type.  The data type restrict the operations we can
 perform on the data.  For example, we can perform arithmetic operations on numbers, but
 not on text.  All cells in the same column must share the same data type.
+
+In this chapter, \dots (collection, integration, tidying, and understanding of data)
+
+\begin{mainbox}{Chapter remarks}
+
+  \boxsubtitle{Contents}
+
+  \startcontents[chapters]
+  \printcontents[chapters]{}{1}{}
+  \vspace{1em}
+
+  \boxsubtitle{Context}
+
+  \begin{itemize}
+    \itemsep0em
+    \item \dots
+  \end{itemize}
+
+  \boxsubtitle{Objectives}
+
+  \begin{itemize}
+    \itemsep0em
+    \item \dots
+  \end{itemize}
+
+  \boxsubtitle{Takeways}
+
+  \begin{itemize}
+    \itemsep0em
+    \item \dots
+  \end{itemize}
+\end{mainbox}
+
+{}
+\clearpage
+
+\section{Data types}
 
 The most common classification of data types is Stevens' types: nominal, ordinal,
 interval, and ratio.  Nominal data are data that can be classified into categories.
@@ -307,15 +341,15 @@ a dataset.  The main advantage of tidy data is that it provides clear semantics 
 on only one view of the data.
 
 Many data formats might be ideal for particular tasks, such as raw data, dense tensors, or
-normalized databases.  However, most of the statitiscal and machine learning methods
+normalized databases.  However, most of the statistical and machine learning methods
 require a particular data format.  Tidy data is a data format that is appropriate to those
 tasks.
 
-\begin{hlbox}{Wickham's thoughts on tidy data}
-  \em
-  Like families, tidy datasets are all alike but every messy dataset is messy in its own
-  way.
-\end{hlbox}
+% \begin{hlbox}{Wickham's thoughts on tidy data}
+%   \em
+%   Like families, tidy datasets are all alike but every messy dataset is messy in its own
+%   way.
+% \end{hlbox}
 
 In an unrestricted table, the meaning of rows and columns are not fixed.  In a tidy table,
 the meaning of rows and columns are fixed.  The semantics is more restrictive than usually

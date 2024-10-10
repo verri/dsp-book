@@ -25,6 +25,8 @@
 \usepackage{titletoc}
 \usepackage[noend,noline,linesnumbered]{algorithm2e}
 \usepackage[automake]{glossaries-extra}
+\usepackage{orcidlink}
+\usepackage{fontawesome5}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -277,7 +279,7 @@ permission. All rights reserved.
 \vspace{0.5cm}
 {
 \footnotesize\noindent
-\thetitle{} © 2023--\the\year{} by \theauthor{} is licensed under
+\thetitle{} © 2023--\the\year{} by \theauthor{}~\orcidlink{0000-0002-8240-5129} is licensed under
 Attribution-NonCommercial-NoDerivatives 4.0 International. To view a copy of this license,
 visit
 \href{http://creativecommons.org/licenses/by-nc-nd/4.0/}{creativecommons.org/licenses/by-nc-nd/4.0}.
@@ -303,7 +305,7 @@ visit
 \input{preprocess}
 \input{evaluation}
 \input{planning}
-\input{ethics}
+% \input{ethics} TODO
 
 \renewcommand{\theHchapter}{A\arabic{chapter}} % workaround for hyperref
 \appendix
