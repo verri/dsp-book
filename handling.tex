@@ -8,13 +8,25 @@
 
 % Important: avoid the term "data manipulation" as it has a negative connotation
 
-Data handling is the process of adjusting data to make it suitable for analysis.
-It involves three main tasks: data transformation, data cleaning, and data integration.
+In the previous chapter, I discussed the relationship between data format and data
+semantics.  We also saw in \cref{chap:project} that data tasks --- specifically
+integration and tidying --- must adjust the data to reflect the kind of
+input we expect in production.
+
+For those tasks, we must be careful with the operations we perform on the data. At the
+stage of data preparation, for example, sample-dependent operations lead to \gls{leakage}.
 
 In this chapter, we consider that tables are rectangular data structures in which values
 of the same column share the same properties (i.e. the same type, same restrictions, etc.)
 and each column has a name.  Moreover, we assume that any value is possibly
 \emph{missing}.
+
+From a mathematical definition of such tables, we can define a set of operations that can
+be applied to them.  These operations are the building blocks of data handling tasks.
+I highlight some important properties of them.
+
+I show how these operations can be combined to create complex data handling pipelines by
+using them to solve the issues presented in \cref{sub:messy}.
 
 \begin{mainbox}{Chapter remarks}
 
