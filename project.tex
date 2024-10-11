@@ -522,41 +522,50 @@ scientist is the one that leads the project in a similar way as the Scrum master
 \begin{tablebox}[label=tab:roles]{Roles and responsibilities of our approach.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{llp{2.5cm}}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.5cm}}
     \toprule
     \textbf{Our approach} & \textbf{Scrum} & \textbf{ZM approach} \\
     \midrule
-    Business spokesman & Stakeholders & Sponsor/client \\
-    Client representative & Product owner & Client \\
-    Lead data scientist & Scrum master & Data scientist \\
-    Data science team & Developers & Data architect/operations \\
+    Business spokesman    & Stakeholders (customer) & Sponsor and client \\
+    Lead data scientist   & Product owner           & Data scientist \\
+    Scrum master          & Scrum master            & -- \\
+    Data science team     & Development team        & Data architect and operations \\
     \bottomrule
   \end{tabular}
   \tcblower
   The roles of Scrum are associated with the roles defined by \textcite{Zumel2019}.
   Note that the association is not exact.
-  In our approach, the data scientist leads the development team and interacts with the sponsor
-  and the client.  The development team includes people with both database and software
+  In our approach, the data scientist leads the development team and interacts with the
+  business spokesman.  The development team includes people with both data science and software
   engineering expertise.
 \end{tablebox}
 
-In our approach, we consider four roles: the business spokesman, the client representative,
-the lead data scientist, and the data science team.  An association between the roles of
+In our approach, we consider four roles that cover the responsibilities in a data science
+project that also involves software development: the business spokesman, the lead data
+scientist, the Scrum master, and the data science team.  An association between the roles of
 our approach, Scrum, and the ZM approach is shown in \cref{tab:roles}.
 
-% TODO: more details on the roles.
-
 \paragraph{Business spokesman}  The business spokesman is the main stakeholder of the project.
-He is the one that needs the results of the project, and he participates in the sprint
-reviews to ensure that the project is aligned with the business goals.
+He is the one that needs the results of the project and that understands the domain of the
+problem.  Like the ``client'' in ZM approach, he must be able to translate the business
+goals into technical requirements.  In a sense, the business spokesman evaluates the main
+functionalities and usability of the software.  Like the ``sponsor'' in ZM approach, he
+must be able to express quantitatively the business goals.  If possible, his participation
+in sprint reviews provides valuable feedback and direction to the project.
 
-\paragraph{Client representative}  The client representative is the domain expert that
-maintains the backlog aligned with the business goals.  He is the one that translates the
-business goals into technical requirements.
+\paragraph{Lead data scientist}  The lead data scientist, like the product owner, is the
+one that represents the interests of the stakeholder.  She must be able to understand the
+application domain and the business goals.  We decide to call her ``lead data scientist''
+to make it clear that she also has the data science expertise.  The reason is that the
+mathematical and statistical expertise is essential to understand the data and the models.
+Correctly interpreting the results and communicating them to the business spokesman are
+essential tasks of the lead data scientist.  All other responsibilities of the traditional
+product owner are also delegated to her.
 
-\paragraph{Lead data scientist}  The lead data scientist is the one that sets and executes
-the analytic strategy.  Like the Scrum master, he is the one that leads the development
-team.
+\paragraph{Scrum master} No extra responsibilities are added to the Scrum master role,
+however some data science expertise may be helpful.  For example, the Scrum master must
+ensure that the data science team is following not only good practices of software
+development but also data science.
 
 \paragraph{Data science team}  The data science team is the development team.  It includes
 people with expertise in data science, database management, software engineering, and any
