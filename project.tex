@@ -640,7 +640,7 @@ During sprints, the deliverables of exploratory analysis and solution search met
 not only the source code, but also the reports generated.  That is probably the reason why
 interactive environments are so popular in data science projects.  However, the data
 scientist must guarantee that the reports are version controlled and reproducible.  The
-reports must be generated in a way that is understandable by the client and the sponsor.
+reports must be generated in a way that is understandable by the business spokesman.
 
 \paragraph{Setup quantitative goals}
 
@@ -901,21 +901,30 @@ when new requirement or problems are identified.
 The figure shows that the sprints are sequential and their types can appear in
 any order.
 
+We do not advise to have mixed sprints.  For instance, a sprint that contains both data
+and solution tasks.  This may lead to a split focus, which may result the team acting
+as multiple teams.  We argue that, independently of the skill set of the team members,
+all members must be aware of all parts of the project.  This is important to guarantee
+that the solution is coherent and that the team members can help each other.
+
 \paragraph{Sprint reviews}
 
 A proper configured \gls{cicd} pipeline guarantees that by the end of the sprint,
 exploratory analysis, performance reports and the working software are ready for review.
 The sprint review is a meeting where the team presents the results of the sprint to the
 business spokesman.  The business spokesman must approve the results of the sprint.
+(In the absence of the business spokesman, the lead data scientist approve the results.)
 It is important that the reports use the terminology of the client, and that the
-software is easy to use.
+software is easy to use for the domain expert.
 
 % TODO: \subsubsection{Monitoring and maintenance} \textcolor{red}{\dots}
 
 \paragraph{Relationship with other methodologies}
 
-Since we are proposing an extension to Scrum, which is not specific to data science
-projects, we must compare the phases of our approach with the other methodologies.
+Our approach covers all the phases of the CRISP-DM and the ZM approach.  Moreover, it
+includes aspects of the software development that are not covered by the other
+methodologies. \Cref{tab:phases} relates the phases of the CRISP-DM and the ZM approach
+with the sprint types and other artifacts and ceremonies of our approach.
 
 \begin{tablebox}[label=tab:phases]{Relationship between coverage of other methodologies and our approach.}
   \centering
@@ -935,14 +944,22 @@ projects, we must compare the phases of our approach with the other methodologie
     \bottomrule
   \end{tabular}
   \tcblower
-  The phases of the CRISP-DM and the ZM approach are compared with the phases of our
+  The phases of the CRISP-DM and the ZM approach are compared with the components of our
   approach.  The table shows that our approach covers all the phases of the other
   methodologies.
 \end{tablebox}
 
-\Cref{tab:phases} shows that our approach covers all aspects in the phases of CRISP-DM and
-ZM approach.  Moreover, our approach includes aspects of the software development that
-are not covered by the other methodologies.
+One highlight is that we approach CRISP-DM's ``data preparation'' and ZM's
+``collect/manage data'' tasks more carefully.  Data handling operations that do not
+depend on the values of the dataset (sample independent) are performed in the data sprint,
+while operations that depend on the values of the dataset are performed together with
+modeling.
+
+This approach not only improves reliability of the solution validation, but also improves
+maintenance of the solution.  (Not surprisingly, frameworks like \texttt{scikit-learn} and
+\texttt{tidymodels} have an object that allows the user to combine data preprocessing and
+model training.)
+
 % TODO: in the future, when we have a monitoring chapter or similar:
 % We also explicitly emphasize the monitoring and maintenance of the solution, which is not
 % covered by the other methodologies.
