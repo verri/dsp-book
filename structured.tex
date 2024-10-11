@@ -12,14 +12,20 @@ resulting data is a text.  We can register relationships between proteins and th
 functions.  The resulting data is a graph.  Thus, it is important to understand the nature
 of the data we are working with.
 
-The most common data format is the \emph{structured data}.  Structured data are data that
-are organized in a tabular format.
+The most common data format is the \emph{structured data}.  Structured data refers to
+information that is organized in a tabular format.
 We restrict the kind of information we store in each cell, i.e. the data type of each
-measurement.  Each column has a data type.  The data type restrict the operations we can
+measurement.  The data type restrict the operations we can
 perform on the data.  For example, we can perform arithmetic operations on numbers, but
 not on text.  All cells in the same column must share the same data type.
 
-In this chapter, \dots (collection, integration, tidying, and understanding of data)
+In this chapter, I discuss the most common data types and the most common data formats.
+More specifically, we are interested in how the semantics of the data are encoded in the
+data format.  Database normalization and tidy data are two concepts that are very important
+for the understanding of structured data.
+
+As a result, the reader will be equipped with the mindset to perform data tasks
+--- collection, integration, tidying, and exploration --- well.
 
 \begin{mainbox}{Chapter remarks}
 
@@ -33,21 +39,25 @@ In this chapter, \dots (collection, integration, tidying, and understanding of d
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Data comes in many different formats.
+    \item Good data analysis requires understanding the data types and their meaning.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Understand the most common data types and formats.
+    \item Enable the reader to perform data tasks well by associating data format and semantics.
   \end{itemize}
 
   \boxsubtitle{Takeways}
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item The choice of the observational unit is not always straightforward.
+    \item Format and types must reflect the information the solution will ``see'' in
+      production.
   \end{itemize}
 \end{mainbox}
 
