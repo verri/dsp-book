@@ -578,12 +578,17 @@ Before describing the functioning of our approach, we present the principles tha
 \paragraph{Modularize the solution}
 
 Data science projects usually contain four main modules: a front-end, a back-end, a
-dataset, and a ``solution search system''.  The front-end is the user interface, i.e.
+dataset, and a ``solution search system.''  The front-end is the user interface, i.e.
 the part of the software that the client interacts with.  The back-end is the server-side
-code which usually contains the model.  The dataset is the curated data that is used to train the
+code which usually contains the preprocessor\footnote{Preprocessor is a fitted chain of
+data handling operations that make the necessary adjustments to the data before it is
+fed to the model.  For more details, consult \cref{chap:preprocess}.} and the model.
+The dataset is the curated data that is used to train the
 model.  Sometimes, the dataset is not static, but actually scripts and queries that
 produces a dynamic dataset.  The solution search system is the software that employs data
-handling and machine learning techniques, usually in a hyper-parameter optimization loop,
+preprocessing and machine learning techniques, usually in a
+hyper-parameter\footnote{Hyper-parameters are parameters that are not fitted or learned
+from the data, but rather set by the user.} optimization loop,
 to find the best solution, i.e. the combination of preprocessor and model that best
 solves the problem.
 
@@ -723,16 +728,16 @@ If the user interface is used to submit batch requests, REST API is more suitabl
 \subsection{Proposed workflow}
 
 The proposed workflow is based on the principles described above.  Our approach adapts
-the Scrum framework by adding three kinds of sprints: data sprints, solution sprints, and
+the Scrum framework by defining three kinds of sprints: data sprints, solution sprints, and
 application sprints.  We also describe where exploratory and reporting phases fit in the
 workflow.
 
 \paragraph{Product backlog}
 
-In the methodologies described in this chapter, the problem definition is the first step
+In the data science methodologies described in this chapter, the problem definition is the first step
 in a data science project.  In our methodology, this task is dealt with the product
 backlog.  The product backlog is a list of all desired work on the project. The product
-backlog is dynamic, and it is continuously updated by the client representative and the
+backlog is dynamic, and it is continuously updated by the
 lead data scientist.
 
 Each item in the product backlog reflects a requirement or a feature the business
@@ -745,14 +750,17 @@ search tasks, and application tasks.
 The sprints are divided into three types: data sprints, solution sprints, and application
 sprints.  Sprints occur sequentially, but it is possible to have multiple sprints of the
 same type in sequence.  Like in traditional Scrum, the sprint review is performed at the
-end of each sprint.
+end of each sprint.  Data sprints comprise only data tasks, solution sprints comprise only
+solution search tasks, and so on.
 
-The \emph{data sprint} is focused on the data tasks: collection, integration, tidying, and
+The \emph{data sprint} is focused on the database-related tasks: collection, integration, tidying, and
 exploration.  \Cref{chap:data} covers the subjects of collection, integration (database
-normalization and joins) and tidying.  Exploration refers to \emph{exploratory
+normalization and joins) and tidying.  Part of data exploration is semantically describe
+the variables, especially in terms of data types and their properties; which is also
+discussed in that chapter.  Exploration also refers to \emph{exploratory
 data analysis}, which is not covered in this book. % TODO yet (could be the next chapter)
 For a good introduction to exploratory data analysis, which includes both understanding
-and identifying issues in the data, consult chapter 3 of
+and identifying issues in the data though descriptive statistics and visualization, consult chapter 3 of
 \textcite{Zumel2019}\footfullcite{Zumel2019}.
 The products (deliverables) of the data sprint are the exploratory analysis report and the
 data itself.  The exploratory analysis report is a document that describes the main
@@ -764,7 +772,8 @@ usually scripts and queries that combine data from different places --- must be 
 controlled.  At this point of the project, the data scientist must guarantee that the data
 is of high quality and that it represents the data that the solution will ``see'' in
 production.  \emph{It is very important that, at this stage, no transformation based
-on the values of the dataset is performed.}  Failing to do so leads to \gls{leakage}.
+on the values of the dataset is performed.}  Failing to do so leads to \gls{leakage} in
+the validation phase.
 
 \begin{defbox}{Data leakage}{}
   During the validation of the solution, we simulate the production environment by leaving
@@ -775,9 +784,10 @@ on the values of the dataset is performed.}  Failing to do so leads to \gls{leak
   overestimated.
 \end{defbox}
 
-The \emph{solution sprint} is focused on the solution search tasks: data handling, machine
-learning, and validation.  \Cref{chap:handling} covers the subjects of data handling ---
-adjust the data to be used by the machine learning algorithms ---, \cref{chap:slt}
+The \emph{solution sprint} is focused on the solution search tasks: data preprocessing, machine
+learning, and validation.  \Cref{chap:preprocess} covers the subjects of data
+preprocessing ---
+adjustments to the data to be used by the machine learning algorithms ---, \cref{chap:slt}
 covers the subjects of learning machines, and \cref{chap:evaluation,chap:planning} cover
 the subjects of validation --- through evaluation we estimate performance for unseen
 data.  The products of the solution sprint are the validation report and the solution,
@@ -809,10 +819,10 @@ documentation and unit tests are also part of this sprint.
     \path [line] (data-tasks) -- (data);
     \node [draw, dashed, fit=(data-tasks) (data-report) (data), label=Data sprint, inner sep=1.5em] (data-sprint) {};
     % Solution sprint
-    \node [smallblock] (handling) at (0, -5) {Data handling};
+    \node [smallblock] (preprocessing) at (0, -5) {Data preprocessing};
     \node [smallblock] (learning) at (0, -5.5) {Machine learning};
     \node [smallblock] (validation) at (0, -6) {Validation};
-    \node [draw, dotted, fit=(handling) (learning) (validation), label=Solution search, inner sep=8pt, minimum width=2.5cm] (solution-tasks) {};
+    \node [draw, dotted, fit=(preprocessing) (learning) (validation), label=Solution search, inner sep=8pt, minimum width=2.5cm] (solution-tasks) {};
     \node [block] (validation-report) at (4, -4.5) {Validation report};
     \node [darkblock] (solution) at (4, -6) {Preprocessor and model};
     \path [line] (solution-tasks) -- (validation-report);
