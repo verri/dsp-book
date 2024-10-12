@@ -62,8 +62,50 @@ using them to solve the issues presented in \cref{sub:messy}.
 
 \section{Formal structured data}
 
+\newcommand{\domainof}[1]{\mathcal{D}\!\left(#1\right)}
+\newcommand{\missing}{\text{?}}
+\newcommand{\rowcard}[1][k_1, \dots, k_k]{\operatorname{card}\!\left(#1\right)}
+
 In this section, I present a formal definition of structured data.  This definition is
 compatible with the relational model and tidy data presented in \cref{chap:data}.
+My definition takes into account the index\footnote{Also called grouping variables.} of
+the table, which is a key concept in data handling.  We also consider that values can be
+missing.  Repeated values are represented by allowing cells to contain sets of values.
+
+So, an indexed table $T$ is a tuple $(K, H, c)$, where $K = \left\{K_i : i = 1, \dots,
+k\right\}$ is the set of index columns, $H$ is the set of (non-index) columns, and $c :
+\domainof{K_1} \times \dots \times \domainof{K_k} \times H \to \mathcal{V}$ is the cell function.
+Here, $\mathcal{V}$ represents the space of all possible ordered sets of values, which
+may include missing values $\missing$.  Values have arbitrary types, such as integers,
+real numbers, strings, etc.
+
+Each index column $K_i$ has a domain $\domainof{K_i}$, which is an enumerable set of
+values. A possible row $r$ of the table is thus indexed by a tuple $r = (k_1, \dots,
+k_k)$, where $k_i \in \domainof{K_i}$.  Each row has a cardinality $\rowcard[r]$, which
+represents how many times the entity represented by the row is present in the table.
+A row $r$ with $\rowcard[r] = 0$ is considered to be missing.
+
+A cell is then represented by a row $r$ and a column $h \in H$.  The value of the cell,
+$\vec{v} = c(r, h)$ is an ordered set of values such that $|\vec{v}| = \rowcard[r]$.
+The value matrix $V$ of the cell $r$ is \[
+  \Big[ c(r, h) : h \in H \Big]\text{,}
+\] with dimensions $\rowcard[r] \times |H|$, assuming an arbitrary fixed order of the
+columns.
+
+From these concepts, we can define the basic operations and properties that can be applied
+to tables.
+
+\subsection{Splitting and binding}
+
+Given an indicator function $s : \domainof{K_1} \times \dots \times \domainof{K_k} \to
+\left\{0, 1\right\}$, we can define the split operation as \dots
+
+The split operation creates two tables, $T_0$ and $T_1$, that contains only the rows for which
+$s(r) = 0$ and $s(r) = 1$, respectively.
+
+\subsection{Sampling bias and missing structural information}
+
+Example of student, year, and grades.
 
 \section{Data handling operators}
 
