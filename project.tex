@@ -785,7 +785,8 @@ the validation phase.
   dataset, called test set, emulates unseen data.  \Gls{leakage} is the situation where
   information from the test set is used to transform the training set in any way or to
   train the model.  As a result, the validation performance of the solution is
-  overestimated.
+  overestimated.  Sometimes, even an excess of data exploration can lead to indirect
+  leakage or bias in the validation phase.
 \end{defbox}
 
 The \emph{solution sprint} is focused on the solution search tasks: data preprocessing, machine
@@ -958,10 +959,10 @@ with the sprint types and other artifacts and ceremonies of our approach.
 \end{tablebox}
 
 One highlight is that we approach CRISP-DM's ``data preparation'' and ZM's
-``collect/manage data'' tasks more carefully.  Data handling operations that do not
-depend on the values of the dataset (sample independent) are performed in the data sprint,
-while operations that depend on the values of the dataset are performed together with
-modeling.
+``collect/manage data'' tasks more carefully.  Data handling operations that are not
+parametrized by the data itself are performed in the data sprint.  On the other hand,
+operations that use statistics/information of a sampling of the data are performed
+together with modeling --- consult \cref{chap:handling}.
 
 This approach not only improves reliability of the solution validation, but also improves
 maintenance of the solution.  (Not surprisingly, frameworks like \texttt{scikit-learn} and

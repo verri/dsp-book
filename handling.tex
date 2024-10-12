@@ -14,7 +14,9 @@ integration and tidying --- must adjust the data to reflect the kind of
 input we expect in production.
 
 For those tasks, we must be careful with the operations we perform on the data. At the
-stage of data preparation, for example, sample-dependent operations lead to \gls{leakage}.
+stage of data preparation, for example, we should never parametrize our data handling
+pipeline in terms of information retrieved\footnote{For instance, imputation by the mean
+of a column.} by sampling the data.  This is because such operations lead to \gls{leakage}.
 
 In this chapter, we consider that tables are rectangular data structures in which values
 of the same column share the same properties (i.e. the same type, same restrictions, etc.)
@@ -58,13 +60,19 @@ using them to solve the issues presented in \cref{sub:messy}.
 {}
 \clearpage
 
+\section{Formal structured data}
+
+In this section, I present a formal definition of structured data.  This definition is
+compatible with the relational model and tidy data presented in \cref{chap:data}.
+
 \section{Data handling operators}
 
 In the literature and in software documentation, you will find a variety of terms used to
 describe data handling operations\footnote{%
   The terminology ``data handling'' itself is not universal.  Some authors and libraries
   call it ``data manipulation'', ``data wrangling'', ``data shaping'', or ``data
-  engineering''.  I use the term ``data handling'' to avoid confusion with the term ``data
+  engineering''.  I use the term ``data handling'' because it seems more generic.
+  Also, it avoids confusion with the term ``data
   manipulation'' which has a negative connotation in some contexts.}. %
 They often refer to the same or similar operations, but the terminology can be confusing.
 In this section, I present a summary of these operations mostly based on
