@@ -7,6 +7,7 @@
   \par\raggedleft--- \textup{Unnamed Old Man}, The Legend of Zelda}
 
 % Important: avoid the term "data manipulation" as it has a negative connotation
+% TODO: ordered set vs tuple. Which one is better?
 
 In the previous chapter, I discussed the relationship between data format and data
 semantics.  We also saw in \cref{chap:project} that data tasks --- specifically
@@ -173,6 +174,47 @@ data, we should take effort to use split-invariant operations.
 The reason is that split-invariance ensures that the operation does not depend on the
 sampling performed (usually unknown to us) to create the table we have in hand.  This
 property is important to avoid \gls{leakage} or to bias the results of the analysis.
+
+\subsection{Illustrative example}
+
+Consider the example of student grades.
+
+\begin{tablebox}[label=tab:grades1]{Data table of student grades.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \texttt{student} & \texttt{subject} & \texttt{year} & \texttt{grade} \\
+    \midrule
+    Alice & Chemistry & 2020 & 6 \\
+    Alice & Math & 2019 & 8 \\
+    Alice & Physics & 2019 & 7 \\
+    Bob & Chemistry & 2019 & 7 \\
+    Bob & Math & 2019 & 9 \\
+    Bob & Physics & 2019 & 8 \\
+    Carol & Biology & 2020 & 8 \\
+    Carol & Chemistry & 2020 & 9 \\
+    Carol & Math & 2020 & 10 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Data collected about student grades.
+\end{tablebox}
+
+\begin{tablebox}[label=tab:grades2]{Data table of student grades assuming student and subject as indices.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \texttt{student} & \texttt{subject} & \texttt{year} & \texttt{grade} \\
+    \midrule
+    Alice & Biology & \{\} & \{\} \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Indexed table with data from \cref{tab:grades1} assuming \texttt{student} and
+  \texttt{subject} as indices.
+\end{tablebox}
 
 \section{Data handling operators}
 
