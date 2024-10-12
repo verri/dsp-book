@@ -7,7 +7,6 @@
   \par\raggedleft--- \textup{Unnamed Old Man}, The Legend of Zelda}
 
 % Important: avoid the term "data manipulation" as it has a negative connotation
-% TODO: ordered set vs tuple. Which one is better?
 
 In the previous chapter, I discussed the relationship between data format and data
 semantics.  We also saw in \cref{chap:project} that data tasks --- specifically
@@ -76,7 +75,7 @@ missing.  Repeated values are represented by allowing cells to contain sets of v
 So, an indexed table $T$ is a tuple $(K, H, c)$, where $K = \left\{K_i : i = 1, \dots,
 k\right\}$ is the set of index columns, $H$ is the set of (non-index) columns, and $c :
 \domainof{K_1} \times \dots \times \domainof{K_k} \times H \to \mathcal{V}$ is the cell function.
-Here, $\mathcal{V}$ represents the space of all possible ordered sets of values, which
+Here, $\mathcal{V}$ represents the space of all possible tuples of values, which
 may include missing values $\missing$.  Values have arbitrary types, such as integers,
 real numbers, strings, etc.
 
@@ -87,7 +86,7 @@ represents how many times the entity represented by the row is present in the ta
 A row $r$ with $\rowcard[r] = 0$ is considered to be missing.
 
 A cell is then represented by a row $r$ and a column $h \in H$.  The value of the cell,
-$\vec{v} = c(r, h)$ is an ordered set of values such that $|\vec{v}| = \rowcard[r]$.
+$\vec{v} = c(r, h)$ is a tuple of values such that $|\vec{v}| = \rowcard[r]$.
 The value matrix $V$ of the cell $r$ is \[
   \Big[ c(r, h) : h \in H \Big]\text{,}
 \] with dimensions $\rowcard[r] \times |H|$, assuming an arbitrary fixed order of the
@@ -110,7 +109,7 @@ $s(r) = 0$ and $s(r) = 1$, respectively.
 Mathematically, the split operation is defined as \[
   \operatorname{split}(T = (K, H, c),\, s) =
     \left(T_0 = (K, H, c_0), T_1 = (K, H, c_1)\right)\text{,}
-\] where $c_i(r, h) = c(r, h)$ if $s(r) = i$ and $c_i(r, h) = \{\}$ otherwise.
+\] where $c_i(r, h) = c(r, h)$ if $s(r) = i$ and $c_i(r, h) = ()$ otherwise.
 
 \emph{Note that, by definition, the split operation never ``breaks'' a row.  So, the
 indices define the indivisible entities of the table.}
@@ -123,8 +122,9 @@ contains all the rows of $T_0$ and $T_1$.
 Mathematically, the binding operation is defined as \[
   \operatorname{bind}(T_0 = (K, H, c_0),~T_1 = (K, H, c_1)) =
     T = (K, H, c)\text{,}
-\] where $c(r, h) = c_0(r, h) \cup c_1(r, h)$\footnote{The ordered aspect of the sets here
-is not an issue for the union since we guarantee that at least one of the operands is
+\] where $c(r, h) = c_0(r, h) + c_1(r, h)$ and $+$ is the tuple concatenation
+operator\footnote{The order of the concatenation here is not an issue since we guarantee
+that at least one of the operands is
 empty.}.
 
 \paragraph{Premises in real-world applications}
@@ -152,7 +152,7 @@ the student's name, we must collect all the grades of all subjects a student has
 all years.
 
 In summary, the less variables we define as index columns, the more information we must
-collect about each entity.  However, in the next sections, we show that few index columns
+collect about each entity.  However, in the next sections, we show that assuming many index columns
 lead to restrictions in the operations we can perform on the table.
 
 This conceptual trade-off is important to understand when structuring the problem we are
@@ -191,9 +191,10 @@ Consider the example of student grades.
     Alice & Physics & 2019 & 7 \\
     Bob & Chemistry & 2019 & 7 \\
     Bob & Math & 2019 & 9 \\
-    Bob & Physics & 2019 & 8 \\
+    Bob & Physics & 2019 & 4 \\
+    Bob & Physics & 2020 & 8 \\
     Carol & Biology & 2020 & 8 \\
-    Carol & Chemistry & 2020 & 9 \\
+    Carol & Chemistry & 2020 & 3 \\
     Carol & Math & 2020 & 10 \\
     \bottomrule
   \end{tabular}
@@ -208,13 +209,31 @@ Consider the example of student grades.
     \toprule
     \texttt{student} & \texttt{subject} & \texttt{year} & \texttt{grade} \\
     \midrule
-    Alice & Biology & \{\} & \{\} \\
+    Alice & Biology & () & () \\
+    Alice & Chemistry & (2020) & (6) \\
+    Alice & Math & (2019) & (8) \\
+    Alice & Physics & (2019) & (7) \\
+    Bob & Biology & () & () \\
+    Bob & Chemistry & (2019) & (7) \\
+    Bob & Math & (2019) & (9) \\
+    Bob & Physics & (2019, 2020) & (4, 8) \\
+    Carol & Biology & (2020) & (8) \\
+    Carol & Chemistry & (2020) & (3) \\
+    Carol & Math & (2020) & (10) \\
+    Carol & Physics & () & () \\
     \bottomrule
   \end{tabular}
   \tcblower
   Indexed table with data from \cref{tab:grades1} assuming \texttt{student} and
   \texttt{subject} as indices.
 \end{tablebox}
+
+We cannot assume that Alice has not taken Biology, since this can be a missing value.
+
+Talk about Bob and Physics.
+
+We safely assume that Carol has failed Chemistry and gave up.  Changing year as part of
+our index would lead to a different conclusion.
 
 \section{Data handling operators}
 
