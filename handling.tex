@@ -92,20 +92,87 @@ The value matrix $V$ of the cell $r$ is \[
 \] with dimensions $\rowcard[r] \times |H|$, assuming an arbitrary fixed order of the
 columns.
 
+We assume that value matrices --- and consequently row cardinalities --- are minimal. This
+means that there are no \emph{nested row} $v_{i, 1}, \dots, v_{i, |H|}$ in the value matrices
+such that $v_{i, j} = \missing$ for all $j$.
+
 From these concepts, we can define the basic operations and properties that can be applied
 to tables.
 
 \subsection{Splitting and binding}
 
 Given an indicator function $s : \domainof{K_1} \times \dots \times \domainof{K_k} \to
-\left\{0, 1\right\}$, we can define the split operation as \dots
-
-The split operation creates two tables, $T_0$ and $T_1$, that contains only the rows for which
+\left\{0, 1\right\}$, the split operation creates two tables, $T_0$ and $T_1$, that
+contains only the rows for which
 $s(r) = 0$ and $s(r) = 1$, respectively.
 
-\subsection{Sampling bias and missing structural information}
+Mathematically, the split operation is defined as \[
+  \operatorname{split}(T = (K, H, c),\, s) =
+    \left(T_0 = (K, H, c_0), T_1 = (K, H, c_1)\right)\text{,}
+\] where $c_i(r, h) = c(r, h)$ if $s(r) = i$ and $c_i(r, h) = \{\}$ otherwise.
 
-Example of student, year, and grades.
+\emph{Note that, by definition, the split operation never ``breaks'' a row.  So, the
+indices define the indivisible entities of the table.}
+
+The binding operation is the inverse of the split operation.  Given two tables $T_0 = (K,
+H, c_0)$ and $T_1 = (K, H, c_1)$, such that $\rowcard[r; c_0] = 0$ if $\rowcard[r; c_1] >
+0$ for any row $r$, and vice-versa, the binding operation creates a new table $T$ that
+contains all the rows of $T_0$ and $T_1$.
+
+Mathematically, the binding operation is defined as \[
+  \operatorname{bind}(T_0 = (K, H, c_0),~T_1 = (K, H, c_1)) =
+    T = (K, H, c)\text{,}
+\] where $c(r, h) = c_0(r, h) \cup c_1(r, h)$\footnote{The ordered aspect of the sets here
+is not an issue for the union since we guarantee that at least one of the operands is
+empty.}.
+
+\paragraph{Premises in real-world applications}
+
+One important aspect of these functions is that we assume that the entities represented by
+the rows are indivisible, and that any binding operation will never occur for tables that
+share the same entities.
+
+In real-world applications, this is not always true.  Many times, we do not know the
+process someone else has used to collect the data.  In these cases, we must be careful
+about the guarantees we explain in this chapter.  On the other hand, one can consider the
+premises we use as a guideline to design good data collection processes.
+
+We can see data collection as the result of a splitting operation in the universe set of
+all possible entities.  This is a good way to think about data collection, as we can try
+to ensure that we collect all possible information about the entities we are interested
+in.
+
+This, of course, depends on what we define as the index columns of the table.  Consider
+the example of collecting information about grades of students.  If we define as the index
+columns the student's name and year, we must ensure that we collect all the grades of all
+subjects a student has taken in a year.  We do not need, though, to collect information
+from all students or all years.  On the other hand, if we define as the index column only
+the student's name, we must collect all the grades of all subjects a student has taken in
+all years.
+
+In summary, the less variables we define as index columns, the more information we must
+collect about each entity.  However, in the next sections, we show that few index columns
+lead to restrictions in the operations we can perform on the table.
+
+This conceptual trade-off is important to understand when structuring the problem we are
+trying to solve.  Neglecting these issues can lead to strong statistical biases and
+incorrect conclusions.
+
+\subsection{Split-invariance}
+
+An arbitrary data handling operation $f(T)$ over table $T$is said to be split-invariant
+if, for any split function $s$, the following equation holds \[
+  f\!\left(T\right) =
+    \operatorname{bind}\!\left(f\!\left(T_0\right), f\!\left(T_1\right)\right)\text{,}
+\] where $T_0, T_1 = \operatorname{split}\!\left(T; s\right)$.
+
+Split-invariance is a desirable property for data handling operations during the data
+tasks described in \cref{chap:project}: integration and tidying.  Even while exploring
+data, we should take effort to use split-invariant operations.
+
+The reason is that split-invariance ensures that the operation does not depend on the
+sampling performed (usually unknown to us) to create the table we have in hand.  This
+property is important to avoid \gls{leakage} or to bias the results of the analysis.
 
 \section{Data handling operators}
 
