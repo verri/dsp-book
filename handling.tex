@@ -11,13 +11,14 @@
 
 In the previous chapter, I discussed the relationship between data format and data
 semantics.  We also saw in \cref{chap:project} that data tasks --- specifically
-integration and tidying --- must adjust the data to reflect the kind of
+integration and tidying --- must adjust the available data to reflect the kind of
 input we expect in production.
 
 For those tasks, we must be careful with the operations we perform on the data. At the
 stage of data preparation, for example, we should never parametrize our data handling
 pipeline in terms of information retrieved\footnote{For instance, imputation by the mean
-of a column.} by sampling the data.  This is because such operations lead to \gls{leakage}.
+of a column.} by sampling the data.  This is because such operations lead to \gls{leakage}
+during evaluation and other biases in our conclusions.
 
 In this chapter, we consider that tables are rectangular data structures in which values
 of the same column share the same properties (i.e. the same type, same restrictions, etc.)
@@ -25,8 +26,9 @@ and each column has a name.  Moreover, we assume that any value is possibly
 \emph{missing}.
 
 From a mathematical definition of such tables, we can define a set of operations that can
-be applied to them.  These operations are the building blocks of data handling tasks.
-I highlight some important properties of them.
+be applied to them.  These operations are the building blocks of data handling pipelines:
+combinations of operations that transform a dataset into another dataset.
+I also highlight some important properties of these operations.
 
 I show how these operations can be combined to create complex data handling pipelines by
 using them to solve the issues presented in \cref{sub:messy}.
@@ -308,7 +310,11 @@ split-invariant operations can preserve valid conclusions about the data even wh
 information is missing\footnote{Absence can be due to incomplete data collection or
 artificial splitting for validation, consult \cref{chap:planning}.}.
 
-\section{Split-invariant operators}
+\section{Data handling pipelines}
+
+\newpage
+
+\section{Data handling operations}
 
 In the literature and in software documentation, you will find a variety of terms used to
 describe data handling operations\footnote{%
