@@ -423,16 +423,16 @@ Columns remain unchanged.  This operation is potentially irreversible, as the re
 rows are lost.
 
 In the basic form, each row is treated independently.  For instance, the predicate
-\texttt{age > 18} will select all rows where the value in the \texttt{age} column is
+\code{age > 18} will select all rows where the value in the \code{age} column is
 greater than 18.
 
 However, if the predicate depends on an aggregation or window function, one must specify
-the groups and/or the order of the rows.  For instance, the predicate \texttt{age >
-mean(age) group by country} will select the rows where the value in the \texttt{age}
-column is greater than the mean of the \texttt{age} for each \texttt{country}. Another
-example is the predicate \texttt{cumsum(price) < 100 sort by date}, which selects the rows
-that satisfy the condition that the cumulative sum of the \texttt{price} column is less
-than 100 given the order of the rows defined by the \texttt{date} column.
+the groups and/or the order of the rows.  For instance, the predicate \code{age >
+mean(age) group by country} will select the rows where the value in the \code{age}
+column is greater than the mean of the \code{age} for each \code{country}. Another
+example is the predicate \code{cumsum(price) < 100 sort by date}, which selects the rows
+that satisfy the condition that the cumulative sum of the \code{price} column is less
+than 100 given the order of the rows defined by the \code{date} column.
 
 The trivial group is the entire dataset, so it is usually not necessary to specify it
 explicitly.  However, it is usually not sensible to not specify the order of the rows.
@@ -465,15 +465,15 @@ determine which columns should be selected.
 When selecting columns by name, one can use a list of column names or a regular
 expression\footnote{Regular expressions are very general and powerful, but they are also
 complex and error-prone.  An alternative is to use some form of hierarchical naming,
-such as \texttt{type.column} to express groups of columns.}.
+such as \code{type.column} to express groups of columns.}.
 The latter is useful when the column names follow a pattern that reflects the semantics of
 the columns.  For instance,
-one can use the regular expression \texttt{col[0-9]+} to select all columns whose names
-start with \texttt{col} followed by one or more digits.
+one can use the regular expression \code{col[0-9]+} to select all columns whose names
+start with \code{col} followed by one or more digits.
 
 When selecting columns by predicate, one can use a function that returns a logical value
 to define the condition under which a column should be selected.  For instance, one can
-use the predicate \texttt{isnumeric} to select all columns that contain numeric values.
+use the predicate \code{isnumeric} to select all columns that contain numeric values.
 Notice, however, that the predicate is applied to each column independently and returns a
 single logical value for each column.
 
@@ -510,8 +510,12 @@ original columns are kept.  The new columns are added to the dataset.
 
 The values in the new column are determined by an expression.  The expression is a
 function that returns a vector of values given the values in the other columns.  The
-expression can be a simple function, such as \texttt{y = x + 1}, or a more complex
-function, such as \texttt{y = ifelse(x > 0, 1, 0)}.  Here, \texttt{x} and \texttt{y} are
+expression can be a simple function, such as \code{y = x + 1}, or a more complex
+function, such as
+\begin{center}
+  \code{y = ifelse(x > 0, 1, 0)}.
+\end{center}
+Here, \code{x} and \code{y} are
 the names of an existing and the new column, respectively.
 
 One may also use an aggregation and window function in the expression. This is particularly
@@ -519,14 +523,17 @@ useful when performing mutation considering a group.  In this case, the returned
 repeated (aggregation function) for each row of the same group.  Like in filtering, the
 more explicit you can be about order and groups, the better.
 
-For example, the expression \texttt{y = cumsum(x) group by category sort by date} will
-create a new column \texttt{y} with the cumulative sum of the \texttt{x} column for each
-\texttt{category} given the order of the rows defined by the \texttt{date} column.
+For example, the expression
+\begin{center}
+  \code{y = cumsum(x) group by category sort by date}
+\end{center}
+will create a new column \code{y} with the cumulative sum of the \code{x} column for each
+\code{category} given the order of the rows defined by the \code{date} column.
 
 Sometimes, the same expression can be used to create multiple columns.  This is useful
 when the new columns are related.  To do so, one first specifies the columns in the same way as
 when selecting columns.  Then, one needs to specify a rule to name the new columns.
-For instance, \texttt{x\_new = x + 1 across x matches \textasciicircum{}col[0-9]+\$}.
+For instance, \code{x\_new = x + 1 across x matches \textasciicircum{}col[0-9]+\$}.
 
 Practically speaking, mutation can overwrite existing columns.  This is useful when the
 new column is a replacement for the old one.  Formally, overwriting is just a sequence of
@@ -557,9 +564,9 @@ are determined by the aggregation function applied to the values in the other co
 All columns that define the groups are usually kept in the resulting dataset.  In this
 case, as expected, values of such columns are equal for all rows in the same group.
 
-For instance, the aggregation function \texttt{mean(x) group by category} will create a
-new dataset with one row for each different value of \texttt{category} and a new column
-with the mean of the \texttt{x} column for each group.
+For instance, the aggregation function \code{mean(x) group by category} will create a
+new dataset with one row for each different value of \code{category} and a new column
+with the mean of the \code{x} column for each group.
 
 \begin{hlbox}{Practical tips}
   \begin{itemize}
@@ -589,7 +596,7 @@ This is not a theoretical requirement, but a common limitation of most libraries
 The resulting dataset will contain all the rows of the original datasets.  The columns
 remain unchanged.  It is a good practice to create a new column that represents the source
 of each row.  For instance, if each table represents data collected in a different year,
-one can create a new column \texttt{year} that contains the year of the data.
+one can create a new column \code{year} that contains the year of the data.
 
 When binding datasets by columns, the datasets must have the same number of rows.  Each
 matching row represent the same observation\footnote{Practically speaking, either the
@@ -617,22 +624,22 @@ columns.  The operation may not be reversible, consult \cref{sec:normalization} 
 details.
 
 The join of two tables is the operation that returns a new table with the columns of both
-tables.  Let \texttt{U} be the common set of columns.  For each occurring value of
-\texttt{U} in the first table, the operation will look for the same value in the second
+tables.  Let \code{U} be the common set of columns.  For each occurring value of
+\code{U} in the first table, the operation will look for the same value in the second
 table.  If it finds it, it will create a new row with the columns of both tables.  If it
-does not find it, no row will be created.  This operation assumes that values in \texttt{U}
+does not find it, no row will be created.  This operation assumes that values in \code{U}
 are unique in each table.
 
 The variation described above is usually called natural or inner join.  Three other
 variations are possible.
 \begin{itemize}
-  \item Left join: for each occurring value of \texttt{U} in the first table, the operation
+  \item Left join: for each occurring value of \code{U} in the first table, the operation
     will look for the same value in the second table.  If it finds it, it will create a new
     row with the columns of both tables.  If it does not find it, it will create a new row
     with the columns of the first table and missing values for the columns of the second
     table.
   \item Right join: the same as the left join, but the roles of the tables are reversed.
-  \item Outer join: for each different value of \texttt{U} in both tables, the operation
+  \item Outer join: for each different value of \code{U} in both tables, the operation
     will create a new row with the columns of both tables.  If a value is missing in one
     table, it will be filled with a missing value.
 \end{itemize}
@@ -671,7 +678,7 @@ rows beforehand.
     \rowcolors{2}{black!10!white}{}
     \begin{tabular}{ccc}
       \toprule
-      \texttt{name} & \texttt{year} & \texttt{value} \\
+      \code{name} & \code{year} & \code{value} \\
       \midrule
       A & 2019 & 1 \\
       A & 2020 & 2 \\
@@ -688,7 +695,7 @@ rows beforehand.
     \rowcolors{2}{black!10!white}{}
     \begin{tabular}{cccc}
       \toprule
-      \texttt{name} & \texttt{2019} & \texttt{2020} & \texttt{2021} \\
+      \code{name} & \code{2019} & \code{2020} & \code{2021} \\
       \midrule
       A & 1 & 2 & 3 \\
       B & 4 & 5 & 6 \\
@@ -697,12 +704,12 @@ rows beforehand.
   \end{minipage}
   \tcblower
   The left table is in the long format and the right table is in the wide format.  The
-  name column is \texttt{year} and the value column is \texttt{value}.
+  name column is \code{year} and the value column is \code{value}.
 \end{tablebox}
 
 \Cref{tab:pivot} shows an example of pivoting.  The left table is in the long format and
-the right table is in the wide format.  The name column is \texttt{year}, the value column
-is \texttt{value}, and the remaining column is \texttt{name} which is an unique identifier
+the right table is in the wide format.  The name column is \code{year}, the value column
+is \code{value}, and the remaining column is \code{name} which is an unique identifier
 of the rows in the wide format.
 
 \begin{hlbox}{Practical tips}
