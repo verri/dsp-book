@@ -289,6 +289,7 @@ needed, the relation would be reconstructed by a join operation.
     \bottomrule
   \end{tabular}
   \quad
+  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{Student} & \textbf{Course} & \textbf{Grade} \\
@@ -499,7 +500,7 @@ analysis.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l r r r c}
     \toprule
-    Religion & <\$10k & \$10-20k & \$20-30k & \dots \\
+    \textbf{Religion} & \textbf{<\$10k} & \textbf{\$10-20k} & \textbf{\$20-30k} & \textbf{\dots} \\
     \midrule
     Agnostic & 27 & 34 & 60 & \dots \\
     Atheist & 12 & 27 & 37 & \dots \\
@@ -520,7 +521,7 @@ names, not values.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l r}
     \toprule
-    Religion & Income & Frequency \\
+    \textbf{Religion} & \textbf{Income} & \textbf{Frequency} \\
     \midrule
     Agnostic & <\$10k & 27 \\
     Agnostic & \$10-20k & 34 \\
@@ -546,7 +547,7 @@ the variables.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l l r c}
     \toprule
-    country & year & column & cases & \dots \\
+    \textbf{country} & \textbf{year} & \textbf{column} & \textbf{cases} & \textbf{\dots} \\
     \midrule
     AD & 2000 & m014 & 0 & \dots \\
     AD & 2000 & m1524 & 0 & \dots \\
@@ -568,7 +569,7 @@ calculating ratios and frequency.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l l l r c}
     \toprule
-    country & year & sex & age & cases & \dots \\
+    \textbf{country} & \textbf{year} & \textbf{sex} & \textbf{age} & \textbf{cases} & \textbf{\dots} \\
     \midrule
     AD & 2000 & m & 0--14 & 0 & \dots \\
     AD & 2000 & m & 15--24 & 0 & \dots \\
@@ -589,7 +590,7 @@ columns contains the names of the variables, in this case the column \emph{eleme
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llllcccc}
     \toprule
-    id & year & month & element & d1 & d2 & \dots & d31 \\
+    \textbf{id} & \textbf{year} & \textbf{month} & \textbf{element} & \textbf{d1} & \textbf{d2} & \textbf{\dots} & \textbf{d31} \\
     \midrule
     MX17004 & 2010 & 1 & tmax &    & 24 & \dots & 27 \\
     MX17004 & 2010 & 1 & tmin & 14 &    & \dots &    \\
@@ -611,7 +612,7 @@ implicit information, as seen in \cref{tab:tidy3b}.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllc}
     \toprule
-    id & date & element & value \\
+    \textbf{id} & \textbf{date} & \textbf{element} & \textbf{value} \\
     \midrule
     MX17004 & 2010-01-01 & tmax &    \\
     MX17004 & 2010-01-01 & tmin & 14 \\
@@ -627,7 +628,7 @@ implicit information, as seen in \cref{tab:tidy3b}.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llcc}
     \toprule
-    id & date & tmin & tmax \\
+    \textbf{id} & \textbf{date} & \textbf{tmin} & \textbf{tmax} \\
     \midrule
     MX17004 & 2010-01-01 & 14 &    \\
     MX17004 & 2010-01-02 &    & 24 \\
@@ -651,7 +652,7 @@ many observational units are registered in the same table.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllll}
     \toprule
-    year & artist & track & date & rank \\
+    \textbf{year} & \textbf{artist} & \textbf{track} & \textbf{date} & \textbf{rank} \\
     \midrule
     2000 & 2 Pac & Baby Don't Cry & 2000-02-26 & 87 \\
     2000 & 2 Pac & Baby Don't Cry & 2000-03-04 & 82 \\
@@ -677,7 +678,7 @@ two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lll}
     \toprule
-    track id & artist & track \\
+    \textbf{track id} & \textbf{artist} & \textbf{track} \\
     \midrule
     1 & 2 Pac & Baby Don't Cry \\
     2 & 2Ge+her & The Hardest Part Of Breaking Up \\
@@ -691,7 +692,7 @@ two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lll}
     \toprule
-    track id & date & rank \\
+    \textbf{track id} & \textbf{date} & \textbf{rank} \\
     \midrule
     1 & 2000-02-26 & 87 \\
     1 & 2000-03-04 & 82 \\
@@ -719,7 +720,7 @@ it is straightforward to combine the tables.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llll}
     \toprule
-    month & day & time & \dots \\
+    \textbf{month} & \textbf{day} & \textbf{time} & \textbf{\dots} \\
     \midrule
     1 & 1 & 517 & \dots \\
     1 & 1 & 533 & \dots \\
@@ -737,7 +738,7 @@ it is straightforward to combine the tables.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llll}
     \toprule
-    month & day & time & \dots \\
+    \textbf{month} & \textbf{day} & \textbf{time} & \textbf{\dots} \\
     \midrule
     1 & 1 & 830 & \dots \\
     1 & 1 & 850 & \dots \\
@@ -757,7 +758,7 @@ shown in \cref{tab:tidy5}.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllll}
     \toprule
-    year & month & day & time & \dots \\
+    \textbf{year} & \textbf{month} & \textbf{day} & \textbf{time} & \textbf{\dots} \\
     \midrule
     2013 & 1 & 1 & 517 & \dots \\
     2013 & 1 & 1 & 533 & \dots \\
@@ -835,7 +836,7 @@ event of measuring the temperature, we can organize the data in a tidy format as
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllc}
     \toprule
-    date & time & sensor & temperature \\
+    \textbf{date} & \textbf{time} & \textbf{sensor} & \textbf{temperature} \\
     \midrule
     2023-01-01 & 00:00 & 1 & 20 \\
     2023-01-01 & 00:00 & 2 & 21 \\
@@ -857,7 +858,7 @@ as shown in \cref{tab:temp2}.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llccc}
     \toprule
-    date & time & temp. 1 & temp. 2 & temp. 3 \\
+    \textbf{date} & \textbf{time} & \textbf{temp. 1} & \textbf{temp. 2} & \textbf{temp. 3} \\
     \midrule
     2023-01-01 & 00:00 & 20 & 21 & 22 \\
     2023-01-01 & 08:00 & 21 & 22 & 23 \\
@@ -1005,7 +1006,7 @@ kind of normalization.  This happens in many cases where privacy is a concern.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llll}
     \toprule
-    A (student) & B (course) & C (grade) & E (load) \\
+    \textbf{A (student)} & \textbf{B (course)} & \textbf{C (grade)} & \textbf{E (load)} \\
     \midrule
     1 & 1 & 7 & 60 \\
     1 & 2 & 8 & 30 \\
@@ -1017,7 +1018,7 @@ kind of normalization.  This happens in many cases where privacy is a concern.
   \\[1em]
   \begin{tabular}{lll}
     \toprule
-    A (student) & F (average grade) & G (total load) \\
+    \textbf{A (student)} & \textbf{F (average grade)} & \textbf{G (total load)} \\
     \midrule
     1 & 7.5 & 90 \\
     2 & 8 & 100 \\
