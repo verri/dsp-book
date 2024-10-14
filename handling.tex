@@ -75,25 +75,31 @@ My definition takes into account the index\footnote{Also called grouping variabl
 the table, which is a key concept in data handling.  We also consider that values can be
 missing.  Repeated values are represented by allowing cells to contain sets of values.
 
-So, an indexed table $T$ is a tuple $(K, H, c)$, where $K = \left\{K_i : i = 1, \dots,
+\begin{defbox}{Indexed table}{itable}
+An indexed table $T$ is a tuple $(K, H, c)$, where $K = \left\{K_i : i = 1, \dots,
 k\right\}$ is the set of index columns, $H$ is the set of (non-index) columns, and $c :
 \domainof{K_1} \times \dots \times \domainof{K_k} \times H \to \mathcal{V}$ is the cell function.
 Here, $\mathcal{V}$ represents the space of all possible tuples of values, which
 may include missing values $\missing$.  Values have arbitrary types, such as integers,
 real numbers, strings, etc.
-
 Each index column $K_i$ has a domain $\domainof{K_i}$, which is an enumerable set of
-values. A possible row $r$ of the table is thus indexed by a tuple $r = (k_1, \dots,
+values.
+\end{defbox}
+
+A possible row $r$ of the table is thus indexed by a tuple $r = (k_1, \dots,
 k_k)$, where $k_i \in \domainof{K_i}$.  Each row has a cardinality $\rowcard[r]$, which
 represents how many times the entity represented by the row is present in the table.
 A row $r$ with $\rowcard[r] = 0$ is considered to be missing.
 
 A cell is then represented by a row $r$ and a column $h \in H$.  The value of the cell,
 $\vec{v} = c(r, h)$ is a tuple of values such that $|\vec{v}| = \rowcard[r]$.
+
+\begin{defbox}{Value matrix}{vmatrix}
 The value matrix $V$ of the cell $r$ is \[
   \Big[ c(r, h) : h \in H \Big]\text{,}
 \] with dimensions $\rowcard[r] \times |H|$, assuming an arbitrary fixed order of the
 columns.
+\end{defbox}
 
 We assume that value matrices --- and consequently row cardinalities --- are minimal. This
 means that there are no \emph{nested row} $v_{i, 1}, \dots, v_{i, |H|}$ in the value matrices
@@ -104,6 +110,12 @@ to tables.
 
 \subsection{Splitting and binding}
 
+Split and bind are very basic operations that can be applied to tables.  They are
+inverses of each other and are used to divide and combine tables, respectively.
+They are important in the data science process because they play a key role in
+data semantics and validation of solutions.
+
+\begin{defbox}{Split operation}{split}
 Given an indicator function $s : \domainof{K_1} \times \dots \times \domainof{K_k} \to
 \left\{0, 1\right\}$, the split operation creates two tables, $T_0$ and $T_1$, that
 contains only the rows for which
@@ -113,6 +125,7 @@ Mathematically, the split operation is defined as \[
   \operatorname{split}(T = (K, H, c),\, s) =
     \left(T_0 = (K, H, c_0), T_1 = (K, H, c_1)\right)\text{,}
 \] where $c_i(r, h) = c(r, h)$ if $s(r) = i$ and $c_i(r, h) = ()$ otherwise.
+\end{defbox}
 
 \emph{Note that, by definition, the split operation never ``breaks'' a row.  So, the
 indices define the indivisible entities of the table.}
@@ -122,6 +135,7 @@ H, c_0)$ and $T_1 = (K, H, c_1)$, such that $\rowcard[r; c_0] = 0$ if $\rowcard[
 0$ for any row $r$, and vice-versa, the binding operation creates a new table $T$ that
 contains all the rows of $T_0$ and $T_1$.
 
+\begin{defbox}{Bind operation}{bind}
 Mathematically, the binding operation is defined as \[
   \operatorname{bind}(T_0 = (K, H, c_0),~T_1 = (K, H, c_1)) =
     T = (K, H, c)\text{,}
@@ -129,6 +143,10 @@ Mathematically, the binding operation is defined as \[
 operator\footnote{The order of the concatenation here is not an issue since we guarantee
 that at least one of the operands is
 empty.}.
+\end{defbox}
+
+\emph{Thus, a requirement for the binding operation is that the tables are disjoint in
+terms of the row entities they have.}
 
 \paragraph{Premises in real-world applications}
 
@@ -164,11 +182,20 @@ incorrect conclusions.
 
 \subsection{Split-invariance}
 
-An arbitrary data handling operation $f(T)$ over table $T$is said to be split-invariant
-if, for any split function $s$, the following equation holds \[
-  f\!\left(T\right) =
-    \operatorname{bind}\!\left(f\!\left(T_0\right), f\!\left(T_1\right)\right)\text{,}
+One property we can study about data handling operations is whether they are distributive
+over the bind operation.  This property is called \emph{split-invariance}.
+
+From now on, we will denote \[
+  T_0 + T_1 = \operatorname{bind}(T_0, T_1)\text{,}
+\] for any tables $T_0$ and $T_1$ to simplify the notation.
+
+\begin{defbox}{Split-invariance}{split-invariance}
+An arbitrary data handling operation $f(T)$ is said to be split-invariant
+if, for any table $T$ and split function $s$, the following equation holds \[
+  f\!\left(T_0 + T_1\right) =
+    f\!\left(T_0\right) + f\!\left(T_1\right)\text{,}
 \] where $T_0, T_1 = \operatorname{split}\!\left(T; s\right)$.
+\end{defbox}
 
 Split-invariance is a desirable property for data handling operations during the data
 tasks described in \cref{chap:project}: integration and tidying.  Even while exploring
