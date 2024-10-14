@@ -159,6 +159,8 @@ predicts class 0 will have an F$_1$-score of 0.  Note that, although guessing $1
 better than guessing $0$ in terms of F$_1$-score, this measure is much better than
 accuracy to evaluate the performance of the classifier in imbalanced problems.
 
+% TODO: things get bad if majority class is positive
+
 \section{Regression estimation evaluation}
 
 Performance measures for regression tasks are usally calculated based on the error or residual
@@ -196,6 +198,8 @@ interpret.
 % \mathcal{I}_\text{test}$.  The coefficient of determination ranges from $-\infty$ to 1,
 % where 1 indicates a perfect fit and 0 indicates that the model is as good as the mean of
 % the target variable.  Negative values indicate that the model is worse than the mean.
+% TODO: falar que não é diretamente comparável,
+% TODO: assimétricas precisam manter as prioris
 
 % Sometimes, \dots
 % Falar do RMSLE, plotar a curva em função da diferença. RMSLE incurs a larger penalty for
