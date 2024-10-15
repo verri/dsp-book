@@ -339,9 +339,23 @@ artificial splitting for validation, consult \cref{chap:planning}.}.
 
 \section{Data handling pipelines}
 
+In the literature and in software documentation, you will find a variety of terms used to
+describe data handling operations\footnote{%
+  The terminology ``data handling'' itself is not universal.  Some authors and libraries
+  call it ``data manipulation'', ``data wrangling'', ``data shaping'', or ``data
+  engineering''.  I use the term ``data handling'' because it seems more generic.
+  Also, it avoids confusion with the term ``data
+  manipulation'' which has a negative connotation in some contexts.}. %
+They often refer to the same or similar operations, but the terminology can be confusing.
+In this section, I present a summary of these operations mostly based on
+\textcite{Wickham2023} definitions\footnote{Which they call \emph{verbs}.}.
+
+
 During the preparation of data for our project, we will need to perform a set of operations
 on possibly multiple datasets.  These operations are organized in a pipeline, where the
 outputs of one operation are the inputs of the next one.
+Operations are extensively parametrized, for instance, most of them can use predicates to
+define the groups, arrangements, or conditions under which they should be applied.
 
 \begin{figurebox}[label=fig:pipeline]{Example of data handling pipeline.}
   \centering
@@ -397,35 +411,7 @@ The declarative approach, opposed to the imperative one, makes it easier to reas
 and maintain the code\footnote{Tidyverse and Polars are examples of
 libraries that use a declarative approach to data handling.}.
 
-\section{Data handling operations}
-
-In the literature and in software documentation, you will find a variety of terms used to
-describe data handling operations\footnote{%
-  The terminology ``data handling'' itself is not universal.  Some authors and libraries
-  call it ``data manipulation'', ``data wrangling'', ``data shaping'', or ``data
-  engineering''.  I use the term ``data handling'' because it seems more generic.
-  Also, it avoids confusion with the term ``data
-  manipulation'' which has a negative connotation in some contexts.}. %
-They often refer to the same or similar operations, but the terminology can be confusing.
-In this section, I present a summary of these operations mostly based on
-\textcite{Wickham2023} definitions\footnote{Which are called \emph{verbs}.}.
-
-% \begin{slidebox}{Data handling operators}{}
-%   \begin{itemize}
-%     \item Filtering rows;
-%     \item Selecting columns;
-%     \item Mutating columns;
-%     \item Aggregating rows;
-%     \item Binding datasets;
-%     \item Joining datasets;
-%     \item Pivoting (spreading) and unpivoting (gathering) datasets.
-%   \end{itemize}
-% \end{slidebox}
-
-These operations are the building blocks of the data handling tasks we will discuss in the
-next sections.  They can also be extensively parametrized and combined to create more
-elaborate data handling pipelines.  For instance, most of them can use predicates to
-define the groups, arrangements, or conditions under which they should be applied.
+\section{Split-invariant operations}
 
 We use the following terminology to refer to the data handling parameters:
 \begin{itemize}
@@ -450,23 +436,6 @@ We use the following terminology to refer to the data handling parameters:
 %   \end{itemize}
 % \end{slidebox}
 
-Operators are also vectorized, meaning that they can be applied to multiple columns or
-rows at once.  This is a key feature of data handling operations, as it allows for
-expressive and efficient data manipulation.
-
-Many of them are also reversible, meaning that they can be undone.  This is important
-because it allows for reproducibility and traceability of the data handling process.
-
-They operate on a dataset (or more than one) given as input and return a new dataset as
-output.  This is important because it allows for the creation of data handling pipelines,
-where the output of one operation is the input of the next one.  Parameters like column
-names, predicates, aggregation functions, and expressions can be passed to these operations to
-customize their behavior.
-
-Unlike traditional procedural programming, where conditional statements and loops are used
-to manipulate data, data handling operations are declarative.  This means that they are
-expressed in terms of what should be done, not how it should be done.  This is a powerful
-abstraction that allows for the creation of complex pipelines with a few lines of code.
 
 \subsection{Filtering rows}
 
@@ -776,7 +745,7 @@ of the rows in the wide format.
   \end{itemize}
 \end{hlbox}
 
-\subsection{An algebra for statistical transformations}
+\section{An algebra for statistical transformations}
 
 In recent years, some researchers made an effort to create a formal algebra for
 statistical transformations.  The idea is to create a set of operations that can be
