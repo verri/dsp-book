@@ -93,16 +93,25 @@ A row $r$ with $\rowcard[r] = 0$ is considered to be missing.
 
 A cell is then represented by a row $r$ and a column $h \in H$.  The value of the cell,
 $\vec{v} = c(r, h)$ is a tuple of values such that $|\vec{v}| = \rowcard[r]$.
+The order of the elements in the tuple $\vec{v}$ is arbitrary but fixed.  A \emph{nested
+row} consists of a tuple of values that associates different columns with the same
+repetition of the entity, i.e. \[
+  \Big[ v(h)_i : h \in H \Big]\text{,}
+\]
+where $c(r, h) = [v(h)_i : i = 1, \dots, \rowcard[r]]$, assuming an arbitrary fixed order
+of the columns $h$.
+
+We can stack nested rows to form a matrix of values.  This matrix is called the value
+matrix of the row $r$.
 
 \begin{defbox}{Value matrix}{vmatrix}
-The value matrix $V$ of the row $r$ is \[
+The value matrix $V = (v_{i, j})$ of the row $r$ is \[
   \Big[ c(r, h) : h \in H \Big]\text{,}
-\] with dimensions $\rowcard[r] \times |H|$, assuming an arbitrary fixed order of the
-columns.
+\] with dimensions $\rowcard[r] \times |H|$.
 \end{defbox}
 
 We assume that value matrices --- and consequently row cardinalities --- are minimal. This
-means that there are no \emph{nested row} $v_{i, 1}, \dots, v_{i, |H|}$ in the value matrices
+means that there are no nested row $v_{i, 1}, \dots, v_{i, |H|}$ in the value matrices
 such that $v_{i, j} = \missing$ for all $j$.
 
 From these concepts, we can define the basic operations and properties that can be applied
