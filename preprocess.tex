@@ -24,17 +24,17 @@ The pipeline, like a model, must be ``fitted'' to the data.  This means that par
 the operations are not fixed until the first data is given as input.  Subsequent data fed
 to the pipeline will be handled keeping the first ``learned'' parameters.
 
-The fitted pipeline is called a \emph{preprocessor} in our context.  This is because the
+The fitted pipeline is called a \gls{preprocessor} in our context.  This is because the
 pipeline is used to preprocess the data before the model is applied.
 
 Consider the following example.  Suppose we have a dataset with missing values for
-variable \texttt{A}.  We want to impute the missing values and then standardize
-\texttt{A}.  The pipeline is created as follows:  \texttt{D -> impute\_zero(A) ->
+variable A.  We want to impute the missing values and then standardize
+A.  The pipeline is created as follows:  \code{D -> impute\_zero(A) ->
 standardize(A)}.
 
-The operation \texttt{impute\_zero(A)} is parametrized by the value 0, which, in this case,
-is fixed.  However, the operation \texttt{standardize(A)} is parametrized by the mean and
-the standard deviation of the values in \texttt{A}.  These values are not fixed until the
+The operation \code{impute\_zero(A)} is parametrized by the value 0, which, in this case,
+is fixed.  However, the operation \code{standardize(A)} is parametrized by the mean and
+the standard deviation of the values in A.  These values are not fixed until the
 first data is given as input.
 
 \begin{hlbox}{A note about fixed parameters}
@@ -50,7 +50,7 @@ In a practical scenario, the source code of the \emph{model search} method inclu
 only strategies for the model, but also the data handling pipeline.  Moreover, the deployment
 of the model includes the data handling pipeline as well.  In other words, it does not
 matter which model is used, in the example above, the mean and the standard deviation of
-the values in \texttt{A} should be stored and used in deployed models.
+the values in A should be stored and used in deployed models.
 
 In terms of reproducibility and validation, having a single consolidated pipeline is
 crucial.
