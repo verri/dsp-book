@@ -430,6 +430,155 @@ libraries that use a declarative approach to data handling.}.
 
 \section{Split-invariant operations}
 
+In this section, I present a set of operations that are split-invariant.  These operations
+can be safely applied to the data without worrying about biasing the dataset.
+
+For each operation, we discuss its application on some tidying issues presented in
+\cref{sub:messy}.  The issues I address here:
+\begin{itemize}
+  \itemsep0em
+  \item Headers are values, not variable names;
+  \item Multiple variables are stored in one column; % [mutate/select problem]
+  \item Variables are stored in both rows and columns;
+  \item Multiple types of observational units are stored in the same table; and % [normalization problem]
+  \item A single observational unit is stored in multiple tables.
+\end{itemize}
+
+\subsection{Tagged splitting and binding}
+
+We saw that one trivial, yet important, operation is to bind datasets.  This is the
+process of combining two or more datasets into a single dataset.  In order to make the
+operation reversible, we can parametrize it with a split column that indicates the source
+of each row.
+
+\begin{defbox}{Tagged bind operation}{tagged-bind}
+  Given two or more disjoint tables $T_i = (K, H, c_i)$, $i = 0, 1, \dots$, the tagged
+  bind operation creates a new table $T = (K, H \cup \{s\}, c)$ that contains all the rows
+  of tables $T_i$.  The split column $s$ is a new column that indicates the source of each
+  row.
+
+  Mathematically, the tagged bind operation is defined as \[
+    \operatorname{bind}_{s}(T_0, T_1, \dots) = T\text{,}
+  \] where $c(r, h) = c_0(r, h) + c_1(r, h) + \dots$ if $h \in H$ and $c(r, s) = i :
+  \rowcard[r; c_i] > 0$.
+\end{defbox}
+
+When binding datasets by rows, the datasets must have the same columns.  In practice,
+one can assume, if the column is missing, that all values in that column are missing.
+
+The indication of the source table usually captures some hidden semantics that has split
+the tables in first place. For instance, if each table represents data collected in a
+different year, one can create a new column \code{year} that contains the year of the
+data.  It is important to pay attention on the semantics of the split column, as it can
+also contain extra information.
+
+\begin{tablebox}[label=tab:gas-usage-us]{Gas usage datasets from US residents.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{year} & \textbf{month} & \textbf{gas\_usage} & \textbf{distance} \\
+    \midrule
+    2019 & 1 & 48.7 & 1170 \\
+    2019 & 2 & 36.7 & 1100 \\
+    2019 & 3 & 37.8 & 970 \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Monthly gas usage data from US residents.
+\end{tablebox}
+
+\begin{tablebox}[label=tab:gas-usage-br]{Gas usage datasets from Brazil residents.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{year} & \textbf{month} & \textbf{gas\_usage} & \textbf{distance} \\
+    \midrule
+    2019 & 1 & 143.7 & 1470 \\
+    2019 & 2 & 156.7 & 1700 \\
+    2019 & 3 & 170.8 & 1870 \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Monthly gas usage data from Brazil residents.
+\end{tablebox}
+
+Consider \cref{tab:gas-usage-us,tab:gas-usage-br} that contain monthly gas usage data from
+US and Brazil residents.  From the requirements described in the previous section, we can
+safely bind these datasets --- as they are disjoint.  We can use as tag a new column to
+represent the country.  However, an attentive reader will notice that the unit of
+measurement of the gas usage and distance are different in each table: gallons and miles
+in the US dataset and liters and kilometers in the Brazil dataset.  Ideally, thus, we
+should create two other columns to represent the units of measurement.
+
+{\color{red} Talk about solving A single observational unit is stored in multiple tables.}
+
+{\color{red} Talk about splitting as the reverse function}
+
+\subsection{Pivoting}
+
+Another important operation is to pivot and unpivot datasets.  These are the processes of
+transforming a dataset from a long format to a wide format and vice versa.  The operations
+are reversible and they are the inverse of each other.
+
+Pivoting requires to specify a name column --- whose discrete and finite possible values
+will become the names of the new columns --- and a value column --- whose values will be
+spread across the rows.  All remaining columns are considered to be keys, uniquely
+identifying each row of new the dataset.
+
+Unpivoting\footnote{Which \citeauthor{Wickham2023} call pivot longer.} is the reverse
+operation.  One must specify all the columns whose names are the values of the before
+called name column.  The values of these columns will be gathered into a new column.
+As before, all remaining columns are considered to be keys.
+
+In practical applications, where not all remaining columns are keys, one must aggregate
+rows beforehand.
+
+\begin{tablebox}[label=tab:pivot]{Pivoting example.}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \rowcolors{2}{black!10!white}{}
+    \begin{tabular}{ccc}
+      \toprule
+      \textbf{name} & \textbf{year} & \textbf{value} \\
+      \midrule
+      A & 2019 & 1 \\
+      A & 2020 & 2 \\
+      A & 2021 & 3 \\
+      B & 2019 & 4 \\
+      B & 2020 & 5 \\
+      B & 2021 & 6 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \rowcolors{2}{black!10!white}{}
+    \begin{tabular}{cccc}
+      \toprule
+      \code{name} & \code{2019} & \code{2020} & \code{2021} \\
+      \midrule
+      A & 1 & 2 & 3 \\
+      B & 4 & 5 & 6 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}
+  \tcblower
+  The left table is in the long format and the right table is in the wide format.  The
+  name column is \code{year} and the value column is \code{value}.
+\end{tablebox}
+
+\Cref{tab:pivot} shows an example of pivoting.  The left table is in the long format and
+the right table is in the wide format.  The name column is \code{year}, the value column
+is \code{value}, and the remaining column is \code{name} which is an unique identifier
+of the rows in the wide format.
+
+\newpage
+
 We use the following terminology to refer to the data handling parameters:
 \begin{itemize}
   \item \textbf{Predicate}: a function that returns a logical value, used to filter
@@ -620,44 +769,6 @@ with the mean of the \code{x} column for each group.
   \end{itemize}
 \end{hlbox}
 
-\subsection{Binding datasets}
-
-One trivial, yet important, operation is to bind datasets.  This is the process of
-combining two or more datasets into a single dataset.  The operation is reversible, as the
-original datasets are kept.  The new dataset contains all the rows and columns of the
-original datasets.
-
-There are two ways to bind datasets: by rows or by columns.  The former is used to
-combine datasets that have exactly the same columns but represent different parts of the
-same dataset.  The latter is used to combine datasets that comprise the same observations
-(rows) but captures different aspects of the same dataset.
-
-When binding datasets by rows, the datasets must have the same columns\footnote{In
-practice, it is usually required that they share the same order of the columns as well.
-This is not a theoretical requirement, but a common limitation of most libraries.}.
-The resulting dataset will contain all the rows of the original datasets.  The columns
-remain unchanged.  It is a good practice to create a new column that represents the source
-of each row.  For instance, if each table represents data collected in a different year,
-one can create a new column \code{year} that contains the year of the data.
-
-When binding datasets by columns, the datasets must have the same number of rows.  Each
-matching row represent the same observation\footnote{Practically speaking, either the
-order of the rows or a key column is used to match the rows of the datasets.  In both
-situations, this is equivalent to a join operation by the row number or the key column;
-assuming that both datasets contains the same observations.}. The resulting dataset will
-contain all the columns of the original datasets.  The rows remain unchanged.
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use binding to combine datasets that represent different parts of the same dataset;
-    \item Use binding by rows to combine datasets that have the same columns --- in this
-      case, create a new column that represents the source of each row;
-    \item Use binding by columns to combine datasets that have the same number of rows.
-  \end{itemize}
-\end{hlbox}
-
-{\color{red} Talk about splitting as the reverse function, and the reason why missing
-columns may be a problem. Example of the unit of measurement.}
 
 \subsection{Joining datasets}
 
@@ -697,62 +808,6 @@ variations are possible.
 
 \subsection{Pivoting and unpivoting}
 
-Another important operation is to pivot and unpivot datasets.  These are the processes of
-transforming a dataset from a long format to a wide format and vice versa.  The operations
-are reversible and they are the inverse of each other.
-
-Pivoting requires to specify a name column --- whose discrete and finite possible values
-will become the names of the new columns --- and a value column --- whose values will be
-spread across the rows.  All remaining columns are considered to be keys, uniquely
-identifying each row of new the dataset.
-
-Unpivoting\footnote{Which \citeauthor{Wickham2023} call pivot longer.} is the reverse
-operation.  One must specify all the columns whose names are the values of the before
-called name column.  The values of these columns will be gathered into a new column.
-As before, all remaining columns are considered to be keys.
-
-In practical applications, where not all remaining columns are keys, one must aggregate
-rows beforehand.
-
-\begin{tablebox}[label=tab:pivot]{Pivoting example.}
-  \begin{minipage}{0.45\textwidth}
-    \centering
-    \rowcolors{2}{black!10!white}{}
-    \begin{tabular}{ccc}
-      \toprule
-      \textbf{name} & \textbf{year} & \textbf{value} \\
-      \midrule
-      A & 2019 & 1 \\
-      A & 2020 & 2 \\
-      A & 2021 & 3 \\
-      B & 2019 & 4 \\
-      B & 2020 & 5 \\
-      B & 2021 & 6 \\
-      \bottomrule
-    \end{tabular}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.45\textwidth}
-    \centering
-    \rowcolors{2}{black!10!white}{}
-    \begin{tabular}{cccc}
-      \toprule
-      \code{name} & \code{2019} & \code{2020} & \code{2021} \\
-      \midrule
-      A & 1 & 2 & 3 \\
-      B & 4 & 5 & 6 \\
-      \bottomrule
-    \end{tabular}
-  \end{minipage}
-  \tcblower
-  The left table is in the long format and the right table is in the wide format.  The
-  name column is \code{year} and the value column is \code{value}.
-\end{tablebox}
-
-\Cref{tab:pivot} shows an example of pivoting.  The left table is in the long format and
-the right table is in the wide format.  The name column is \code{year}, the value column
-is \code{value}, and the remaining column is \code{name} which is an unique identifier
-of the rows in the wide format.
 
 \begin{hlbox}{Practical tips}
   \begin{itemize}
