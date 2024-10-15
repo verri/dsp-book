@@ -77,6 +77,7 @@
 \tikzset{%
   decision/.style={draw, diamond, text centered, minimum height=0.5cm, minimum width=1cm},
   block/.style={rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em},
+  mediumblock/.style={rectangle, draw, text width=3em, text centered, rounded corners, minimum height=2em},
   darkblock/.style={block, fill=gray, text=white},
   smallblock/.style={rectangle, rounded corners, draw, font=\tiny, minimum height=1em, inner sep=2pt},
   smalldarkblock/.style={smallblock, fill=gray, text=white},
@@ -275,8 +276,8 @@
 \vspace{0.5cm}
 {
 \footnotesize\noindent
-The book is typeset with \XeTeX{} using the \texttt{memoir} class.  All figures are
-original and created with \texttt{TikZ}.  Proudly written in
+The book is typeset with \XeTeX{} using the Memoir class.  All figures are
+original and created with Ti\textit{k}Z.  Proudly written in
 \href{https://neovim.io/}{Neovim} with the assistance of
 \href{https://github.com/features/copilot}{GitHub Copilot}.
 Book cover image was created with the assistance of
@@ -308,7 +309,7 @@ visit
 \thispagestyle{empty}
 
 \input{about}
-\input{courses}
+% \input{courses}
 
 \mainmatter
 \input{history}
