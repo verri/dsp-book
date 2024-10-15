@@ -115,6 +115,17 @@
     \qrcode[height=\textwidth]{\aurl}%
   \end{minipage}%
 }
+\newenvironment{lparwithqr}[1]{%
+  \renewcommand\aurl{#1}%
+  \noindent%
+  \begin{minipage}{0.20\textwidth}%
+    \qrcode[height=\textwidth]{\aurl}%
+  \end{minipage}%
+  \hfill%
+  \begin{minipage}{0.75\textwidth}%
+}{%
+  \end{minipage}%
+}
 
 \nonfrenchspacing
 
