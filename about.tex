@@ -1,9 +1,57 @@
 \chapter{Preface}
 
+\noindent Dear reader, \vspace{1em}
+
+This book has started from the lectures notes of the course PO-235 Data Science Project
+that I teach for graduate students at the Aeronautics Institute of Technology (ITA) in
+Brazil.  I have been teaching this course since 2023, and I have been improving the
+material every year.
+
+Before that, I was the coordinator of the Data Science Specialization Program (CEDS) at
+ITA.  That experience, which included lots of administrative work, but also teaching and
+supervising professionals in the course, has helped me to understand the needs of the
+market and the students.
+
+Literature provides us a lot of great theoretical books on machine learning and
+statistics, and excellent practical books on data science tools.  However, I missed
+something that could provide a solid foundation on data science, covering all steps in a
+data science project, including its software engineering aspects.
+
+My goal is to provide a book that can be used as a textbook for a course on data science
+projects or as a reference for professionals working in the field.  I try to be as
+formal as possible, without losing the practical aspects of the subject.  Also, I do not
+focus on a specific tool or programming language, but I try to explain the semantics of
+data science tasks that can be implemented in any programming language.
+
+Also, instead of teaching specific machine learning algorithms, I try to explain why
+machine learning works, increasing awareness of its pitfalls and limitations.
+For that, I assume you have a strong mathematical and statistics background.
+
+One important artificial constraint I have imposed in the material (for the sake of the
+course) is that I only consider \emph{predictive methods}, more specifically inductive
+ones.  I do not address topics such as clustering, association-rules mining, transductive
+learning, anomaly detection, time series forecasting, reinforced learning, etc.
+
+I expect my approach on the subject provide awareness of all steps in a data science
+project including a deeper focus on correct evaluation and validation of data science
+solutions.
+
+Note that, in this book, I openly express my opinions and beliefs. Many times it might sound
+controvertial.  I am not trying to be rude or to demean any researcher or practitioner in the
+field.  I am just trying to be honest and transparent.
+
+\vspace{1em}
+\emph{I'd rather be bold and straightforward than cower about my beliefs.}
+\vspace{1em}
+
+Hope you enjoy the reading.
+
+\newpage
+
 \begin{parwithqr}{https://github.com/verri/dsp-book}
   I intend to make this book forever free and open-source.  You can find the source code at
   \href{\aurl}{github.com/verri/dsp-book}.  Derivatives are not allowed, but you can
-  contribute to the book.  Contributors will be acknowledged in the book.
+  contribute to the book.  Contributors will be acknowledged here.
 \end{parwithqr}
 
 \vfill
@@ -17,7 +65,7 @@
 \vfill
 
 \begin{parwithqr}{https://github.com/verri/dsp-book/discussions}
-  If you have suggestions or questions, please open a discussion at
+  If you have suggestions or questions, please open or join a discussion at
   \href{\aurl}{github.com/verri/dsp-book/discussions}.  Feel free to ask anything.
   Theoretical discussions and practical advices are also welcome.
 \end{parwithqr}
@@ -25,73 +73,27 @@
 \vfill
 
 \begin{parwithqr}{https://comp.ita.br/\~verri/dsp-book-print}
-  Students can found a printable version (A4 paper, double-sided, short-edge spiral
+  Students can find a printable version (A4 paper, double-sided, short-edge spiral
   binding) of this book at \href{\aurl}{comp.ita.br/\textasciitilde{}verri/dsp-book-print}.
 \end{parwithqr}
 
+\vfill
+
+\begin{parwithqr}{https://www.buymeacoffee.com/verri}
+  If you want to support me, you can \emph{buy me a coffee} at
+  \href{\aurl}{buymeacoffee.com/verri}.  I will appreciate it a lot.
+  I have a lot of ideas for new books and courses, and financial support will help me to
+  make them real.
+\end{parwithqr}
+
 \newpage
-This book comprises the lectures notes of the course PO-235 Data Science Project.
-I hope someday it becomes an actual book. For now, beware many typos, grammar errors, ugly
-typesetting, disconnected material, etc.
-
-Also, it is important to highlight that:
-\begin{itemize}
-  \item This is not a Machine Learning book, and I do not intend to explain how specific
-    ML algorithms work.
-  \item This contains some kind of introductory material on data science.  Although I
-    introduce the fundamental concepts, I expect you have strong mathematical and
-    statistics background.
-  \item An artificial constraint I have imposed in the material (for the sake of the
-    course) is that I only consider \emph{predictive methods}, more specifically
-    inductive ones. I do not address topics such as clustering, association-rules
-    mining, transductive learning, anomaly detection, time series forecasting, reinforced
-    learning, etc.
-\end{itemize}
-
-I have decided to work on this material because the books I like on data science are
-either
-\begin{itemize}
-  \item too broad and too shallow, in the sense they hide many mathematical foundations
-    and focus on just explaining what data science is and where it is applied;
-  \item too tool-centric, in the sense that they focus only on a specific toolbox or
-    programming language; or
-  \item too machine-learning-y, exposing the functioning of some machine learning
-    algorithms and missing the foundations of learning and/or practical aspects.
-\end{itemize}
-
-So\dots I expect my approach on the subject provide:
-\begin{itemize}
-  \item awareness of all steps in a data science project;
-  \item deeper focus (than most books) on data handling, describing the semantics of dataset
-    operators instead of restraining ourselves with a specific tool;
-  \item deeper focus (than most books) on \emph{why} machine learning works, increasing awareness of its pitfalls and
-    limitations;
-  \item deeper focus (than most books) on correct evaluation and validation
-    (pre-deployment) of machine learning models.
-\end{itemize}
-
-This book will probably cover the following material:
-\begin{itemize}
-  \item Brief history of data science.
-  \item Fundamental concepts.
-  \item Data science project.
-  \item Data handling.
-  \item Data preprocessing.
-  \item Learning from data.
-  \item Evaluation and validation.
-\end{itemize}
-
-Note that, in this book, I openly express my opinions and beliefs. Many times it might sound
-controvertial.  I am not trying to be rude or to demean any researcher or practitioner in the
-field.  I am just trying to be honest and transparent.
-
-\emph{I'd rather be bold and straightforward than cower about my beliefs.}
 
 \section*{Contributors}
 
-\begin{itemize}
-    \itemsep0em
-    \item \texttt{ryukinix}, Manoel V. Machado (aka lerax)
-    \item Johnny C. Marques
-\end{itemize}
+I would like to thank the following contributors for their help in improving this book:
 
+\begin{itemize}
+  \itemsep0em
+  \item \texttt{ryukinix}, Manoel V. Machado (aka lerax)
+  \item Johnny C. Marques
+\end{itemize}
