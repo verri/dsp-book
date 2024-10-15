@@ -95,7 +95,7 @@ A cell is then represented by a row $r$ and a column $h \in H$.  The value of th
 $\vec{v} = c(r, h)$ is a tuple of values such that $|\vec{v}| = \rowcard[r]$.
 
 \begin{defbox}{Value matrix}{vmatrix}
-The value matrix $V$ of the cell $r$ is \[
+The value matrix $V$ of the row $r$ is \[
   \Big[ c(r, h) : h \in H \Big]\text{,}
 \] with dimensions $\rowcard[r] \times |H|$, assuming an arbitrary fixed order of the
 columns.
@@ -122,27 +122,35 @@ contains only the rows for which
 $s(r) = 0$ and $s(r) = 1$, respectively.
 
 Mathematically, the split operation is defined as \[
-  \operatorname{split}(T = (K, H, c),\, s) =
-    \left(T_0 = (K, H, c_0), T_1 = (K, H, c_1)\right)\text{,}
-\] where $c_i(r, h) = c(r, h)$ if $s(r) = i$ and $c_i(r, h) = ()$ otherwise.
+  \operatorname{split}(T, s) = \left(T_0, T_1\right)\text{,}
+\] where $T = (K, H, c)$, $T_i = (K, H, c_i)$, and \[
+  c_i(r, h) = \begin{dcases}
+    c(r, h) & \text{if } s(r) = i \\
+    () & \text{otherwise.}
+  \end{dcases}
+\]
 \end{defbox}
 
 \emph{Note that, by definition, the split operation never ``breaks'' a row.  So, the
-indices define the indivisible entities of the table.}
+indices define the indivisible entities of the table.}  The resulting tables are
+disjoint:
 
-The binding operation is the inverse of the split operation.  Given two tables $T_0 = (K,
-H, c_0)$ and $T_1 = (K, H, c_1)$, such that $\rowcard[r; c_0] = 0$ if $\rowcard[r; c_1] >
-0$ for any row $r$, and vice-versa, the binding operation creates a new table $T$ that
-contains all the rows of $T_0$ and $T_1$.
+\begin{defbox}{Disjoint tables}{disjoint-tables}
+  Two tables $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$ are said to be disjoint if
+  $\rowcard[r; c_0] = 0$ if $\rowcard[r; c_1] > 0$ for any row $r$, and vice-versa.
+\end{defbox}
+
+The binding operation is the inverse of the split operation.  Given two disjoint tables
+$T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, the binding operation creates a new table $T$
+that contains all the rows of $T_0$ and $T_1$.
 
 \begin{defbox}{Bind operation}{bind}
-Mathematically, the binding operation is defined as \[
-  \operatorname{bind}(T_0 = (K, H, c_0),~T_1 = (K, H, c_1)) =
-    T = (K, H, c)\text{,}
-\] where $c(r, h) = c_0(r, h) + c_1(r, h)$ and $+$ is the tuple concatenation
-operator\footnote{The order of the concatenation here is not an issue since we guarantee
-that at least one of the operands is
-empty.}.
+  Mathematically, the binding operation is defined as \[
+    \operatorname{bind}(T_0, T_1) = (K, H, c)\text{,}
+  \] where $T_i = (K, H, c_i)$ and \[ c(r, h) = c_0(r, h) + c_1(r, h)\text{.} \]
+  The operator $+$ stands for the tuple concatenation operator%
+  \footnote{The order of the concatenation here is not an issue since we guarantee
+  that at least one of the operands is empty.}.
 \end{defbox}
 
 \emph{Thus, a requirement for the binding operation is that the tables are disjoint in
@@ -202,7 +210,7 @@ tasks described in \cref{chap:project}: integration and tidying.  Even while exp
 data, we should take effort to use split-invariant operations.
 
 The reason is that split-invariance ensures that the operation does not depend on the
-sampling performed (usually unknown to us) to create the table we have in hand.  This
+split performed (usually unknown to us) to create the table we have in hand.  This
 property is important to avoid \gls{leakage} or to bias the results of the analysis.
 
 \subsection{Illustrative example}
@@ -317,7 +325,7 @@ Now, about the statements we made before:
 We can be even more restrictive and consider only the student as the index of the table.
 Imposing this restriction would difficult the data collection process, but it would
 guarantee that we have all information about each student.  \Cref{tab:grades3} shows the
-table we have in hand.  As before, the column $s$ is the split indicator and nly rows with
+table we have in hand.  As before, the column $s$ is the split indicator and only rows with
 $s = 1$ are available to us.
 
 Our conclusions may change again:
