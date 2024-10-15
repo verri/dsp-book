@@ -339,7 +339,63 @@ artificial splitting for validation, consult \cref{chap:planning}.}.
 
 \section{Data handling pipelines}
 
-\newpage
+During the preparation of data for our project, we will need to perform a set of operations
+on possibly multiple datasets.  These operations are organized in a pipeline, where the
+outputs of one operation are the inputs of the next one.
+
+\begin{figurebox}[label=fig:pipeline]{Example of data handling pipeline.}
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small, inner sep=4pt}]
+    \node (s1) [darkcircle] at (0, 0) {Source 1};
+    \node (s2) [darkcircle] at (0, -2) {Source 2};
+    \node (f1) [mediumblock] at (2, 0) {$f_1$};
+    \node (f2) [mediumblock] at (4, 0) {$f_2$};
+    \node (f3) [mediumblock] at (2, -2) {$f_3$};
+    \node (f4) [mediumblock] at (4, -2) {$f_4$};
+    \node (f5) [mediumblock] at (6, -1) {$f_5$};
+    \node (data) [darkcircle, minimum width=15mm] (data) at (8, -1) {Data};
+
+    \path [line] (s1) -- (f1);
+    \path [line] (f1) -- (f2);
+    \path [line] (f1.east) -- (f4);
+    \path [line] (s2) -- (f3);
+    \path [line] (f3) -- (f4);
+    \path [line] (f2) -- (f5);
+    \path [line] (f4) -- (f5);
+    \path [line] (f5) -- (data);
+  \end{tikzpicture}
+  \tcblower
+  A data handling pipeline is a set of operations that transform a dataset into
+  another dataset.  We can have more than one source dataset and the output is a single
+  dataset where each row represents a sample in the observational unit we are interested
+  in.
+\end{figurebox}
+
+In \cref{fig:pipeline}, we show an example of a data handling pipeline.  The pipeline
+starts with two source datasets, Source 1 and Source 2.  The datasets are processed by a
+set of operations, $f_1, f_2, f_3, f_4, f_5$, and the output is a single dataset,
+Data.  Our goal at the data tasks --- see \cref{sub:workflow} --- is to create a dataset
+that is representative of the observational unit we are interested in.  Representative
+here means that the dataset is tidy\footnote{Remember that our definition of tidiness
+depend on the observational unit.  That means, in practice, that if the original data
+sources are in a observational unit different from the one we are interested in, after
+joining them, the connecting variables might be dropped to eliminate transitive
+dependencies.  Consult \cref{sub:tidy-not-tidy,sub:change-unit}.} and that the priors,
+i.e. the distribution of the data is faithful to the real distribution of the phenomenon.
+
+A pipeline is more flexible than a chain of operations because it can handle more complex
+structures, where different branches (forks) of processing occur simultaneously, and then
+come together (merges) later in the workflow.  For instance, the output of $f_1$ is the
+input of $f_2$ and $f_4$ (fork), and $f_5$ has as input the outputs of $f_2$ and $f_4$
+(merge).
+
+Pipelines are great conceptual tools to organize the data handling process.  They allow
+for the separation of concerns, where each operation is responsible for a single task.
+Also, declaring the whole pipeline at once allows for the optimization of the operations
+and the use of parallel processing.  This is important when dealing with large datasets.
+The declarative approach, opposed to the imperative one, makes it easier to reason about
+and maintain the code\footnote{Tidyverse and Polars are examples of
+libraries that use a declarative approach to data handling.}.
 
 \section{Data handling operations}
 
