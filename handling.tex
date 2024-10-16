@@ -535,7 +535,9 @@ The reverse function consists of splitting the dataset using as predicate the sp
 \end{defbox}
 
 Note that the tagged split is split-invariant by definition, since we assume that the
-nested rows of the input table $T$ contains only one value for column $s$ for all rows.
+nested rows of the input table $T$ contains only one value for column $s$ for all
+rows\footnote{We consider a slightly different definition of split-invariance here, where
+the binding operations is applied for each element of the output of the split operation.}.
 Failing to meet this assumption can lead to a biased split.  Also, in practice, it is a
 good practice to keep the column $s$ in the output tables to preserve the information
 about the source of the rows.  In terms of storage, smart strategies can be used to
@@ -543,30 +545,49 @@ avoid the unnecessary repetition of the same value in column $s$.
 
 \subsection{Pivoting}
 
-Another important operation is to pivot and unpivot datasets.  These are the processes of
-transforming a dataset from a long format to a wide format and vice versa.  The operations
-are reversible and they are the inverse of each other.
+Another important operation is to pivot datasets.  There are two types of pivoting:
+long-to-wide and wide-to-long.  These operations are reversible  and they are the inverse
+of each other.
 
-Pivoting requires to specify a name column --- whose discrete and finite possible values
-will become the names of the new columns --- and a value column --- whose values will be
-spread across the rows.  All remaining columns are considered to be keys, uniquely
-identifying each row of new the dataset.
+Pivoting long-to-wide requires us to specify a name column --- whose discrete and finite
+possible values will become the names of the new columns --- and a value column --- whose
+values will be \emph{spread} across the rows.  Other than these columns, all remaining columns
+must be indexes.
 
-Unpivoting\footnote{Which \citeauthor{Wickham2023} call pivot longer.} is the reverse
-operation.  One must specify all the columns whose names are the values of the before
-called name column.  The values of these columns will be gathered into a new column.
-As before, all remaining columns are considered to be keys.
+\begin{defbox}{Pivot long-to-wide operation}{pivot-l2w}
+  Let $T = (K \cup \{\text{name}\}, \{\text{value}\}, c)$. The pivot long-to-wide
+  operation is defined as \[
+    \operatorname{pivot}_\text{name}(T) = T'\text{,}
+  \] where $T' = (K, \domainof{\text{name}}, c')$ and \[
+    c'(r, h) = c\left(r + (h),~\text{value}\right)\text{.}
+  \]
+\end{defbox}
 
-In practical applications, where not all remaining columns are keys, one must aggregate
-rows beforehand.
+Pivoting wide-to-long\footnote{Also known as unpivot.} is the reverse operation. One must
+specify all the columns whose names are the values of the before called ``name column.''
+The values of these columns will be \emph{gathered} into a new column. As before, all
+remaining columns are indexes.
+
+\begin{defbox}{Pivot wide-to-long operation}{pivot-w2l}
+  Let $T = (K, H, c)$ be a table, the pivot wide-to-long
+  operation is defined as \[
+    \operatorname{pivot}^{-1}(T) = T'\text{,}
+  \] where $T' = (K \cup \{\text{name}\}, \{\text{value}\}, c')$, $\domainof{\text{name}}
+  = H$ and \[
+    c'((r, h), \text{value}) = c(r, h)\text{,}
+  \] for all valid row $r$ and $h \in H$.
+\end{defbox}
+
+In practical applications, where not all remaining columns are indexes, one must aggregate
+rows or drop extra non-indexed columns beforehand.  This is discussed in
+\cref{sub:aggregation,sub:selection}.
 
 \begin{tablebox}[label=tab:pivot]{Pivoting example.}
-  \begin{minipage}{0.45\textwidth}
     \centering
     \rowcolors{2}{black!10!white}{}
     \begin{tabular}{ccc}
       \toprule
-      \textbf{name} & \textbf{year} & \textbf{value} \\
+      \textbf{city} & \textbf{year} & \textbf{qty.} \\
       \midrule
       A & 2019 & 1 \\
       A & 2020 & 2 \\
@@ -576,29 +597,25 @@ rows beforehand.
       B & 2021 & 6 \\
       \bottomrule
     \end{tabular}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.45\textwidth}
-    \centering
     \rowcolors{2}{black!10!white}{}
     \begin{tabular}{cccc}
       \toprule
-      \code{name} & \code{2019} & \code{2020} & \code{2021} \\
+      \textbf{city} & \textbf{2019} & \textbf{2020} & \textbf{2021} \\
       \midrule
       A & 1 & 2 & 3 \\
       B & 4 & 5 & 6 \\
       \bottomrule
     \end{tabular}
-  \end{minipage}
   \tcblower
-  The left table is in the long format and the right table is in the wide format.  The
-  name column is \code{year} and the value column is \code{value}.
+  The left-hand-side table is in the long format and the right-hand-side table is in the
+  wide format.
 \end{tablebox}
 
-\Cref{tab:pivot} shows an example of pivoting.  The left table is in the long format and
-the right table is in the wide format.  The name column is \code{year}, the value column
-is \code{value}, and the remaining column is \code{name} which is an unique identifier
-of the rows in the wide format.
+\Cref{tab:pivot} shows an example of pivoting.  Here, we can consider \emph{city} and
+\emph{year} as the index columns.  The left-hand-side table is in the long format and the
+right-hand-side table is in the wide format.  Using the pivot long-to-wide operation with
+\emph{year} as the name column and \emph{qty.} as the value column, we can obtain the
+right-hand-side table.  The reverse operation will give us the left-hand-side table.
 
 \newpage
 
@@ -666,6 +683,7 @@ provide operators to compare real numbers within a given tolerance.
 \end{hlbox}
 
 \subsection{Selecting columns}
+\label{sub:selection}
 
 Selecting is the process of choosing a subset of columns from a dataset.  The remaining
 columns are discarded.  This operation is not reversible, as the discarded columns are
@@ -764,6 +782,7 @@ mutation and selection operations.
 \end{hlbox}
 
 \subsection{Aggregating rows}
+\label{sub:aggregation}
 
 We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
 operation is not reversible, as the discarded rows are lost.  The columns are also lost,
