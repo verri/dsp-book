@@ -597,6 +597,7 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
       B & 2021 & 6 \\
       \bottomrule
     \end{tabular}
+    ~
     \rowcolors{2}{black!10!white}{}
     \begin{tabular}{cccc}
       \toprule
@@ -617,6 +618,29 @@ right-hand-side table is in the wide format.  Using the pivot long-to-wide opera
 \emph{year} as the name column and \emph{qty.} as the value column, we can obtain the
 right-hand-side table.  The reverse operation will give us the left-hand-side table.
 
+To show that the pivot operation is split-invariant, one can see that, given
+$T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$ disjoint tables,
+\[
+  \operatorname{pivot}_\text{name}\!\left(T_0\right) + \operatorname{pivot}_\text{name}\!\left(T_1\right) = \\
+    (K, \domainof{\text{name}}, c_0') + (K, \domainof{\text{name}}, c_1')\text{,}
+\] where $c_i'(r, h) = c_i(r + (h), \text{value})$.  However, by the disjoint property of
+the tables, we have that \[
+  c_0(r + (h), \text{value}) + c_1(r + (h), \text{value}) = c(r + (h), \text{value})\text{,}
+\] for the table $T = (K, H, c) = T_0 + T_1$. So,
+\begin{multline*}
+  (K, \domainof{\text{name}}, c_0') + (K, \domainof{\text{name}}, c_1') =
+    (K, \domainof{\text{name}}, c') =\\
+    \operatorname{pivot}_\text{name}\!\left(T\right)\text{,}
+\end{multline*}
+where $c'(r, h) = c(r + (h), \text{value})$.
+
+Similarly, the reverse operation is also split-invariant.
+
+Using the pivot operation, we can solve the issues of headers are values, not variable
+names and variables are stored in both rows and columns.  In the first case, we can pivot
+the table to have the headers as the domain of new index (name column).  In the second
+case, we have to pivot both long-to-wide and wide-to-long to solve the issue.
+
 \newpage
 
 We use the following terminology to refer to the data handling parameters:
@@ -630,18 +654,6 @@ We use the following terminology to refer to the data handling parameters:
   \item \textbf{Expression}: a function that returns a vector of values element-wise, used to create new
     columns or to modify existing ones.
 \end{itemize}
-
-% \begin{slidebox}{Data handling pipelines}{}
-%   \begin{itemize}
-%     \item Data handling operations can be combined to create complex pipelines;
-%     \item Operators may be reversible;
-%     \item Operators are vectorized;
-%     \item They can be parametrized with predicates, aggregation functions, and expressions;
-%     \item They operate on datasets and return new datasets as output.
-%     \item They are declarative.
-%   \end{itemize}
-% \end{slidebox}
-
 
 \subsection{Filtering rows}
 
@@ -710,7 +722,7 @@ Notice, however, that the predicate is applied to each column independently and 
 single logical value for each column.
 
 Like filtering, selecting predicates might contain aggregation functions.  Although it is
-theorically possible to consider the order of the values in the columns, it is not common
+theoretically possible to consider the order of the values in the columns, it is not common
 to do so.  (Especially because one would need to assume that the rows are previously
 sorted by some criterion.) Groups, however, never make sense in this context, once the
 predicate is applied to each column independently.
@@ -845,17 +857,6 @@ variations are possible.
     \item Be aware of the risks of joining datasets (\cref{sec:normalization}), for
       example, that some joins may create invalid rows;
     \item Use the appropriate variation of the join operation in applications.
-  \end{itemize}
-\end{hlbox}
-
-\subsection{Pivoting and unpivoting}
-
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use pivoting to transform datasets from a long format to a wide format;
-    \item Use unpivoting to transform datasets from a wide format to a long format;
-    \item Be aware of the need to aggregate rows before unpivoting.
   \end{itemize}
 \end{hlbox}
 
