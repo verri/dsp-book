@@ -92,14 +92,20 @@ represents how many times the entity represented by the row is present in the ta
 A row $r$ with $\rowcard[r] = 0$ is considered to be missing.
 
 A cell is then represented by a row $r$ and a column $h \in H$.  The value of the cell,
-$\vec{v} = c(r, h)$ is a tuple of values such that $|\vec{v}| = \rowcard[r]$.
-The order of the elements in the tuple $\vec{v}$ is arbitrary but fixed.  A \emph{nested
+$\vec{v} = c(r, h)$ is a tuple of values in the domain $\domainof{h} \cup \{\missing\}$,
+such that $|\vec{v}| = \rowcard[r]$.  We say that $\domainof{h}$ is the valid domain of
+the column $h$.
+The order of the elements in the tuple $\vec{v}$ is arbitrary but fixed.
+
+\begin{defbox}{Nested row}{nested-row}
+A \emph{nested
 row} consists of a tuple of values that associates different columns with the same
 repetition of the entity, i.e. \[
-  \Big[ v(h)_i : h \in H \Big]\text{,}
+  \Big[ v^h_i : h \in H \Big]\text{,}
 \]
-where $c(r, h) = [v(h)_i : i = 1, \dots, \rowcard[r]]$, assuming an arbitrary fixed order
+where $c(r, h) = [v^h_i : i = 1, \dots, \rowcard[r]]$, assuming an arbitrary fixed order
 of the columns $h$.
+\end{defbox}
 
 We can stack nested rows to form a matrix of values.  This matrix is called the value
 matrix of the row $r$.
@@ -459,7 +465,10 @@ of each row.
 
   Mathematically, the tagged bind operation is defined as \[
     \operatorname{bind}_{s}(T_0, T_1, \dots) = T\text{,}
-  \] where $c(r, h) = c_0(r, h) + c_1(r, h) + \dots$ if $h \in H$ and $c(r, s) = i :
+  \] where $c(r, h) = c_0(r, h) + c_1(r, h) + \dots$ if $h \in H$ and \[
+    c(r, s) = \left[ i \right]^{d} \text{,}
+  \]
+  where $i$ is the index of the table $T_i$ that contains the row $r$, i.e. $d =
   \rowcard[r; c_i] > 0$.
 \end{defbox}
 
@@ -468,45 +477,40 @@ one can assume, if the column is missing, that all values in that column are mis
 
 The indication of the source table usually captures some hidden semantics that has split
 the tables in first place. For instance, if each table represents data collected in a
-different year, one can create a new column \code{year} that contains the year of the
+different year, one can create a new column \emph{year} that contains the year of the
 data.  It is important to pay attention on the semantics of the split column, as it can
 also contain extra information.
 
-\begin{tablebox}[label=tab:gas-usage-us]{Gas usage datasets from US residents.}
+\begin{tablebox}[label=tab:gas-usage]{Gas usage datasets.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{cccc}
+  \begin{tabular}{ccc}
     \toprule
-    \textbf{year} & \textbf{month} & \textbf{gas\_usage} & \textbf{distance} \\
+    \textbf{month} & \textbf{gas} & \textbf{distance} \\
     \midrule
-    2019 & 1 & 48.7 & 1170 \\
-    2019 & 2 & 36.7 & 1100 \\
-    2019 & 3 & 37.8 & 970 \\
-    \dots & \dots & \dots & \dots \\
+    1 & 48.7 & 1170 \\
+    2 & 36.7 & 1100 \\
+    3 & 37.8 & 970 \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+  ~
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{month} & \textbf{gas} & \textbf{distance} \\
+    \midrule
+    1 & 143.7 & 1470 \\
+    2 & 156.7 & 1700 \\
+    3 & 170.8 & 1870 \\
+    \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
   \tcblower
-  Monthly gas usage data from US residents.
+  Monthly gas usage data from US (left) and Brazil (right) residents.
 \end{tablebox}
 
-\begin{tablebox}[label=tab:gas-usage-br]{Gas usage datasets from Brazil residents.}
-  \centering
-  \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{cccc}
-    \toprule
-    \textbf{year} & \textbf{month} & \textbf{gas\_usage} & \textbf{distance} \\
-    \midrule
-    2019 & 1 & 143.7 & 1470 \\
-    2019 & 2 & 156.7 & 1700 \\
-    2019 & 3 & 170.8 & 1870 \\
-    \dots & \dots & \dots & \dots \\
-    \bottomrule
-  \end{tabular}
-  \tcblower
-  Monthly gas usage data from Brazil residents.
-\end{tablebox}
-
-Consider \cref{tab:gas-usage-us,tab:gas-usage-br} that contain monthly gas usage data from
+Consider \cref{tab:gas-usage} that contain monthly gas usage data from
 US and Brazil residents.  From the requirements described in the previous section, we can
 safely bind these datasets --- as they are disjoint.  We can use as tag a new column to
 represent the country.  However, an attentive reader will notice that the unit of
@@ -514,9 +518,28 @@ measurement of the gas usage and distance are different in each table: gallons a
 in the US dataset and liters and kilometers in the Brazil dataset.  Ideally, thus, we
 should create two other columns to represent the units of measurement.
 
-{\color{red} Talk about solving A single observational unit is stored in multiple tables.}
+It is straightforward to see that this operation solves the issue of a single
+observational unit is stored in multiple tables described in \cref{sub:messy}.
 
-{\color{red} Talk about splitting as the reverse function}
+The reverse function consists of splitting the dataset using as predicate the split column.
+
+\begin{defbox}{Tagged split operation}{tagged-split}
+  Let $s$ be a non-index column of a table $T = (K, H \cup \{s\}, c)$ with $\domainof{s}$
+  known and finite and that $c(r, s)$ contains only unique values. The tagged split
+  operation parametrized by $s$ creates disjoint tables $T_i = (K, H, c_i)$ that contains
+  only the rows $r$ for which $c(r, s) = i$.
+
+  Mathematically, the tagged split operation is defined as \[
+    \operatorname{split}_{s}(T) = \left(T_0, T_1, \dots\right)\text{,}
+  \] where $c_i(r, h) = c(r, h)$ if $i \in c(r, s)$ and $c_i(r, h) = ()$ otherwise.
+\end{defbox}
+
+Note that the tagged split is split-invariant by definition, since we assume that the
+nested rows of the input table $T$ contains only one value for column $s$ for all rows.
+Failing to meet this assumption can lead to a biased split.  Also, in practice, it is a
+good practice to keep the column $s$ in the output tables to preserve the information
+about the source of the rows.  In terms of storage, smart strategies can be used to
+avoid the unnecessary repetition of the same value in column $s$.
 
 \subsection{Pivoting}
 
