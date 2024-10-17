@@ -641,6 +641,43 @@ names and variables are stored in both rows and columns.  In the first case, we 
 the table to have the headers as the domain of new index (name column).  In the second
 case, we have to pivot both long-to-wide and wide-to-long to solve the issue.
 
+\subsection{Joining}
+
+Joining is the process of combining two datasets into a single dataset based on common
+columns.  The operation may not be reversible, consult \cref{sec:normalization} for more
+details.
+
+The join of two tables is the operation that returns a new table with the columns of both
+tables.  Let \code{U} be the common set of columns.  For each occurring value of
+\code{U} in the first table, the operation will look for the same value in the second
+table.  If it finds it, it will create a new row with the columns of both tables.  If it
+does not find it, no row will be created.  This operation assumes that values in \code{U}
+are unique in each table.
+
+The variation described above is usually called natural or inner join.  Three other
+variations are possible.
+\begin{itemize}
+  \item Left join: for each occurring value of \code{U} in the first table, the operation
+    will look for the same value in the second table.  If it finds it, it will create a new
+    row with the columns of both tables.  If it does not find it, it will create a new row
+    with the columns of the first table and missing values for the columns of the second
+    table.
+  \item Right join: the same as the left join, but the roles of the tables are reversed.
+  \item Outer join: for each different value of \code{U} in both tables, the operation
+    will create a new row with the columns of both tables.  If a value is missing in one
+    table, it will be filled with a missing value.
+\end{itemize}
+
+\begin{hlbox}{Practical tips}
+  \begin{itemize}
+    \item Use joining to integrate datasets;
+    \item Be aware of the risks of joining datasets (\cref{sec:normalization}), for
+      example, that some joins may create invalid rows;
+    \item Use the appropriate variation of the join operation in applications.
+  \end{itemize}
+\end{hlbox}
+
+
 \newpage
 
 We use the following terminology to refer to the data handling parameters:
@@ -823,42 +860,82 @@ with the mean of the \code{x} column for each group.
   \end{itemize}
 \end{hlbox}
 
+\section{Other operations}
 
-\subsection{Joining datasets}
+\dots
 
-Joining is the process of combining two datasets into a single dataset based on common
-columns.  The operation may not be reversible, consult \cref{sec:normalization} for more
-details.
+\subsection{Projecting}
 
-The join of two tables is the operation that returns a new table with the columns of both
-tables.  Let \code{U} be the common set of columns.  For each occurring value of
-\code{U} in the first table, the operation will look for the same value in the second
-table.  If it finds it, it will create a new row with the columns of both tables.  If it
-does not find it, no row will be created.  This operation assumes that values in \code{U}
-are unique in each table.
+Projection is one of the two fundamental operations in relational algebra --- consult
+\cref{sec:normalization} for more details.  In database normalization theory, tables ---
+called relations --- are slightly different from the tables we are discussing here. The
+major difference is that they are sets of tuples, which means that each tuple is unique.
+In our scenario, this is similar to what we call rows represented by the possible values
+of the index columns of the table.
 
-The variation described above is usually called natural or inner join.  Three other
-variations are possible.
-\begin{itemize}
-  \item Left join: for each occurring value of \code{U} in the first table, the operation
-    will look for the same value in the second table.  If it finds it, it will create a new
-    row with the columns of both tables.  If it does not find it, it will create a new row
-    with the columns of the first table and missing values for the columns of the second
-    table.
-  \item Right join: the same as the left join, but the roles of the tables are reversed.
-  \item Outer join: for each different value of \code{U} in both tables, the operation
-    will create a new row with the columns of both tables.  If a value is missing in one
-    table, it will be filled with a missing value.
-\end{itemize}
+Adapting the definitions of projection our context, we can define it as follows.
 
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use joining to integrate datasets;
-    \item Be aware of the risks of joining datasets (\cref{sec:normalization}), for
-      example, that some joins may create invalid rows;
-    \item Use the appropriate variation of the join operation in applications.
-  \end{itemize}
-\end{hlbox}
+\begin{defbox}{Projection operation}{projection}
+  Let $T = (K, H, c)$ be a table and $K' \subset K$ a subset of the columns.  The
+  projection operation is defined as \[
+    \operatorname{project}_{K'}(T) = T'\text{,}
+  \] where $T' = (K', H \cup (K \setminus K'), c')$ and \[
+    c'(r, h) = \begin{dcases}
+      \sum_{r'} c(r + r', h) & \text{if } h \in H \\
+      \sum_{k' \in \domainof{h}} k' & \text{if } h \in K \setminus K'\text{,}
+    \end{dcases}
+  \] for all valid row $r$ considering the indices $K'$ and for all tuples $r' = (k_i :
+  i)$ such that $k_i \in \domainof{K_i}$ for all $K_i \in K \setminus K'$.
+\end{defbox}
+
+We can see that projection for our tables is a little more complex than the usual
+projection in relational algebra.  Consider the example we discussed in
+\cref{sec:normalization} as well, where we have a table with the columns \emph{student},
+\emph{subject}, \emph{year}, and \emph{grade}.
+
+\begin{tablebox}[label=tab:student-grade-handling]{Student grade table.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{student} & \textbf{course} & \textbf{course credits} & \textbf{grade} \\
+    \midrule
+    Alice & Math & 4 & A \\
+    Alice & Physics & 3 & B \\
+    Bob & Math & 4 & B \\
+    Bob & Physics & 3 & A \\
+    Carol & Math & 4 & C \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{1em}
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{course} & \textbf{student} & \textbf{course credits} & \textbf{grade} \\
+    \midrule
+    Math & (Alice, Bob, Carol) & (4, 4, 4) & (A, B, C) \\
+    Physics & (Alice, Bob, Carol) & (3, 3, ?) & (B, A, ?) \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  (Top) An example of a table of students and their grades in courses.  The columns
+  \emph{student} and \emph{course} are the index columns. (Bottom) The same table
+  projected into the entity \emph{course}.
+\end{tablebox}
+
+\Cref{tab:student-grade-handling} (top) shows that table adapted for our definitions.
+Suppose we want to project the table to have only the entity \emph{course}.
+Now each row (bottom table) represents a course.  The column \emph{student} is not a
+index column anymore, and the values in the column are exhaustive and unique, i.e
+the whole set $\domainof{\text{student}}$ is represented in the column for each row.
+
+It is easy to see that the projection operation is not split-invariant.  Consider the
+following example. If we split the top table in \cref{tab:student-grade-handling} so the
+first row (Alice, Math) is in one table and the second row (Alice, Physics) is in another,
+the bind operation between the projection into the entity \emph{student} of these two
+tables is not allowed.  The reason is that the row (Alice) will be present in both tables,
+violating the disjoint property of the tables.
 
 \section{An algebra for statistical transformations}
 
