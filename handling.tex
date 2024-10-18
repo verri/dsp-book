@@ -782,7 +782,7 @@ numbers, we choose $P(h) = 1$ if $\domainof{h} = \mathbb{R}$, and $P(h) = 0$ oth
 The case where the predicate depends on the values of the columns is discussed in
 \cref{sub:selection-value}.
 
-\subsection{Filtering rows}
+\subsection{Filtering}
 
 Filtering is the process of selecting a subset of rows from a dataset based on a
 predicate.
@@ -803,28 +803,13 @@ Without loss of generality, we can assume that predicates are combined using log
 disjunction (or)\footnote{The reason is that sequential application of filtering is
 equivalent to combining the predicates using logical conjunction (and).}.
 
-\begin{defbox}{Filtering operation}{filtering}
-  Let $T = (K, H, c)$ be a table and $P_1, \dots P_n$ be predicates.  The filtering
-  operation is defined as \[
-    \operatorname{filter}_{P_1, \dots, P_n}(T) = T'\text{,}
-  \] where $T' = (K, H, c')$ and \[
-    c'(r, h) = \begin{dcases}
-      c(r, h) & \text{if } \bigvee_{i = 1}^{n} P_i(V(r)) = 1\text{,} \\
-      () & \text{otherwise}\text{,}
-    \end{dcases}
-  \] where predicate $P_i : (\domainof{h} \times \dots : h \in H) \to \{0, 1\}$ is applied
-  to the value matrix $V(r)$ of the row $r$.
-\end{defbox}
-
 For instance, the predicate \code{age > 18} will select all rows where the value in the
-age column is greater than 18.
+age column is greater than 18.  Keeping each row independent, we can also generalize
+predicates to deal with the values of the indexes as well.
 
-Keeping each row independent, we can also generalize predicates to deal with the values of
-the indexes as well.
-
-\begin{defbox}{Indexed filtering operation}{indexed-filtering}
-  Let $T = (K, H, c)$ be a table and $P_1, \dots P_n$ be (indexed) predicates.  The
-  indexed filtering operation is defined as \[
+\begin{defbox}{Filtering operation}{filtering}
+  Let $T = (K, H, c)$ be a table and $P_1, \dots P_n$ be predicates.  The
+  filtering operation is defined as \[
     \operatorname{filter}_{P_1, \dots, P_n}(T) = T'\text{,}
   \] where $T' = (K, H, c')$ and \[
     c'(r, h) = \begin{dcases}
@@ -832,8 +817,8 @@ the indexes as well.
       () & \text{otherwise}\text{,}
     \end{dcases}
   \] where predicate $P_i : (\domainof{K_i} \times \dots : K_i \in K ) \times
-  (\domainof{h} \times \dots : h \in H) \to \{0, 1\}$ is applied to the value matrix
-  $V(r)$ of the row $r$.
+  ((\domainof{h} \cup \{?\}) \times \dots : h \in H) \to \{0, 1\}$ is applied to the value
+  matrix $V(r)$ of the row $r$.
 \end{defbox}
 
 It is also trivial to see that the filtering operation is split-invariant, even in its
@@ -841,7 +826,50 @@ generalized form where the value matrix has many rows.  This property comes from
 that rows are treated independently.  More complex cases are discussed in
 \cref{sub:filter-value}.
 
+\subsection{Mutating}
+
+Mutating is the process of creating new columns in a table.  The operation is reversible,
+as the original columns are kept.  The new columns are added to dataset.
+
+The values in the new column are determined by a function of the rows.  The expression is
+a function that returns a vector of values given the values in the other columns.
+Similarly to filtering, in its simplest form, we can assume that $\rowcard[r] \leq 1$ for
+all $r$ and that the predicates are applied to each row independently.
+
+\begin{defbox}{Mutating operation}{mutating}
+  Let $T = (K, H, c)$ be a table and $f$ be a transformation function.  The mutating
+  operation is defined as \[
+    \operatorname{mutate}_{f}(T) = T'\text{,}
+  \] where $T' = (K, H \cup \{ h' \}, c')$ and \[
+    c'(r, h) = \begin{dcases}
+      c(r, h) & \text{if } h \in H\text{,} \\
+      f(r, V(r)) & \text{if } h = h'\text{,}
+    \end{dcases}
+  \] where function $f : (\domainof{K_i} \times \dots : K_i \in K ) \times ((\domainof{h}
+  \cup \{?\}) \times \dots : h \in H) \to \domainof{h'} \cup \{?\}$ is applied to the
+  value matrix $V(r)$ of the row $r$.
+\end{defbox}
+
+The expression can be a simple function, such as \code{y = x + 1}, or a more complex
+function, such as
+\begin{center}
+  \code{y = ifelse(x > 0, 1, 0)}.
+\end{center}
+Here, x and y are the names of an existing and the new column, respectively. The
+\code{ifelse(a, b, c)} function is a conditional function that returns 1 if the condition
+is true and 0 otherwise.
+
+This function solves the issue of multiple variables stored in one column described in
+\cref{sub:messy}.
+
+As with filtering, the mutating operation is split-invariant even if $\rowcard[r] > 1$ for
+any $r$.  This is because the operation is applied to each row independently.
+
+\subsection{Ungrouping}
+
 \newpage
+
+\section{Other operations}
 
 We use the following terminology to refer to the data handling parameters:
 \begin{itemize}
@@ -854,86 +882,6 @@ We use the following terminology to refer to the data handling parameters:
   \item \textbf{Expression}: a function that returns a vector of values element-wise, used to create new
     columns or to modify existing ones.
 \end{itemize}
-
-\subsection{Mutating columns}
-
-Mutating is the process of creating new columns.  The operation is reversible, as the
-original columns are kept.  The new columns are added to the dataset.
-
-The values in the new column are determined by an expression.  The expression is a
-function that returns a vector of values given the values in the other columns.  The
-expression can be a simple function, such as \code{y = x + 1}, or a more complex
-function, such as
-\begin{center}
-  \code{y = ifelse(x > 0, 1, 0)}.
-\end{center}
-Here, \code{x} and \code{y} are
-the names of an existing and the new column, respectively.
-
-One may also use an aggregation and window function in the expression. This is particularly
-useful when performing mutation considering a group.  In this case, the returned value is
-repeated (aggregation function) for each row of the same group.  Like in filtering, the
-more explicit you can be about order and groups, the better.
-
-For example, the expression
-\begin{center}
-  \code{y = cumsum(x) group by category sort by date}
-\end{center}
-will create a new column \code{y} with the cumulative sum of the \code{x} column for each
-\code{category} given the order of the rows defined by the \code{date} column.
-
-Sometimes, the same expression can be used to create multiple columns.  This is useful
-when the new columns are related.  To do so, one first specifies the columns in the same way as
-when selecting columns.  Then, one needs to specify a rule to name the new columns.
-For instance, \code{x\_new = x + 1 across x matches \textasciicircum{}col[0-9]+\$}.
-
-Practically speaking, mutation can overwrite existing columns.  This is useful when the
-new column is a replacement for the old one.  Formally, overwriting is just a sequence of
-mutation and selection operations.
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use mutating to create new columns that are relevant to your analysis;
-    \item Use expressions to define the values of the new columns;
-    \item Use aggregation and window functions in the expression to create new columns based on
-      groups and order;
-    \item Use the same expression to create multiple columns when the new columns are related.
-  \end{itemize}
-\end{hlbox}
-
-\subsection{Aggregating rows}
-\label{sub:aggregation}
-
-We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
-operation is not reversible, as the discarded rows are lost.  The columns are also lost,
-only the new aggregate columns remain.
-
-The values in the new columns are determined by an aggregation function.  Like filtering
-and mutation, the aggregation function can be parametrized by specifying a group and/or an
-order.
-
-The resulting dataset will contain one row for each group.  The values in the new columns
-are determined by the aggregation function applied to the values in the other columns.
-All columns that define the groups are usually kept in the resulting dataset.  In this
-case, as expected, values of such columns are equal for all rows in the same group.
-
-For instance, the aggregation function \code{mean(x) group by category} will create a
-new dataset with one row for each different value of \code{category} and a new column
-with the mean of the \code{x} column for each group.
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use aggregation to summarize the data in a dataset;
-    \item Use aggregation functions to define the values of the new columns;
-    \item Other columns are lost;
-    \item Use the group and order parameters to define the groups and the behavior of the
-      aggregation function.
-  \end{itemize}
-\end{hlbox}
-
-\section{Other operations}
-
-\dots
 
 \subsection{Projecting and aggregating}
 \label{sub:projection}
@@ -1013,6 +961,37 @@ violating the disjoint property of the tables.
 
 % TODO: connection with database normalization
 
+\subsection{Aggregating rows}
+\label{sub:aggregation}
+
+We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
+operation is not reversible, as the discarded rows are lost.  The columns are also lost,
+only the new aggregate columns remain.
+
+The values in the new columns are determined by an aggregation function.  Like filtering
+and mutation, the aggregation function can be parametrized by specifying a group and/or an
+order.
+
+The resulting dataset will contain one row for each group.  The values in the new columns
+are determined by the aggregation function applied to the values in the other columns.
+All columns that define the groups are usually kept in the resulting dataset.  In this
+case, as expected, values of such columns are equal for all rows in the same group.
+
+For instance, the aggregation function \code{mean(x) group by category} will create a
+new dataset with one row for each different value of \code{category} and a new column
+with the mean of the \code{x} column for each group.
+
+\begin{hlbox}{Practical tips}
+  \begin{itemize}
+    \item Use aggregation to summarize the data in a dataset;
+    \item Use aggregation functions to define the values of the new columns;
+    \item Other columns are lost;
+    \item Use the group and order parameters to define the groups and the behavior of the
+      aggregation function.
+  \end{itemize}
+\end{hlbox}
+
+
 \subsection{Selecting columns by value}
 \label{sub:selection-value}
 
@@ -1062,7 +1041,7 @@ I find this practice error-prone and I recommend avoiding it whenever possible.
   \end{itemize}
 \end{hlbox}
 
-\subsection{Filtering rows after aggregation}
+\subsection{Filtering after aggregation}
 \label{sub:filter-value}
 
 However, if the predicate depends on an aggregation or window function, one must specify
@@ -1090,6 +1069,40 @@ provide operators to compare real numbers within a given tolerance.
   \end{itemize}
 \end{hlbox}
 
+\subsection{Mutating after aggregation}
+
+One may also use an aggregation and window function in the expression. This is particularly
+useful when performing mutation considering a group.  In this case, the returned value is
+repeated (aggregation function) for each row of the same group.  Like in filtering, the
+more explicit you can be about order and groups, the better.
+
+For example, the expression
+\begin{center}
+  \code{y = cumsum(x) group by category sort by date}
+\end{center}
+will create a new column \code{y} with the cumulative sum of the \code{x} column for each
+\code{category} given the order of the rows defined by the \code{date} column.
+
+Sometimes, the same expression can be used to create multiple columns.  This is useful
+when the new columns are related.  To do so, one first specifies the columns in the same way as
+when selecting columns.  Then, one needs to specify a rule to name the new columns.
+For instance, \code{x\_new = x + 1 across x matches \textasciicircum{}col[0-9]+\$}.
+
+Practically speaking, mutation can overwrite existing columns.  This is useful when the
+new column is a replacement for the old one.  Formally, overwriting is just a sequence of
+mutation and selection operations.
+
+\begin{hlbox}{Practical tips}
+  \begin{itemize}
+    \item Use mutating to create new columns that are relevant to your analysis;
+    \item Use expressions to define the values of the new columns;
+    \item Use aggregation and window functions in the expression to create new columns based on
+      groups and order;
+    \item Use the same expression to create multiple columns when the new columns are related.
+  \end{itemize}
+\end{hlbox}
+
+Window function, be careful with completeness.
 
 \section{An algebra for statistical transformations}
 
