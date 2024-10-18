@@ -73,7 +73,8 @@ In this section, I present a formal definition of structured data.  This definit
 compatible with the relational model and tidy data presented in \cref{chap:data}.
 My definition takes into account the index\footnote{Also called grouping variables.} of
 the table, which is a key concept in data handling.  We also consider that values can be
-missing.  Repeated values are represented by allowing cells to contain sets of values.
+missing.  Repeated rows are represented by allowing cells to contain sets of values.
+In this chapter, we consider dataset and table as synonyms.
 
 \begin{defbox}{Indexed table}{itable}
 An indexed table $T$ is a tuple $(K, H, c)$, where $K = \left\{K_i : i = 1, \dots,
@@ -440,15 +441,19 @@ In this section, I present a set of operations that are split-invariant.  These 
 can be safely applied to the data without worrying about biasing the dataset.
 
 For each operation, we discuss its application on some tidying issues presented in
-\cref{sub:messy}.  The issues I address here:
+\cref{sub:messy}.  The issues I address here\footnote{%
+The issue of multiple types of observational units stored in the same table is better
+dealt with by database normalization.  More on this subject is discussed in
+\cref{sub:projection}.}:
 \begin{itemize}
   \itemsep0em
   \item Headers are values, not variable names;
   \item Multiple variables are stored in one column; % [mutate/select problem]
   \item Variables are stored in both rows and columns;
-  \item Multiple types of observational units are stored in the same table; and % [normalization problem]
   \item A single observational unit is stored in multiple tables.
 \end{itemize}
+
+
 
 \subsection{Tagged splitting and binding}
 
@@ -644,39 +649,96 @@ case, we have to pivot both long-to-wide and wide-to-long to solve the issue.
 \subsection{Joining}
 
 Joining is the process of combining two datasets into a single dataset based on common
-columns.  The operation may not be reversible, consult \cref{sec:normalization} for more
+columns.  This is one of the two fundamental operations in relational algebra. We will see
+the conditions under with the operation is split invariant. However, the join operation
+has some other risks you should be aware of; consult \cref{sec:normalization} for more
 details.
 
+Adapting the definitions of projection our context, we can define it as follows.
+For the sake of simplicity, we denote $r[U]$ as the row $r$ restricted to the index
+columns in $U$, i.e. \[
+  r[U] = (k_i : k_i \in \domainof{K_i} \forall K_i \in U)\text{.}
+\]
+
+\begin{defbox}{Join operation}{join}
+  Let $T' = (K', H', c')$ and $T'' = (K'', H'', c'')$ be two tables such that $K'
+  \cap K'' \neq \emptyset$ and $H' \cap H'' = \emptyset$.  The join operation is
+  defined as \[
+    \operatorname{join}(T', T'') = T\text{,}
+  \] where $T = (K' \cup K'', H' \cup H'', c)$ and \[
+    c(r, h) = ()
+  \] if $\rowcard[{r[K']; c'}] = 0$ or $\rowcard[{r[K'']; c''}] = 0$, for all $h$.
+  Otherwise: \[
+    c(r, h) = \begin{dcases}
+      c'(r[K'], h) & \text{if } h \in H'\text{,} \\
+      c''(r[K''], h) & \text{if } h \in H''\text{.}
+    \end{dcases}
+  \]
+\end{defbox}
+
 The join of two tables is the operation that returns a new table with the columns of both
-tables.  Let \code{U} be the common set of columns.  For each occurring value of
-\code{U} in the first table, the operation will look for the same value in the second
-table.  If it finds it, it will create a new row with the columns of both tables.  If it
-does not find it, no row will be created.  This operation assumes that values in \code{U}
-are unique in each table.
+tables.  Let $U$ be the common set of index columns.  For each occurring value of $U$ in
+the first table, the operation will look for the same value in the second table.  If it
+finds it, it will create a new row with the columns of both tables.  If it does not find
+it, no row will be created.
 
-The variation described above is usually called natural or inner join.  Three other
-variations are possible.
-\begin{itemize}
-  \item Left join: for each occurring value of \code{U} in the first table, the operation
-    will look for the same value in the second table.  If it finds it, it will create a new
-    row with the columns of both tables.  If it does not find it, it will create a new row
-    with the columns of the first table and missing values for the columns of the second
-    table.
-  \item Right join: the same as the left join, but the roles of the tables are reversed.
-  \item Outer join: for each different value of \code{U} in both tables, the operation
-    will create a new row with the columns of both tables.  If a value is missing in one
-    table, it will be filled with a missing value.
-\end{itemize}
+Before we discuss whether the join operation is split invariant\footnote{Note that up to
+this point, we have defined this property only for unary operations.}, we can discuss a
+variation of the join operation: the left join.  The left join is the same as the join
+operation, but if the value of $U$ is missing in the second table, the operation will
+create a new row with the columns of the first table and missing values for the columns of
+the second table.
 
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use joining to integrate datasets;
-    \item Be aware of the risks of joining datasets (\cref{sec:normalization}), for
-      example, that some joins may create invalid rows;
-    \item Use the appropriate variation of the join operation in applications.
-  \end{itemize}
-\end{hlbox}
+In our context, we can see this operation as an unary operation, where the second table is
+a fixed parameter.
 
+\begin{defbox}{Left join operation}{left-join}
+  Let $T' = (K', H', c')$ and $T'' = (K'', H'', c'')$ be two tables such that $K'
+  \cap K'' \neq \emptyset$ and $H' \cap H'' = \emptyset$.  The left join operation is
+  defined as \[
+    \operatorname{join}(T'; T'') = \operatorname{join}_{T''}(T') = T\text{,}
+  \] where $T = (K' \cup K'', H' \cup H'', c)$ and \[
+    c(r, h) = ()
+  \] if $\rowcard[{r[K']; c'}] = 0$ for all $h$. Otherwise:
+  \[
+    c(r, h) = \begin{dcases}
+      c'(r[K'], h) & \text{if } h \in H'\text{,} \\
+      c''(r[K''], h) & \text{if } h \in H''\text{.}
+    \end{dcases}
+  \]
+\end{defbox}
+
+The left join operation is split-invariant.  To see this, consider two disjoint tables
+$T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, and a third table $T' = (K', H', c')$ such
+that $K \cap K' \neq \emptyset$ and $H \cap H' = \emptyset$.  We have that
+\begin{multline*}
+  \operatorname{join}_{T'}(T_0) + \operatorname{join}_{T'}(T_1) =
+  T_0' + T_1' =\\
+    (K \cup K', H \cup H', c_0') + (K \cup K', H \cup H', c_1')\text{,}
+\end{multline*}
+where the meaning of each term is clear from the \cref{def:left-join}.
+It is straightforward to see that rows in $T_0'$ and $T_1'$ are disjoint, since at least
+part of the indices in $K \cup K'$ are different between them.
+
+Moreover, \[
+  \operatorname{join}_{T'}(T_0 + T_1) = (K \cup K', H \cup H', c')
+\] with $c'(r, h) = ()$ only if both $\rowcard[{r[K]; c_0}] = 0$ and $\rowcard[{r[K];
+c_1}] = 0$.  Otherwise, $c'(r, h) = c_0(r[K], h) + c_1(r[K], h)$ if $h \in H$ and $c'(r,
+h) = c_0(r[K], h)$ if $h \in H'$.
+
+Thus, \[
+  \operatorname{join}_{T'}(T_0 + T_1) = \operatorname{join}_{T'}(T_0) + \operatorname{join}_{T'}(T_1)\text{.}
+\]
+
+Our conclusion is that the left join operation given a fixed table is split-invariant.
+So we can safely use it to join tables without worrying about biasing the dataset once we
+fix the second table.
+
+I conjecture that the (inner) join operation shares similar properties but it is not as
+safe, nonetheless I clear definition of split invariance for binary operations is needed.
+This is left as a thought exercise for the reader.  Notice that the traditional join has
+the ability to ``erase'' rows from any of the tables involved in the operation.  This is a
+potential source of bias in the data.
 
 \newpage
 
@@ -864,7 +926,8 @@ with the mean of the \code{x} column for each group.
 
 \dots
 
-\subsection{Projecting}
+\subsection{Projecting and aggregating}
+\label{sub:projection}
 
 Projection is one of the two fundamental operations in relational algebra --- consult
 \cref{sec:normalization} for more details.  In database normalization theory, tables ---
@@ -936,6 +999,10 @@ first row (Alice, Math) is in one table and the second row (Alice, Physics) is i
 the bind operation between the projection into the entity \emph{student} of these two
 tables is not allowed.  The reason is that the row (Alice) will be present in both tables,
 violating the disjoint property of the tables.
+
+% TODO: relationship between projection and aggregation
+
+% TODO: connection with database normalization
 
 \section{An algebra for statistical transformations}
 
