@@ -782,6 +782,65 @@ numbers, we choose $P(h) = 1$ if $\domainof{h} = \mathbb{R}$, and $P(h) = 0$ oth
 The case where the predicate depends on the values of the columns is discussed in
 \cref{sub:selection-value}.
 
+\subsection{Filtering rows}
+
+Filtering is the process of selecting a subset of rows from a dataset based on a
+predicate.
+
+A predicate can be a combination of other predicates using logical operators, such as
+logical disjunction (or) or logical conjunction (and).  In the general case, predicates
+need to be robust enough to deal with value matrices of any size and that contains missing
+values.
+
+After filtering, the dataset will contain only the rows that satisfy the predicate.
+Columns remain unchanged.
+
+In its simplest form, we can assume that $\rowcard[r] \leq 1$ for all $r$ and that the
+predicates are applied to each row independently.  In this case, the value matrix $V(r)$
+is just a tuple with a single value for each non-index column.
+
+Without loss of generality, we can assume that predicates are combined using logical
+disjunction (or)\footnote{The reason is that sequential application of filtering is
+equivalent to combining the predicates using logical conjunction (and).}.
+
+\begin{defbox}{Filtering operation}{filtering}
+  Let $T = (K, H, c)$ be a table and $P_1, \dots P_n$ be predicates.  The filtering
+  operation is defined as \[
+    \operatorname{filter}_{P_1, \dots, P_n}(T) = T'\text{,}
+  \] where $T' = (K, H, c')$ and \[
+    c'(r, h) = \begin{dcases}
+      c(r, h) & \text{if } \bigvee_{i = 1}^{n} P_i(V(r)) = 1\text{,} \\
+      () & \text{otherwise}\text{,}
+    \end{dcases}
+  \] where predicate $P_i : (\domainof{h} \times \dots : h \in H) \to \{0, 1\}$ is applied
+  to the value matrix $V(r)$ of the row $r$.
+\end{defbox}
+
+For instance, the predicate \code{age > 18} will select all rows where the value in the
+age column is greater than 18.
+
+Keeping each row independent, we can also generalize predicates to deal with the values of
+the indexes as well.
+
+\begin{defbox}{Indexed filtering operation}{indexed-filtering}
+  Let $T = (K, H, c)$ be a table and $P_1, \dots P_n$ be (indexed) predicates.  The
+  indexed filtering operation is defined as \[
+    \operatorname{filter}_{P_1, \dots, P_n}(T) = T'\text{,}
+  \] where $T' = (K, H, c')$ and \[
+    c'(r, h) = \begin{dcases}
+      c(r, h) & \text{if } \bigvee_{i = 1}^{n} P_i(r, V(r)) = 1\text{,} \\
+      () & \text{otherwise}\text{,}
+    \end{dcases}
+  \] where predicate $P_i : (\domainof{K_i} \times \dots : K_i \in K ) \times
+  (\domainof{h} \times \dots : h \in H) \to \{0, 1\}$ is applied to the value matrix
+  $V(r)$ of the row $r$.
+\end{defbox}
+
+It is also trivial to see that the filtering operation is split-invariant, even in its
+generalized form where the value matrix has many rows.  This property comes from the fact
+that rows are treated independently.  More complex cases are discussed in
+\cref{sub:filter-value}.
+
 \newpage
 
 We use the following terminology to refer to the data handling parameters:
@@ -795,45 +854,6 @@ We use the following terminology to refer to the data handling parameters:
   \item \textbf{Expression}: a function that returns a vector of values element-wise, used to create new
     columns or to modify existing ones.
 \end{itemize}
-
-\subsection{Filtering rows}
-
-Filtering is the process of selecting a subset of rows from a dataset based on a
-predicate.  If more than a single predicate is used, they are combined using a logical
-operator, such as logical disjunction (or) or logical conjunction (and).
-
-After filtering, the dataset will contain only the rows that satisfy the predicate.
-Columns remain unchanged.  This operation is potentially irreversible, as the removed
-rows are lost.
-
-In the basic form, each row is treated independently.  For instance, the predicate
-\code{age > 18} will select all rows where the value in the \code{age} column is
-greater than 18.
-
-However, if the predicate depends on an aggregation or window function, one must specify
-the groups and/or the order of the rows.  For instance, the predicate \code{age >
-mean(age) group by country} will select the rows where the value in the \code{age}
-column is greater than the mean of the \code{age} for each \code{country}. Another
-example is the predicate \code{cumsum(price) < 100 sort by date}, which selects the rows
-that satisfy the condition that the cumulative sum of the \code{price} column is less
-than 100 given the order of the rows defined by the \code{date} column.
-
-The trivial group is the entire dataset, so it is usually not necessary to specify it
-explicitly.  However, it is usually not sensible to not specify the order of the rows.
-
-When dealing with real values, be aware of floating-point precision issues.  In other
-words, do not use the equality operator to compare real numbers.  Most of libraries
-provide operators to compare real numbers within a given tolerance.
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use filtering to remove rows that are not relevant to your analysis;
-    \item Use predicates to define the conditions under which rows should be removed;
-    \item When aggregation functions are needed to define the predicate, specify the groups and
-      the order of the rows;
-    \item Be aware of floating-point precision issues when comparing real numbers.
-  \end{itemize}
-\end{hlbox}
 
 \subsection{Mutating columns}
 
@@ -1039,6 +1059,34 @@ I find this practice error-prone and I recommend avoiding it whenever possible.
     \item Use predicates (many to one, with no aggregation functions) to define the conditions
       under which columns should be selected;
     \item Avoid depending on the order of the columns.
+  \end{itemize}
+\end{hlbox}
+
+\subsection{Filtering rows after aggregation}
+\label{sub:filter-value}
+
+However, if the predicate depends on an aggregation or window function, one must specify
+the groups and/or the order of the rows.  For instance, the predicate \code{age >
+mean(age) group by country} will select the rows where the value in the \code{age}
+column is greater than the mean of the \code{age} for each \code{country}. Another
+example is the predicate \code{cumsum(price) < 100 sort by date}, which selects the rows
+that satisfy the condition that the cumulative sum of the \code{price} column is less
+than 100 given the order of the rows defined by the \code{date} column.
+
+The trivial group is the entire dataset, so it is usually not necessary to specify it
+explicitly.  However, it is usually not sensible to not specify the order of the rows.
+
+When dealing with real values, be aware of floating-point precision issues.  In other
+words, do not use the equality operator to compare real numbers.  Most of libraries
+provide operators to compare real numbers within a given tolerance.
+
+\begin{hlbox}{Practical tips}
+  \begin{itemize}
+    \item Use filtering to remove rows that are not relevant to your analysis;
+    \item Use predicates to define the conditions under which rows should be removed;
+    \item When aggregation functions are needed to define the predicate, specify the groups and
+      the order of the rows;
+    \item Be aware of floating-point precision issues when comparing real numbers.
   \end{itemize}
 \end{hlbox}
 
