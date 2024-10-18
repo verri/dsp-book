@@ -738,7 +738,49 @@ I conjecture that the (inner) join operation shares similar properties but it is
 safe, nonetheless I clear definition of split invariance for binary operations is needed.
 This is left as a thought exercise for the reader.  Notice that the traditional join has
 the ability to ``erase'' rows from any of the tables involved in the operation.  This is a
-potential source of bias in the data.
+potential source of bias in the data.  This further emphasizes the importance of the
+understanding the semantics of the data schema before joining tables --- consult
+\cref{sec:normalization}.
+
+\subsection{Selecting}
+\label{sub:selection}
+
+Selecting is the process of choosing a subset of non-index columns from a dataset.  The
+remaining columns are discarded.  Rows of the table remain unchanged.
+
+Although very simple, the selection operation is useful to remove columns that are not
+relevant to the analysis.  Also, it might be needed before other operations, such as
+pivoting, to avoid unnecessary columns (wide-to-long) and to keep the only value column
+(long-to-wide).
+
+\begin{defbox}{Selection operation}{selection}
+  Let $T = (K, H, c)$ be a table and $H' \subseteq H$.  The selection operation is
+  defined as \[
+    \operatorname{select}_{H'}(T) = T'\text{,}
+  \] where $T' = (K, H', c)$.
+\end{defbox}
+
+Sometimes, it is useful to select columns based on a function of the column properties.
+In other words, the selection operation can be parametrized by a predicate.  The predicate
+is a function that returns a logical value given the column.
+
+\begin{defbox}{Predicate selection operation}{predicate-selection}
+  Let $T = (K, H, c)$ be a table and $P : H \to \{0, 1\}$ be a predicate.  The predicate
+  selection operation is defined as \[
+    \operatorname{select}_{P}(T) = T'\text{,}
+  \] where $T' = (K, H', c)$ and $H' = \{h \in H : P(h) = 1\}$.
+\end{defbox}
+
+It is trivial to see that, if $P$ do not depend on the values of the columns (i.e. has no
+access to $c$), the predicate selection operation is split-invariant.  This is because the
+operation does not change the rows of the table nor it depends on the values of the rows.
+
+One example of the use of the predicate selection operation is to keep columns whose
+values are in a specific domain.  For instance, to keep only columns that contains real
+numbers, we choose $P(h) = 1$ if $\domainof{h} = \mathbb{R}$, and $P(h) = 0$ otherwise.
+
+The case where the predicate depends on the values of the columns is discussed in
+\cref{sub:selection-value}.
 
 \newpage
 
@@ -790,59 +832,6 @@ provide operators to compare real numbers within a given tolerance.
     \item When aggregation functions are needed to define the predicate, specify the groups and
       the order of the rows;
     \item Be aware of floating-point precision issues when comparing real numbers.
-  \end{itemize}
-\end{hlbox}
-
-\subsection{Selecting columns}
-\label{sub:selection}
-
-Selecting is the process of choosing a subset of columns from a dataset.  The remaining
-columns are discarded.  This operation is not reversible, as the discarded columns are
-lost.  Rows remain unchanged.
-
-There are two main ways to select columns: by name or by predicate.  The former is the
-most common and is used to select a fixed set of columns.  The latter is used to select
-columns that satisfy a given condition, i.e., the values in the columns are used to
-determine which columns should be selected.
-
-When selecting columns by name, one can use a list of column names or a regular
-expression\footnote{Regular expressions are very general and powerful, but they are also
-complex and error-prone.  An alternative is to use some form of hierarchical naming,
-such as \code{type.column} to express groups of columns.}.
-The latter is useful when the column names follow a pattern that reflects the semantics of
-the columns.  For instance,
-one can use the regular expression \code{col[0-9]+} to select all columns whose names
-start with \code{col} followed by one or more digits.
-
-When selecting columns by predicate, one can use a function that returns a logical value
-to define the condition under which a column should be selected.  For instance, one can
-use the predicate \code{isnumeric} to select all columns that contain numeric values.
-Notice, however, that the predicate is applied to each column independently and returns a
-single logical value for each column.
-
-Like filtering, selecting predicates might contain aggregation functions.  Although it is
-theoretically possible to consider the order of the values in the columns, it is not common
-to do so.  (Especially because one would need to assume that the rows are previously
-sorted by some criterion.) Groups, however, never make sense in this context, once the
-predicate is applied to each column independently.
-
-Depending on the context, it may be useful to ``drop'' columns instead of selecting them.
-This is the same as selecting all columns except the ones specified.  This is useful when
-the number of columns to be dropped is small compared to the total number of columns.
-Strictly speaking, we just need to negate the predicate or the regular expression used to
-select the columns.
-
-Finally, it is very common to find libraries and framework in which the order of the
-columns is important.  As a result, columns can be selected by position as well.
-I find this practice error-prone and I recommend avoiding it whenever possible.
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use selecting to remove columns that are not relevant to your analysis;
-    \item Use column names or regular expressions (or hierarchical names) to select columns;
-    \item Use predicates (many to one, with no aggregation functions) to define the conditions
-      under which columns should be selected;
-    \item Avoid depending on the order of the columns.
   \end{itemize}
 \end{hlbox}
 
@@ -1003,6 +992,56 @@ violating the disjoint property of the tables.
 % TODO: relationship between projection and aggregation
 
 % TODO: connection with database normalization
+
+\subsection{Selecting columns by value}
+\label{sub:selection-value}
+
+There are two main ways to select columns: by name or by predicate.  The former is the
+most common and is used to select a fixed set of columns.  The latter is used to select
+columns that satisfy a given condition, i.e., the values in the columns are used to
+determine which columns should be selected.
+
+When selecting columns by name, one can use a list of column names or a regular
+expression\footnote{Regular expressions are very general and powerful, but they are also
+complex and error-prone.  An alternative is to use some form of hierarchical naming,
+such as \code{type.column} to express groups of columns.}.
+The latter is useful when the column names follow a pattern that reflects the semantics of
+the columns.  For instance,
+one can use the regular expression \code{col[0-9]+} to select all columns whose names
+start with \code{col} followed by one or more digits.
+
+When selecting columns by predicate, one can use a function that returns a logical value
+to define the condition under which a column should be selected.  For instance, one can
+use the predicate \code{isnumeric} to select all columns that contain numeric values.
+Notice, however, that the predicate is applied to each column independently and returns a
+single logical value for each column.
+
+Like filtering, selecting predicates might contain aggregation functions.  Although it is
+theoretically possible to consider the order of the values in the columns, it is not common
+to do so.  (Especially because one would need to assume that the rows are previously
+sorted by some criterion.) Groups, however, never make sense in this context, once the
+predicate is applied to each column independently.
+
+Depending on the context, it may be useful to ``drop'' columns instead of selecting them.
+This is the same as selecting all columns except the ones specified.  This is useful when
+the number of columns to be dropped is small compared to the total number of columns.
+Strictly speaking, we just need to negate the predicate or the regular expression used to
+select the columns.
+
+Finally, it is very common to find libraries and framework in which the order of the
+columns is important.  As a result, columns can be selected by position as well.
+I find this practice error-prone and I recommend avoiding it whenever possible.
+
+\begin{hlbox}{Practical tips}
+  \begin{itemize}
+    \item Use selecting to remove columns that are not relevant to your analysis;
+    \item Use column names or regular expressions (or hierarchical names) to select columns;
+    \item Use predicates (many to one, with no aggregation functions) to define the conditions
+      under which columns should be selected;
+    \item Avoid depending on the order of the columns.
+  \end{itemize}
+\end{hlbox}
+
 
 \section{An algebra for statistical transformations}
 
