@@ -662,10 +662,10 @@ details.
 Adapting the definitions of join in our context, we can define it as follows.
 For the sake of simplicity, we denote $r[U]$ as the row $r$ restricted to the index
 columns in $U$, i.e.
-\begin{equation}
-  \label{eq:row-subscript}
+\begin{equation*}
+  % \label{eq:row-subscript}
   r[U] = (k_i : k_i \in \domainof{K_i} \forall K_i \in U)\text{.}
-\end{equation}
+\end{equation*}
 
 \begin{defbox}{Join operation}{join}
   Let $T' = (K', H', c')$ and $T'' = (K'', H'', c'')$ be two tables such that $K'
@@ -895,15 +895,74 @@ by creating new rows, effectively ungrouping the values.
   finite.  The grouping operation is defined as \[
     \operatorname{ungroup}_{h'}(T) = T'\text{,}
   \] where $T' = (K \cup \{h'\}, H \setminus \{h'\}, c')$, and \[
-    c'(r + r', h) = v_{i,h}\text{,}
+    c'(r + r', h) = (v_{i,h} : i)\text{,}
   \] where $r$ refers to values of the indices in $K$, $r'$ refers to value of new index
-  $h'$, and $v_{i,h}$ is the value of the column $h$ in the $i$-th nested row of the value
+  $h'$, and $v_{i,h}$ is the value of the column $h$ in any $i$-th nested row of the value
   matrix $V(r; T)$ in the original table such that \[
     v_{i, h'} = r'\text{.}
   \]
 \end{defbox}
 
-% TODO: example
+Note that the operation requires that the column $h'$ has no missing values.
+
+\begin{tablebox}[label=tab:ungroup]{Ungrouping example.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{city} & \textbf{year} & \textbf{qty.} \\
+    \midrule
+    A & (2019, 2020, 2020, 2021) & (1, 2, 3, 4) \\
+    B & (2019, 2020, 2021) & (5, 6, 7) \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{1em}
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{city} & \textbf{year} & \textbf{qty.} \\
+    \midrule
+    A & 2019 & 1 \\
+    A & 2020 & (2, 3) \\
+    A & 2021 & 3 \\
+    B & 2019 & 4 \\
+    B & 2020 & 5 \\
+    B & 2021 & 6 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  The index of the top table is the column \emph{city}.  The bottom table is the result of
+  ungrouping the column \emph{year}.
+\end{tablebox}
+
+\Cref{tab:ungroup} shows an example of ungrouping.  In the top table, there are two rows,
+one with cardinality 4 and the other with cardinality 3.  The column \emph{year} is
+ungrouped, creating new rows for each value in the nested row.  The bottom table is the
+result of ungrouping the column \emph{year}.  Although there were 7 nested rows in the
+original table, the bottom table has 6 rows --- the number of nested rows is preserved
+however.  The reason is that the row (A, 2020) has cardinality 2.
+
+The ungrouping operation is split-invariant.  To see this, consider two disjoint tables
+$T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, we have
+\begin{multline*}
+  \operatorname{ungroup}_{h'}(T_0) + \operatorname{ungroup}_{h'}(T_1) = \\
+    \left(K \cup \{h'\}, H \setminus \{h'\}, c_0'\right) +
+    \left(K \cup \{h'\}, H \setminus \{h'\}, c_1'\right)\text{,}
+\end{multline*}
+where $c_j'(r + r', h) = (v_{i,h} : i \text{ such that } v_{i, h'} = r')$. Since the
+tables are disjoint, the rows of the output tables are also disjoint.  In other words,
+For any $r$, either $\rowcard[{r + r'; c_0}] = 0$ or $\rowcard[{r + r'; c_1}] = 0$
+independently of the value of $r'$.  The reason is that there is no possible $v_{i,h'} =
+r'$ if $r$ is not present in the table.
+
+Then,
+\begin{multline*}
+  \left(K \cup \{h'\}, H \setminus \{h'\}, c_0'\right) +
+  \left(K \cup \{h'\}, H \setminus \{h'\}, c_1'\right) = \\
+    \left(K \cup \{h'\}, H \setminus \{h'\}, c'\right)\text{,}
+\end{multline*}
+where $c'(r + r', h) = c_0'(r + r', h) + c_1'(r + r', h)$.
 
 \section{Other operations}
 
