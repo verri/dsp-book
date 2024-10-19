@@ -564,9 +564,14 @@ must be indexes.
   operation is defined as \[
     \operatorname{pivot}_\text{name}(T) = T'\text{,}
   \] where $T' = (K, \domainof{\text{name}}, c')$ and \[
-    c'(r, h) = c\left(r + (h),~\text{value}\right)\text{.}
+    c'(r, h) = c\left(r + (h),~\text{value}\right)\text{,}
   \]
+  for all valid row $r$ and $h \in \domainof{\text{name}}$.
 \end{defbox}
+
+Note however that the operation only works if $\rowcard[r + (h); c]$ is constant for all
+$h \in \domainof{\text{name}}$.  If this is not the case, one must aggregate the rows
+before applying the pivot operation.  This is discussed in \cref{sub:aggregation}.
 
 Pivoting wide-to-long\footnote{Also known as unpivot.} is the reverse operation. One must
 specify all the columns whose names are the values of the before called ``name column.''
@@ -654,11 +659,13 @@ the conditions under with the operation is split invariant. However, the join op
 has some other risks you should be aware of; consult \cref{sec:normalization} for more
 details.
 
-Adapting the definitions of projection our context, we can define it as follows.
+Adapting the definitions of join in our context, we can define it as follows.
 For the sake of simplicity, we denote $r[U]$ as the row $r$ restricted to the index
-columns in $U$, i.e. \[
+columns in $U$, i.e.
+\begin{equation}
+  \label{eq:row-subscript}
   r[U] = (k_i : k_i \in \domainof{K_i} \forall K_i \in U)\text{.}
-\]
+\end{equation}
 
 \begin{defbox}{Join operation}{join}
   Let $T' = (K', H', c')$ and $T'' = (K'', H'', c'')$ be two tables such that $K'
@@ -681,6 +688,11 @@ tables.  Let $U$ be the common set of index columns.  For each occurring value o
 the first table, the operation will look for the same value in the second table.  If it
 finds it, it will create a new row with the columns of both tables.  If it does not find
 it, no row will be created.
+
+Note that, like in pivoting long-to-wide, one must ensure that the cardinality of the
+joined rows is constant for all $h \in H' \cup H''$.  If this is not the case, one must
+aggregate the rows before applying the join operation.  This is discussed in
+\cref{sub:aggregation}.
 
 Before we discuss whether the join operation is split invariant\footnote{Note that up to
 this point, we have defined this property only for unary operations.}, we can discuss a
@@ -816,8 +828,8 @@ predicates to deal with the values of the indexes as well.
       c(r, h) & \text{if } \bigvee_{i = 1}^{n} P_i(r, V(r)) = 1\text{,} \\
       () & \text{otherwise}\text{,}
     \end{dcases}
-  \] where predicate $P_i : (\domainof{K_i} \times \dots : K_i \in K ) \times
-  ((\domainof{h} \cup \{?\}) \times \dots : h \in H) \to \{0, 1\}$ is applied to the value
+  \] where predicate $$P_i : \bigtimes_{K_i} K_i \times
+  \bigtimes_{h\in H}\left(\domainof{h} \cup \{?\}\right) \to \{0, 1\}$$ is applied to the value
   matrix $V(r)$ of the row $r$.
 \end{defbox}
 
@@ -845,8 +857,8 @@ all $r$ and that the predicates are applied to each row independently.
       c(r, h) & \text{if } h \in H\text{,} \\
       f(r, V(r)) & \text{if } h = h'\text{,}
     \end{dcases}
-  \] where function $f : (\domainof{K_i} \times \dots : K_i \in K ) \times ((\domainof{h}
-  \cup \{?\}) \times \dots : h \in H) \to \domainof{h'} \cup \{?\}$ is applied to the
+  \] where function $$f : \bigtimes_{K_i \in K} K_i \times \bigtimes_{h\in H}
+  \left(\domainof{h} \cup \{?\}\right) \to \domainof{h'} \cup \{?\}$$ is applied to the
   value matrix $V(r)$ of the row $r$.
 \end{defbox}
 
@@ -867,7 +879,31 @@ any $r$.  This is because the operation is applied to each row independently.
 
 \subsection{Ungrouping}
 
-\newpage
+We discussed in the beginning of this chapter that the less index columns a table has ---
+assuming we guarantee that all information about that entity is present --- the more
+safer it is to infer conclusions from the data.  Thus, reducing the number of indices
+must be done very carefully --- more on that in \cref{sub:projection}.
+
+On the other hand, sometimes it is useful to increase the number of index columns.  For
+instance, pivoting long-to-wide requires all columns except one to be indexes.  The
+operation that transforms some of the columns in the table into indexes is called ungrouping.
+The reason for the name is that the operation transforms decreases the cardinality of rows
+by creating new rows, effectively ungrouping the values.
+
+\begin{defbox}{Ungrouping operation}{grouping}
+  Let $T = (K, H, c)$ be a table and $h' \in H$ such that $\domainof{h'}$ is known and
+  finite.  The grouping operation is defined as \[
+    \operatorname{ungroup}_{h'}(T) = T'\text{,}
+  \] where $T' = (K \cup \{h'\}, H \setminus \{h'\}, c')$, and \[
+    c'(r + r', h) = v_{i,h}\text{,}
+  \] where $r$ refers to values of the indices in $K$, $r'$ refers to value of new index
+  $h'$, and $v_{i,h}$ is the value of the column $h$ in the $i$-th nested row of the value
+  matrix $V(r; T)$ in the original table such that \[
+    v_{i, h'} = r'\text{.}
+  \]
+\end{defbox}
+
+% TODO: example
 
 \section{Other operations}
 
