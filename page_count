@@ -5,7 +5,6 @@ library(tidyverse)
 pages <-
   read_tsv(stdin()) %>%
   mutate(Pages = c(diff(Pages), 0)) %>%
-  mutate(Pages = if_else(row_number() > 1, Pages, 0)) %>%
   mutate(Chapter = fct_rev(fct_inorder(Chapter)))
 
 p <-
