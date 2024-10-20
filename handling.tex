@@ -12,12 +12,12 @@
 In the previous chapter, I discussed the relationship between data format and data
 semantics.  We also saw in \cref{chap:project} that data tasks --- specifically
 integration and tidying --- must adjust the available data to reflect the kind of
-input we expect in production.
+input we expect in production.  Data handling consists of operating on this data.
 
 For those tasks, we must be careful with the operations we perform on the data. At the
 stage of data preparation, for example, we should never parametrize our data handling
 pipeline in terms of information retrieved\footnote{For instance, imputation by the mean
-of a column.} by sampling the data.  This is because such operations lead to \gls{leakage}
+of a column.} by the values of the data.  This is because such operations lead to \gls{leakage}
 during evaluation and other biases in our conclusions.
 
 In this chapter, we consider that tables are rectangular data structures in which values
@@ -30,9 +30,6 @@ be applied to them.  These operations are the building blocks of data handling p
 combinations of operations that transform a dataset into another dataset.
 I also highlight some important properties of these operations.
 
-I show how these operations can be combined to create complex data handling pipelines by
-using them to solve the issues presented in \cref{sub:messy}.
-
 \begin{mainbox}{Chapter remarks}
 
   \boxsubtitle{Contents}
@@ -44,19 +41,26 @@ using them to solve the issues presented in \cref{sub:messy}.
   \boxsubtitle{Context}
 
   \begin{itemize}
-    \item \dots
+    \itemsep0em
+    \item Data handling consists of operating on tables.
+    \item Properties of the operations are important to avoid biases.
+    \item Data handling pipelines are a way to organize the operations.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
-    \item \dots
+    \itemsep0em
+    \item Define a formal structure for tables.
+    \item Define a set of operations that can be applied to tables.
   \end{itemize}
 
   \boxsubtitle{Takeways}
 
   \begin{itemize}
-    \item \dots
+    \itemsep0em
+    \item Split-invariant operations are important to avoid biases.
+    \item One must understanding the properties and premises of the operations.
   \end{itemize}
 \end{mainbox}
 
