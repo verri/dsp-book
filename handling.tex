@@ -966,16 +966,26 @@ where $c'(r + r', h) = c_0'(r + r', h) + c_1'(r + r', h)$.
 
 \section{Other operations}
 
-We use the following terminology to refer to the data handling parameters:
+We saw that, under reasonable premises, split-invariant operations are safe to use in the
+context of tidying and data integration.  However, data handling does not happen only in
+the context of tidying and integrating datasets\footnote{And, sometimes, we may need to
+use other transformations even for these tasks.}.  It is also used in tasks like data
+exploration and data preprocessing.  In these cases, other operations are needed.
+
+In this section, we discuss some of these operations.  Instead of focusing in the
+mathematical definitions, we will discuss the semantics of the operations and some
+of their properties.
+
+The operations are heavily parametrized.  We use the following terminology to refer to the
+data handling parameters:
 \begin{itemize}
-  \item \textbf{Predicate}: a function that returns a logical value, used to filter
-    rows/columns or to define the groups of rows/columns to be processed;
-  \item \textbf{Aggregation function}: a function that returns a single value given a vector
-    of values (in which, the order of the values may be important);
-  \item \textbf{Window function}: a function that returns a vector of values given a vector
-    of values in which, the order of the values is important;
-  \item \textbf{Expression}: a function that returns a vector of values element-wise, used to create new
-    columns or to modify existing ones.
+  \itemsep0em
+  \item \textbf{Aggregation function}: a function that returns a single value given a
+    tuple of values;
+  \item \textbf{Window function}: a function that returns a tuple of values given a tuple
+    of values of the same size;
+  \item \textbf{Expression}: a function that returns a tuple of values by applying the
+    same transformation to each value of the input tuple.
 \end{itemize}
 
 \subsection{Projecting and aggregating}
@@ -1052,11 +1062,12 @@ the bind operation between the projection into the entity \emph{student} of thes
 tables is not allowed.  The reason is that the row (Alice) will be present in both tables,
 violating the disjoint property of the tables.
 
-% TODO: relationship between projection and aggregation
+The consequence of this is that a poor architecture of the data schema can lead to
+incorrect conclusions in the face of missing information (due to split).  This is one of
+the reasons why database normalization is so important.  The usage of parts of the tables
+without fully denormalizing them is a bad practice that can lead to spurious information.
 
-% TODO: connection with database normalization
-
-\subsection{Aggregating rows}
+\subsection{Aggregating}
 \label{sub:aggregation}
 
 We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
