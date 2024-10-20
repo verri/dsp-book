@@ -848,7 +848,7 @@ a function that returns a vector of values given the values in the other columns
 Similarly to filtering, in its simplest form, we can assume that $\rowcard[r] \leq 1$ for
 all $r$ and that the predicates are applied to each row independently.
 
-\begin{defbox}{Mutating operation}{mutating}
+\begin{defbox}{Mutation operation}{mutating}
   Let $T = (K, H, c)$ be a table and $f$ be a transformation function.  The mutating
   operation is defined as \[
     \operatorname{mutate}_{f}(T) = T'\text{,}
@@ -875,7 +875,30 @@ This function solves the issue of multiple variables stored in one column descri
 \cref{sub:messy}.
 
 As with filtering, the mutating operation is split-invariant even if $\rowcard[r] > 1$ for
-any $r$.  This is because the operation is applied to each row independently.
+any $r$\footnote{It just change the input space of function $f$.}.  This is because the
+operation is applied to each row independently.  In this general case, an extra
+requirement is that the function $f$ must be return tuples with the same cardinality of
+the row it is applied to.
+
+\subsection{Aggregating}
+\label{sub:aggregation}
+
+Many times, it is easier to reason the table when all rows have cardinality 1.
+Aggregation ensures that the table has this property.
+
+\begin{defbox}{Aggregation operation}{aggregating}
+  Let $T = (K, H, c)$ be a table and $f$ be an aggregation function.  The aggregation
+  operation is defined as \[
+    \operatorname{aggregate}_{f}(T) = T'\text{,}
+  \] where $T' = (K, H, c')$ and \[
+    c'(r, h) = f(r, V(r))[h]\text{,}
+  \] where function $f$ is applied to the value matrix $V(r)$ of the row $r$ and it has
+  image $$\left(\domainof{h} \cup \{?\} : h \in H\right)\text{,}$$ independently of the
+  input size.  The notation $v[h]$ refers to value corresponding to the column $h$ in the
+  output tuple.
+\end{defbox}
+
+As with mutation, aggregation is split-invariant as each row is treated independently.
 
 \subsection{Ungrouping}
 
@@ -964,6 +987,7 @@ Then,
 \end{multline*}
 where $c'(r + r', h) = c_0'(r + r', h) + c_1'(r + r', h)$.
 
+
 \section{Other operations}
 
 We saw that, under reasonable premises, split-invariant operations are safe to use in the
@@ -988,7 +1012,7 @@ data handling parameters:
     same transformation to each value of the input tuple.
 \end{itemize}
 
-\subsection{Projecting and aggregating}
+\subsection{Projecting}
 \label{sub:projection}
 
 Projection is one of the two fundamental operations in relational algebra --- consult
@@ -1055,6 +1079,9 @@ Now each row (bottom table) represents a course.  The column \emph{student} is n
 index column anymore, and the values in the column are exhaustive and unique, i.e
 the whole set $\domainof{\text{student}}$ is represented in the column for each row.
 
+Thus, projection is a very useful operation when we want to change the observational unit
+of the data, particularly to the entity represented by a subset of the index columns.
+
 It is easy to see that the projection operation is not split-invariant.  Consider the
 following example. If we split the top table in \cref{tab:student-grade-handling} so the
 first row (Alice, Math) is in one table and the second row (Alice, Physics) is in another,
@@ -1066,37 +1093,6 @@ The consequence of this is that a poor architecture of the data schema can lead 
 incorrect conclusions in the face of missing information (due to split).  This is one of
 the reasons why database normalization is so important.  The usage of parts of the tables
 without fully denormalizing them is a bad practice that can lead to spurious information.
-
-\subsection{Aggregating}
-\label{sub:aggregation}
-
-We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
-operation is not reversible, as the discarded rows are lost.  The columns are also lost,
-only the new aggregate columns remain.
-
-The values in the new columns are determined by an aggregation function.  Like filtering
-and mutation, the aggregation function can be parametrized by specifying a group and/or an
-order.
-
-The resulting dataset will contain one row for each group.  The values in the new columns
-are determined by the aggregation function applied to the values in the other columns.
-All columns that define the groups are usually kept in the resulting dataset.  In this
-case, as expected, values of such columns are equal for all rows in the same group.
-
-For instance, the aggregation function \code{mean(x) group by category} will create a
-new dataset with one row for each different value of \code{category} and a new column
-with the mean of the \code{x} column for each group.
-
-\begin{hlbox}{Practical tips}
-  \begin{itemize}
-    \item Use aggregation to summarize the data in a dataset;
-    \item Use aggregation functions to define the values of the new columns;
-    \item Other columns are lost;
-    \item Use the group and order parameters to define the groups and the behavior of the
-      aggregation function.
-  \end{itemize}
-\end{hlbox}
-
 
 \subsection{Selecting columns by value}
 \label{sub:selection-value}
@@ -1209,6 +1205,36 @@ mutation and selection operations.
 \end{hlbox}
 
 Window function, be careful with completeness.
+
+\subsection{Aggregating by value}
+\label{sub:aggregation-value}
+
+We can aggregate the rows of a dataset to create a new dataset with fewer rows.    The
+operation is not reversible, as the discarded rows are lost.  The columns are also lost,
+only the new aggregate columns remain.
+
+The values in the new columns are determined by an aggregation function.  Like filtering
+and mutation, the aggregation function can be parametrized by specifying a group and/or an
+order.
+
+The resulting dataset will contain one row for each group.  The values in the new columns
+are determined by the aggregation function applied to the values in the other columns.
+All columns that define the groups are usually kept in the resulting dataset.  In this
+case, as expected, values of such columns are equal for all rows in the same group.
+
+For instance, the aggregation function \code{mean(x) group by category} will create a
+new dataset with one row for each different value of \code{category} and a new column
+with the mean of the \code{x} column for each group.
+
+\begin{hlbox}{Practical tips}
+  \begin{itemize}
+    \item Use aggregation to summarize the data in a dataset;
+    \item Use aggregation functions to define the values of the new columns;
+    \item Other columns are lost;
+    \item Use the group and order parameters to define the groups and the behavior of the
+      aggregation function.
+  \end{itemize}
+\end{hlbox}
 
 \section{An algebra for data handling}
 
