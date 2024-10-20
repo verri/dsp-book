@@ -1199,20 +1199,16 @@ mutation and selection operations.
 
 Window function, be careful with completeness.
 
-\section{An algebra for statistical transformations}
+\section{An algebra for data handling}
 
-In recent years, some researchers made an effort to create a formal algebra for
-statistical transformations.  The idea is to create a set of operations that can be
-combined to create complex statistical transformations.  This is similar to the idea of
-relational algebra, which is a set of operations that can be combined to create complex
-queries.
+In recent years, some researchers made an effort to create a formal algebra for data
+transformations.  The idea is to define a set of operations that can be combined to create
+complex transformations and describe their main properties.
 
-The difference between relational algebra and a formal algebra for statistical
-transformations is that the latter is more complex.  This is because statistical
-transformations are more complex than queries.  For instance, the concept of missing data
-is not present in relational algebra, but it is in statistical transformations.
+Note that statistical data handling differ from relational algebra, where the former focus
+on transformations and the latter on information retrieval.
 
-\textcite{Song2021}, for example, propose a formal paradigm for statistical data
+\citeauthor{Song2021}\footfullcite{Song2021}, for example, propose a formal paradigm for statistical data
 transformation.  They present a data model, an algebra, and a formal language.  Their goal
 is to create a standard for statistical data transformation that can be used by different
 statistical software.
@@ -1223,29 +1219,26 @@ is useful for the translation of code between different software, but it is not 
 to advance in the theoretical understanding of statistical transformations.
 
 If one ought to tackle the challenge of formally expressing statistical transformations, I
-think one should start from the basic operations.  Basic operations mean that they are
-irreducible, i.e., they cannot be expressed as a sequence of other operations.
+think one should start from the basic operations.  By basic operations, I mean that they
+are either irreducible --- i.e., they cannot be expressed as a sequence of other
+operations --- or they are so common and intuitive that they are worth being considered
+basic.
 
-Some thoughts about it:
-\begin{itemize}
-  \item Binding columns can be expressed as a join operation, thus it is not a basic
-    operation.
-  \item Some software provide features that can be better expressed in other (often simpler) ways.  Row
-    naming is an example.  It is useful to keep track of the origin of each row, but names
-    can be just another column.  I argue for excluding row naming in a formal algebra.
-  \item Some operations are very useful and recurring, even if they are not basic.  Such
-    operations must be omitted from the formal algebra for the sake of simplicity.
-    However, any software that implements a language for the formal algebra can provide
-    syntax sugar for these operations.
-  \item Not defining your algebra in terms of a specific programming language is a good
-    practice.  This is because the algebra is a theoretical concept and should be
-    independent of any implementation.  It also gives opportunities to rethink the
-    things that commonly done in a specific way.  This can lead to new insights and
-    correct error-prone practices.
-  \item Pivoting seems to be ``different'' enough to the other operations to be considered
-    in the set of basic operations.  However, it is not hard to see that they can be
-    rewritten as combinations with the meta tables containing the possible values of the
-    attributes (or some sort of aggregation function).
-\end{itemize}
+In this chapter, I try to shed some light on what could be a start for a formal algebra
+for general data handling.  I present a set of operations and discuss their properties. I
+also present the novel concept of split invariance, which is a property that I think is
+important for the operations in the algebra.
+
+For future directions, I suggest that one should try to express completeness in the data
+handling context.  Drawing a parallel with computation theory, one could define a
+computational model for data handling and try to prove that the operations in the algebra
+are complete in the sense that they can express any transformation that can be expressed
+in the model.  It would look like a formal language for data handling that is ``Turing
+complete.''
+
+A formal ``complete'' algebra for data handling would be a powerful tool for the
+development of new software and the translation of code between different software.  It
+would also benefit performance optimizations and pave the way for semantic analysis of
+data transformations.  It would be a step as big as C was from assembly language!
 
 % vim: spell spelllang=en
