@@ -316,10 +316,29 @@ visit
 \thispagestyle{empty}
 \newpage
 
-\tableofcontents*
+\thispagestyle{empty}
+
+% Dedication page
+\begin{center}
+  \vspace{0.2\textheight}
+  \itshape
+  To my wife, for inspiring and supporting me to write this book.
+
+  \vfill
+  \raggedleft Above all, God be praised.
+\end{center}
+
+\newpage
+
+\thispagestyle{empty}
+\phantom{foo}
+\newpage
+
+\tableofcontents
 \thispagestyle{empty}
 
 \input{about}
+\input{foreword}
 % \input{courses}
 
 \mainmatter
