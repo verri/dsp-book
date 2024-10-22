@@ -222,7 +222,7 @@ Thus, any regressor $f_R : \mathcal{X} \rightarrow [0, 1]$ can be converted into
 classifier $f_C : \mathcal{X} \rightarrow \{0, 1\}$ by comparing the output with the
 threshold $\tau$:
 \begin{equation*}
-  f_C(\vec{x}) = \begin{cases}
+  f_C(\vec{x}; \tau) = \begin{cases}
     1 & \text{if } f_R(\vec{x}) \geq \tau\text{,} \\
     0 & \text{otherwise}\text{.}
   \end{cases}
