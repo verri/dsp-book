@@ -118,7 +118,7 @@ Maybe the most general (and useful) framework for predictive learning is \gls{sl
 In this chapter, we will introduce the basic concepts of this theory and discuss the
 properties of the main \gls{ml} methods.
 
-\section{Hypothesis and setup}
+\section{Hypotheses and general setup}
 
 Consider the set
 \begin{equation}
@@ -128,9 +128,9 @@ Consider the set
 where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
 $y_i \in \mathcal{Y}$.  We assume that samples are random independent identically
 distributed (i.i.d.) observations drawn according to $$\Prob(x, y) = \Prob(y \mid x) \Prob(x)\text{.}$$
-Both $\Prob(x)$ and $\Prob(y \mid x)$ are fixed but unknown.
+Both distributions $\Prob(x)$ and $\Prob(y \mid x)$ are fixed but unknown.
 
-This is equivalent to the original learning problem stated by \textcite{Vapnik1999b}, where
+This is equivalent to the original setup stated by \textcite{Vapnik1999b}, where
 a generator produce random vectors $\vec{x}$ according to a fixed but unknown
 probability distribution $\Prob(x)$ and a supervisor returns an output value $y$ for every
 input vector $x$ according to a conditional distribution function $\Prob(y \mid x)$, also fixed but
@@ -140,6 +140,13 @@ Moreover, note that this setup is compatible with the idea of tidy data and 3NF 
 \cref{sub:bridge}). Of course, we assume $X, Y$ are only the measured variables (or
 non-prime attributes).  In practice, it means that we left aside the keys in the learning
 process.
+
+In terms of the tables defined in \cref{sec:formal-structured-data}, any row $r$ in the
+table $T = (K, H, c)$, in the desired observational unit, such that $\rowcard[r] > 0$, and
+$h \in H$ the chosen target variable, we have a corresponding target $y = c(r, h)$ and a
+feature vector $\vec{x}$ corresponds to the tuple $$\big(c(r, h') : h' \in H \setminus
+\left\{ h \right\}\big)\text{.}$$  Similarly, the variables $K$ that describe each unit
+are left aside, as it does not make sense to infer general rules from them.
 
 \section{The learning problem}
 
