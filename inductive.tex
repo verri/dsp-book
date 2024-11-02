@@ -5,8 +5,9 @@
   To  understand  God's  thoughts  we  must study statistics, for these are the measure of His purpose.
   \par\raggedleft--- \textup{Florence Nightingale}, her diary}
 
-We can address several kinds of problems using algorithms that learn from data.  However,
-we focus on the problem of \emph{inductive learning}. Before we go further, let us define some terms.
+As we discussed before, in this book, I focus on the problem of inferring a solution for a
+predictive task from data.  In this chapter, we introduce the basic concepts of the
+\gls{slt}, a general framework for predictive learning tasks.
 
 \begin{mainbox}{Chapter remarks}
 
@@ -19,18 +20,21 @@ we focus on the problem of \emph{inductive learning}. Before we go further, let 
   \boxsubtitle{Context}
 
   \begin{itemize}
+    \itemsep0em
     \item \dots
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
+    \itemsep0em
     \item \dots
   \end{itemize}
 
   \boxsubtitle{Takeways}
 
   \begin{itemize}
+    \itemsep0em
     \item \dots
   \end{itemize}
 \end{mainbox}
@@ -38,49 +42,52 @@ we focus on the problem of \emph{inductive learning}. Before we go further, let 
 {}
 \clearpage
 
-\begin{defbox}{Artificial intelligence}{}
-  The field that studies algorithms that exhibit intelligent behavior.
-\end{defbox}
+\section{Introduction} % TODO: I don't like this title
 
-Artificial intelligence is a very broad field, including not only the study of algorithms
+Several problems can be addressed by techniques that use data somehow.  Once we focus on
+one particular problem --- inductive learning ---, we need to define the scope of the
+tasks we are interested in.  Let us start from the broader fields to the more specific
+ones.
+
+\Gls{ai} is a very broad field, including not only the study of algorithms
 that exhibit intelligent behavior, but also the study of the behavior of intelligent
 systems.  For instance, it encompasses the study of optimization methods, bioinspired algorithms,
 robotics, philosophy of mind, and many other topics.  We are interested in the subfield of
 artificial intelligence that studies algorithms that exhibit some form of intelligent
 behavior.
 
-\begin{defbox}{Machine learning}{}
-  The subfield of artificial intelligence that studies algorithms that enable computers to
-  automatically learn from data.
-\end{defbox}
-
-Machine learning is the subfield of artificial intelligence that studies algorithms that
+A more specific subfield of \gls{ai} is \gls{ml}, which studies algorithms that
 enable computers to automatically learn and improve their performance on a task from
 experience, without being explicitly programmed by a human being.
 
-\begin{defbox}{Predictive learning}{}
-  The machine learning paradigm that studies the problem of making predictions given known
-  input data.
-\end{defbox}
+Programming a computer to play chess is a good example of the difference between
+traditional \gls{ai} and \gls{ml}.  In traditional \gls{ai}, a human programmer
+would write a program that contains the rules of chess and the strategies to play the game.
+The algorithm might even ``search'' among the possible moves to find the best one.  In
+\gls{ml}, the programmer would write a program that learns to play chess by playing
+against itself, against other programs, or even from watching games played by humans.
+The system would learn the rules of chess and the strategies to play the game by itself.
 
-The machine learning paradigm that focuses on making predictions about outcomes (sometimes
-about the future) based on historical data. Depending on the reasoning behind the learning
-algorithms, the main predictive algorithms are classified in either inductive or
-transductive.
+This field is particularly useful when the task is too complex to be solved by
+traditional programming methods or when we do not know how to solve the task.
+Among the many tasks that can be addressed by \gls{ml}, we can specialize even more.
 
-\begin{defbox}{Inductive learning}{}
-  The machine learning approach that involves deriving general rules from specific
-  observations.
-\end{defbox}
+Predictive learning is the \gls{ml} paradigm that focuses on making predictions about
+outcomes (sometimes about the future) based on historical data.  Predictive tasks
+involve predicting the value of a target variable based on the values of one or more
+input variables\footnote{Descriptive learning, which is out of the scope of this book,
+focuses on describing the relationships between variables in the data without the
+need of a target variable.}.
 
-Induction a type of reasoning that goes from specific instances to more general
-principles.  Inductive learning is the machine learning approach that studies algorithms
-that, given data representing the set of specific instances, derive general rules that
-can make predictions about \emph{any} new instances.
+Depending on the reasoning behind the learning algorithms, we can divide the learning
+field into two main approaches: \emph{inductive learning} and \emph{transductive
+learning}\footnote{Trasduction is the process obtaining specific knowledge from specific
+observation, and it is not the focus of this book.}.
 
-\Cref{fig:learning} give us a hierarchical view of the learning field.  Alternatives ---
-such as descriptive learning in opposition to predictive learning, or transductive
-learning in opposition to inductive learning --- are out of the scope of this course.
+Inductive learning involves deriving general rules from specific observations.  The
+general rules can make predictions about \emph{any} new instances.  Such an approach
+is exactly what we want to apply the project methodology we described in
+\cref{sec:our-approach}:  the solution is the general rule inferred from the data.
 
 \begin{figurebox}[label=fig:learning]{Organizational chart of the learning field.}
   \centering
@@ -94,18 +101,22 @@ learning in opposition to inductive learning --- are out of the scope of this co
     \draw[outline] (0,-1.5) circle (15mm) node {};
     \node[below] at (0, -1.0) {inductive learning};
   \end{tikzpicture}
-  % \tcblower
-  % Artificial intelligence is a very broad field, including not only the study of
-  % algorithms that exhibit intelligent behavior, but also the study of the behavior of
-  % intelligent systems.  Machine learning is a subfield of artificial intelligence that
-  % studies algorithms that enable computers to automatically learn from data.  A particular
-  % case of machine learning is predictive learning, which focuses on making predictions
-  % about outcomes given known input data.  Inductive learning is a yet more specific type of
-  % learning that involves deriving general rules from specific observations.
+  \tcblower
+  Artificial intelligence studies algorithms that exhibit intelligent behavior and the
+  behavior of intelligent systems.  Machine learning is a subfield of artificial
+  intelligence that studies algorithms that enable computers to automatically learn from
+  data.  Predictive learning which focuses on making predictions about outcomes given
+  known input data.  Inductive learning is a yet more specific type of learning that
+  involves deriving general rules from specific observations.
 \end{figurebox}
 
-Maybe the most general (and useful) framework for predictive learning is Statistical
-Learning Theory.  In this chapter, we will introduce the basic concepts of this theory.
+\Cref{fig:learning} give us a hierarchical view of the learning field.  Alternatives ---
+such as descriptive learning in opposition to predictive learning, or transductive
+learning in opposition to inductive learning --- are out of the scope of this book.
+
+Maybe the most general (and useful) framework for predictive learning is \gls{slt}.
+In this chapter, we will introduce the basic concepts of this theory and discuss the
+properties of the main \gls{ml} methods.
 
 \section{Hypothesis and setup}
 
@@ -750,3 +761,5 @@ As $k$ increases the boundaries become smoother:
 \href{https://images.squarespace-cdn.com/content/v1/5d782753c70af105c29a9b14/1580261947016-XODPUVKWPGGMJJMAXSNF/Screen+Shot+2020-01-28+at+8.38.55+PM.png}{example}.
 
 See illustration: \href{https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html}{here}.
+
+% vim: spell spelllang=en
