@@ -1,5 +1,6 @@
 \chapter{Learning from data}
 \label{chap:slt}
+\glsresetall %TODO: do the same thing in all chapters
 
 \chapterprecishere{%
   To  understand  God's  thoughts  we  must study statistics, for these are the measure of His purpose.
@@ -118,7 +119,7 @@ Maybe the most general (and useful) framework for predictive learning is \gls{sl
 In this chapter, we will introduce the basic concepts of this theory and discuss the
 properties of the main \gls{ml} methods.
 
-\section{Hypotheses and general setup}
+\section{The learning problem}
 
 Consider the set
 \begin{equation}
@@ -130,7 +131,7 @@ $y_i \in \mathcal{Y}$.  We assume that samples are random independent identicall
 distributed (i.i.d.) observations drawn according to $$\Prob(x, y) = \Prob(y \mid x) \Prob(x)\text{.}$$
 Both distributions $\Prob(x)$ and $\Prob(y \mid x)$ are fixed but unknown.
 
-This is equivalent to the original setup stated by \textcite{Vapnik1999b}, where
+This is equivalent to the original \gls{slt} setup stated by \textcite{Vapnik1999b}, where
 a generator produce random vectors $\vec{x}$ according to a fixed but unknown
 probability distribution $\Prob(x)$ and a supervisor returns an output value $y$ for every
 input vector $x$ according to a conditional distribution function $\Prob(y \mid x)$, also fixed but
@@ -148,12 +149,20 @@ feature vector $\vec{x}$ corresponds to the tuple $$\big(c(r, h') : h' \in H \se
 \left\{ h \right\}\big)\text{.}$$  Similarly, the variables $K$ that describe each unit
 are left aside, as it does not make sense to infer general rules from them.
 
-\section{The learning problem}
+From the statistical point-of-view, learning problems consist of answering questions about
+the distribution of the data.
 
-Consider a \emph{learning machine} capable of generating a set of functions $f(x;
-\theta) \equiv f_\theta(x)$, $\theta \in \Theta$ and $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.
-The problem of learning is that of choosing, among all possible $f_\theta$, the one that
-predicts the target variable the best possible way.
+\subsection{Learning tasks}
+
+In terms of predictive learning, given de before-mentioned scenario, we can refine our
+goals by tackling specific tasks\footnote{I consider tasks as well-defined subproblems of
+a higher-level problem.}.
+
+Consider a \emph{learning machine} capable of generating a set of functions, or
+\emph{models}, $f(x; \theta) \equiv f_\theta(x)$, for a set of parametrizations $\theta
+\in \Theta$ and such that $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.  In a learning
+task, we must choose, among all possible $f_\theta$, the one that predicts the target
+variable the best possible way.
 
 In order to learn, we must first define the \emph{loss} (or discrepancy) $\mathcal{L}$
 between the response $y$ to a given input $x$, drawn from $\Prob(x, y)$, and the
@@ -166,17 +175,18 @@ Then, given the \emph{risk function}
 \end{equation}
 the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
 where the only available information is the \emph{training set} given by \eqref{eq:training-set}.
-This is the \gls{erm} problem.
 
-This formulation encompasses many specific problems. I focus on the two of them which I
-believe are the most fundamental ones: \emph{binary data classification}\footnote{Vapnik
-calls it \emph{pattern recognition}.} and \emph{regression estimation}\footnote{We are not
-talking about \emph{regression analysis}, it is closer to the \emph{scoring} task
-definition by \textcite{Zumel2019}.}.  I left aside the density estimation problem, once
-it is not
-addressed in the remaining of the book.
+This formulation encompasses many specific tasks. I focus on the two of them which I
+believe are the most fundamental ones: \emph{binary data classification}\footnote{In
+\gls{slt}, Vapnik calls it \emph{pattern recognition}.} and \emph{regression
+estimation}\footnote{We are not talking about \emph{regression analysis}; regression
+estimation is closer to the \emph{scoring} task definition by \fullcite{Zumel2019}.}.  (I
+left aside the density estimation problem, once it is not addressed in the remaining of
+the book.)
 
-\paragraph{Binary data classification task}  In this task, the output $y$ takes on
+\subsubsection{Binary data classification task}
+
+In this task, the output $y$ takes on
 only two possible values, zero or one --- usually called the negative and the positive
 class, respectively ---, and the functions $f_\theta$ are indicator
 functions. Choosing the loss
@@ -190,24 +200,35 @@ the risk $\eqref{eq:risk}$ becomes the probability of
 classification error.  The function $f_\theta$, in this case, is called \emph{classifier}
 and $y$ is called the \emph{label}.
 
-\paragraph{Regression estimation task} Let the outcome $y$ be a real value and
-the \emph{regression} $r$ be, by definition, $$r(x) = \int y\, d\!\Prob(y|x) \text{.}$$
+\subsubsection{Regression estimation task}
 
-The regression is the function that minimizes the risk \eqref{eq:risk} with loss
-\begin{equation*}
-  \mathcal{L}(y, r(x)) = \big(y - r(x)\big)^2\text{.}
-\end{equation*}
+% Let the outcome $y$ be a real value and
+% the \emph{regression} $r$ be, by definition, $$r(x) = \int y\, d\!\Prob(y|x) \text{.}$$
+%
+% The regression is the function that minimizes the risk \eqref{eq:risk} with loss
+% \begin{equation*}
+%   \mathcal{L}(y, r(x)) = \big(y - r(x)\big)^2\text{.}
+% \end{equation*}
+%
+% If $r \not\in \left\{ f_\theta : \theta\in\Theta \right\}$ --- i.e. if the regression function
+% cannot be generated by the learning machine ---, the function $f_{\theta'}$
+% that minimizes the risk function is the closest to the regression function in the
+% metric $l_2$.
+% In other words, we look for $\theta'$ such that
+% \begin{equation*}
+%   \theta' = \argmin_{\theta \in \Theta} \sqrt{
+%     \int \big(r(x) - f_\theta(x)\big)^2\, d\!\Prob(x)
+%   }\text{.}
+% \end{equation*}
 
-If $r \not\in \left\{ f_\theta : \theta\in\Theta \right\}$ --- i.e. if the regression function
-cannot be generated by the learning machine ---, the function $f_{\theta'}$
-that minimizes the risk function is the closest to the regression function in the
-metric $l_2$.  In other words, we look for $\theta'$ such that
-\begin{equation*}
-  \theta' = \argmin_{\theta \in \Theta} \sqrt{
-    \int \big(r(x) - f_\theta(x)\big)^2\, d\!\Prob(x)
-  }\text{.}
-\end{equation*}
-A function $f_\theta$, in this case, is called a \emph{regressor}.
+In this task, the output $y$ is a real value and the functions $f_\theta$ are real-valued
+functions.  The loss function is the squared error
+\[
+  \mathcal{L}(y, f_\theta(x)) = \big(y - f_\theta(x)\big)^2\text{.}
+\]
+In \cref{sec:optimal-solution}, we show that the function that minimizes the risk with such
+loss function is the so-called \emph{regression}.
+The estimator $f_\theta$ of the regression, in this case, is called a \emph{regressor}.
 
 \subsection{A few remarks}
 
@@ -267,9 +288,83 @@ according to the problem.
 % large, it will be too complex, too slow to train and might overfit to the data.
 % Nonparametric models are more flexible, but they usually require more data to be trained.
 
+\section{Optimal solutions}
+\label{sec:optimal-solution}
+
+Assuming that the distributions $\Prob(x)$ and $\Prob(x\mid y)$ are not only fixed but
+also known, we can find the optimal solution for that learning tasks.  This is useful to
+understand how good a solution can possibly be.
+
+\subsection{Bayes classifier}
+
+The optimal solution for the binary data classification task is the \emph{Bayes
+classifier}, which minimizes the probability of classification error.  The Bayes
+classifier is defined as
+\begin{equation*}
+  f_\text{Bayes}(x) = \argmax_{y \in \mathcal{Y}} \Prob(y \mid x)\text{.}
+\end{equation*}
+
+However, since
+\[
+  \Prob(y \mid x) = \frac{\Prob(x \mid y) \Prob(y)}{\Prob(x)}\text{,}
+\]
+the Bayes classifier can be rewritten as
+\begin{equation*}
+  f_\text{Bayes}(x) = \argmax_{y \in \mathcal{Y}} \Prob(x \mid y) \Prob(y)\text{,}
+\end{equation*}
+as the denominator $\Prob(x)$ is the same for all classes.
+By our premises, both distributions $\Prob(x \mid y)$ and $\Prob(y)$ are known.
+
+% TODO: a proof
+
+The \emph{Bayes error rate}, or irreducible error, is the lowest possible loss for any
+classifier in a given problem.  The Bayes error rate is the probability of classification
+error of the Bayes classifier. % TODO: mathematical formulation that is easy to understand
+
+% A figure with two Gaussian curves, one for each class, that intersect each other.  The
+% Bayes classifier is the line that separates the two classes, and the Bayes error is the
+% area under the curve that is not covered by the Bayes classifier.
+\begin{figurebox}[label=fig:bayes-classifier]{Bayes classifier illustration.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        ticks=none,
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x$},
+      ]
+      % P(x|y=0)
+      \addplot+[fill=gray, draw=black, opacity=0.2, smooth, mark=none] coordinates {
+        (-2, 0.1) (-1.5, 0.2) (-1, 0.5) (-0.5, 0.2) (0, 0.1)
+      };
+      \node at (axis cs:-1, 0.25) {$\Prob(x \mid y = 0)$};
+      % P(x|y=1)
+      \addplot+[fill=gray, draw=black, opacity=0.4, smooth, mark=none] coordinates {
+        (-1, 0.1) (-0.5, 0.2) (0, 0.5) (0.5, 0.2) (1, 0.1)
+      };
+      \node at (axis cs:0, 0.25) {$\Prob(x \mid y = 1)$};
+      % Bayes
+      \draw[dashed, gray] (axis cs:-0.5, 0) -- (axis cs:-0.5, 0.5);
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The Bayes classifier is the line that separates the two classes.  The Bayes error is a
+  result of the darker area in which the distributions of the classes intersect.
+\end{figurebox}
+
+\Cref{fig:bayes-classifier} illustrates the Bayes classifier and its error rate.
+The vertical line represents the Bayes classifier that separates the classes the best way
+possible in the space of the feature vectors $x$.  Since the distributions $\Prob(x \mid y
+= 0)$ and $\Prob(x \mid y = 1)$ may intersect, there is a region where the Bayes
+classifier cannot always predict the class correctly.
+
+\subsection{Regression function}
+
+
+
 \section{ERM inductive principle}
 
-In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$ a generic loss
+In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$, a generic loss
 function.  The training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
 
 Since the distribution $\Prob(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
@@ -280,10 +375,10 @@ the \emph{empirical risk functional}
 \end{equation}
 
 Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so called
-ERM inductive principle.  The ERM principle is the basis of the statistical learning
+\gls{erm} inductive principle.  The ERM principle is the basis of the statistical learning
 theory.
 
-Classical methods, such as least-squares, maximum likelihood, and maximum a posteriori are
+Traditional methods, such as least-squares, maximum likelihood, and maximum a posteriori are
 all realizations of the ERM principle for specific loss functions and hypothesis spaces.
 
 In the following sections, we address the four main questions of learning theory.  We
