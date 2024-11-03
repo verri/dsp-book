@@ -319,7 +319,24 @@ By our premises, both distributions $\Prob(x \mid y)$ and $\Prob(y)$ are known.
 
 The \emph{Bayes error rate}, or irreducible error, is the lowest possible loss for any
 classifier in a given problem.  The Bayes error rate is the probability of classification
-error of the Bayes classifier. % TODO: mathematical formulation that is easy to understand
+error of the Bayes classifier.
+
+Given that $b(x) = \Prob(y=1 \mid x)$, the Bayes error rate sums the errors of the
+Bayes classifier for each class:
+\begin{equation*}
+  R_\text{Bayes} = \int \left[
+    b(x) \mathbb{1}_{f_\text{Bayes}(x) = 0} +
+    \left(1 - b(x)\right) \mathbb{1}_{f_\text{Bayes}(x) = 1}
+  \right] d\!\Prob(x)\text{,}
+\end{equation*}
+where $\mathbb{1}_{\cdot}$ is the indicator function that returns one if the condition is
+true and zero otherwise.
+
+We know that $f_\text{Bayes}(x) = 1$ if $b(x) > 0.5$ and $f_\text{Bayes}(x) = 0$ otherwise.
+Thus, the Bayes error rate can be rewritten as
+\begin{equation*}
+  R_\text{Bayes} = \int \min\left\{ b(x), 1 - b(x) \right\}\, d\!\Prob(x)\text{.}
+\end{equation*}
 
 % A figure with two Gaussian curves, one for each class, that intersect each other.  The
 % Bayes classifier is the line that separates the two classes, and the Bayes error is the
@@ -335,16 +352,16 @@ error of the Bayes classifier. % TODO: mathematical formulation that is easy to 
       ]
       % P(x|y=0)
       \addplot+[fill=gray, draw=black, opacity=0.2, smooth, mark=none] coordinates {
-        (-2, 0.1) (-1.5, 0.2) (-1, 0.5) (-0.5, 0.2) (0, 0.1)
+        (-2, 0.1) (-1.5, 0.2) (-1, 0.4) (-0.5, 0.2) (0, 0.1)
       };
       \node at (axis cs:-1, 0.25) {$\Prob(x \mid y = 0)$};
       % P(x|y=1)
       \addplot+[fill=gray, draw=black, opacity=0.4, smooth, mark=none] coordinates {
-        (-1, 0.1) (-0.5, 0.2) (0, 0.5) (0.5, 0.2) (1, 0.1)
+        (-1, 0.1) (-0.5, 0.2) (0, 0.4) (0.5, 0.2) (1, 0.1)
       };
       \node at (axis cs:0, 0.25) {$\Prob(x \mid y = 1)$};
       % Bayes
-      \draw[dashed, gray] (axis cs:-0.5, 0) -- (axis cs:-0.5, 0.5);
+      \draw[dashed, gray] (axis cs:-0.5, 0) -- (axis cs:-0.5, 0.4);
     \end{axis}
   \end{tikzpicture}
   \tcblower
