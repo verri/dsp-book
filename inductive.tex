@@ -272,9 +272,10 @@ according to the problem.
 \section{Optimal solutions}
 \label{sec:optimal-solution}
 
-Assuming that the distributions $\Prob(x)$ and $\Prob(y \mid x)$ are not only fixed but
-also known, we can find the optimal solution for that learning tasks.  This is useful to
-understand how good a solution can possibly be.
+In this section, I show that the optimal solutions for the tasks of binary data
+classification and regression estimation depend only on $\Prob(y \mid x)$.  This is useful
+to understand how good a solution can possibly be and to derive practical solutions in the
+next sections.
 
 \subsection{Bayes classifier}
 
@@ -284,7 +285,6 @@ classifier is defined as
 \begin{equation*}
   f_\text{Bayes}(x) = \argmax_{y \in \mathcal{Y}} \Prob(y \mid x)\text{.}
 \end{equation*}
-By our premises in this section, the distribution $\Prob(y \mid x)$ is known.
 
 We can easily see that the Bayes classifier is the optimal solution for the binary data
 classification task.  The probability of classification error for an arbitrary classifier
@@ -356,9 +356,10 @@ classifier cannot always predict the class correctly.
 \subsection{Regression function}
 
 For the regression estimation task, the optimal solution is the \emph{regression function}
-\[
+\begin{equation}
+  \label{eq:regression-function}
   r(x) = \int y\, d\!\Prob(y \mid x)\text{,}
-\]
+\end{equation}
 that is the expected value of the target variable $y$ given the input $x$.
 
 It is easy to show that the regression function minimizes the risk \eqref{eq:risk} with
@@ -366,17 +367,30 @@ loss
 \[
   \mathcal{L}(y, r(x)) = \big(y - r(x)\big)^2\text{.}
 \]
-The risk functional for the regression estimation task becomes
+The risk functional for an arbitrary function $f$ is
 \begin{multline*}
-  R(r) =
-    \int \big(y - r(x)\big)^2\, d\!\Prob(x, y) =\\
-    \int y^2\, d\!\Prob(y \mid x) -
-    2 \int y r(x)\, d\!\Prob(y \mid x) +
-    \int r^2(x)\, d\!\Prob(y \mid x)\text{.}
+  R(f) =
+    \int \big(y - f(x)\big)^2\, d\!\Prob(x, y) =\\
+    \int y^2\, d\!\Prob(y) -
+    2 \int f(x) \left[ \int y\, d\!\Prob(y \mid x) \right] d\!\Prob(x) +
+    \int f(x)^2\, d\!\Prob(x)\text{,}
 \end{multline*}
+however we can substitute $r(x)$ for the inner integral and obtain
+\begin{multline*}
+  R(f) =
+    \int y^2\, d\!\Prob(y) - 2 \int f(x) r(x)\, d\!\Prob(x) + \int f(x)^2\, d\!\Prob(x) = \\
+    \int y^2\, d\!\Prob(y) + \int \left[ f(x)^2 - 2 f(x) r(x) \right]\, d\!\Prob(x)\text{.}
+\end{multline*}
+Once the first term is a constant, the risk is minimized by minimizing
+\[
+  f(x)^2 - 2 f(x) r(x)\text{.}
+\]
 
-
-
+Deriving the last expression with respect to $f(x)$ and setting it to zero, we obtain
+\begin{equation*}
+  \frac{d}{d f(x)} \Big[ f(x)^2 - 2 f(x) r(x) \Big] = 2 f(x) - 2 r(x) = 0 \Rightarrow
+  f(x) = r(x)\text{.}
+\end{equation*}
 
 \section{ERM inductive principle}
 
