@@ -606,14 +606,8 @@ A finite VC dimension implies both consistency and a fast rate of convergence.
 
 \subsection{Intuitions about the VC dimension}
 
-For a set of indicator functions, the VC dimension is the maximum number of vectors that
-can be \emph{shattered} by the functions.  If for any $n$ there is a set of $n$
-vectors that can be shattered by the functions, the VC dimension is infinite.
-We say that $h$ vectors can be shattered if they can be separated into two classes in all
-$2^h$ possible ways.
-
 % A figure with lines separating separating points in a plane
-\begin{figurebox}[label=fig:vc-dimension]{VC dimension illustration.}
+\begin{figurebox}[label=fig:vc-dimension]{VC dimension of a set of lines in the plane.}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -640,7 +634,51 @@ $2^h$ possible ways.
   points in all 8 possible ways, but not four points.
 \end{figurebox}
 
-% TODO: \dots
+For a set of indicator functions, the VC dimension is the maximum number of vectors that
+can be \emph{shattered} by the functions.  If for any $n$ there is a set of $n$
+vectors that can be shattered by the functions, the VC dimension is infinite.
+We say that $h$ vectors can be shattered if they can be separated into two classes in all
+$2^h$ possible ways.  \Cref{fig:vc-dimension} illustrates the VC dimension of a set of
+lines in the plane.
+
+\begin{figurebox}[label=fig:vc-sin]{High-frequency sine wave functions have infinite VC dimension.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$x$},
+        ylabel={$y$},
+        xmin=-1.2, xmax=1.2,
+        ymin=-1.2, ymax=1.2,
+        xtick={0},
+        ytick={0},
+        domain=-1:1,
+        samples=100]
+
+      \addplot[smooth] {sin(deg(24 * x))};
+      \addplot[dashed, smooth] {sin(deg(4 * x))};
+
+      \addplot[only marks, mark=*, mark size=2pt] coordinates {
+        (-0.942, 0.586) (-0.562, -0.780) (-0.337, -0.976)
+        (0.313, 0.950) (0.562, 0.780) (0.942, -0.586)
+      };
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  High-frequency sine wave approximate well any set of points even though they come from a
+  low-frequency sine wave.
+\end{figurebox}
+
+One misconception about the VC dimension is that it is related to the number of parameters
+of the model.  The VC dimension is related to the complexity of the hypothesis space, not
+to the number of parameters.  For instance, the VC dimension of functions
+\[
+  f(z; \theta) = \mathbb{1}_{\sin \theta x > 0}
+\]
+is infinite, even though the parameter $\theta$ is a scalar.  See \cref{fig:vc-sin}.
+
+This opens remarkable opportunities to find good solutions containing a huge number of
+parameters but with a finite VC dimension.  % TODO: discuss non-parametric here?
 
 \section{Structural risk minimization}
 
