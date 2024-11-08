@@ -567,16 +567,86 @@ where $z_i$ are i.i.d. samples drawn from $\Prob(z)$.
 \subsection{Rate of Convergence}
 
 Beyond consistency, it is also useful to understand the rate at which $R_n(\theta)$
-converges to $R(\theta)$ as the sample size $n$ increases. The rate of convergence depends
-on both the VC dimension and the growth function of the hypothesis space.
+converges to $R(\theta)$ as the sample size $n$ increases.  It is possible for a learning
+machine be consistent but have a slow convergence rate, which means that a large number of
+samples is needed to achieve a good solution.
 
-% TODO
+The asymptotic rate of convergence of the empirical risk functional $R_n(\theta)$ is
+fast if, for any $n > n_0$, the exponential bound
+\[
+  \Prob\!\big(R(\theta_n) - R(\theta) > \epsilon\big) \leq \exp\!\left( - c n \epsilon^2 \right)
+\]
+holds true, where $c$ is a positive constant.
+
+It turns out that we can guarantee both the uniform convergence and the fast rate of
+convergence for \emph{any} probability measure $\Prob(z)$.  Actually,
+\[
+  \lim_{n \to \infty} \frac{G(n; \Theta)}{n} = 0
+\]
+is the necessary and sufficient condition, where
+\[
+  G(n; \Theta) = \ln \sup_{z_1, \dots, z_n} N(z_1, \dots, z_n; \Theta)\text{,}
+\]
+is the \emph{growth function} of the hypothesis space $\Theta$.
+
+\citeauthor{Vapnik1968}\footfullcite{Vapnik1968} showed that the growth function either
+satisfies
+\[
+  G(n; \Theta) = n \ln 2
+\]
+or is bounded by
+\[
+  G(n; \Theta) \leq h \left( \ln \frac{l}{n} + 1 \right)\text{,}
+\]
+where $h$ is an integer.  Thus, the growth function is either linear or logarithmic in
+$n$.  In the first case, we say that the \emph{VC dimension} of the hypothesis space is
+infinite, and in the second case, the VC dimension is $h$.
+
+A finite VC dimension implies both consistency and a fast rate of convergence.
+
+\subsection{Intuitions about the VC dimension}
+
+For a set of indicator functions, the VC dimension is the maximum number of vectors that
+can be \emph{shattered} by the functions.  If for any $n$ there is a set of $n$
+vectors that can be shattered by the functions, the VC dimension is infinite.
+We say that $h$ vectors can be shattered if they can be separated into two classes in all
+$2^h$ possible ways.
+
+% A figure with lines separating separating points in a plane
+\begin{figurebox}[label=fig:vc-dimension]{VC dimension illustration.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xmin=-1, xmax=1,
+        ymin=-1, ymax=1,
+        xtick={0},
+        ytick={0},
+        domain=-1:1]
+
+      \addplot[only marks, mark=*, mark size=2pt] coordinates {
+        (-0.5, 0.3) (-0.3, -0.5) (0.7, -0.5)
+      };
+
+      % diagonal lines separating points
+      \addplot[dashed] {x} node[right] {$\theta_1$};
+      \addplot[dashed] {-x} node[right] {$\theta_2$};
+      \addplot[dashed] {-0.3} node[right] {$\theta_3$};
+
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The VC dimension of the lines in the plane is equal to 3, since a line can shatter 3
+  points in all 8 possible ways, but not four points.
+\end{figurebox}
+
+% TODO: \dots
 
 \section{Structural risk minimization}
 
 % TODO what about finite n?
 
-\section{Learning bias}
+\section{Intuitions about learning bias}
 
 \emph{Learning bias}, or \emph{inductive bias}, is the set of assumptions that the
 learning machine uses to generate the set of functions $\left\{ f_\theta : \theta \in
