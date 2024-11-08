@@ -462,8 +462,13 @@ x-domain.
 
 \section{ERM inductive principle}
 
-In the following sections, $z$ describes the pair $(x, y)$ and $L(z, \theta)$, a generic loss
-function.  The training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
+It is very interesting to study the optimal solution for the learning tasks, but in the
+real-world, we do not have access to the distributions $\Prob(x)$ and $\Prob(y \mid x)$.
+We must rely on the training data $(x_1, y_1), \dots, (x_n, y_n)$ to infer a solution.
+
+In the following sections, for the sake of simplicity, let $z$ describe the pair $(x, y)$
+and $L(z, \theta)$, a generic loss function for the model $f_\theta$.  Note that the
+training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
 
 Since the distribution $\Prob(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
 the \emph{empirical risk functional}
@@ -473,8 +478,7 @@ the \emph{empirical risk functional}
 \end{equation}
 
 Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so called
-\gls{erm} inductive principle.  The ERM principle is the basis of the statistical learning
-theory.
+\gls{erm} inductive principle.  The ERM principle is the basis of the \gls{slt}.
 
 Traditional methods, such as least-squares, maximum likelihood, and maximum a posteriori are
 all realizations of the ERM principle for specific loss functions and hypothesis spaces.
@@ -483,7 +487,9 @@ In the following sections, we address the four main questions of learning theory
 summarize them in \cref{tab:learning-questions}.
 
 \begin{tablebox}[label=tab:learning-questions]{The four main questions of learning theory.}
-  \begin{tabularx}{\textwidth}{@{}lX@{}}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{0.56\textwidth}}
     \toprule
      & \textbf{Question} \\
     \midrule
@@ -496,7 +502,7 @@ summarize them in \cref{tab:learning-questions}.
     \textbf{Construction} &
       How can one construct a learning machine that satisfies the conditions of consistency and generalization? \\
     \bottomrule
-  \end{tabularx}
+  \end{tabular}
 \end{tablebox}
 
 \section{Consistency of learning processes}
@@ -608,10 +614,10 @@ illustrated in \cref{fig:trivial-consistency}.
         (0, 7) (3, 5.1) (5, 5) (7, 5.9) (8, 5) (9, 7.1) (10, 5)
       };
       \addlegendentry{$L(z, \theta)$, $\theta \in \Theta$}
-      \addplot+[smooth, mark=none, black, dashed] coordinates {
+      \addplot[smooth, mark=none, black, dashed] coordinates {
         (0, 3) (5, 1) (10, 3.5)
       };
-      \addlegendentry{$\phi(z)$}
+      \addlegendentry[dashed]{$\phi(z)$}
     \end{axis}
   \end{tikzpicture}
 \end{figurebox}
