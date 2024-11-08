@@ -355,7 +355,8 @@ classifier cannot always predict the class correctly.
 
 \subsection{Regression function}
 
-For the regression estimation task, the optimal solution is the \emph{regression function}
+In the regression estimation task, the goal is to approximate the optimal solution, called
+\emph{regression function},
 \begin{equation}
   \label{eq:regression-function}
   r(x) = \int y\, d\!\Prob(y \mid x)\text{,}
@@ -391,6 +392,36 @@ Deriving the last expression with respect to $f(x)$ and setting it to zero, we o
   \frac{d}{d f(x)} \Big[ f(x)^2 - 2 f(x) r(x) \Big] = 2 f(x) - 2 r(x) = 0 \Rightarrow
   f(x) = r(x)\text{.}
 \end{equation*}
+
+Like for the Bayes classifier, the stochastic nature of the data leads to an irreducible
+error in the regression estimation task.  We have that
+\begin{equation*}
+  R(r) = \int \big(y - r(x)\big)^2\, d\!\Prob(x, y) =
+    \int y^2\, d\!\Prob(y) - \int r(x)^2\, d\!\Prob(x)\text{,}
+\end{equation*}
+where the first term is
+\[
+  \E\!\left[y^2\right] = \Var(y) + \E\!\left[y\right]^2
+\]
+and the second term is
+\[
+  \E\left[\E\!\left[y \mid x\right]^2\right] =
+    \Var\!\left(\E\!\left[y \mid x\right]\right) + \E\!\left[\E\!\left[y \mid x\right]\right]^2 =
+    \Var\!\left(\E\!\left[y \mid x\right]\right) + \E\!\left[y\right]^2\text{.}
+\]
+Thus, the irreducible error is
+\[
+  R(r) = \Var(y) - \Var\!\left(\E\!\left[y \mid x\right]\right) \text{.}
+\]
+
+The interpretation of the irreducible error comes from the law of the total variance:
+\begin{equation*}
+  \Var(y) = \E\!\left[ \Var(y \mid x) \right] + \Var\!\left(\E\!\left[y \mid x\right]\right)\text{,}
+\end{equation*}
+where the first term is known as the explained variance and the second term, as the
+unexplained variance.  The equality $R(r) = \Var\!\left(\E\!\left[y \mid x\right]\right)$
+captures the idea that this variance is the intrinsic uncertainty that cannot be further
+reduced.
 
 \section{ERM inductive principle}
 
