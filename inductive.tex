@@ -483,159 +483,63 @@ Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the 
 Traditional methods, such as least-squares, maximum likelihood, and maximum a posteriori are
 all realizations of the ERM principle for specific loss functions and hypothesis spaces.
 
-In the following sections, we address the four main questions of learning theory.  We
-summarize them in \cref{tab:learning-questions}.
+\subsection{Consistency of the learning process}
 
-\begin{tablebox}[label=tab:learning-questions]{The four main questions of learning theory.}
-  \centering
-  \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{lp{0.56\textwidth}}
-    \toprule
-     & \textbf{Question} \\
-    \midrule
-    \textbf{Consistency} &
-      What are the necessary and sufficient conditions for consistency of a learning process? \\
-    \textbf{Rate of convergence} &
-      How fast is the rate of convergence of the learning process? \\
-    \textbf{Generalization} &
-      How can one controle the generalization ability of the learning process? \\
-    \textbf{Construction} &
-      How can one construct a learning machine that satisfies the conditions of consistency and generalization? \\
-    \bottomrule
-  \end{tabular}
-\end{tablebox}
+One important question about the ERM principle is the consistency of the learning process.
+Consistency means that, given a sufficient number of samples, the empirical risk
+functional $R_n(\theta)$ converges to the true risk functional $R(\theta)$ over the
+hypothesis space $\Theta$.
 
-\section{Consistency of learning processes}
+The consistency of the ERM principle is guaranteed by the uniform (two-sided)
+convergence\footnote{ Actually, only a weaker one-sided uniform is needed; consult a
+detailed explanation in chapter 2 of \fullcite{Vapnik1999b}.  The equivalence is a
+consequence of the key theorem of learning proved by Vapnik and Chervonenkis in 1989 and
+later translated to English in \fullcite{Vapnik1991}.} of the empirical risk functional
+$R_n(\theta)$ to the true risk functional $R(\theta)$ over the hypothesis space $\Theta$.
+The uniform convergence is defined as
+\[
+  \lim_{n \to \infty} \Prob\left(
+    \sup_{\theta \in \Theta} \left| R_n(\theta) - R(\theta) \right| > \epsilon
+  \right) = 0\text{.}
+\]
 
-Addressing consistency of a learning process means that we are interested in the
-convergence of the empirical risk functional $R_n(\theta)$ to the risk functional
-$R(\theta)$ as $n \to \infty$.  In other words, it is an asymptotic theory about the
-behavior of the empirical risk functional as the sample size $n$ goes to infinity.
+We can guarantee uniform convergence the basis of the VC entropy.  Let $H^\Theta(n)$ be
+the VC entropy of the set of functions $\left\{ L(z, \theta) : \theta \in \Theta \right\}$
+on a sample of size $n$, a necessary and sufficient condition for the uniform convergence
+is
+\begin{equation}
+  \label{eq:uniform-convergence}
+  \lim_{n \to \infty} \frac{H^\Theta(n)}{n} = 0\text{.}
+\end{equation}
 
-The necessary and sufficient conditions for consistency give us guarantees that the learning
-process is general and cannot be improved given our premises.  The most important topic in
-this section is the Vapnik-Chervonenkis (VC) entropy.
+The VC entropy measures the complexity of the hypothesis space $\Theta$.  The intuition
+behind the need of a decreasing VC entropy with increasing numbers of observations is
+related to the nonfalsifiability of the learning machine.  For instance, the set of
+functions that can always separate the training data perfectly is nonfalsifiable because
+it implies that the minimum of the empirical risk is zero independently of the value of
+the true risk.
 
-\subsection{Definition of consistency}
+In the following, we will discuss the VC entropy for the learning tasks.
 
-An ERM method is consistent if it produces a sequence of functions $f_{\theta_n}$, for
-$n = 1, 2, \dots$, for which both the expected risk and the empirical risk converge to the
-their minimum values.
+\subsubsection{VC entropy for binary classification}
 
-\begin{defbox}{Consistency of a learning process}{}
-  Let $\theta_n$ be the solution of
-  \begin{equation*}
-    \theta_n = \argmin_{\theta \in \Theta} R_n(\theta)\text{.}
-  \end{equation*}
+\subsubsection{VC entropy for regression estimation}
 
-  An ERM method is consistent for the set of functions $\left\{ L(z, \theta) : \theta \in
-  \Theta \right\}$ and the probability distribution $\Prob(z)$ if
-  \begin{align*}
-    \lim_{n \to \infty} R(\theta_n) &= \inf_{\theta \in \Theta} R(\theta)\text{,} \\
-    \lim_{n \to \infty} R_n(\theta_n) &= \inf_{\theta \in \Theta} R(\theta)\text{.}
-  \end{align*}
-\end{defbox}
-
-This definition means that one can estimate the risk functional $R(\theta)$ by the
-empirical risk functional $R_n(\theta)$, while the values of achieved risks converge to
-the minimum value of the risk functional.  See \cref{fig:consistency}.
-
-\begin{figurebox}[label=fig:consistency]{Convergence of the empirical and expected risk functionals.}
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-        ticks=none,
-        axis x line=bottom,
-        axis y line=left,
-        ymin=0,
-        ymax=11,
-        xlabel={$n$},
-        legend pos=south east,
-        legend style={draw=none, fill=none},
-        width=0.9\textwidth,
-        height=0.6\textwidth,
-      ]
-      \addplot+[smooth, mark=none, black] coordinates {
-        (1, 10) (2, 6) (3, 5) (5, 4.1)
-      };
-      \addlegendentry{$R(\theta_n)$}
-      \addplot+[smooth, mark=none, dashed, black] coordinates {
-        (1, 0) (2, 0.1) (3, 3) (5, 3.9)
-      };
-      \addlegendentry{$R_n(\theta_n)$}
-      \draw[dotted, gray] (axis cs:6, 4) -- (axis cs:-1, 4);
-    \end{axis}
-    \node[gray] at (1, 1.8) {$\inf_{\theta \in \Theta} R(\theta)$};
-  \end{tikzpicture}
-\end{figurebox}
-
-However, since this definition of consistency includes cases of trivial consistency, there
-is no way to obtain such conditions.
-
-Consider the following example.  Suppose we have found a set of functions $\left\{ f_\theta
-: \theta \in \Theta \right\}$ such that the ERM method is not consistent.  Let's add
-one more function $\phi(z)$ to the set, such that
-\begin{equation*}
-  \inf_{\theta \in \Theta} L(z, \theta) > \phi(z),~\forall z\text{.}
-\end{equation*}
-It is straightforward to see that the ERM method is consistent for the new set of
-functions $\left\{ L(z, \theta) : \theta \in \Theta \right\} \cup \left\{ \phi \right\}$
-and the probability distribution $\Prob(z)$.  In this case, the function $\phi(z)$ gives both
-the minimum value of the risk functional and the empirical risk functional.  This is
-illustrated in \cref{fig:trivial-consistency}.
-
-% A tikz picture showing the senoidal functions L(z, theta) and phi(z) and the infimum of
-% the risk functionals.
-\begin{figurebox}[label=fig:trivial-consistency]{An illustrative case of trivial consistency.}
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-        ticks=none,
-        axis x line=bottom,
-        axis y line=left,
-        ymin=-4,
-        ymax=11,
-        xlabel={$z$},
-        legend pos=south east,
-        legend style={draw=none, fill=none},
-        width=0.9\textwidth,
-        height=0.6\textwidth,
-      ]
-      \addplot+[smooth, mark=none, black] coordinates {
-        (0, 10) (1, 6) (2, 5) (3, 4.1) (4, 5) (5, 6) (6, 8) (8, 7) (10, 10)
-      };
-      \addplot+[smooth, mark=none, black] coordinates {
-        (0, 4) (1, 4.1) (2, 7) (3, 7.9) (4, 7) (5, 4.1) (10, 4)
-      };
-      \addplot+[smooth, mark=none, black] coordinates {
-        (0, 4) (1, 3.1) (2, 6) (3, 6.9) (4, 6) (5, 3.1) (10, 5)
-      };
-      \addplot+[smooth, mark=none, black] coordinates {
-        (0, 7) (3, 5.1) (5, 5) (7, 5.9) (8, 5) (9, 7.1) (10, 5)
-      };
-      \addlegendentry{$L(z, \theta)$, $\theta \in \Theta$}
-      \addplot[smooth, mark=none, black, dashed] coordinates {
-        (0, 3) (5, 1) (10, 3.5)
-      };
-      \addlegendentry[dashed]{$\phi(z)$}
-    \end{axis}
-  \end{tikzpicture}
-\end{figurebox}
-
-\subsection{Nontrivial consistency}
+% TODO: explain VC entropy for binary and real-valued functions
 
 
-\section{Rate of convergence of learning processes}
+\subsection{Rate of Convergence}
 
-\section{Generalization ability of learning processes}
+Beyond consistency, it is also useful to understand the rate at which $R_n(\theta)$
+converges to $R(\theta)$ as the sample size $n$ increases. The rate of convergence depends
+on both the VC dimension and the growth function of the hypothesis space.
 
-\section{Construction of learning machines}
+% TODO
 
-\subsection{Data classification methods}
+\section{Structural risk minimization}
 
-\subsection{Regression estimation methods}
+% TODO what about finite n?
 
-\newpage
 \section{Learning bias}
 
 \emph{Learning bias}, or \emph{inductive bias}, is the set of assumptions that the
