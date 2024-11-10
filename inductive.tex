@@ -674,10 +674,45 @@ dimension.  % TODO: discuss non-parametric here?
 \section{Structural risk minimization}
 
 The \gls{erm} principle is a powerful tool to study the generalization ability of the
-learning process.  However, it relies on the hypothesis that the number of samples
-tends to infinity.
+learning process.  By generalization ability, we mean the ability of the learning machine
+to predict the output of new data that was not seen during the training process.  However,
+it relies on the hypothesis that the number of samples tends to infinity.
 
-% TODO what about finite n?
+In fact, \citeauthor{Vapnik1999b}\footfullcite{Vapnik1999b} summarizes the bounds for the
+generalization ability of learning machines in the following way\footnote{ For the sake of
+the arguments, we consider only the expression for bounded losses and an hypothesis space
+with infinite number of functions.  Rigorously, the loss function may not be bounded;
+consult the original work for the complete expressions.}:
+\begin{equation}
+  \label{eq:generalization-bound}
+  R(\theta_n) \leq R_n(\theta_n) + \frac{B \mathcal{E}}{2} \left(
+    1 + \sqrt{1 + \frac{4 R_n(\theta_n)}{B \mathcal{E}}}
+  \right)\text{,}
+\end{equation}
+with
+\[
+  \mathcal{E} = 4 \frac{
+    h \left( \ln \frac{2 n}{h} + 1 \right) - \ln \frac{\eta}{4}
+  }{n}\text{,}
+\]
+where $B$ is the upper bound of the loss function, $h$ is the VC dimension of the
+hypothesis space, $n$ is the number of samples.  The term $\eta$ is the confidence level,
+i.e. the inequality holds with probability $1 - \eta$.
+
+It is easy to see that as the number of samples $n$ increases, the empirical risk
+$R_n(\theta_n)$ approaches the true risk $R(\theta_n)$.  Also, the greater the VC
+dimension $h$, the greater the term $\mathcal{E}$, decreasing the generalization ability
+of the learning machine.
+
+In other other, if $\frac{n}{h}$, a small empirical risk does not guarantee a small value
+for the actual risk.  A consequence is that we need to minimize both terms of the
+right-hand side of the inequality \cref{eq:generalization-bound} to achieve a good
+generalization ability.
+
+The \gls{srm} principle consists of minimizing both the empirical risk (optimizing the
+parameters of the model) and the confidence interval (controlling VC dimension).
+
+\dots
 
 \section{Intuitions about learning bias}
 
