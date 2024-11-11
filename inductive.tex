@@ -704,13 +704,35 @@ $R_n(\theta_n)$ approaches the true risk $R(\theta_n)$.  Also, the greater the V
 dimension $h$, the greater the term $\mathcal{E}$, decreasing the generalization ability
 of the learning machine.
 
-In other other, if $\frac{n}{h}$, a small empirical risk does not guarantee a small value
+In other words, if $\nicefrac{n}{h}$ is small, a small empirical risk does not guarantee a small value
 for the actual risk.  A consequence is that we need to minimize both terms of the
 right-hand side of the inequality \cref{eq:generalization-bound} to achieve a good
 generalization ability.
 
 The \gls{srm} principle consists of minimizing both the empirical risk (optimizing the
 parameters of the model) and the confidence interval (controlling VC dimension).
+
+% A table comparing overfit and underfit and the empirical risk and confidence interval
+\begin{tablebox}[label=tab:overfit-underfit]{Overfitting and underfitting.}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Problem} & \textbf{Empirical risk} & \textbf{Confidence interval} \\
+    \midrule
+    Underfitting & High & Low \\
+    Overfitting & Low & High \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Two problems that can arise in the learning process are underfitting and overfitting.
+  Underfitting occurs when the model is too simple (low VC dimension) and cannot capture
+  the complexity of the training data (high empirical risk).  Overfitting occurs when the
+  model is too complex (high VC dimension increases the confidence interval) and fits the
+  training data almost perfectly (low empirical risk).
+\end{tablebox}
+
+Failure to balance the optimization of these terms leads to two problems: underfitting and
+overfitting.  \Cref{tab:overfit-underfit} summarizes the problems.
 
 \dots
 
