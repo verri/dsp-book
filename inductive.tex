@@ -357,6 +357,7 @@ possible in the space of the feature vectors $x$.  Since the distributions $\Pro
 classifier cannot always predict the class correctly.
 
 \subsection{Regression function}
+\label{sec:regression-function}
 
 In the regression estimation task, the goal is to approximate the optimal solution, called
 \emph{regression function},
@@ -786,11 +787,110 @@ complexity of the approximating function --- see \cref{fig:srm-tradeoff}.
 
 \subsection{Bias invariance trade-off}
 
-The trade-off the \gls{srm} principle deals with is the general case of the bias-variance
-trade-off.  The bias-variance trade-off is a well-known concept in machine learning that
-describes the relationship between different kinds of errors a model can have.
+The trade-off that the \gls{srm} principle deals with is the general case of the so called
+\emph{bias-variance trade-off}.  The bias-variance trade-off is a well-known concept in
+machine learning that describes the relationship between different kinds of errors a model
+can have.
 
-% TODO: illustrate with bias invariance trade-off
+The \emph{bias error} comes from failure to capture relevant relationship between features
+and target outputs.  The \emph{variance error} comes from erroneously modeling the random
+noise in the training data.
+
+The terms bias and variance (and the irreducible error) are clearly illustrated by
+studying the particular regression estimation task.
+
+Consider a learning machine that produces a function $\hat{f}(x; D)$ based on the
+training set $$D = \big\{(x_1, y_1), \dots, (x_n, y_n)\big\}$$ such that
+\[
+  y_i = f(x_i) + \epsilon\text{,}
+\]
+for a fixed function $f$ and a random noise $\epsilon$ with zero mean and variance
+$\sigma^2$, where $x_i$ are i.i.d. samples drawn from some distribution $\Prob(x)$.
+
+Also, consider that $\bar{f}(x)$ is the expected value of the function $\hat{f}(x; D)$
+over all possible training sets $D$, i.e.
+\[
+  \bar{f}(x) = \int \hat{f}(x; D)\, d\!\Prob(D)\text{.}
+\]
+(Note that the models themselves are the random variable we are studying here.)
+
+For any model $\hat{f}$, the expected (squared) error for a particular sample $(x, y)$,
+$\E_D\!\left[ \big( y - \hat{f}(x; D) \big)^2 \right]$, is
+\begin{align}
+  \notag \int \big( y - \hat{f}(x) \big)^2\, d\!\Prob(D, \epsilon)
+    &= \int \big( y - f(x) + f(x) - \hat{f}(x) \big)^2\, d\!\Prob(D, \epsilon) \\
+    &= \label{eq:term1}\int \big( y - f(x) \big)^2\, d\!\Prob(D) \\
+    &+ \label{eq:term2}\int \big( f(x) - \hat{f}(x) \big)^2\, d\!\Prob(D) \\
+    &+ \label{eq:term3}2 \int \big( y - f(x) \big)\,\big( f(x) - \hat{f}(x) \big)\, d\!\Prob(D, \epsilon)\text{.}
+\end{align}
+
+The term \eqref{eq:term1} is the irreducible error:
+\begin{equation}
+  \label{eq:irreducible-error}
+  \int \big( y - f(x) \big)^2\, d\!\Prob(D) =
+  \int \big( f(x) + \epsilon - f(x) \big)^2\, d\!\Prob(D) =
+  \int \epsilon^2\, d\!\Prob(D) = \sigma^2\text{.}
+\end{equation}
+As the best solution is $f$ itself, the error that comes from the noise is unavoidable.
+
+The term \eqref{eq:term3} is null:
+\begin{multline*}
+  \int \big( y - f(x) \big)\,\big( f(x) - \hat{f}(x) \big)\, d\!\Prob(D, \epsilon) =
+  \int \epsilon\,\big( f(x) - \hat{f}(x) \big)\, d\!\Prob(D, \epsilon) = \\
+  \cancelto{0}{\int \epsilon\, d\!\Prob(\epsilon)} \int \big( f(x) - \hat{f}(x) \big)\, d\!\Prob(D) = 0\text{,}
+\end{multline*}
+since $\Prob(D)$ and $\Prob(\epsilon)$ are independent and $\E[\epsilon] = 0$ by
+definition.
+
+We can apply a similar strategy to analyse the term \eqref{eq:term2}:
+\begin{align}
+  \notag \int \big( f(x) - \hat{f}(x) \big)^2\, d\!\Prob(D)
+    &= \int \big( f(x) - \bar{f}(x) + \bar{f}(x) - \hat{f}(x) \big)^2\, d\!\Prob(D) \\
+    &= \label{eq:term4}\int \big( f(x) - \bar{f}(x) \big)^2\, d\!\Prob(D) \\
+    &+ \label{eq:term5}\int \big( \bar{f}(x) - \hat{f}(x) \big)^2\, d\!\Prob(D) \\
+    &+ \label{eq:term6}2 \int \big( f(x) - \bar{f}(x) \big)\,\big( \bar{f}(x) - \hat{f}(x) \big)\, d\!\Prob(D)\text{.}
+\end{align}
+
+Now, the term \eqref{eq:term6} is also null:
+\begin{multline*}
+  \int \big( f(x) - \bar{f}(x) \big)\,\big( \bar{f}(x) - \hat{f}(x; D) \big)\, d\!\Prob(D) = \\
+  \big( f(x) - \bar{f}(x) \big) \int \big( \bar{f}(x) - \hat{f}(x; D) \big)\, d\!\Prob(D) = \\
+  \big( f(x) - \bar{f}(x) \big) \cancelto{0}{\left( \bar{f}(x) - \int \hat{f}(x; D)\, d\!\Prob(D) \right)} = 0\text{,}
+\end{multline*}
+since $\bar{f}(x)$ is the expected value of $\hat{f}(x; D)$.
+
+The term \eqref{eq:term4} does not depend on the training set, so
+\begin{equation}
+  \label{eq:bias}
+  \int \big( f(x) - \bar{f}(x) \big)^2\, d\!\Prob(D) =
+  \big( f(x) - \bar{f}(x) \big)^2\text{.}
+\end{equation}
+This term is the square of the bias of the models.
+
+The term \eqref{eq:term5} is the variance of the function $\hat{f}(x; D)$:
+\begin{multline}
+  \label{eq:model-variance}
+  \int \big( \bar{f}(x) - \hat{f}(x; D) \big)^2\, d\!\Prob(D) =\\
+  \E_D\!\left[ \big( \bar{f}(x) - \hat{f}(x; D) \big)^2 \right] =
+  \Var_D\!\left( \hat{f}(x; D) \right)\text{.}
+\end{multline}
+
+Finally, putting all together --- i.e.  \cref{eq:irreducible-error,eq:bias,eq:model-variance}
+---, we have that the expected error for a particular sample $(x, y)$ is
+\[
+  \E_D\!\left[ \big( y - \hat{f}(x; D) \big)^2 \right] =
+    \sigma^2 +
+    \big( f(x) - \E\!\left[ \hat{f}(x; D) \right) \big]^2 +
+    \Var_D\!\left( \hat{f}(x; D) \right)\text{.}
+\]
+
+The irreducible error is the regression error that cannot be reduced by any model --- see
+\cref{sec:regression-function}.  The bias error is the error that one expects from the
+model acquired by the learning machine and that we observe in the training data --- i.e.
+the empirical risk.  The variance error, which does not depend on the real function $f$
+but on the models the learning machine can generate, is the error that comes from how
+different the models can be from each other --- i.e. the confidence interval the come from
+the VC dimension.
 
 \clearpage
 \section{Intuitions about learning bias}
