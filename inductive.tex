@@ -671,7 +671,7 @@ parameters\footnote{Sometimes, like in a linear model, the number of parameters 
 proportional to the number of dimensions of the feature vector.} but with a finite VC
 dimension.  % TODO: discuss non-parametric here?
 
-\section{Structural risk minimization}
+\section{SRM inductive principle}
 
 The \gls{erm} principle is a powerful tool to study the generalization ability of the
 learning process.  By generalization ability, we mean the ability of the learning machine
@@ -709,9 +709,6 @@ for the actual risk.  A consequence is that we need to minimize both terms of th
 right-hand side of the inequality \cref{eq:generalization-bound} to achieve a good
 generalization ability.
 
-The \gls{srm} principle consists of minimizing both the empirical risk (optimizing the
-parameters of the model) and the confidence interval (controlling VC dimension).
-
 % A table comparing overfit and underfit and the empirical risk and confidence interval
 \begin{tablebox}[label=tab:overfit-underfit]{Overfitting and underfitting.}
   \centering
@@ -734,8 +731,68 @@ parameters of the model) and the confidence interval (controlling VC dimension).
 Failure to balance the optimization of these terms leads to two problems: underfitting and
 overfitting.  \Cref{tab:overfit-underfit} summarizes the problems.
 
-\dots
+The \gls{srm} principle consists of minimizing both the empirical risk (optimizing the
+parameters of the model) and the confidence interval (controlling VC dimension).
 
+Let $\Theta_k \subset \Theta$ and
+\[
+  S_k = \left\{ L(z, \theta) : \theta \in \Theta_k \right\}
+\]
+such that
+\[
+  S_1 \subset S_2 \subset \dots \subset S_n \subset \dots\text{,}
+\]
+satisfying
+\[
+  h_1 \leq h_2 \leq \dots \leq h_n \leq \dots\text{,}
+\]
+where $h_k$ is the finite VC dimension\footnote{Note that the VC dimension considering the
+whole set $\Theta$ might be infinite.  Moreover, in the original formulation, the sets
+$S_k$ also need to satisfy some bounds; read more in chapter 4 of \fullcite{Vapnik1999b}.}
+of each set $S_k$.  This is called an \emph{admissible structure}.
+
+\begin{figurebox}[label=fig:srm-tradeoff]{SRM trade-off.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$k$},
+        ylabel={Risk},
+        ytick={0},
+        yticklabels={},
+        xtick={0.1, 0.5, 1},
+        xticklabels={$h_1$, $h^*$, $h_n$},
+        grid=both,
+        xmin=0, xmax=1.5,
+        ymin=0, ymax=1.5,
+        domain=0.1:1]
+
+      \addplot[smooth] {(x - 1)^2 + 0.1} node[right, text width=1cm] {Empirical risk};
+      \addplot[smooth] {x^2 + 0.1} node[right, text width=2cm] {Confidence interval};
+      \addplot[smooth, thick] {x^2 + (x - 1)^2 + 0.2} node[left, text width=2cm] {Risk upper bound};
+
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The upper bound of the risk is the sum of the empirical risk and the confidence
+  interval.  The smallest bound is found for some $k^*$ in the admissible structure.
+\end{figurebox}
+
+Given the observations $z_1, \dots, z_n$, the \gls{srm} principle chooses the function
+$L(z, \theta_n^k)$ that minimizes the empirical risk $R_n(\theta_n^k)$ in the subset
+$S_k$ for which the guaranteed risk --- upper bound considering the confidence interval
+--- is minimal.  This is a trade-off between the quality of the approximation and the
+complexity of the approximating function --- see \cref{fig:srm-tradeoff}.
+
+\subsection{Bias invariance trade-off}
+
+The trade-off the \gls{srm} principle deals with is the general case of the bias-variance
+trade-off.  The bias-variance trade-off is a well-known concept in machine learning that
+describes the relationship between different kinds of errors a model can have.
+
+% TODO: illustrate with bias invariance trade-off
+
+\clearpage
 \section{Intuitions about learning bias}
 
 \emph{Learning bias}, or \emph{inductive bias}, is the set of assumptions that the
