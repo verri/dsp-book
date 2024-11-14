@@ -593,6 +593,7 @@ infinite, and in the second case, the VC dimension is $h$.
 A finite VC dimension is enough to imply both consistency and a fast rate of convergence.
 
 \subsubsection{Intuitions about the VC dimension}
+\label{sub:vc-dimension-intuition}
 
 % A figure with lines separating separating points in a plane
 \begin{figurebox}[label=fig:vc-dimension]{VC dimension of a set of lines in the plane.}
@@ -918,8 +919,9 @@ stopping, dropout, ensembles, and pruning --- are often called implicit regulari
 To realize the concepts of the \gls{srm} principle in practice, we consider linear
 classification tasks.
 
-For the examples in the following subsections, we consider the datasets for the AND
+For the examples in the following subsections, we use the datasets for the AND
 and the XOR problem --- see \cref{tab:and-xor}.
+The AND problem is linearly separable, while the XOR problem is not.
 
 \begin{tablebox}[label=tab:and-xor]{AND and XOR datasets.}
   \centering
@@ -957,21 +959,44 @@ and the XOR problem --- see \cref{tab:and-xor}.
   $y = x_1 \land x_2$ and $y = x_1 \oplus x_2$.
 \end{tablebox}
 
+We show two learning machines that implement the \gls{srm} principle in different ways:
+\begin{itemize}
+  \itemsep0em
+  \item The perceptron, which fixes the complexity of the model and tries to minimize the
+    empirical risk; and
+  \item The maximal margin classifier, which fixes the empirical risk --- in this case,
+    zero -- and tries to minimize the confidence interval.
+\end{itemize}
+
 \subsection{Perceptron}
 
 The perceptron is a linear classifier that generates a hyperplane that separates the
-classes.  The model for our example is
+classes.  It is a parametric model and the learning process minimizes the empirical risk
+by adjusting its fixed set of parameters.
+
+\begin{defbox}{Parametric model}{parametric}
+  If the learning machine generates a set of functions $f_\theta$ where $|\theta|$ is
+  always fixed, the models are called \emph{parametric}.  Parametric models are usually
+  simpler and faster, but they are less flexible.  In other words, it is up to the
+  researcher to choose the best model ``size'' for the problem.  If the model is too
+  small, it will not be able to capture the complexity of the data.  If the model is too
+  large, it will be too complex, too slow to train and might overfit to the data.
+  Note, however, that the VC dimension and number of parameters are not the same thing ---
+  consult \cref{sub:vc-dimension-intuition}.
+\end{defbox}
+
+The model for our example is
 \begin{equation*}
   f(x_1, x_2; \theta = \vec{w} = \left[w_0, w_1, w_2\right]) =  \begin{cases}
     1 & \text{if } w_0 + w_1 x_1 + w_2 x_2 > 0 \\
     0 & \text{otherwise.}
   \end{cases}
 \end{equation*}
-As one can see, the perceptron learning bias is the assumption that the classes are
-linearly separable. The equation $\vec{w} \cdot \vec{x} = 0$, where $\vec{x} = [1, x_1,
+The parameters $\vec{w}$ are called the weights of the perceptron.
+The equation $\vec{w} \cdot \vec{x} = 0$, where $\vec{x} = [1, x_1,
 x_2]$, is the equation of a hyperplane.
 
-\begin{figurebox}[label=fig:perceptron]{Perceptron learning bias.}
+\begin{figurebox}[label=fig:perceptron]{Perceptron decision boundaries.}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -986,18 +1011,18 @@ x_2]$, is the equation of a hyperplane.
         xmin=-0.5, xmax=1.5,
         ymin=-0.5, ymax=1.5,
       ]
-      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
-        (0, 1) (1, 0)
-      };
       \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
-        (0, 0) (1, 1)
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
+        (1, 1)
       };
       \addplot+[domain=0:1.5, mark=none, black, thick] {-0.5 + x};
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  The perceptron learning bias is the assumption that the classes are linearly separable.
-  The hyperplane that separates the classes is the learning machine model.
+  The perceptron learning assumes that the classes are linearly separable.
+  The hyperplane that separates the classes comes from the weights of the model.
   In this case, $w_0 = -0.5$, $w_1 = 1$, and $w_2 = -1$.
 \end{figurebox}
 
