@@ -1,9 +1,5 @@
-\chapter{Model evaluation}
-\label{chap:evaluation}
-\glsresetall
-
-\chapterprecishere{But if we judged ourselves truly, we would not be judged.
-  \par\raggedleft--- \textup{1 Corinthians 11:31} (ESV)}
+\section{Model evaluation}
+\label{sec:evaluation}
 
 One fundamental step in the development of a data driven solution for a task is the
 evaluation of the model. This chapter presents strategies to measure performance of
@@ -25,44 +21,14 @@ $i \in \mathcal{I}_\text{test}$, such that
 where $\theta$ is the solution found by the learning algorithm from the training set, see
 \cref{eq:risk}.
 
-\begin{mainbox}{Chapter remarks}
-
-  \boxsubtitle{Contents}
-
-  \startcontents[chapters]
-  \printcontents[chapters]{}{1}{}
-  \vspace{1em}
-
-  \boxsubtitle{Context}
-
-  \begin{itemize}
-    \item \dots
-  \end{itemize}
-
-  \boxsubtitle{Objectives}
-
-  \begin{itemize}
-    \item \dots
-  \end{itemize}
-
-  \boxsubtitle{Takeways}
-
-  \begin{itemize}
-    \item \dots
-  \end{itemize}
-\end{mainbox}
-
-{}
-\clearpage
-
-\section{Binary classification evaluation}
+\subsection{Binary classification evaluation}
 
 In order to assess the quality of a binary classification model, we need to know which
 samples in the test set were classified into which classes.  This information is
 summarized in the \emph{confusion matrix}, which is the basis for performance measures in
 classification tasks.
 
-\subsection{Confusion matrix}
+\subsubsection{Confusion matrix}
 
 The confusion matrix is a table where the rows represent the true classes and the columns
 represent the predicted classes.  The diagonal of the matrix represents the correct
@@ -86,7 +52,7 @@ where
   \item TN is the number of true negatives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 0 \land \hat{y}_i = 0 \}|$.
 \end{itemize}
 
-\subsection{Performance measures}
+\subsubsection{Performance measures}
 
 From the confusion matrix, we can derive several performance measures.  The most common
 ones are the accuracy, precision, recall, and F-score.
@@ -160,7 +126,7 @@ accuracy to evaluate the performance of the classifier in imbalanced problems.
 
 % TODO: things get bad if majority class is positive
 
-\section{Regression estimation evaluation}
+\subsection{Regression estimation evaluation}
 
 Performance measures for regression tasks are usally calculated based on the error or residual
 $\epsilon_i = \hat{y}_i - y_i$ for all $i \in \mathcal{I}_\text{test}$.  The most common measures
@@ -204,7 +170,7 @@ interpret.
 % Falar do RMSLE, plotar a curva em função da diferença. RMSLE incurs a larger penalty for
 % the underestimation of the Actual variable than the Overestimation.
 
-\section{Probabilistic classification evaluation}
+\subsection{Probabilistic classification evaluation}
 
 A particular case of the regression estimation is when we want to estimate the
 probability\footnote{Although the term probability is used, the output of the regressor
@@ -274,7 +240,7 @@ variations.
 From this table, we can calculate the performance measures that are useful for
 probabilistic classifiers.
 
-\subsection{Receiver operating characteristic}
+\subsubsection{Receiver operating characteristic}
 
 The receiver operating characteristic (ROC) curve is a graphical representation of the
 trade-off between the true positive rate and the false positive rate as the threshold
@@ -324,7 +290,7 @@ of the classifier.  The AUC is scale invariant, which means that it measures how
 predictions are ranked, rather than their absolute values.  In our example, the AUC is
 $0.8$.
 
-\subsection{Detection error trade-off}
+\subsubsection{Detection error trade-off}
 
 The detection error trade-off (DET) curve is a graphical representation of the trade-off
 between the false positive rate and the false negative rate (FNR),
@@ -410,7 +376,7 @@ this scale, the axes are transformed to show the error rates in a more linear wa
 % \gnuplotInvnorm{0.001}
 % Result is \gnuplotResult
 
-\section{Other variations}
+\subsection{Other variations}
 
 Some other points:
 \begin{itemize}
