@@ -1,0 +1,216 @@
+\chapter{Topics on learning machines}
+\label{chap:learning-machines}
+\glsresetall
+
+
+\chapterprecishere{Oh, the depth of the riches and wisdom and knowledge of God! How
+  unsearchable are his judgments and how inscrutable his ways!
+  \par\raggedleft--- \textup{Romans 11:33} (ESV)}
+
+This appendix is under construction.  Topics like the kernel trick, back-propagation, and
+other machine learning algorithms will be discussed here.
+
+{}
+\clearpage
+
+\section{Multi-layer perceptron}
+
+The \gls{mlp} is a non-linear classifier that generates a set of hyperplanes
+that separates the classes.  In order to simplify the understanding, consider the
+that the activation function of the hidden layer is the discrete step function
+\begin{equation*}
+  \sigma(x) = \begin{cases}
+    1 & \text{if } x > 0 \\
+    0 & \text{otherwise.}
+  \end{cases}
+\end{equation*}
+A model with two neurons in the hidden layer (effectively the combination of three
+perceptrons) is
+\begin{multline*}
+  f(x_1, x_2; \theta = \left\{ \vec{w}^{(1)}, \vec{w}^{(2)}, \vec{w}^{(3)} \right\}) = \\
+  \sigma\left(
+    \vec{w}^{(3)} \cdot \left[1, \sigma(\vec{w}^{(1)} \cdot \vec{x}), \sigma(\vec{w}^{(2)} \cdot \vec{x})\right]
+  \right)\text{.}
+\end{multline*}
+
+The parameters $\vec{w}^{(1)}$ and $\vec{w}^{(2)}$ represent the hyperplanes that separate
+the classes in the hidden layer, and $\vec{w}^{(3)}$ represents how the hyperplanes are
+combined to generate the output.  If we set $\vec{w}^{(1)} = [-0.5, 1, -1]$ (like the
+perceptron in the previous example) and $\vec{w}^{(2)} = [-0.5, -1, 1]$, we use the third neuron
+to combine the results of the first two neurons.  This way, a possible solution for the
+XOR problem is setting $\vec{w}^{(3)} = [0, 1, 1]$.
+
+\begin{figurebox}[label=fig:mlp]{MLP class boundaries for the XOR problem.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        grid=both,
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+        (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+        (0, 0) (1, 1)
+      };
+      \addplot+[domain=0:1.5, mark=none, black] {-0.5 + x};
+      \addplot+[domain=-0.5:1.5, mark=none, black] {0.5 + x};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  \Gls{mlp} with two neurons in the hidden layer generates two linear hyperplanes that
+  separate the classes, effectively solving the XOR problem.
+\end{figurebox}
+
+\begin{tablebox}[label=tab:xor-mlp]{Truth table for the predictions of the MLP.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc|cccc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ & \nth{1} neuron & \nth{2} neuron & $\hat{y}$ \\
+    \midrule
+    0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 1 & 0 & 1 & 1 \\
+    1 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 1 & 0 & 0 & 0 & 0 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Preditions of the \gls{mlp} for the XOR problem.  The output of the \nth{1} and \nth{2}
+  neurons are hyperplanes that separate the classes in the hidden layer, which are
+  combined by the \nth{3} neuron to generate the correct output.
+\end{tablebox}
+
+\Cref{fig:mlp,tab:xor-mlp} show the class boundaries and the predictions of the MLP for
+the XOR problem.
+
+Note that there are many possible solutions for the XOR problem using the MLP.
+Learning strategies like back-propagation are used to find the optimal parameters for
+the model and regularization techniques, like $l_1$ and $l_2$ regularization, are used to
+prevent overfitting.
+
+% TODO: backpropagation and regularization
+% TODO: talk about deep learning
+
+Deep learning is the study of neural networks with many layers.  The idea is to use many
+layers to learn not only the boundaries that separate the classes (or the function that
+maps inputs and outputs) but also the features that are relevant to the problem.
+A complete discussion of deep learning can be found in
+\textcite{Goodfellow2016}\footfullcite{Goodfellow2016}.
+
+\clearpage
+\subsection{Decision trees}
+
+The decision tree is a non-linear classifier that generates a set of hyperplanes that
+are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
+
+\begin{figurebox}[label=fig:tree-and]{Decision tree representation.}
+  \centering
+  \begin{tikzpicture}
+    \node[decision] (x1) at (0, 0) {$x_1$};
+    \node[block] (n1) at (-2, -1.5) {$\hat{y} = 0$};
+    \node[decision] (x2) at (2, -1.5) {$x_2$};
+    \node[block] (n2) at (0, -3) {$\hat{y} = 0$};
+    \node[block] (p) at (4, -3) {$\hat{y} = 1$};
+
+    \draw (x1) -| (n1) node [midway, above] {$\leq 0.5$};
+    \draw (x1) -| (x2) node [midway, above] {$>0.5$};
+    \draw (x2) -| (n2) node [midway, above] {$\leq 0.5$};
+    \draw (x2) -| (p) node [midway, above] {$>0.5$};
+  \end{tikzpicture}
+  \tcblower
+  The decision tree that solves the AND problem.
+\end{figurebox}
+
+\begin{figurebox}[label=fig:tree-bias]{Decision tree spatial representation.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        grid=both,
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+        (1, 1)
+      };
+      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[domain=0.5:1.5, mark=none, black, thick] {0.5};
+      \addplot+[mark=none, black, thick] coordinates {(0.5, -0.5) (0.5, 1.5)};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The decision tree learning bias is the assumption that the classes can be separated with
+  hyperplanes orthogonal to the axes.
+\end{figurebox}
+
+The spatial representation of the decision tree is shown in \cref{fig:tree-bias}.  The
+decision tree generates hyperplanes that are orthogonal to the axes, which is the learning
+bias of the model.
+
+Decision tree are nonparametric models, one can easily increase the depth of the tree to
+fit the data, generating as many hyperplanes as necessary to separate the classes.
+Training a decision tree with a large depth can lead to overfitting, so it is important to
+use techniques like depth limit and pruning to prevent this from happening.
+
+% \subsection{$k$-nearest neighbors learning bias}
+%
+% The $k$-nearest neighbors ($k$-NN) is a non-linear nonparametric classifier that
+% generate arbitrarily complex decision boundaries by ``memoring'' the training data.
+% The behavior of the boundaries depends on the value of $k$ and the distance metric one
+% uses to find the nearest neighbors of a point.
+%
+% \begin{figurebox}[label=fig:1nn-bias]{1-NN learning bias.}
+%   \centering
+%   \begin{tikzpicture}
+%     \begin{axis}[
+%         axis x line=bottom,
+%         axis y line=left,
+%         xlabel={$x_1$},
+%         ylabel={$x_2$},
+%         width=0.6\textwidth,
+%         height=0.6\textwidth,
+%         xtick={0, 1},
+%         ytick={0, 1},
+%         grid=both,
+%         xmin=-0.5, xmax=1.5,
+%         ymin=-0.5, ymax=1.5,
+%       ]
+%       \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+%         (1, 1)
+%       };
+%       \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+%         (0, 0) (0, 1) (1, 0)
+%       };
+%       \addplot+[domain=0.5:1.5, mark=none, black, thick] {0.5};
+%       \addplot+[mark=none, black, thick] coordinates {(0.5, 0.5) (0.5, 1.5)};
+%     \end{axis}
+%   \end{tikzpicture}
+%   \tcblower
+%   In this particular case, the 1-NN boundaries match the decision tree boundaries.
+% \end{figurebox}
+%
+% As $k$ increases the boundaries become smoother:
+% \href{https://images.squarespace-cdn.com/content/v1/5d782753c70af105c29a9b14/1580261947016-XODPUVKWPGGMJJMAXSNF/Screen+Shot+2020-01-28+at+8.38.55+PM.png}{example}.
+%
+% See illustration: \href{https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html}{here}.
+
+% vim: spell spelllang=en
