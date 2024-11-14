@@ -52,18 +52,17 @@ XOR problem is setting $\vec{w}^{(3)} = [0, 1, 1]$.
         height=0.6\textwidth,
         xtick={0, 1},
         ytick={0, 1},
-        grid=both,
         xmin=-0.5, xmax=1.5,
         ymin=-0.5, ymax=1.5,
       ]
-      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
         (0, 1) (1, 0)
       };
-      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
         (0, 0) (1, 1)
       };
-      \addplot+[domain=0:1.5, mark=none, black] {-0.5 + x};
-      \addplot+[domain=-0.5:1.5, mark=none, black] {0.5 + x};
+      \addplot+[domain=0:1.5, mark=none, black, thick] {-0.5 + x};
+      \addplot+[domain=-0.5:1.5, mark=none, black, thick] {0.5 + x};
     \end{axis}
   \end{tikzpicture}
   \tcblower
@@ -143,14 +142,13 @@ are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
         height=0.6\textwidth,
         xtick={0, 1},
         ytick={0, 1},
-        grid=both,
         xmin=-0.5, xmax=1.5,
         ymin=-0.5, ymax=1.5,
       ]
-      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+      \addplot+[only marks, mark=+, black, mark size=3pt] coordinates {
         (1, 1)
       };
-      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+      \addplot+[only marks, mark=-, black, mark size=3pt] coordinates {
         (0, 0) (0, 1) (1, 0)
       };
       \addplot+[domain=0.5:1.5, mark=none, black, thick] {0.5};

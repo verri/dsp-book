@@ -910,65 +910,13 @@ Note that the regularization term acts a proxy for the confidence interval in th
 \gls{srm} principle.  However, regularization is often justified by common sense or
 intuition, rather than by strong theoretical arguments.
 
-Other approaches that indirectly control the complexity of the model --- such as
-early stopping, dropout, and batch normalization --- are often called implicit
-regularization.
+Other approaches that indirectly control the complexity of the model --- such as early
+stopping, dropout, ensembles, and pruning --- are often called implicit regularization.
 
 \section{Linear problems}
 
-\subsection{Neural networks}
-
-\subsection{Support vector machines}
-
-\clearpage
-\section{Intuitions about learning bias}
-
-\emph{Learning bias}, or \emph{inductive bias}, is the set of assumptions that the
-learning machine uses to generate the set of functions $\left\{ f_\theta : \theta \in
-\Theta \right\}$ --- see \cref{fig:learning-bias}.  Vapnik shows that the learning bias is the key to the generalization
-ability of the learning process: the smaller the learning bias, the better the
-generalization ability \parencite{Vapnik1999b}.  In an illustrative thought experiment,
-one can see that ``no bias means no learning,'' since the learning machine would generate
-all possible functions, which is impossible, including the function that perfectly fits
-the training data but fails to generalize.
-
-\begin{figurebox}[label=fig:learning-bias]{Learning bias illustration.}
-  % A figure with points in the sapce \Theta and arrows between possible solutions
-  \centering
-  \begin{tikzpicture}
-    \draw[outline] (0,0) circle (25mm) node {};
-    \node at (0, 3) {$\Theta$};
-
-    \node (a) at (0, 1) {$\theta_1$};
-    \node (b) at (1, -1) {$\theta_2$};
-    \node (c) at (-1, -1) {$\theta_3$};
-
-    \draw[->] (a) -- (b);
-    \draw[->] (b) -- (c);
-  \end{tikzpicture}
-  \tcblower
-  A learning machine searches for the best parameter $\theta$ in the space $\Theta$.
-  The learning bias is the set of assumptions that the learning machine uses to control
-  how and where to search for the best parameter.
-\end{figurebox}
-
-It is important to understand the learning bias of the main machine-learning methods.  Let's
-consider the binary classification task, which is more intuitive.  Some common learning
-methods are the perceptron, the multi-layer perceptron, the decision tree, and the
-$k$-nearest neighbors.
-
-\begin{tablebox}[label=tab:paradigm]{Learning machines paradigms and characteristics.}
-  \begin{tabularx}{\textwidth}{lX@{}X@{}}
-    \toprule
-    \textbf{Method} & \textbf{Paradigm} & \textbf{Characteristics} \\
-    \midrule
-    Perceptron & Functional (parametric) & The perceptron is a linear classifier that generates a hyperplane that separates the classes. \\
-    MLP & Functional (parametric) & The multi-layer perceptron is a non-linear classifier that generates a set of hyperplanes that separates the classes. \\
-    DT & Symbolic (nonparametric) & The decision tree is a classifier that comprises a set of rules that separate the classes. \\
-    $k$-NN & Instance-based (nonparametric) & The $k$-nearest neighbors is a classifier that classifies the data based on the majority of the $k$-nearest neighbors. \\
-    \bottomrule
-  \end{tabularx}
-\end{tablebox}
+To realize the concepts of the \gls{srm} principle in practice, we consider linear
+classification tasks.
 
 For the examples in the following subsections, we consider the datasets for the AND
 and the XOR problem --- see \cref{tab:and-xor}.
@@ -1009,7 +957,7 @@ and the XOR problem --- see \cref{tab:and-xor}.
   $y = x_1 \land x_2$ and $y = x_1 \oplus x_2$.
 \end{tablebox}
 
-\subsection{Perceptron learning bias}
+\subsection{Perceptron}
 
 The perceptron is a linear classifier that generates a hyperplane that separates the
 classes.  The model for our example is
@@ -1035,17 +983,16 @@ x_2]$, is the equation of a hyperplane.
         height=0.6\textwidth,
         xtick={0, 1},
         ytick={0, 1},
-        grid=both,
         xmin=-0.5, xmax=1.5,
         ymin=-0.5, ymax=1.5,
       ]
-      \addplot+[only marks, mark=+, mark size=3pt] coordinates {
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
         (0, 1) (1, 0)
       };
-      \addplot+[only marks, mark=*, mark size=3pt] coordinates {
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
         (0, 0) (1, 1)
       };
-      \addplot+[domain=0:1.5, mark=none, black] {-0.5 + x};
+      \addplot+[domain=0:1.5, mark=none, black, thick] {-0.5 + x};
     \end{axis}
   \end{tikzpicture}
   \tcblower
@@ -1076,8 +1023,19 @@ and the perceptron model fails to classify the dataset correctly, see \cref{tab:
   fails to classify the XOR dataset correctly --- as any other perceptron would do.
 \end{tablebox}
 
-\begin{hlbox}{Think about\dots}
-  What happens if we remove $w_0$ from the model?
-\end{hlbox}
+\subsection{Maximal margin classifier}
+
+\section{Closing remarks}
+
+The \gls{srm} principle is a powerful tool to understand the generalization ability of
+learning machines.  The principle not only explains many of the empirical results in
+\gls{ml} but also provides a theoretical framework to guide the development of new
+learning machines.
+
+Many powerful methods have been proposed in the literature --- e.g. support vector
+machines, boosting, and deep learning --- that can deal with complex nonlinear problems.
+I encourage the reader to dive into the literature to learn more about these methods and
+the theoretical principles behind them.  Some comments about a few methods are given in
+\cref{chap:learning-machines}.
 
 % vim: spell spelllang=en
