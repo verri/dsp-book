@@ -892,6 +892,28 @@ but on the models the learning machine can generate, is the error that comes fro
 different the models can be from each other --- i.e. the confidence interval the come from
 the VC dimension.
 
+\subsection{Regularization}
+
+Also related to the \gls{srm} principle is the concept of \emph{regularization}.
+Regularization encourages models to learn robust patterns within the data rather than
+memorizing it.
+
+Regularization techniques usually modify the loss function by adding a penalty term that
+depends on the complexity of the model.  So, instead of minimizing the empirical risk
+$R_n(\theta)$, the learning machine minimizes the regularized empirical risk
+\[
+  R_n(\theta) + \lambda \Omega(\theta)\text{,}
+\]
+where $\Omega(\theta)$ is the complexity of the model and $\lambda$ is a hyperparameter
+that controls the trade-off between the empirical risk and the complexity.
+Note that the regularization term acts a proxy for the confidence interval in the
+\gls{srm} principle.  However, regularization is often justified by common sense or
+intuition, rather than by strong theoretical arguments.
+
+Other approaches that indirectly control the complexity of the model --- such as
+early stopping, dropout, and batch normalization --- are often called implicit
+regularization.
+
 \clearpage
 \section{Intuitions about learning bias}
 
