@@ -971,32 +971,86 @@ We show two learning machines that implement the \gls{srm} principle in differen
 \subsection{Perceptron}
 
 The perceptron is a linear classifier that generates a hyperplane that separates the
-classes.  It is a parametric model and the learning process minimizes the empirical risk
+classes in the feature space.  It is a parametric model and the learning process minimizes the empirical risk
 by adjusting its fixed set of parameters.
 
 \begin{defbox}{Parametric model}{parametric}
-  If the learning machine generates a set of functions $f_\theta$ where $|\theta|$ is
-  always fixed, the models are called \emph{parametric}.  Parametric models are usually
-  simpler and faster, but they are less flexible.  In other words, it is up to the
-  researcher to choose the best model ``size'' for the problem.  If the model is too
-  small, it will not be able to capture the complexity of the data.  If the model is too
-  large, it will be too complex, too slow to train and might overfit to the data.
-  Note, however, that the VC dimension and number of parameters are not the same thing ---
-  consult \cref{sub:vc-dimension-intuition}.
+  If the learning machine generates a set of functions $f_\theta$ where the number of
+  parameters $|\theta|$ is always fixed, the models are called \emph{parametric}.
 \end{defbox}
 
-The model for our example is
+Parametric models are usually simpler and faster to fit, but they are less flexible.  In
+other words, it is up to the researcher to choose the best model ``size'' for the problem.
+If the model is too small, it will not be able to capture the complexity of the data.  If
+the model is too large, it tends to be too complex, too slow to train and might overfit to
+the data.  Note, however, that the VC dimension and number of parameters are not the same
+thing --- consult \cref{sub:vc-dimension-intuition}.
+
+The perceptron model (with two inputs) is
 \begin{equation*}
-  f(x_1, x_2; \theta = \vec{w} = \left[w_0, w_1, w_2\right]) =  \begin{cases}
+  f(x_1, x_2; \vec{w} = \left[w_0, w_1, w_2\right]) =  \begin{cases}
     1 & \text{if } w_0 + w_1 x_1 + w_2 x_2 > 0 \\
     0 & \text{otherwise.}
   \end{cases}
 \end{equation*}
-The parameters $\vec{w}$ are called the weights of the perceptron.
+The parameters $\theta = \vec{w}$ are called the weights of the perceptron.
 The equation $\vec{w} \cdot \vec{x} = 0$, where $\vec{x} = [1, x_1,
 x_2]$, is the equation of a hyperplane.
 
-\begin{figurebox}[label=fig:perceptron]{Perceptron decision boundaries.}
+\begin{figurebox}[label=fig:perceptron-and]{Perceptron decision boundaries in the AND dataset.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
+        (1, 1)
+      };
+      \addplot+[domain=0:1.5, mark=none, black, thick] {1.1 - x};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The perceptron assumes that the classes are linearly separable.
+  The hyperplane that separates the classes comes from the weights of the model.
+  In this case, $w_0 = -1.1$, $w_1 = 1$, and $w_2 = 1$.
+\end{figurebox}
+
+In \cref{fig:perceptron-and}, we show the hyperplane (in this case, a line) that the model
+with weights $\vec{w} = [-1.1, 1, 1]$ generates in this feature space. Such a choice
+of parameters correctly classifies the AND dataset, see \cref{tab:and-perceptron}.
+
+\begin{tablebox}[label=tab:and-perceptron]{Truth table for the predictions of the perceptron in the AND dataset.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc|cc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ & $-1.1 + x_1 + x_2$ & $\hat{y}$ \\
+    \midrule
+    0 & 0 & 0 & -1.1 & 0 \\
+    0 & 1 & 0 & -0.1 & 0 \\
+    1 & 0 & 0 & -0.1 & 0 \\
+    1 & 1 & 1 & 0.9 & 1 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  The perceptron model with parameters $w_0 = 1.1$, $w_1 = -1$, and $w_2 = -1$
+  correctly classifies the AND dataset.
+\end{tablebox}
+
+\begin{figurebox}[label=fig:perceptron-xor]{Perceptron decision boundaries in the XOR
+  dataset.}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -1021,12 +1075,13 @@ x_2]$, is the equation of a hyperplane.
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  The perceptron learning assumes that the classes are linearly separable.
+  The XOR dataset is not linearly separable.
   The hyperplane that separates the classes comes from the weights of the model.
   In this case, $w_0 = -0.5$, $w_1 = 1$, and $w_2 = -1$.
+  There is no way to classify the XOR dataset correctly with a perceptron.
 \end{figurebox}
 
-In \cref{fig:perceptron}, we show the hyperplane that the model $\vec{w} = [-0.5, 1, -1]$
+In \cref{fig:perceptron-xor}, we show the hyperplane that the model $\vec{w} = [-0.5, 1, -1]$
 generates for the XOR dataset.  As one can see, the classes are not linearly separable,
 and the perceptron model fails to classify the dataset correctly, see \cref{tab:xor-perceptron}.
 
@@ -1047,6 +1102,80 @@ and the perceptron model fails to classify the dataset correctly, see \cref{tab:
   The perceptron model with parameters $w_0 = -0.5$, $w_1 = 1$, and $w_2 = -1$
   fails to classify the XOR dataset correctly --- as any other perceptron would do.
 \end{tablebox}
+
+It is easy to see that there are an infinite number of hyperplanes that can separate the
+classes in the AND dataset.  The training procedure of the perceptron is a simple
+algorithm that adjusts the weights of the model to find one of these hyperplanes ---
+effectively minimizing the empirical risk.  The algorithm updates the weights iteractively
+for each sample that is misclassified, repeating the samples as many times as necessary.
+It stops when all samples are correctly classified.
+
+For a binary classification problem and a perceptron with weights $\vec{w}$, there are 4
+situations for a given sample $\vec{x}$ and $y$:
+\begin{enumerate}
+  \itemsep0em
+  \item $y = 0$ and $\sign(\vec{w} \cdot \vec{x})= 0$;
+  \item $y = 0$ and $\sign(\vec{w} \cdot \vec{x})= 1$;
+  \item $y = 1$ and $\sign(\vec{w} \cdot \vec{x})= 0$;
+  \item $y = 1$ and $\sign(\vec{w} \cdot \vec{x})= 1$.
+\end{enumerate}
+
+By definition, the algorithm must update the weights when the situation 2 or 3 occurs.
+Let $e = y - \sign(\vec{w} \cdot \vec{x})$ be the error of the model for a given sample.
+
+In situation 2, we have that $\vec{w} \cdot \vec{x} > 0$ which means that the angle
+$\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is less than $90^\circ$, once
+$\|\vec{w}\|\|\vec{x}\|\alpha\theta > 0 \implies \cos\alpha > 0 \implies \alpha <
+90^\circ$.  To increase the angle between the vectors, we can subtract $\eta\vec{x}$ from
+$\vec{w}$, for some small $\eta > 0$ --- see \cref{fig:perceptron-w2}.  The error
+here is $e = -1$.
+
+\begin{figurebox}[label=fig:perceptron-w2]{Angle between $\vec{w}$ and $\vec{x}$ in a posite output.}
+  \centering
+  \begin{tikzpicture}
+    \draw[-Stealth] (0, 0) -- (2, 0) node[right] {$\vec{x}$};
+    \draw[-Stealth] (0, 0) -- (1, 1.8) node[right] {$\vec{w}$};
+    \draw[-Stealth, dashed] (1, 1.8) -- (-0.4, 1.8) node[above] {$-\eta\vec{x}$};
+    \draw[-Stealth, thick, gray] (0, 0) -- (-0.4, 1.8) node[left] {$\vec{w}'$};
+    \draw (0.4, 0) arc (0:58:0.4) node[right] {$\alpha$};
+  \end{tikzpicture}
+  \tcblower
+  A positive output for the perceptron with weights $\vec{w}$ and input $\vec{x}$ means
+  that the angle between the vectors is less than $90^\circ$.  To increase the angle
+  between the vectors, we can subtract $\eta\vec{x}$ from $\vec{w}$, for some small $\eta
+  > 0$.
+\end{figurebox}
+
+Similarly, in situation 3, we have that $\vec{w} \cdot \vec{x} < 0$ which means that the
+angle $\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is greater than $90^\circ$.
+To decrease the angle between the vectors, we can add $\eta\vec{x}$ from $\vec{w}$, for
+some small $\eta > 0$ --- see \cref{fig:perceptron-w3}.  Now, the error is $e = 1$.
+
+\begin{figurebox}[label=fig:perceptron-w3]{Angle between $\vec{w}$ and $\vec{x}$ in a negative output.}
+  \centering
+  \begin{tikzpicture}
+    \draw[-Stealth] (0, 0) -- (2, 0) node[right] {$\vec{x}$};
+    \draw[-Stealth, thick, gray] (0, 0) -- (1, 1.8) node[right] {$\vec{w}'$};
+    \draw[-Stealth, dashed] (-0.4, 1.8) -- (1, 1.8) node[above] {$\eta\vec{x}$};
+    \draw[-Stealth] (0, 0) -- (-0.4, 1.8) node[left] {$\vec{w}$};
+    \draw (0.4, 0) arc (0:101:0.4) node[above] {$\alpha$};
+  \end{tikzpicture}
+  \tcblower
+  A negative output for the perceptron with weights $\vec{w}$ and input $\vec{x}$ means
+  that the angle between the vectors is greater than $90^\circ$.  To decrease the angle
+  between the vectors, we can add $\eta\vec{x}$ from $\vec{w}$, for some small $\eta
+  > 0$.
+\end{figurebox}
+
+From those observations, we can derive a general update rule
+\[
+  \vec{w}' = \vec{w} + \eta e \vec{x}\text{,}
+\]
+where $\eta$ is a small positive number that controls the step size of the algorithm.
+
+The algorithm converges given $\eta$ sufficiently small and the dataset is linearly
+separable.  Note that the algorithm do not make any effort to reduce the confidence
+interval.
 
 \subsection{Maximal margin classifier}
 
