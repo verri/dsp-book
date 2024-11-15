@@ -969,6 +969,7 @@ We show two learning machines that implement the \gls{srm} principle in differen
 \end{itemize}
 
 \subsection{Perceptron}
+\label{sub:perceptron}
 
 The perceptron is a linear classifier that generates a hyperplane that separates the
 classes in the feature space.  It is a parametric model and the learning process minimizes the empirical risk
@@ -1018,17 +1019,17 @@ x_2]$, is the equation of a hyperplane.
       \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
         (1, 1)
       };
-      \addplot+[domain=0:1.5, mark=none, black, thick] {1.1 - x};
+      \addplot+[domain=0:1.5, mark=none, black, thick] {1.1 - 0.6 * x};
     \end{axis}
   \end{tikzpicture}
   \tcblower
   The perceptron assumes that the classes are linearly separable.
   The hyperplane that separates the classes comes from the weights of the model.
-  In this case, $w_0 = -1.1$, $w_1 = 1$, and $w_2 = 1$.
+  In this case, $w_0 = -1.1$, $w_1 = 0.6$, and $w_2 = 1$.
 \end{figurebox}
 
 In \cref{fig:perceptron-and}, we show the hyperplane (in this case, a line) that the model
-with weights $\vec{w} = [-1.1, 1, 1]$ generates in this feature space. Such a choice
+with weights $\vec{w} = [-1.1, 0.6, 1]$ generates in this feature space. Such a choice
 of parameters correctly classifies the AND dataset, see \cref{tab:and-perceptron}.
 
 \begin{tablebox}[label=tab:and-perceptron]{Truth table for the predictions of the perceptron in the AND dataset.}
@@ -1040,8 +1041,8 @@ of parameters correctly classifies the AND dataset, see \cref{tab:and-perceptron
     \midrule
     0 & 0 & 0 & -1.1 & 0 \\
     0 & 1 & 0 & -0.1 & 0 \\
-    1 & 0 & 0 & -0.1 & 0 \\
-    1 & 1 & 1 & 0.9 & 1 \\
+    1 & 0 & 0 & -0.5 & 0 \\
+    1 & 1 & 1 & 0.5 & 1 \\
     \bottomrule
   \end{tabular}
   \tcblower
@@ -1176,6 +1177,14 @@ where $\eta$ is a small positive number that controls the step size of the algor
 The algorithm converges given $\eta$ sufficiently small and the dataset is linearly
 separable.  Note that the algorithm do not make any effort to reduce the confidence
 interval.
+
+The perceptron is (possibly) the simplest artificial neural network.  More complex
+networks can be built by stacking perceptrons in layers and adding non-linear activation
+functions.  The training strategies for those network are usually based on reducing the
+empirical risk using the gradient descent algorithm while controlling the complexity of
+the model with regularization techniques\footnote{To counterbalance the potential
+``excess'' of neurons, techniques like $l_2$ regularization ``disable'' some neurons by
+pressuring their weights to zero.}.  Consult \cref{sec:mlp}.
 
 \subsection{Maximal margin classifier}
 
