@@ -10,6 +10,22 @@ As we discussed before, in this book, I focus on the problem of inferring a solu
 predictive task from data.  In this chapter, we introduce the basic concepts of the
 \gls{slt}, a general framework for predictive learning tasks.
 
+More specifically, we discuss the \emph{inductive learning} approach, which involves
+deriving general rules from specific observations.
+
+We also formally establish the learning problem, and we define the two most common
+predictive tasks: binary data classification and regression estimation.  We discuss the
+optimal solutions for these tasks in an ideal (although unrealistic) scenario where the
+distributions of the data are known.
+
+Moreover, we discuss principles that guide the learning process when the distribution of
+the data is unknown.  From those principles, we discuss the properties and limitations of
+the learning process.
+
+Finally, we realize those concepts for simple linear problems, explaining two basic
+algorithms for the learning process: the perceptron and the maximal margin classifier.
+% TODO: if regression is shown, update here with adaline and svr
+
 \begin{mainbox}{Chapter remarks}
 
   \boxsubtitle{Contents}
@@ -22,21 +38,25 @@ predictive task from data.  In this chapter, we introduce the basic concepts of 
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Inductive reasoning is the process of deriving general rules from specific
+      observations.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Define the learning problem and the common predictive tasks.
+    \item Understand the main principles that guide the learning process.
   \end{itemize}
 
   \boxsubtitle{Takeways}
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Optimal solutions establish how good a solution can possibly be.
+    \item Reducing erro is not enough to guarantee a good solution.
+    \item Controlling the complexity of the model is crucial to generalize.
   \end{itemize}
 \end{mainbox}
 
@@ -1178,6 +1198,7 @@ From those observations, we can derive a general update rule
   \vec{w}' = \vec{w} + \eta e \vec{x}\text{,}
 \]
 where $\eta$ is a small positive number that controls the step size of the algorithm.
+Note that this rule works even for cases 1 and 4, where the error is zero.
 
 The algorithm converges given $\eta$ sufficiently small and the dataset is linearly
 separable.  Note that the algorithm do not make any effort to reduce the confidence
@@ -1190,6 +1211,8 @@ empirical risk using the gradient descent algorithm while controlling the comple
 the model with regularization techniques\footnote{To counterbalance the potential
 ``excess'' of neurons, techniques like $l_2$ regularization ``disable'' some neurons by
 pressuring their weights to zero.}.  Consult \cref{sec:mlp}.
+
+% TODO: adaline for regression
 
 \subsection{Maximal margin classifier}
 
