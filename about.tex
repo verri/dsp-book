@@ -2,73 +2,77 @@
 
 \noindent Dear reader, \vspace{1em}
 
-This book has started from the lectures notes of the course PO-235 Data Science Project
-that I teach for graduate students at the Aeronautics Institute of Technology (ITA) and at
-the Federal University of São Paulo (UNIFESP) in Brazil.  I have been teaching this
-subject since 2021, and I have been improving the
-material every year.
+This book is based on the lecture notes from my course PO-235 Data Science Project, which
+I teach to graduate students at both the Aeronautics Institute of Technology (ITA) and the
+Federal University of São Paulo (UNIFESP) in Brazil.  I have been teaching this subject
+since 2021, and I have continually updated the material each year.
 
-Moreover, I was the coordinator of the Data Science Specialization Program (CEDS) at
-ITA.  That experience, which included lots of administrative work, but also teaching and
+Also, I was the coordinator of the Data Science Specialization Program (CEDS) at ITA.
+That experience, which included lots of administrative work, as well as teaching and
 supervising professionals in the course, has helped me to understand the needs of the
 market and the students.
 
-Literature provides us a lot of great theoretical books on machine learning and
-statistics, and excellent practical books on data science tools.  However, I missed
+Moreover, parts of the project development methodology presented here came from my
+experience as a lead data scientist in R\&D projects for the Brazilian Air Force,
+which included projects in the areas of image processing, natural language processing,
+and spatio-temporal data analysis.
+
+Literature provides us a wide range of excellent theoretical books on machine learning and
+statistics, and highly regarded practical books on data science tools.  However, I missed
 something that could provide a solid foundation on data science, covering all steps in a
 data science project, including its software engineering aspects.
 
 My goal is to provide a book that can be used as a textbook for a course on data science
-projects or as a reference for professionals working in the field.  I try to be as
-formal as possible, without losing the practical aspects of the subject.  Also, I do not
-focus on a specific tool or programming language, but I try to explain the semantics of
-data science tasks that can be implemented in any programming language.
+projects or as a reference for professionals working in the field.  I strive to maintain a
+formal tone without compromising the practical aspects of the subject.  I do not focus on
+a specific tool or programming language, but rather aim to explain the semantics of data
+science tasks that can be implemented in any programming language.
 
 Also, instead of teaching specific machine learning algorithms, I try to explain why
-machine learning works, increasing awareness of its pitfalls and limitations.
-For that, I assume you have a strong mathematical and statistics background.
+machine learning works, increasing awareness of its pitfalls and limitations. For that, I
+assume you have a strong mathematical and statistical background.
 
 One important artificial constraint I have imposed in the material (for the sake of the
-course) is that I only consider \emph{predictive methods}, more specifically inductive
-ones.  I do not address topics such as clustering, association-rules mining, transductive
-learning, anomaly detection, time series forecasting, reinforced learning, etc.
+course) is that I only consider predictive methods, more specifically inductive ones. I do
+not address topics such as clustering, association rules mining, transductive learning,
+anomaly detection, time series forecasting, reinforced learning, etc.
 
-I expect my approach on the subject to provide understanding of all steps in a data science
-project including a deeper focus on correct evaluation and validation of data science
-solutions.
+I expect my approach on the subject to provide understanding of all steps in a data
+science project, including a deeper focus on correct evaluation and validation of data
+science solutions.
 
-Note that, in this book, I openly express my opinions and beliefs. Many times it might sound
-controvertial.  I am not trying to be rude or to demean any researcher or practitioner in the
-field.  I am just trying to be honest and transparent.
+Note that, in this book, I openly express my opinions and beliefs. On several occasions it
+may sound controversial.  I am not trying to be rude or to demean any researcher or
+practitioner in the field.  I am simply trying to be honest and transparent.
 
 \vspace{1em}
 \emph{I'd rather be bold and straightforward than cower about my beliefs.}
 \vspace{1em}
 
-Hope you enjoy the reading.
+Hope you enjoy reading.
 
 \newpage
 
 \begin{parwithqr}{https://github.com/verri/dsp-book}
-  I intend to make this book forever free and open-source.  You can find the source code at
-  \href{\aurl}{github.com/verri/dsp-book}.  Derivatives are not allowed, but you can
-  contribute to the book.  Contributors will be acknowledged here.
+  I intend to make this book forever free and open-source. You can find the source code at
+  \href{\aurl}{github.com/verri/dsp-book}. Derivatives are not allowed, but you can
+  contribute to the book. Contributors will be acknowledged here.
 \end{parwithqr}
 
 \vfill
 
 \begin{lparwithqr}{https://leanpub.com/dsp}
-  However, if you like this book, consider buying the e-book version at
-  \href{\aurl}{leanpub.com/dsp}.  Any amount you pay will help me to keep this book
-  updated and to write new books.
+  However, if you like this book, consider purchasing the e-book version at
+  \href{\aurl}{leanpub.com/dsp}. Any amount you pay will help me keep this book updated
+  and write new books.
 \end{lparwithqr}
 
 \vfill
 
 \begin{parwithqr}{https://github.com/verri/dsp-book/discussions}
   If you have suggestions or questions, please open or join a discussion at
-  \href{\aurl}{github.com/verri/dsp-book/discussions}.  Feel free to ask anything.
-  Theoretical discussions and practical advices are also welcome.
+  \href{\aurl}{github.com/verri/dsp-book/discussions}. Feel free to ask anything.
+  Theoretical discussions and practical advice are also welcome.
 \end{parwithqr}
 
 \vfill
@@ -76,16 +80,17 @@ Hope you enjoy the reading.
 % TODO: link to GitHub
 \begin{lparwithqr}{https://comp.ita.br/\~verri/dsp-book-print}
   Students can find a printable version (A4 paper, double-sided, short-edge spiral
-  binding) of this book at \href{\aurl}{comp.ita.br/\textasciitilde{}verri/dsp-book-print}.
+  binding) of this book at
+  \href{\aurl}{comp.ita.br/\textasciitilde{}verri/dsp-book-print}.
 \end{lparwithqr}
 
 \vfill
 
 \begin{parwithqr}{https://www.buymeacoffee.com/verri}
-  If you want to support me, you can \emph{buy me a coffee} at
-  \href{\aurl}{buymeacoffee.com/verri}.  I will appreciate it a lot.
-  I have a lot of ideas for new books and courses, and financial support will help me to
-  make them real.
+  If you want to support me, you can \emph{purchase a coffee} at
+  \href{\aurl}{buymeacoffee.com/verri}. I will greatly appreciate it.  I have a number of
+  ideas for new books and courses, and financial support will enable me to make them a
+  reality.
 \end{parwithqr}
 
 \newpage
