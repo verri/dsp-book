@@ -187,7 +187,8 @@ the book.)
 \subsubsection{Binary data classification task}
 
 In this task, the output $y$ takes on
-only two possible values, zero or one --- usually called the negative and the positive
+only two possible values, zero or one\footnote{Alternatively, negative class is
+represented by $-1$ and positive class by $1$.} --- called the negative and the positive
 class, respectively ---, and the functions $f_\theta$ are indicator
 functions. Choosing the loss
 \begin{equation*}
@@ -989,8 +990,12 @@ thing --- consult \cref{sub:vc-dimension-intuition}.
 
 The perceptron model (with two inputs) is
 \begin{equation*}
-  f(x_1, x_2; \vec{w} = \left[w_0, w_1, w_2\right]) =  \begin{cases}
-    1 & \text{if } w_0 + w_1 x_1 + w_2 x_2 > 0 \\
+  f(x_1, x_2; \vec{w} = \left[w_0, w_1, w_2\right]) = u(w_0 + w_1 x_1 + w_2 x_2)\text{,}
+\end{equation*}
+where $u$ is the heaviside step function
+\begin{equation*}
+  u(x) = \begin{cases}
+    1 & \text{if } x > 0\text{,} \\
     0 & \text{otherwise.}
   \end{cases}
 \end{equation*}
@@ -1115,14 +1120,14 @@ For a binary classification problem and a perceptron with weights $\vec{w}$, the
 situations for a given sample $\vec{x}$ and $y$:
 \begin{enumerate}
   \itemsep0em
-  \item $y = 0$ and $\sign(\vec{w} \cdot \vec{x})= 0$;
-  \item $y = 0$ and $\sign(\vec{w} \cdot \vec{x})= 1$;
-  \item $y = 1$ and $\sign(\vec{w} \cdot \vec{x})= 0$;
-  \item $y = 1$ and $\sign(\vec{w} \cdot \vec{x})= 1$.
+  \item $y = 0$ and $u(\vec{w} \cdot \vec{x})= 0$;
+  \item $y = 0$ and $u(\vec{w} \cdot \vec{x})= 1$;
+  \item $y = 1$ and $u(\vec{w} \cdot \vec{x})= 0$;
+  \item $y = 1$ and $u(\vec{w} \cdot \vec{x})= 1$.
 \end{enumerate}
 
 By definition, the algorithm must update the weights when the situation 2 or 3 occurs.
-Let $e = y - \sign(\vec{w} \cdot \vec{x})$ be the error of the model for a given sample.
+Let $e = y - u(\vec{w} \cdot \vec{x})$ be the error of the model for a given sample.
 
 In situation 2, we have that $\vec{w} \cdot \vec{x} > 0$ which means that the angle
 $\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is less than $90^\circ$, once
@@ -1138,7 +1143,7 @@ here is $e = -1$.
     \draw[-Stealth] (0, 0) -- (1, 1.8) node[right] {$\vec{w}$};
     \draw[-Stealth, dashed] (1, 1.8) -- (-0.4, 1.8) node[above] {$-\eta\vec{x}$};
     \draw[-Stealth, thick, gray] (0, 0) -- (-0.4, 1.8) node[left] {$\vec{w}'$};
-    \draw (0.4, 0) arc (0:58:0.4) node[right] {$\alpha$};
+    \draw (0.4, 0) arc (0:59:0.4) node[right] {$\alpha$};
   \end{tikzpicture}
   \tcblower
   A positive output for the perceptron with weights $\vec{w}$ and input $\vec{x}$ means
@@ -1159,7 +1164,7 @@ some small $\eta > 0$ --- see \cref{fig:perceptron-w3}.  Now, the error is $e = 
     \draw[-Stealth, thick, gray] (0, 0) -- (1, 1.8) node[right] {$\vec{w}'$};
     \draw[-Stealth, dashed] (-0.4, 1.8) -- (1, 1.8) node[above] {$\eta\vec{x}$};
     \draw[-Stealth] (0, 0) -- (-0.4, 1.8) node[left] {$\vec{w}$};
-    \draw (0.4, 0) arc (0:101:0.4) node[above] {$\alpha$};
+    \draw (0.4, 0) arc (0:101:0.4) node[above] {\phantom{a }$\alpha$};
   \end{tikzpicture}
   \tcblower
   A negative output for the perceptron with weights $\vec{w}$ and input $\vec{x}$ means
