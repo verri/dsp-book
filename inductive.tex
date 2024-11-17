@@ -55,7 +55,7 @@ algorithms for the learning process: the perceptron and the maximal margin class
   \begin{itemize}
     \itemsep0em
     \item Optimal solutions establish how good a solution can possibly be.
-    \item Reducing erro is not enough to guarantee a good solution.
+    \item Reducing error is not enough to guarantee a good solution.
     \item Controlling the complexity of the model is crucial to generalize.
   \end{itemize}
 \end{mainbox}
@@ -72,7 +72,7 @@ ones.
 
 \Gls{ai} is a very broad field, including not only the study of algorithms
 that exhibit intelligent behavior, but also the study of the behavior of intelligent
-systems.  For instance, it encompasses the study of optimization methods, bioinspired algorithms,
+systems.  For instance, it encompasses the study of optimization methods, bio-inspired algorithms,
 robotics, philosophy of mind, and many other topics.  We are interested in the subfield of
 artificial intelligence that studies algorithms that exhibit some form of intelligent
 behavior.
@@ -586,6 +586,7 @@ it implies that the minimum of the empirical risk is zero independently of the v
 the true risk.
 
 \subsection{Growing function and VC dimension}
+\label{sub:vc-dimension}
 
 It turns out that we can guarantee both the uniform convergence and the fast rate of
 convergence independently of $\Prob(z)$.  Actually,
@@ -1215,6 +1216,113 @@ pressuring their weights to zero.}.  Consult \cref{sec:mlp}.
 % TODO: adaline for regression
 
 \subsection{Maximal margin classifier}
+
+We saw that the perceptron tries to minimize the empirical risk, but it makes no effort to
+reduce the confidence interval.  A different approach would be to fix the empirical risk
+--- in our case, assuming that the classes are linearly separable, equals to zero --- and
+minimize the confidence interval.
+
+The confidence interval is an increasing function
+\[
+  \Omega\!\left(\frac{h}{n}\right)\text{,}
+\]
+where $h$ is the VC dimension of the hypothesis space and $n$ is the number of samples.
+Since the number of training samples $n$ is fixed and finite (sometimes even small), we
+can minimize the confidence interval by minimizing the VC dimension $h$.
+
+In the case of the perceptron, since it can generate any hyperplane, the VC dimension is
+$h = d + 1$, where $d$ is the number of dimensions of the feature space --- consult
+\cref{sub:vc-dimension-intuition}.
+
+Before we dive in the classifier that minimizes the confidence interval, consider the
+following property.  \citeauthor{Vapnik1999b}\footfullcite{Vapnik1999b} state that a
+$\Delta$-margin separating hyperplane is the hyperplane
+\[
+  (\vec{w} \cdot \vec{x}) - b = 0\text{, } \|\vec{w}\| = 1\text{,}
+\]
+such that classifies vector $\vec{x}$ as
+\[
+  y = \begin{cases}
+    1 & \text{if } (\vec{w} \cdot \vec{x}) - b \geq \Delta\text{,} \\
+    -1 & \text{if } (\vec{w} \cdot \vec{x}) - b \leq -\Delta\text{.}
+  \end{cases}
+\]
+Given that vectors $\vec{x} \in \mathbb{R}^d$ belong to a (hyper)sphere of radius $R$, the
+VC dimension of of the $\Delta$-margin separating hyperplane is
+\[
+  h \leq \min\left(\left\lfloor \frac{R^2}{\Delta^2} \right\rceil, d\right) + 1\text{,}
+\]
+which can be less than $d + 1$.
+
+From that property, to minimize the confidence interval, we can maximize the margin
+$\Delta$ of the hyperplane.  The \emph{maximal margin classifier} is a learning machine
+that generates the hyperplane that separates the classes with no error and maximizes the
+margin between the classes.
+
+\begin{figurebox}[label=fig:maximal-margin-and]{Maximal margin classifier for the AND dataset.}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.6\textwidth,
+        height=0.6\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+        domain=-0.5:1.5,
+      ]
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
+        (1, 1)
+      };
+      \addplot+[mark=none, black, thick] {1.5 - x} node[above, pos=0.6, rotate=-45] {optimal hyperplane};
+      \addplot+[mark=none, black, dashed] {1 - x} node[above, pos=0.6, rotate=-45] {margin};
+      \addplot+[mark=none, black, dashed] {2 - x};
+    \end{axis}
+  \end{tikzpicture}
+  \tcblower
+  The maximal margin classifier generates the hyperplane that maximizes the margin between
+  the classes.  In this case, the margin is $\Delta = 0.5$.
+\end{figurebox}
+
+Thus, given the training set $(\vec{x}_1, y_1), \dots, (\vec{x}_n, y_n)$, $\vec{x} \in
+\mathbb{R}^d$ and $y_i \in \{-1, 1\}$, the optimal hypeplane --- see
+\cref{fig:maximal-margin-and} --- is the one that satisfies
+\[
+  y_i \left[(\vec{w} \cdot \vec{x}_i - b)\right] \geq 1\text{,}
+\]
+for all $i = 1, \dots, n$ that minimizes $\|\vec{w}\|^2$.  The intuition of the
+minimization of the coefficients is that we want only the vectors in the margin to be
+exactly equal to $\pm 1$.  (Consequently, the vectors farther from the margin have values
+greater than $1$ or less than $-1$.)
+
+Without entering into the details of the optimization process, one interesting property of
+the maximal margin classifier is that the margin is built from the \emph{support vectors}
+--- the vectors that are exactly in the margin.  In \cref{fig:maximal-margin-and}, the
+support vectors are the vectors $(1, 0)$, $(0, 1)$, and $(1, 1)$.
+
+In other words, maximal margin classifier is
+\[
+  f(x) = \sign\left(\sum_{i=1}^{n} (y_i a_i \vec{x}_i \cdot x) - b\right)\text{,}
+\]
+for some $b$ and coefficients $a_i > 0$ for the support vectors ($a_i = 0$ otherwise).
+
+Since the parameters of the maximal margin classifier depend on the training data,
+it is a nonparametric model.  Nonparametric models are usually more flexible than
+parametric models, but they are also more complex and slower to train.
+This property becomes more clear when we consider the kernel trick, which allows
+the maximal margin classifier to deal with nonlinear problems.  Consult
+\citeauthor{Vapnik1999b}\footfullcite{Vapnik1999b} for more details.
+
+Also, in the case that the classes are not linearly separable, the maximal margin
+classifier can be extended to the \emph{soft margin classifier}, which allows an empirical
+risk greater than zero.
 
 \section{Closing remarks}
 
