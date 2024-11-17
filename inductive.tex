@@ -1303,26 +1303,26 @@ exactly equal to $\pm 1$.  (Consequently, the vectors farther from the margin ha
 greater than $1$ or less than $-1$.)
 
 Without entering into the details of the optimization process, one interesting property of
-the maximal margin classifier is that the margin is built from the \emph{support vectors}
+the maximal margin classifier is that the separating hyperplane is built from the \emph{support vectors}
 --- the vectors that are exactly in the margin.  In \cref{fig:maximal-margin-and}, the
 support vectors are the vectors $(1, 0)$, $(0, 1)$, and $(1, 1)$.
 
 In other words, maximal margin classifier is
 \[
-  f(x) = \sign\left(\sum_{i=1}^{n} (y_i a_i \vec{x}_i \cdot x) - b\right)\text{,}
+  f(x) = \sign\left(\sum_{i=1}^{n} y_i a_i \big(\vec{x}_i \cdot x\big) - b\right)\text{,}
 \]
 for some $b$ and coefficients $a_i > 0$ for the support vectors ($a_i = 0$ otherwise).
 
-Since the parameters of the maximal margin classifier depend on the training data,
-it is a nonparametric model.  Nonparametric models are usually more flexible than
-parametric models, but they are also more complex and slower to train.
-This property becomes more clear when we consider the kernel trick, which allows
-the maximal margin classifier to deal with nonlinear problems.  Consult
-\citeauthor{Vapnik1999b}\footfullcite{Vapnik1999b} for more details.
+In the case that the classes are not linearly separable, the maximal margin classifier can
+be extended to the \emph{soft margin classifier}, which sets the empirical risk to a value
+greater than zero.
 
-Also, in the case that the classes are not linearly separable, the maximal margin
-classifier can be extended to the \emph{soft margin classifier}, which allows an empirical
-risk greater than zero.
+Moreover, since the number of parameters of the maximal margin classifier depend on the
+training data (i.e. the number of support vectors), it is a nonparametric model.
+Nonparametric models are those in which the number of parameters is not fixed and can grow
+as needed to fit the data.  This property becomes more clear when we consider the kernel
+trick, which allows the maximal margin classifier to deal with nonlinear problems.
+Consult \citeauthor{Vapnik1999b}\footfullcite{Vapnik1999b} for more details.
 
 \section{Closing remarks}
 
