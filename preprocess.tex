@@ -127,15 +127,16 @@ integrate this as an error or warning in the user application.
 The most common data preprocessing tasks can be divided into three categories:
 \begin{itemize}
   \itemsep0em
-  \item Data transformation;
   \item Data cleaning;
-  \item Data enhancement
+  \item Data sampling; and
+  \item Data transformation. % colocar enhancement aqui
 \end{itemize}
 
 In the next sections, I address some of the most common data preprocessing tasks
-in each of these categories.
+in each of these categories.  I present them at the order they are usually applied in the
+preprocessing, but note that the order is not fixed and can be changed according to the
+needs of the problem.
 
-\clearpage
 \section{Data transformation}
 
 One important task in data handling is data transformation.  This is the process of adjusting
@@ -297,7 +298,7 @@ compress the information in the data into a smaller number of variables.
 Data cleaning is the process of removing errors and inconsistencies from the data.  This is
 usually done to make the data more reliable and to avoid bias in the analysis.
 
-\subsection{Dealing with missing data}
+\subsection{Missing data}
 
 Since most models do not cope with missing data, it is crucial to deal with it in the data
 handling pipelines.
@@ -337,7 +338,7 @@ dataset that contains information about pregnancy, let us say the number of days
 the last pregnancy.  This information certainly be missing if sex and number of children \dots
 
 
-\subsection{Dealing with invalid and inconsistent information}
+\subsection{Invalid and inconsistent data}
 
 Sometimes, during data collection, information is recorded using special codes.  For
 instance, the value 9999 might be used to indicate that the data is missing.  Such codes
@@ -387,7 +388,7 @@ for the model when an outlier is detected in production.
 %   \end{itemize}
 % \end{slidebox}
 
-\section{Data integration}
+\section{Data enhancement}
 
 Data integration is the process of combining data from different sources into a single
 dataset.  This is usually done to create a more complete dataset or to create a dataset
@@ -419,6 +420,6 @@ imagine that in the tidy data we have a column with the zip code of the customer
 use this information to join (in this case a left join) a dataset with social and economic
 information about the region of the zip code.
 
-\section{Comments about unstructured data}
+\section{Comments on unstructured data}
 
 % vim: spell spelllang=en
