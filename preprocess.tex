@@ -38,80 +38,50 @@
 {}
 \clearpage
 
-\section{Data handling pipeline}
+\section{Compatibility of data to modeling}
 
-Before we study the data handling tasks, we need to understand that a data handling
-pipeline is a sequence of operations that \emph{does} depend on the input data.
-This might seem obvious, but the implications are not.
+In \cref{chap:data,chap:handling}, we discussed data semantics and the tools to
+handle data.  They provide the grounds for preparation of the data as we described in the
+data sprint tasks in \cref{sub:workflow}.  However, the focus is to guarantee that the
+data is tidy and in the observational unit of interest, not to prepare it for modeling.
 
-A common error in data handling is to perform operations ad hoc, usually leading to
-\gls{leakage}.  For instance, one might impute missing values before splitting the data into
-training and testing sets.  This is a mistake because the imputation is based on the
-entire dataset, including the testing set.
+As a result, although data might be appropriate for the learning tasks we described in
+\cref{chap:slt} --- in the sense that we know what the feature vectors and the target
+variable are ---, they might not be suitable for the machine learning methods we will use.
 
-To avoid this kind of error, one must declare\footnote{This is the declarative nature of
-data handling operations.} the operations that will be performed on the data before
-applying them.  This is usually done by creating the full data handling pipeline
-beforehand.
+One simple example is the perceptron (\cref{sub:perceptron}) that assumes that all
+input variables are real numbers.  If the data contains categorical variables, we must
+convert them to numerical variables before applying the perceptron.
 
-The pipeline, like a model, must be ``fitted'' to the data.  This means that parameters of
-the operations are not fixed until the first data is given as input.  Subsequent data fed
-to the pipeline will be handled keeping the first ``learned'' parameters.
+For this reason, the solution sprint tasks in \cref{sub:workflow} include not only the
+learning tasks but also the \emph{data preprocessing} tasks, which are dependent on the
+chosen machine learning methods.
 
-The fitted pipeline is called a \gls{preprocessor} in our context.  This is because the
-pipeline is used to preprocess the data before the model is applied.
+\begin{defbox}{Data preprocessing}{preprocessing}
+  The process of adjusting the data to make it suitable for a particular learning machine
+  or, at the least, to ease the learning process.
+\end{defbox}
 
-Consider the following example.  Suppose we have a dataset with missing values for
-variable A.  We want to impute the missing values and then standardize
-A.  The pipeline is created as follows:  \code{D -> impute\_zero(A) ->
-standardize(A)}.
+This is done by applying a series of operations to the data, like in data handling.  The
+difference here is that some of the parameters of the operations are not fixed rather they
+are fit from a data sampling.  Once fitted, the operations can be applied to
+new data, sample by sample.
 
-The operation \code{impute\_zero(A)} is parametrized by the value 0, which, in this case,
-is fixed.  However, the operation \code{standardize(A)} is parametrized by the mean and
-the standard deviation of the values in A.  These values are not fixed until the
-first data is given as input.
+As a result, a data processing technique acts in three steps:
+\begin{enumerate}
+  \itemsep0em
+  \item \textbf{Fitting}: The parameters of the operation are adjusted to the training
+    data (which has already been integrated and tidied, represents well the phenomenon of
+    interest, and each sample is in the correct observational unit);
+  \item \textbf{Transforming}: The training data is adjusted according to the fitted
+    parameters, eventually, changing the sampling size and distribution;
+  \item \textbf{Applying}: The operation is applied to new data, sample by sample, using
+    the so called \emph{preprocessor} function that was fitted.
+\end{enumerate}
 
-\begin{hlbox}{A note about fixed parameters}
-  Even if your data handling pipeline contains operations that have fixed parameters and
-  can be safely applied to data before the model search, \emph{I strongly recommend} that
-  you declare the pipeline as a whole.  This is because it is easier to maintain and
-  reproduce the data handling process, especially in deployment.  Performing ad hoc
-  handling in your data is a source of errors and important transformations can be
-  forgotten when receiving new data.
-\end{hlbox}
-
-In a practical scenario, the source code of the \emph{model search} method includes not
-only strategies for the model, but also the data handling pipeline.  Moreover, the deployment
-of the model includes the data handling pipeline as well.  In other words, it does not
-matter which model is used, in the example above, the mean and the standard deviation of
-the values in A should be stored and used in deployed models.
-
-In terms of reproducibility and validation, having a single consolidated pipeline is
-crucial.
-
-\begin{hlbox}{A note about ``filtering'' operations}
-  Some operations may conditionally remove rows from the dataset.  For instance, after
-  observing that there exists few missing values in an important column, one might decide
-  to remove rows with missing values in it.  In production, this means that some new
-  observations might be discarded before reaching the model itself.  However, the user
-  still expects an answer from the model.  In this case, one must define either a default
-  value for the answer or a default behavior to handle discarded examples.
-\end{hlbox}
-
-% \begin{slidebox}{Data handling pipeline}{}
-%   \begin{itemize}
-%     \item A data handling pipeline is a sequence of operations that depend on the input data;
-%     \item The pipeline must be declared before applying the operations;
-%     \item The pipeline is fitted to the data;
-%     \item The selected pipeline is part of the model search and deployment.
-%     \item Even operations that have fixed parameters or that can be safely applied to data
-%       before the model search should be declared in the pipeline.
-%   \end{itemize}
-% \end{slidebox}
-
-Just to be clear, before reaching the pipeline, data is already tidy.  Thus, simple
-integration (not enhancement), pivoting and aggregating are kept outside the pipeline.
-These operations must depend only on variable names and not variable values.
+Understanding these steps and correctly defining the behavior of each of them is crucial
+to avoid \gls{leakage} and to guarantee that the model will behave as expected in
+production.
 
 \section{Data transformation}
 
