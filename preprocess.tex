@@ -38,7 +38,7 @@
 {}
 \clearpage
 
-\section{Compatibility of data to modeling}
+\section{Introduction}
 
 In \cref{chap:data,chap:handling}, we discussed data semantics and the tools to
 handle data.  They provide the grounds for preparation of the data as we described in the
@@ -73,16 +73,69 @@ As a result, a data processing technique acts in three steps:
   \item \textbf{Fitting}: The parameters of the operation are adjusted to the training
     data (which has already been integrated and tidied, represents well the phenomenon of
     interest, and each sample is in the correct observational unit);
-  \item \textbf{Transforming}: The training data is adjusted according to the fitted
+  \item \textbf{Adjustment}: The training data is adjusted according to the fitted
     parameters, eventually, changing the sampling size and distribution;
-  \item \textbf{Applying}: The operation is applied to new data, sample by sample, using
-    the so called \emph{preprocessor} function that was fitted.
+  \item \textbf{Applying}: The operation is applied to new data, sample by sample.
 \end{enumerate}
 
 Understanding these steps and correctly defining the behavior of each of them is crucial
 to avoid \gls{leakage} and to guarantee that the model will behave as expected in
 production.
 
+\subsection{Formal definition}
+
+Let $T = (K, H, c)$ be a table that represents the data in the desired observational unit
+--- as defined in \cref{sec:formal-structured-data}.  In this chapter, without loss of
+generality --- as the keys are not used in the modeling process ---, we can consider $K =
+\{1, 2, \dots\}$ such that $\rowcard[i] = 0$ if, and only if, $i > n$.  That means that
+every row $r \in \{1, \dots, n\}$ is present in the table.
+
+A data preprocessing strategy $F$ is a function that takes a table $T = (K, H, c)$ and
+returns a adjusted table $T' = (K', H', c')$ and a fitted \emph{preprocessor} $f(z; \phi)
+= f_\phi(z)$ such that $$z \in \bigtimes_{h\, \in\, H} \domainof{h} \cup \{?\}$$ and $\phi$ are
+the fitted parameters of the operation.  Similarly, $z' = f_\phi(z)$, called the
+preprocessed tuple, satisfies $$z' \in \bigtimes_{h'\, \in\, H'} \domainof{h'} \cup
+\{?\}\text{.}$$ Note that we make no restrictions on the number of rows in the adjusted
+table, i.e., preprocessing techniques can change the number of rows in the training table.
+
+In practice, strategy $F$ is a chain of dependent preprocessing operations $F_1$, \dots,
+$F_m$ such that, given $T = T^{(0)}$, each operation $F_i$ is applied to the table
+$T^{(i-1)}$ to obtain $T^{(i)}$ and the fitted preprocessor $f_{\phi_i}$.  Thus, $T' =
+T^{(m)}$ and $$f(z; \phi = \{\phi_1, \dots, \phi_m\}) = \left(f_{\phi_1} \circ \dots \circ
+f_{\phi_m}\right)(z)\text{,}$$ where $\circ$ is the composition operator.  I say that they
+they are dependent since none of the operations can be applied to the table without the
+previous ones.
+
+\subsection{Degeneration}
+
+We say that the preprocessor $f_\phi$ degenerates over tuple $z$ if it outputs
+$z' = f_\phi(z)$ such that $z' = (?, \dots, ?)$.  In practice, that means that the
+preprocessor decided that the tuple does not contain enough information for the model to
+make a prediction.  For the sake of simplicity, if any step $f_{\phi_i}$ degenerates over
+tuple $z^{(i)}$, the whole preprocessing chain degenerates over $z =
+z^{(0)}$\footnote{Usually, this is implemented as an exception or similar programming
+mechanism.}.
+
+Consequently, in the implementation of the solution, the developer must chose a default
+behavior for the model when the preprocessing chain degenerates over a tuple.  It can
+be as simple as returning a default value or as complex as redirecting the tuple to a
+different pair of preprocessor and model.  Sometimes, the developer can choose to
+integrate this as an error or warning in the user application.
+
+\subsection{Data preprocessing tasks}
+
+The most common data preprocessing tasks can be divided into three categories:
+\begin{itemize}
+  \itemsep0em
+  \item Data transformation;
+  \item Data cleaning;
+  \item Data enhancement
+\end{itemize}
+
+In the next sections, I address some of the most common data preprocessing tasks
+in each of these categories.
+
+\clearpage
 \section{Data transformation}
 
 One important task in data handling is data transformation.  This is the process of adjusting
@@ -365,5 +418,7 @@ the process of adding new columns to the dataset or single instances.  For examp
 imagine that in the tidy data we have a column with the zip code of the customers.  We can
 use this information to join (in this case a left join) a dataset with social and economic
 information about the region of the zip code.
+
+\section{Comments about unstructured data}
 
 % vim: spell spelllang=en
