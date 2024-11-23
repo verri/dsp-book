@@ -102,19 +102,23 @@ In practice, strategy $F$ is a chain of dependent preprocessing operations $F_1$
 $F_m$ such that, given $T = T^{(0)}$, each operation $F_i$ is applied to the table
 $T^{(i-1)}$ to obtain $T^{(i)}$ and the fitted preprocessor $f_{\phi_i}$.  Thus, $T' =
 T^{(m)}$ and $$f(z; \phi = \{\phi_1, \dots, \phi_m\}) = \left(f_{\phi_1} \circ \dots \circ
-f_{\phi_m}\right)(z)\text{,}$$ where $\circ$ is the composition operator.  I say that they
+f_{\phi_m}\right)(z)\text{,}$$ where $\circ$ is the composition operator.  I say that
 they are dependent since none of the operations can be applied to the table without the
 previous ones.
 
 \subsection{Degeneration}
 
-We say that the preprocessor $f_\phi$ degenerates over tuple $z$ if it outputs
+The objective of the fitted preprocessor is to adjust the data to make it suitable for the
+model.  However, sometimes it can not achieve this goal for a particular input $z$.  This
+can happen for many reasons, such as unexpected values, information ``too incomplete'' to
+make a prediction, etc.
+
+Formally, we say that the preprocessor $f_\phi$ degenerates over tuple $z$ if it outputs
 $z' = f_\phi(z)$ such that $z' = (?, \dots, ?)$.  In practice, that means that the
-preprocessor decided that the tuple does not contain enough information for the model to
-make a prediction.  For the sake of simplicity, if any step $f_{\phi_i}$ degenerates over
-tuple $z^{(i)}$, the whole preprocessing chain degenerates over $z =
-z^{(0)}$\footnote{Usually, this is implemented as an exception or similar programming
-mechanism.}.
+preprocessor decided that it has no strategy to adjust the data to make it suitable for
+the model.  For the sake of simplicity, if any step $f_{\phi_i}$ degenerates over
+tuple $z^{(i)}$, the whole preprocessing chain degenerates\footnote{Usually, this is
+implemented as an exception or similar programming mechanism.} over $z = z^{(0)}$.
 
 Consequently, in the implementation of the solution, the developer must chose a default
 behavior for the model when the preprocessing chain degenerates over a tuple.  It can
