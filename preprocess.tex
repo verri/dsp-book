@@ -141,6 +141,124 @@ in each of these categories.  I present them at the order they are usually appli
 preprocessing, but note that the order is not fixed and can be changed according to the
 needs of the problem.
 
+\section{Data cleaning}
+
+Data cleaning is the process of removing errors and inconsistencies from the data.  This is
+usually done to make the data more reliable for training and to avoid bias in the learning
+process.  Usually, such errors and inconsistencies make the learning machines ``confused''
+and can lead to poor performance models.
+
+Also, it includes the process of dealing with missing information, which most machine
+learning methods do not cope with.  Solutions range from the simple removal of the
+observations with missing data to the creation of information to encode the missing data.
+
+\subsection{Invalid and inconsistent data}
+
+% TODO: move this somewhere when we talk about data handling and/or tidying
+% Sometimes, during data collection, information is recorded using special codes.  For
+% instance, the value 9999 might be used to indicate that the data is missing.  Such codes
+% must be replaced with more appropriate values before modeling.  If a single variable
+% encodes more than one concept, new variables must be created to represent each concept.
+
+There are a few, but important, tasks to be done during data preprocessing in terms of
+invalid and inconsistent data --- note that we assume that most of the issues in terms of
+the semantics of the data have been solved in the data handling phase.  Especially in
+production, the developer must be aware of the behavior of the model when it faces
+information that is not supposed to be present in the data.
+
+A task is to assert that physical quantities are dealt with standard units.  One must
+check whether all columns that store physical quantities have the same unit of
+measurement.  If not, one must convert the values to the same unit.
+
+Moreover, if one knows that a variable has a specific range of values, we can check
+whether the values are within this range.  If not, one must replace the values with
+missing data or with the closest valid value.
+
+Another common problem in inconsistent information is that the same category might be
+represented by different strings.  This is usually done by creating a dictionary that maps
+the different names to a single one, using standardizing lower or upper case, removing
+special characters, or more advanced fuzzy matching techniques.
+
+Note that these techniques parameters are not fitted from the data, but rather are fixed
+from the problem definition.  As a result, they could be done in the data handling phase.
+The reason we put them here is that the new data in production usually come with the
+same issues.  Having the fixes programmed into the preprocessor makes it easier to
+guarantee that the model will behave as expected.
+
+% TODO: table with the three methods
+
+\subsection{Missing data}
+
+Since most models cannot handle missing data, it is crucial to deal with it in the data
+preprocessing.
+
+There are four main strategies to deal with missing data:
+\begin{itemize}
+  \item Remove the rows with missing data;
+  \item Remove the columns with missing data;
+  \item Impute the missing data;
+  \item Use an indicator variable to mark the missing data.
+\end{itemize}
+
+Removing rows and columns are commonly used when the number of missing data is small
+compared to the total number of rows or columns.  However, be aware that removing rows can
+artificially change data distribution, especially when the missing data is not missing at
+random.  Row removal suffers from the same problem as filtering operations in the
+pipeline; the developer must specify a default behavior for the model when a row is
+discarded in production.
+
+Imputing the missing data is usually done by replacing the missing values with some
+statistic of the available values in the column, such as the mean, the median, or the
+mode.  This is a simple and effective strategy, but it can introduce bias in the data.
+Also, it is not suitable when one is not sure whether the missing data is missing because
+of a systematic error or phenomenon.
+
+For this case, creating an indicator variable is a good strategy.  This is done by creating
+a new column that contains a logical value indicating whether the data is missing or
+not\footnote{Some kind of imputation is still needed, but we expect the model to deal
+better with it since it can decide using both the indicator and the original variable.}.
+By doing so, the model can learn the importance of the missing data.
+
+% \footnote{\color{red}Sometimes the indicator variable is already present: pregnancy and sex
+% example.}.
+
+Many times the indicator variable is already present in the data.  For instance, in a
+dataset that contains information about pregnancy, let us say the number of days since
+the last pregnancy.  This information certainly be missing if sex and number of children \dots
+
+
+\subsection{Outliers}
+
+Outliers are observations that are significantly different from the other observations.
+They can be caused by errors in the data collection process or by the presence of a
+different phenomenon.  In both cases, it is important to deal with outliers before
+modeling.
+
+There are many outliers detection methods, such as the Z-score, the IQR, and the DBSCAN.
+% TODO
+
+Like filtering operations in the pipeline, the developer must specify a default behavior
+for the model when an outlier is detected in production.
+
+% \begin{slidebox}{Data cleaning}{}
+%   \begin{itemize}
+%     \item Data cleaning is the process of removing errors and inconsistencies from the data;
+%     \item Use the following strategies to deal with missing data:
+%       \begin{itemize}
+%         \item Remove the rows with missing data;
+%         \item Remove the columns with missing data;
+%         \item Impute the missing data;
+%         \item Use an indicator variable to mark the missing data.
+%       \end{itemize}
+%     \item Replace special codes with more appropriate values;
+%     \item Create a dictionary to map different names to a single one;
+%     \item Check whether all columns that store physical quantities have the same unit of
+%       measurement;
+%     \item Check whether the values are within the expected range;
+%     \item Use outlier detection methods to deal with outliers.
+%   \end{itemize}
+% \end{slidebox}
+
 \section{Data transformation}
 
 One important task in data handling is data transformation.  This is the process of adjusting
@@ -296,101 +414,6 @@ compress the information in the data into a smaller number of variables.
 %   Can you identify which data transformation operations are used to make datasets
 %   presented in \cref{chap:data} tidy?
 % \end{hlbox}
-
-\section{Data cleaning}
-
-Data cleaning is the process of removing errors and inconsistencies from the data.  This is
-usually done to make the data more reliable and to avoid bias in the analysis.
-
-\subsection{Missing data}
-
-Since most models do not cope with missing data, it is crucial to deal with it in the data
-handling pipelines.
-
-There are four main strategies to deal with missing data:
-\begin{itemize}
-  \item Remove the rows with missing data;
-  \item Remove the columns with missing data;
-  \item Impute the missing data;
-  \item Use an indicator variable to mark the missing data.
-\end{itemize}
-
-Removing rows and columns are commonly used when the number of missing data is small
-compared to the total number of rows or columns.  However, be aware that removing rows can
-artificially change data distribution, especially when the missing data is not missing at
-random.  Row removal suffers from the same problem as filtering operations in the
-pipeline; the developer must specify a default behavior for the model when a row is
-discarded in production.
-
-Imputing the missing data is usually done by replacing the missing values with some
-statistic of the available values in the column, such as the mean, the median, or the
-mode.  This is a simple and effective strategy, but it can introduce bias in the data.
-Also, it is not suitable when one is not sure whether the missing data is missing because
-of a systematic error or phenomenon.
-
-For this case, creating an indicator variable is a good strategy.  This is done by creating
-a new column that contains a logical value indicating whether the data is missing or
-not\footnote{Some kind of imputation is still needed, but we expect the model to deal
-better with it since it can decide using both the indicator and the original variable.}.
-By doing so, the model can learn the importance of the missing data.
-
-% \footnote{\color{red}Sometimes the indicator variable is already present: pregnancy and sex
-% example.}.
-
-Many times the indicator variable is already present in the data.  For instance, in a
-dataset that contains information about pregnancy, let us say the number of days since
-the last pregnancy.  This information certainly be missing if sex and number of children \dots
-
-
-\subsection{Invalid and inconsistent data}
-
-Sometimes, during data collection, information is recorded using special codes.  For
-instance, the value 9999 might be used to indicate that the data is missing.  Such codes
-must be replaced with more appropriate values before modeling.  If a single variable
-encodes more than one concept, new variables must be created to represent each concept.
-
-Another common problem is inconsistent information.  For instance, the same category might
-be represented by different names.  This is usually done by creating a dictionary that
-maps the different names to a single one.
-
-It is also useful to check whether all columns that store physical quantities have the
-same unit of measurement.  If not, one must convert the values to the same unit.
-
-If one knows that a variable has a specific range of values, it is useful to check
-whether the values are within this range.  If not, one must replace the values with
-missing data or with the closest valid value.
-
-\subsection{Outliers}
-
-Outliers are observations that are significantly different from the other observations.
-They can be caused by errors in the data collection process or by the presence of a
-different phenomenon.  In both cases, it is important to deal with outliers before
-modeling.
-
-There are many outliers detection methods, such as the Z-score, the IQR, and the DBSCAN.
-% TODO
-
-Like filtering operations in the pipeline, the developer must specify a default behavior
-for the model when an outlier is detected in production.
-
-% \begin{slidebox}{Data cleaning}{}
-%   \begin{itemize}
-%     \item Data cleaning is the process of removing errors and inconsistencies from the data;
-%     \item Use the following strategies to deal with missing data:
-%       \begin{itemize}
-%         \item Remove the rows with missing data;
-%         \item Remove the columns with missing data;
-%         \item Impute the missing data;
-%         \item Use an indicator variable to mark the missing data.
-%       \end{itemize}
-%     \item Replace special codes with more appropriate values;
-%     \item Create a dictionary to map different names to a single one;
-%     \item Check whether all columns that store physical quantities have the same unit of
-%       measurement;
-%     \item Check whether the values are within the expected range;
-%     \item Use outlier detection methods to deal with outliers.
-%   \end{itemize}
-% \end{slidebox}
 
 \section{Data enhancement}
 
