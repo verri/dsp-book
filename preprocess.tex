@@ -27,7 +27,7 @@
     \item \dots
   \end{itemize}
 
-  \boxsubtitle{Takeways}
+  \boxsubtitle{Takeaways}
 
   \begin{itemize}
     \itemsep0em
@@ -166,26 +166,97 @@ the semantics of the data have been solved in the data handling phase.  Especial
 production, the developer must be aware of the behavior of the model when it faces
 information that is not supposed to be present in the data.
 
-A task is to assert that physical quantities are dealt with standard units.  One must
+One of the tasks is to assert that physical quantities are dealt with standard units.  One must
 check whether all columns that store physical quantities have the same unit of
-measurement.  If not, one must convert the values to the same unit.
+measurement.  If not, one must convert the values to the same unit.  A summary of this
+preprocessing task is presented in \cref{tab:unit-conversion}.
 
-Moreover, if one knows that a variable has a specific range of values, we can check
+\begin{tablebox}[label=tab:unit-conversion]{Unit conversion preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Unit conversion}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A variable with the physical quantity and a variable with the unit of measurement. \\
+    \textbf{Goal} &
+      Convert physical quantities into the same unit of measurement. \\
+    \textbf{Fitting} &
+      None. User must declare the units to be used and, if appropriate, the conversion
+      factors. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor converts the numerical values and drop the unit of measurement column.  \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+Moreover, if one knows that a variable must follow a specific range of values, we can check
 whether the values are within this range.  If not, one must replace the values with
-missing data or with the closest valid value.
+missing data or with the closest valid value.  Alternatively, one can discard the
+observation based on that criterion.  Consult \cref{tab:range-check} for a summary of this
+operation.
+
+\begin{tablebox}[label=tab:range-check]{Range check preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Range check}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A numerical variable. \\
+    \textbf{Goal} &
+      Check whether the values are within the expected range. \\
+    \textbf{Fitting} &
+      None. User must declare the valid range of values. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently.  If appropriate,
+      degenerated samples are removed. \\
+    \textbf{Applying} &
+      Preprocessor checks whether the value $x$ of a variable are within the range $[a,
+      b]$.  If not, it replaces $x$ with: (a) missing value $?$, (b) the closest valid
+      value $\max(a, \min(b, x))$, or (c) degenerates (discards the observation). \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 Another common problem in inconsistent information is that the same category might be
 represented by different strings.  This is usually done by creating a dictionary that maps
 the different names to a single one, using standardizing lower or upper case, removing
-special characters, or more advanced fuzzy matching techniques.
+special characters, or more advanced fuzzy matching techniques --- see
+\cref{tab:text-standardization}.
+
+\begin{tablebox}[label=tab:text-standardization]{Category standardization preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Category standardize}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A categorical variable. \\
+    \textbf{Goal} &
+      Create a dictionary and/or function to map different names to a single one. \\
+    \textbf{Fitting} &
+      None. User must declare the mapping. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor replaces the categorical variables $x$ of a variable with the mapped
+      value $f(x)$ that implements case standardization, special character removal, and/or
+      dictionary fuzzy matching. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 Note that these techniques parameters are not fitted from the data, but rather are fixed
 from the problem definition.  As a result, they could be done in the data handling phase.
 The reason we put them here is that the new data in production usually come with the
 same issues.  Having the fixes programmed into the preprocessor makes it easier to
-guarantee that the model will behave as expected.
-
-% TODO: table with the three methods
+guarantee that the model will behave as expected in production.
 
 \subsection{Missing data}
 
