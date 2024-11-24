@@ -265,22 +265,28 @@ preprocessing.
 
 There are four main strategies to deal with missing data:
 \begin{itemize}
-  \item Remove the rows with missing data;
-  \item Remove the columns with missing data;
-  \item Impute the missing data;
-  \item Use an indicator variable to mark the missing data.
+  \itemsep0em
+  \item Remove the observations (rows) with missing data;
+  \item Remove the variables (columns) with missing data;
+  \item Just impute the missing data;
+  \item Use an indicator variable to mark the missing data and impute it.
 \end{itemize}
 
 Removing rows and columns are commonly used when the number of missing data is small
-compared to the total number of rows or columns.  However, be aware that removing rows can
+compared to the total number of rows or columns.  However, be aware that removing rows
+``on demand'' can
 artificially change data distribution, especially when the missing data is not missing at
-random.  Row removal suffers from the same problem as filtering operations in the
-pipeline; the developer must specify a default behavior for the model when a row is
-discarded in production.
+random.  Row removal suffers from the same problem as any filtering operations
+(degeneration) in the preprocessing step; the developer must specify a default behavior
+for the model when a row is discarded in production.  In the case of column removal, the
+preprocessor just learns to drop the columns that have missing data during fitting.
 
 Imputing the missing data is usually done by replacing the missing values with some
 statistic of the available values in the column, such as the mean, the median, or the
-mode.  This is a simple and effective strategy, but it can introduce bias in the data.
+mode\footnote{More sophisticated methods can be used, such as the k-nearest neighbors
+algorithm, for example, consult \fullcite{Troyanskaya2001}.}.  This is a simple and
+effective strategy, but it can introduce bias in the data, especially when the number of
+samples with missing data is large.
 Also, it is not suitable when one is not sure whether the missing data is missing because
 of a systematic error or phenomenon.
 
@@ -295,8 +301,8 @@ By doing so, the model can learn the importance of the missing data.
 
 Many times the indicator variable is already present in the data.  For instance, in a
 dataset that contains information about pregnancy, let us say the number of days since
-the last pregnancy.  This information certainly be missing if sex and number of children \dots
-
+the last pregnancy.  This information certainly be missing if sex is male
+or number of children is zero.  In this case, no new indicator variable is needed.
 
 \subsection{Outliers}
 
