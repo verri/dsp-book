@@ -278,23 +278,94 @@ compared to the total number of rows or columns.  However, be aware that removin
 artificially change data distribution, especially when the missing data is not missing at
 random.  Row removal suffers from the same problem as any filtering operations
 (degeneration) in the preprocessing step; the developer must specify a default behavior
-for the model when a row is discarded in production.  In the case of column removal, the
+for the model when a row is discarded in production.  See \cref{tab:row-removal-missing}.
+
+\begin{tablebox}[label=tab:row-removal-missing]{Task of filtering rows based on missing data.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Row removal based on missing data}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with missing data. \\
+    \textbf{Goal} &
+      Remove the observations with missing data in any (or some) variables. \\
+    \textbf{Fitting} &
+      None. Variables to look for missing data are declared beforehand. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently, removing
+      degenerated samples. \\
+    \textbf{Applying} &
+      Preprocessor degenerates over the rows with missing data in the specified variables.
+      \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+In the case of column removal, the
 preprocessor just learns to drop the columns that have missing data during fitting.
+Beware that valuable information might be lost when removing columns for all the samples.
+See \cref{tab:col-drop-missing}.
+
+\begin{tablebox}[label=tab:col-drop-missing]{Task of dropping columns based on missing data.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Column removal based on missing data}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with missing data. \\
+    \textbf{Goal} &
+      Remove the variables with missing data. \\
+    \textbf{Fitting} &
+      All variables with missing data in the training set are marked to be removed. \\
+    \textbf{Adjustment} &
+      Columns marked are dropped from the training set. \\
+    \textbf{Applying} &
+      Preprocessor drops the chosen columns in fitting. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 Imputing the missing data is usually done by replacing the missing values with some
 statistic of the available values in the column, such as the mean, the median, or the
 mode\footnote{More sophisticated methods can be used, such as the k-nearest neighbors
 algorithm, for example, consult \fullcite{Troyanskaya2001}.}.  This is a simple and
 effective strategy, but it can introduce bias in the data, especially when the number of
-samples with missing data is large.
-Also, it is not suitable when one is not sure whether the missing data is missing because
-of a systematic error or phenomenon.
+samples with missing data is large.  See \cref{tab:imputation}.
 
-For this case, creating an indicator variable is a good strategy.  This is done by creating
+\begin{tablebox}[label=tab:imputation]{Task of imputing missing data.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Imputation of missing data}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with missing data. \\
+    \textbf{Goal} &
+      Replace the missing data with a statistic of the available values. \\
+    \textbf{Fitting} &
+      The statistic is calculated from the available data in the training set. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor replaces the missing values with the chosen statistic. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+Just imputing data is not suitable when one is not sure whether the missing data is
+missing because of a systematic error or phenomenon.  A model can learn the effect of the
+underlying reason for missingness for the predictive task.
+In that case, creating an indicator variable is a good strategy.  This is done by creating
 a new column that contains a logical value indicating whether the data is missing or
 not\footnote{Some kind of imputation is still needed, but we expect the model to deal
 better with it since it can decide using both the indicator and the original variable.}.
-By doing so, the model can learn the importance of the missing data.
+
+% TODO: table
 
 % \footnote{\color{red}Sometimes the indicator variable is already present: pregnancy and sex
 % example.}.
