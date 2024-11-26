@@ -306,7 +306,6 @@ for the model when a row is discarded in production.  See \cref{tab:row-removal-
 In the case of column removal, the
 preprocessor just learns to drop the columns that have missing data during fitting.
 Beware that valuable information might be lost when removing columns for all the samples.
-See \cref{tab:col-drop-missing}.
 
 \begin{tablebox}[label=tab:col-drop-missing]{Task of dropping columns based on missing data.}
   \centering
@@ -352,7 +351,9 @@ samples with missing data is large.  See \cref{tab:imputation}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor replaces the missing values with the chosen statistic. \\
+      Preprocessor replaces the missing values with the chosen statistic. If an indicator
+      variable is required, it is created and it is filled with the logical value:
+      missing or not missing. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -374,6 +375,7 @@ Many times the indicator variable is already present in the data.  For instance,
 dataset that contains information about pregnancy, let us say the number of days since
 the last pregnancy.  This information certainly be missing if sex is male
 or number of children is zero.  In this case, no new indicator variable is needed.
+See \cref{tab:col-drop-missing}.
 
 \subsection{Outliers}
 
@@ -382,7 +384,8 @@ They can be caused by errors in the data collection process or by the presence o
 different phenomenon.  In both cases, it is important to deal with outliers before
 modeling.
 
-There are many outliers detection methods, such as the Z-score, the IQR, and the DBSCAN.
+There are many outliers detection methods, such as the Z-score, the IQR, and adaptations
+to algorithms like DBSCAN\footfullcite{Ester1996}.
 % TODO
 
 Like filtering operations in the pipeline, the developer must specify a default behavior
