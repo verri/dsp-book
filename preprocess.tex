@@ -638,13 +638,40 @@ values into a single column, called the \emph{other} column.  See \cref{tab:one-
   \end{tabular}
 \end{tablebox}
 
-are from categorical to numerical and from numerical to
-categorical.  The former is usually done by creating dummy variables, i.e., a new column
-for each possible value of the categorical variable.  This transformation is also known as
-one-hot encoding.  The latter is usually done by binning (discretization and quantization
-other concepts) the numerical variable, either by
-frequency or by range.
+The other direction is also common: converting numerical values to categorical values.
+This is usually done by binning the numerical variable, either by frequency or by range.
+In both cases, the user declare the number of bins.  Binning by frequency is done by
+finding the percentiles of the values and creating the bins accordingly.  Binning by
+range is done by dividing the range of the values into equal parts, given the minimum and
+maximum values.  See \cref{tab:binning}.
 
+\begin{tablebox}[label=tab:binning]{Binning numerical values preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Binning numerical values}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with numerical variables. \\
+    \textbf{Goal} &
+      Create a new categorical column from a numerical one.  \\
+    \textbf{Fitting} &
+      Store the range of each bins. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor converts each numerical value to a categorical value by checking
+      which bin the value falls into. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+Another common task, although it receives less attention, is the conversion of dates (or
+other interval variables) to numerical values.  Interval variables, like dates, have
+almost no information in their absolute values.  However, the difference between two
+dates can be very informative.  For example, the difference between the date of birth and
+the date of the last purchase becomes the age of the customer.
 
 \subsection{Normalization}
 
