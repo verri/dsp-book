@@ -5,6 +5,28 @@
 \chapterprecishere{I find your lack of faith disturbing.
   \par\raggedleft--- \textup{Darth Vader}, Star Wars: Episode IV -- A New Hope (1977)}
 
+In this chapter, we discuss the data preprocessing, which is the process of adjusting the
+data to make it suitable for a particular learning machine or, at the least, to ease the
+learning process.
+
+Similarly to data handling, data preprocessing is done by applying a series of operations
+to the data.  However, some of the parameters of the operations are not fixed but rather
+are fit from a data sampling.  In the context of inductive learning, the sampling is the
+training set.
+
+The operations are dependent on the chosen learning method.  So, when planning the
+solution in our project, we must consider the preprocessing tasks that are necessary to
+make the data suitable for the chosen methods.
+
+I present the most common data preprocessing tasks in three categories: data cleaning,
+data sampling, and data transformation.  For each task, I discuss the behavior of the data
+preprocessing techniques in terms of fitting, adjustment of the training set, and
+application of the preprocessor in production.
+
+Finally, I discuss the importance of the default behavior of the model when the
+preprocessing chain degenerates over a sample, i.e. when the preprocessor decides that it
+has no strategy to adjust the data to make it suitable for the model.
+
 \begin{mainbox}{Chapter remarks}
 
   \boxsubtitle{Contents}
@@ -17,21 +39,27 @@
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Tidy data is not necessarily suitable for modeling;
+    \item Parameters of the preprocessor are fitted rather than fixed.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Understand the main data preprocessing tasks and techniques;
+    \item Learn the behavior of the preprocessing chain in terms of fitting, adjustment,
+      and application.
   \end{itemize}
 
   \boxsubtitle{Takeaways}
 
   \begin{itemize}
     \itemsep0em
-    \item \dots
+    \item Each learning method requires specific data preprocessing tasks;
+    \item Fitting the preprocessor is crucial to avoid leakage;
+    \item Default behavior of the model when the preprocessing chain degenerates must be
+      specified.
   \end{itemize}
 \end{mainbox}
 
