@@ -258,6 +258,80 @@ The reason we put them here is that the new data in production usually come with
 same issues.  Having the fixes programmed into the preprocessor makes it easier to
 guarantee that the model will behave as expected in production.
 
+\subsection{Outliers}
+
+Outliers are observations that are significantly different from the other observations.
+They can be caused by errors or by the presence of a different phenomena mixed in the data
+collection process.  In both cases, it is important to deal with outliers before modeling.
+
+The standard way to deal with outliers is to remove them from the dataset.  Assuming that
+the errors or the out of distribution data appear randomly and rarely, this is a good
+strategy.
+
+Another approach is dealing with each variable independently.  This way, one can replace
+the outlier value with missing data.  There are many ways to detect outlier values, but
+the simplest one is probably a heuristic based on the \gls{iqr}.
+
+Let $Q_1$ and $Q_3$ be the first and the third quartiles of the values in a variable,
+respectively.  The \gls{iqr} is defined as $Q_3 - Q_1$.  The values that are less than
+$Q_1 - 1.5\, \text{IQR}$ or greater than $Q_3 + 1.5\, \text{IQR}$ are considered outliers.
+See \cref{tab:iqr-outlier}.
+
+\begin{tablebox}[label=tab:iqr-outlier]{Outlier detection using the interquartile range.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Outlier detection using the IQR}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A numerical variable. \\
+    \textbf{Goal} &
+      Detect outliers using the IQR. \\
+    \textbf{Fitting} &
+      Store the values of $Q_1$ and $Q_3$ for each variable. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor replaces the outlier values with missing data. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+More sophisticated methods can be used to detect samples that are outliers, such as using
+the definition of an outlier in the DBSCAN\footfullcite{Ester1996}.  However, this is not
+enough to fit the parameters of the preprocessor.  The reason is that descriptive methods
+like DBSCAN  --- in this case, a method for clustering --- do not generalize to new data.
+I suggest using methods like One-Class SVM\footfullcite{Scholkopf2001} to fit the
+parameters of the preprocessor that detects outliers.  Thus, any new data point can
+be classified as an outlier or not.
+
+Like filtering operations in the pipeline, the developer must specify a default behavior
+for the model when an outlier sample is detected in production.  See
+\cref{tab:outlier-removal}.
+
+\begin{tablebox}[label=tab:outlier-removal]{Task of filtering outliers.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Outlier removal}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with outliers. \\
+    \textbf{Goal} &
+      Remove the observations that are outliers. \\
+    \textbf{Fitting} &
+      Parameters of the outlier classifier. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently, removing
+      degenerated samples. \\
+    \textbf{Applying} &
+      Preprocessor degenerates if the sample is classified as outliers and does
+      nothing, otherwise. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 \subsection{Missing data}
 
 Since most models cannot handle missing data, it is crucial to deal with it in the data
@@ -372,80 +446,76 @@ the last pregnancy.  This information certainly be missing if sex is male
 or number of children is zero.  In this case, no new indicator variable is needed.
 See \cref{tab:col-drop-missing}.
 
-\subsection{Outliers}
+\section{Data sampling}
 
-Outliers are observations that are significantly different from the other observations.
-They can be caused by errors or by the presence of a different phenomena mixed in the data
-collection process.  In both cases, it is important to deal with outliers before modeling.
+Once data is cleaned, the next step is (typically) to sample the data.  Sampling is the
+process of selecting a random subset of the data or to create variations of the original
+training set.
 
-The standard way to deal with outliers is to remove them from the dataset.  Assuming that
-the errors or the out of distribution data appear randomly and rarely, this is a good
-strategy.
+There are two main tasks that sample the data: scope filtering and class balancing.
 
-Another approach is dealing with each variable independently.  This way, one can replace
-the outlier value with missing data.  There are many ways to detect outlier values, but
-the simplest one is probably a heuristic based on the \gls{iqr}.
+\subsection{Scope filtering}
 
-Let $Q_1$ and $Q_3$ be the first and the third quartiles of the values in a variable,
-respectively.  The \gls{iqr} is defined as $Q_3 - Q_1$.  The values that are less than
-$Q_1 - 1.5\, \text{IQR}$ or greater than $Q_3 + 1.5\, \text{IQR}$ are considered outliers.
-See \cref{tab:iqr-outlier}.
+Scope filtering is the process of reducing the scope of the phenomenon we want to model.
+Like the filtering operation in the data handling pipeline (consult \cref{sub:filtering}),
+the data scientists choose a set of predefined rules to filter the data.
 
-\begin{tablebox}[label=tab:iqr-outlier]{Outlier detection using the interquartile range.}
+Unlike outlier detection, we assume that the rule is fixed and known beforehand.  The
+preprocessor degenerates over the samples that do not satisfy the rule.  A summary of the
+task is presented in \cref{tab:scope-filtering}.
+
+\begin{tablebox}[label=tab:scope-filtering]{Task of filtering the scope of the data.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
-    \multicolumn{2}{c}{\textbf{Outlier detection using the IQR}} \\
+    \multicolumn{2}{c}{\textbf{Scope filtering}} \\
     \midrule
     % \textbf{Requirements} &
-    %   A numerical variable. \\
+    %   A dataset with the scope of the phenomenon. \\
     \textbf{Goal} &
-      Detect outliers using the IQR. \\
+      Remove the observations that do not satisfy a predefined rule. \\
     \textbf{Fitting} &
-      Store the values of $Q_1$ and $Q_3$ for each variable. \\
+      None. User must declare the rule. \\
     \textbf{Adjustment} &
-      Training set is adjusted sample by sample, independently. \\
+      Training set is adjusted sample by sample, independently, removing degenerated
+      samples. \\
     \textbf{Applying} &
-      Preprocessor replaces the outlier values with missing data. \\
+      Preprocessor degenerates over the samples that do not satisfy the rule. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
-More sophisticated methods can be used to detect samples that are outliers, such as using
-the definition of an outlier in the DBSCAN\footfullcite{Ester1996}.  However, this is not
-enough to fit the parameters of the preprocessor.  The reason is that descriptive methods
-like DBSCAN  --- in this case, a method for clustering --- do not generalize to new data.
-I suggest using methods like One-Class SVM\footfullcite{Scholkopf2001} to fit the
-parameters of the preprocessor that detects outliers.  Thus, any new data point can
-be classified as an outlier or not.
+An interesting variation are the model trees\footfullcite{Freek2015}.  They are shallow
+decision trees that are used to filter the data.  At each leaf, a different model is
+trained with the data that satisfies the rules that reach the leaf.  This is a good
+strategy when the phenomenon is complex and can be divided into simpler subproblems.
+In this case, the preprocessor do not degenerates over the samples, but rather the
+preprocessing chain branches into different models (and potentially other preprocessing
+steps).
 
-Like filtering operations in the pipeline, the developer must specify a default behavior
-for the model when an outlier sample is detected in production.  See
-\cref{tab:outlier-removal}.
+\subsection{Class balancing}
 
-\begin{tablebox}[label=tab:outlier-removal]{Task of filtering outliers.}
-  \centering
-  \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{lp{6cm}}
-    \toprule
-    \multicolumn{2}{c}{\textbf{Outlier removal}} \\
-    \midrule
-    % \textbf{Requirements} &
-    %   A dataset with outliers. \\
-    \textbf{Goal} &
-      Remove the observations that are outliers. \\
-    \textbf{Fitting} &
-      Parameters of the outlier classifier. \\
-    \textbf{Adjustment} &
-      Training set is adjusted sample by sample, independently, removing
-      degenerated samples. \\
-    \textbf{Applying} &
-      Preprocessor degenerates if the sample is classified as outliers and does
-      nothing, otherwise. \\
-    \bottomrule
-  \end{tabular}
-\end{tablebox}
+Some machine learning methods are heavily affected by the number of observations in each
+class.  Also, some methods are computationally expensive and a smaller dataset might be
+enough to solve the problem.
+
+The most common sampling methods are random sampling and resampling\footnote{Resampling is
+the process of sampling with replacement, sometimes called bootstrapping.}.  The former is
+done by selecting a random subset of the data.  The latter is done by selecting a random
+subset of the data with replacement.
+
+While random sampling is useful to reduce the size of the data, resampling can be used to
+increase the size of the data.  (Although this has some caveats.)  Moreover, resampling
+can also create variations of the original dataset with the same distribution of the
+values.
+
+The preprocessor for this task \emph{must never do anything with the new
+data} (or the test set we discuss in \cref{chap:planning}).
+
+More advanced sampling methods are usually used to create balanced datasets.  For
+instance, one can use the SMOTE algorithm\footfullcite{chawla2002smote} to create
+synthetic observations of the minority class.
 
 \section{Data transformation}
 
@@ -546,30 +616,6 @@ of taking the logarithm of the values in the column.
 %       of outliers.
 %   \end{itemize}
 % \end{slidebox}
-
-\subsection{Sampling}
-
-Sampling is the process of selecting a random subset of the data.  This is usually done to
-reduce the size of the data or to create a balanced dataset.  For instance, some machine
-learning methods are heavily affected by the number of observations in each class.
-Also, some methods are computationally expensive and a smaller dataset might be enough to
-solve the problem.
-
-The most common sampling methods are random sampling and resampling\footnote{Resampling is
-the process of sampling with replacement, sometimes called bootstrapping.}.  The former is
-done by selecting a random subset of the data.  The latter is done by selecting a random
-subset of the data with replacement.
-
-While random sampling is useful to reduce the size of the data, resampling can be used to
-increase the size of the data.  (Although this has some caveats.)  Moreover, resampling
-can also create variations of the original dataset with the same distribution of the
-values.
-
-More advanced sampling methods are usually used to create balanced datasets.  For
-instance, one can use the SMOTE algorithm\footfullcite{chawla2002smote} to create
-synthetic observations of the minority class.
-
-\textcolor{red}{In production, just ignore.}
 
 \subsection{Dimensionality reduction}
 
