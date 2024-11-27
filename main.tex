@@ -1,8 +1,4 @@
-\documentclass[twoside,a5paper,10pt,openright]{memoir}
-% \setstocksize{230mm}{160mm}
-\setlrmarginsandblock{23mm}{20mm}{*}
-\setulmarginsandblock{20mm}{20mm}{*}
-\checkandfixthelayout
+\documentclass{memoir}
 
 \usepackage[T1]{fontenc}
 \usepackage[final]{microtype}
@@ -15,9 +11,7 @@
 \usepackage{mathtools}
 \usepackage{blkarray}
 \usepackage[colorlinks]{hyperref}
-\usepackage{fontspec}
 \usepackage{xltxtra}
-\usepackage{sourcesanspro}
 \usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
 \usepackage{graphicx}
 \usepackage[super]{nth}
@@ -41,7 +35,6 @@
 \DeclareMathOperator{\sign}{sign}
 \DeclareMathOperator{\clamp}{clamp}
 
-\usepackage[Bjornstrup]{fncychap} % must come before cleveref to avoid break appendix name
 \usepackage{cleveref}
 
 \usepackage{tikz}
@@ -70,49 +63,6 @@
 \usepackage[most]{tcolorbox}
 \usepackage{xhfill}
 
-\usepackage{qrcode}
-\newcommand{\linkwithqr}[1]{%
-  \begin{minipage}{0.8\textwidth}
-    \url{#1}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.15\textwidth}
-    \qrcode[height=\textwidth]{#1}
-  \end{minipage}
-}
-
-\newcommand{\aurl}{google.com}
-\newenvironment{parwithqr}[1]{%
-  \renewcommand\aurl{#1}%
-  \noindent%
-  \begin{minipage}{0.75\textwidth}%
-}{%
-  \end{minipage}%
-  \hfill%
-  \begin{minipage}{0.20\textwidth}%
-    \qrcode[height=\textwidth]{\aurl}%
-  \end{minipage}%
-}
-\newenvironment{lparwithqr}[1]{%
-  \renewcommand\aurl{#1}%
-  \noindent%
-  \begin{minipage}{0.20\textwidth}%
-    \qrcode[height=\textwidth]{\aurl}%
-  \end{minipage}%
-  \hfill%
-  \begin{minipage}{0.75\textwidth}%
-}{%
-  \end{minipage}%
-}
-
-\nonfrenchspacing
-
-\setsecnumdepth{subsection}
-\maxtocdepth{subsection}
-
-\babelhyphenation[english]{par-a-digm pipe-line pa-ram-e-ter-ize ro-bot-ics pen-al-ty
-  quan-ti-fi-ca-tion}
-
 \newtcolorbox[auto counter, number within=chapter, crefname={algorithm}{algorithms}]{algobox}[2][]{%
   float=thbp, base={Algorithm \thetcbcounter: #2},
   colframe=black!20!white, #1,
@@ -123,33 +73,7 @@
 
 \begin{document}
 
-\setmathfont{STIXTwoMath}[
-  Extension={.otf},
-  Path={./fonts/},
-  Scale=1]
-
-\setmainfont{STIXTwoText}[
-  Extension={.otf},
-  Path={./fonts/},
-  UprightFont={*-Regular},
-  BoldFont={*-Bold},
-  ItalicFont={*-Italic},
-  BoldItalicFont={*-BoldItalic}]
-
-\setmonofont{CourierPrime}[
-  Extension={.ttf},
-  Path={./fonts/},
-  UprightFont={*-Regular},
-  BoldFont={*-Bold},
-  ItalicFont={*-Italic},
-  BoldItalicFont={*-BoldItalic},
-  Scale=0.9]
-
 \newcommand{\code}[1]{\colorbox{black!10!white}{\texttt{#1}}}
-
-%\setsansfont{SourceSansPro}
-
-\urlstyle{rm}
 
 \tcbset {
   base/.style={
@@ -216,76 +140,11 @@
 \title{Data Science Project: An Inductive Learning Approach}
 \author{Filipe A. N. Verri}
 
-\hypersetup{%
-  pdftitle={\thetitle},
-  pdfsubject={Data Science},
-  pdfauthor={\theauthor},
-  pdfkeywords={data science, statistics, machine learning, databases},
-  urlcolor=black!60,
-  linkcolor=black,
-  citecolor=black,}
-
-\begin{titlingpage}
-  \begin{tikzpicture}[remember picture, overlay]
-    \fill[black!80] (current page.south west) rectangle (current page.north east);
-    \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
-      \reflectbox{\includegraphics[width=\paperwidth]{images/bard2.jpg}}%
-    };
-    \node[white,anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
-    \node[white,anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
-    \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
-  \end{tikzpicture}
-\end{titlingpage}
-
-\newpage
-\clearpage
-\newpage
 \frontmatter
-\thispagestyle{empty}
-\begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=south east, inner sep=8mm] at (current page.south east) {%
-    \reflectbox{\includegraphics[height=0.3\paperheight]{images/toucan_bw.png}}%
-  };
-  \node[anchor=south west, inner sep=10mm] at (current page.south west)
-    {\large\sffamily Version 0.1 ``\textit{Audacious Hatchling}''};
-    % {\large\sffamily Version 1.0 ``\textit{Tropical Toucan}''};
-  \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\today};
-  \node[anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
-  \node[anchor=north, inner sep=5mm](subtitle) at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
-  \node[anchor=north, inner sep=5mm] at (subtitle.south) {\Large\sffamily\uppercase{Filipe A. N. Verri}};
-\end{tikzpicture}
 
-\newpage
+\maketitle
 
-{
-  \footnotesize\noindent Cite this book as:
-  \begin{verbatim}
-  @misc{verri2024datascienceproject,
-    author = {Verri, Filipe Alves Neto},
-    title = {Data Science Project: An Inductive Learning Approach},
-    year = 2024,
-    publisher = {Leanpub},
-    version = {v0.1.0},
-    doi = {10.5281/zenodo.14498011},
-    url = {https://leanpub.com/dsp}
-  }
-  \end{verbatim}
-
-  \noindent\fullcite{verri2024datascienceproject}.
-}
-
-\vfill
-
-{
-  \footnotesize\noindent\color{red}
-  \textbf{Disclaimer:} This version is a work in progress.  Proofreading and professional editing are
-  still pending.
-}
-
-\vspace{0.5cm}
-{
-\footnotesize\noindent
-The book is typeset with \XeTeX{} using the Memoir class.  All figures are
+The book is typeset with \LaTeX{} using the Memoir class.  All figures are
 original and created with Ti\textit{k}Z.  Proudly written in
 \href{https://neovim.io/}{Neovim} with the assistance of
 \href{https://github.com/features/copilot}{GitHub Copilot}.
@@ -293,48 +152,22 @@ The book cover image was created with the assistance of
 \href{https://gemini.google.com}{Gemini} and \href{https://openai.com/dall-e-2}{DALL·E 2}.
 We use the beautiful \href{https://www.stixfonts.org/}{STIX fonts} for text and math.
 Some icons are from \href{https://fontawesome.com/}{Font Awesome 5} by Dave Gandy.
-}
 
-\vspace{0.5cm}
-{
-\footnotesize\noindent
+% TODO: which version of the Bible in the translations?
 Scripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®),
 copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by
 permission. All rights reserved.
-}
 
-\vspace{0.5cm}
-{
-\footnotesize\noindent
-\thetitle{} © 2023--\the\year{} by \theauthor{}~\orcidlink{0000-0002-8240-5129} is licensed under
-Attribution-NonCommercial-NoDerivatives 4.0 International. To view a copy of this license,
-visit
-\href{http://creativecommons.org/licenses/by-nc-nd/4.0/}{creativecommons.org/licenses/by-nc-nd/4.0}.
-}
-
-\thispagestyle{empty}
-\newpage
-
-\thispagestyle{empty}
+\thetitle{} © 2023--\the\year{} by \theauthor{}.
+Restricted use only.  All rights reserved.
 
 % Dedication page
-\begin{center}
-  \vspace{0.2\textheight}
-  \itshape
   To my wife, for inspiring and supporting me in writing this book.
+  Above all, God be praised.
 
-  \vfill
-  \raggedleft Above all, God be praised.
-\end{center}
-
-\newpage
-
-\thispagestyle{empty}
-\phantom{foo}
 \newpage
 
 \tableofcontents
-\thispagestyle{empty}
 
 \input{foreword}
 \input{about}
