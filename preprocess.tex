@@ -452,7 +452,39 @@ Once data is cleaned, the next step is (typically) to sample the data.  Sampling
 process of selecting a random subset of the data or to create variations of the original
 training set.
 
-There are two main tasks that sample the data: scope filtering and class balancing.
+There are three main tasks that sample the data: subsampling, scope filtering and class
+balancing.
+
+\subsection{Random sampling}
+
+Some machine learning methods are computationally expensive and a smaller dataset might be
+enough to solve the problem.  Random sampling is simply done by selecting a random subset
+of the training data with a user defined size.
+
+However, note that the preprocessor for this task \emph{must never do anything with the
+new data} (or the test set we discuss in \cref{chap:planning}).  See
+\cref{tab:random-sampling}.
+
+\begin{tablebox}[label=tab:random-sampling]{Task of random sampling.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Random sampling}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with the scope of the phenomenon. \\
+    \textbf{Goal} &
+      Select a random subset of the training data. \\
+    \textbf{Fitting} &
+      None. User must declare the size of the sample. \\
+    \textbf{Adjustment} &
+      Rows of the training set are randomly chosen. \\
+    \textbf{Applying} &
+      Pass-through: preprocessor does nothing with the new data. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 \subsection{Scope filtering}
 
@@ -496,9 +528,8 @@ steps).
 
 \subsection{Class balancing}
 
-Some machine learning methods are heavily affected by the number of observations in each
-class.  Also, some methods are computationally expensive and a smaller dataset might be
-enough to solve the problem.
+Some data classification methods are heavily affected by the number of observations in each
+class.
 
 The most common sampling methods are random sampling and resampling\footnote{Resampling is
 the process of sampling with replacement, sometimes called bootstrapping.}.  The former is
