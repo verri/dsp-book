@@ -590,22 +590,32 @@ input variables are in a specific range, etc.
 
 \subsection{Type conversion}
 
-Type conversion is the process of changing the type of the values in the columns.
+Type conversion is the process of changing the type of the values in the columns.  We do
+so to make the input variables compatible with the machine learning methods we will use.
 
-The most common type conversions are from categorical to numerical and from numerical to
+The most common type conversion is the conversion from categorical to numerical values.
+Ideally, the possible values of a categorical variable are known beforehand.
+For instance, given the values $x \in \{a, b, c\}$ in a column, there are two main ways to
+convert them to numerical values: label encoding and one-hot encoding.  If there is a
+natural order $a < b < c$, label encoding is usually enough.  Otherwise, one-hot encoding
+can be used.
+
+Label encoding is the process of replacing the values $x \in \{a, b, c\}$ with the values
+$x' \in \{1, 2, 3\}$, where $x' = 1$ if $x = a$, $x' = 2$ if $x = b$, and $x' = 3$ if
+$x = c$.  One-hot encoding is the process of creating a new column for each possible value
+of the categorical variable.  The new column is filled with the logical value $1$ if the
+value is present and $0$ otherwise.
+
+However, in the second case, the number of categories might be too large or might be not
+known beforehand.
+
+are from categorical to numerical and from numerical to
 categorical.  The former is usually done by creating dummy variables, i.e., a new column
 for each possible value of the categorical variable.  This transformation is also known as
 one-hot encoding.  The latter is usually done by binning (discretization and quantization
 other concepts) the numerical variable, either by
 frequency or by range.
 
-% \begin{slidebox}{Type conversion}{}
-%   \begin{itemize}
-%     \item Type conversion is the process of changing the type of the values in the columns;
-%     \item Use one-hot encoding to convert categorical variables to numerical;
-%     \item Use binning to convert numerical variables to categorical.
-%   \end{itemize}
-% \end{slidebox}
 
 \subsection{Normalization}
 
