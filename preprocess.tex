@@ -676,31 +676,85 @@ the date of the last purchase becomes the age of the customer.
 \subsection{Normalization}
 
 Normalization is the process of scaling the values in the columns.  This is usually done to
-keep data in a specific range or to make the data comparable.  For instance, some machine
+keep data in a specific range or to make different variables comparable.  For instance,
+some machine
 learning methods require the input variables to be in the range $[0, 1]$.
 
 The most common normalization methods are standardization and rescaling.  The former is done
 by subtracting the mean and dividing by the standard deviation of the values in the column.
 The latter is performed so the values are in a specific range, usually $[0, 1]$ or $[-1, 1]$.
 
-\begin{hlbox}{Clamping after rescaling}
-  In production, it is common to clamp the values after rescaling.  This is done to avoid
-  the model to make predictions that are out of the range of the training data.
-\end{hlbox}
+Standardization works well when the values in the column are normally distributed.
+It not only keeps the values in an expected range but also makes the data distribution
+comparable with other variables.  Given that $\mu$ is the mean and $\sigma$ is the
+standard deviation of the values in the column, the standardization is done by
+\begin{equation}
+  \label{eq:standardization}
+  x' = \frac{x - \mu}{\sigma}\text{.}
+\end{equation}
+See \cref{tab:standardization}.
 
-Related to normalization is the log transformation.  This is usually done to make the data
-more symmetric or to reduce the effect of outliers.  The log transformation is the process
-of taking the logarithm of the values in the column.
+\begin{tablebox}[label=tab:standardization]{Standardization preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Standardization}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with numerical variables. \\
+    \textbf{Goal} &
+      Scale the values in a column. \\
+    \textbf{Fitting} &
+      Store the statistics of the variable: the mean and the standard deviation. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor scales the values according to \cref{eq:standardization}. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
-% \begin{slidebox}{Normalization}{}
-%   \begin{itemize}
-%     \item Normalization is the process of scaling the values in the columns;
-%     \item Use standardization to make the values have mean 0 and standard deviation 1;
-%     \item Use rescaling to make the values be in a specific range;
-%     \item Use the log transformation to make the data more symmetric or to reduce the effect
-%       of outliers.
-%   \end{itemize}
-% \end{slidebox}
+In the case of rescaling, during production, the preprocessor usually clamp\footnote{The
+operation $\clamp(x, a, b)$ where $a$ and $b$ are the lower and upper bounds,
+respectively, is defined as $\max(a, \min(b, x))$.} the values after rescaling.  This is
+done to avoid the model to make predictions that are out of the range of the training
+data.  Given that we want to rescale the values in the column to the range $[a, b]$, and
+that $x_\text{min}$ and $x_\text{max}$ are the minimum and maximum values in the column,
+the rescaling is done by
+\begin{equation}
+  \label{eq:rescaling}
+  x' = a + \big(b - a\big) \, \frac{x - x_\text{min}}{x_\text{max} - x_\text{min}}\text{.}
+\end{equation}
+See \cref{tab:rescaling}.
+
+\begin{tablebox}[label=tab:rescaling]{Normalization preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Standardization and rescaling}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with numerical variables. \\
+    \textbf{Goal} &
+      Rescale the values in a column. \\
+    \textbf{Fitting} &
+      Store the appropriate statistics of the variable: the minimum and the maximum
+      values. \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor scales the values according to \cref{eq:rescaling}. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+Related to normalization is the log transformation, which applies the logarithm to the
+values in the column.  This is usually done to make the data distribution more symmetric
+over the mean or to reduce the effect of outliers.
+
+% TODO: figure with power law distribution and log transformation
 
 \subsection{Dimensionality reduction}
 
