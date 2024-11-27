@@ -716,7 +716,7 @@ See \cref{tab:standardization}.
 \end{tablebox}
 
 In the case of rescaling, during production, the preprocessor usually clamp\footnote{The
-operation $\clamp(x, a, b)$ where $a$ and $b$ are the lower and upper bounds,
+operation $\clamp(x; a, b)$ where $a$ and $b$ are the lower and upper bounds,
 respectively, is defined as $\max(a, \min(b, x))$.} the values after rescaling.  This is
 done to avoid the model to make predictions that are out of the range of the training
 data.  Given that we want to rescale the values in the column to the range $[a, b]$, and
@@ -790,35 +790,38 @@ hard to interpret, since they are combinations of the original variables.
 
 \subsection{Data enhancement}
 
-Data integration is the process of combining data from different sources into a single
-dataset.  This is usually done to create a more complete dataset or to create a dataset
-with a different observational unit.
+The ``opposite'' of dimensionality reduction is data enhancement.  This is the process of
+bringing to the dataset external information that complements the existing data.  For
+example, imagine that in the tidy data we have a column with the zip code of the
+customers.  We can use this information to join (in this case, always a left join) a
+dataset with social and economic information about the region of the zip code.
 
-To perform integration, consider the discussions in \cref{sec:normalization,sub:bridge}.
+The preprocessor, then, stores the external dataset and the column to join the data.
+During production, it enhances any new observation with the external information.  See
+\cref{tab:data-enhancement}.
 
-Additionally, one must consider the following points:
-\begin{itemize}
-  \item Sometimes the same column may have different names in different datasets.  Redundant
-    columns must be removed.
-  \item Separate datasets that share the same variables usually happen because there is a
-    hidden variable that is not present in the datasets.  During integration, the new
-    variable must be created.
-\end{itemize}
-
-% \begin{slidebox}{Data integration}{}
-%   \begin{itemize}
-%     \item Data integration is the process of combining data from different sources into a single dataset;
-%     \item Not every join is possible, consider the discussions in \cref{sec:normalization,sub:bridge};
-%     \item Remove redundant columns;
-%     \item Create new variables to represent the hidden variables.
-%   \end{itemize}
-% \end{slidebox}
-
-In the data handling pipeline, data integration is useful for data enhancement.  This is
-the process of adding new columns to the dataset or single instances.  For example,
-imagine that in the tidy data we have a column with the zip code of the customers.  We can
-use this information to join (in this case a left join) a dataset with social and economic
-information about the region of the zip code.
+\begin{tablebox}[label=tab:data-enhancement]{Data enhancement preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Data enhancement}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with a column to join. \\
+    \textbf{Goal} &
+      Enhance the dataset with external information. \\
+    \textbf{Fitting} &
+      Store the external dataset and the column to join. \\
+    \textbf{Adjustment} &
+      Training set is left joined with the external dataset.  Because of the properties of
+      the left join, the new dataset has the same number of rows as the original dataset,
+      and it is equivalent to enhance each row independently.  \\
+    \textbf{Applying} &
+      Preprocessor enhances the new data with the external information. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 \subsection{Comments on unstructured data}
 
