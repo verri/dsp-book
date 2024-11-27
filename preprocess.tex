@@ -576,59 +576,21 @@ class without repeating the same observations.
 
 \section{Data transformation}
 
-One important task in data handling is data transformation.  This is the process of adjusting
-the format and the types of the data to make it suitable for analysis.
+Another important task in data handling is data transformation.  This is the process of
+adjusting the types of the data and the choice of variables to make it suitable for
+modeling.
 
-Before data transformation we must make sure that data is tidy, i.e., to have
-each variable in a column and each observation in a row.  Remember that, depending on the
-problem definition, we target a particular observational unit.  Having a clear picture of
-the observational unit is important to define the columns and the rows of the dataset.
-
-Then, when the data format is acceptable, we can perform a series of operations to make the
+At this point, the data format is acceptable, i.e. each observation is in the correct
+observational unit, there are no missing values, and the sampling is representative of the
+phenomenon of interest.  Now, we can perform a series of operations to make the
 column's types and values suitable for modeling.  The reason for this is that most
 machine learning methods require the input variables to follow some restrictions.  For
 instance, some methods require the input variables to be real numbers, others require the
 input variables are in a specific range, etc.
 
-% \subsection{Reshaping}
-%
-% \textcolor{red}{TODO: pipeline exceptions: like pivoting and aggregating are kept outside
-% the pipeline.}
-%
-% Reshaping is the process of changing the format of the data.  The most common reshaping
-% operations are pivoting and unpivoting, which we have already discussed.  However, there
-% are other reshaping operations that are useful in practice.
-%
-% For instance, one can reshape a dataset by splitting a column into multiple columns.  This
-% is useful when a column contains multiple values that should be separated.  This can be
-% done with mutation with appropriate expressions.  Some frameworks might provide special functions
-% to do this, usually called splitting functions.
-%
-% We can also consider reshaping the operations of filtering, selecting, and aggregating.
-% Filtering is usually done to reduce the scope of the data, given some conditions on the
-% variables.  Selecting is usually done to remove irrelevant variables or highly correlated
-% ones.  Aggregating in a reshaping task is usually applied together with pivoting to change the
-% observational unit of the dataset.
-
-% \begin{slidebox}{Reshaping}{}
-%   \begin{itemize}
-%     \item Reshaping is the process of changing the format of the data;
-%     \item The most common reshaping operations are pivoting and unpivoting;
-%     \item Other common operation include:
-%       \begin{itemize}
-%         \item Splitting a column into multiple columns;
-%         \item Filtering to reduce the scope of the data;
-%         \item Selecting to remove irrelevant variables or highly correlated ones;
-%         \item Aggregating to change the observational unit of the dataset.
-%       \end{itemize}
-%   \end{itemize}
-% \end{slidebox}
-
 \subsection{Type conversion}
 
-Type conversion is the process of changing the type of the values in the columns.  This
-is usually done to make the data suitable for modeling.  For instance, some machine
-learning methods require the input variables to be real numbers.
+Type conversion is the process of changing the type of the values in the columns.
 
 The most common type conversions are from categorical to numerical and from numerical to
 categorical.  The former is usually done by creating dummy variables, i.e., a new column
@@ -738,7 +700,7 @@ imagine that in the tidy data we have a column with the zip code of the customer
 use this information to join (in this case a left join) a dataset with social and economic
 information about the region of the zip code.
 
-\section{Comments on unstructured data}
+\subsection{Comments on unstructured data}
 
 Any unstructured data can be transformed into structured data.  We can see this task as a
 data preprocessing task.  Techniques like bag of words, word embeddings, and signal (or
@@ -752,7 +714,8 @@ feature extraction.  The difference there is that the convolution filters are ha
 while in \glspl{cnn} they are learned from the data.
 
 The study of unstructured data is a vast field and is out of the scope of this book.  I
-recommend \citeauthor{Jurafsky2024}\footfullcite{Jurafsky2024} for a comprehensive
+recommend \citeauthor{Jurafsky2008}\footnote{\fullcite{Jurafsky2008}. A new edition is
+free to download and under preparation: \fullcite{Jurafsky2024}.} for a vast
 introduction to Natural Language Processing and
 \citeauthor{Szeliski2022}\footfullcite{Szeliski2022} for a comprehensive introduction to
 Computer Vision.
