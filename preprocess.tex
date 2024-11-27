@@ -759,34 +759,34 @@ over the mean or to reduce the effect of outliers.
 \subsection{Dimensionality reduction}
 
 Dimensionality reduction is the process of reducing the number of variables in the data.
-This is usually done to reduce the complexity of the model or to identify irrelevant
-variables.  The so-called \emph{curse of dimensionality} is a common problem in machine
-learning, where the number of variables is much larger than the number of observations.
+It can identify irrelevant variables and reduce the complexity of the model (since there
+are less variables to deal with).
+
+% TODO: talk about curse of dimensionality in chapter stl,
+%       maybe even showing how the linear regression problem must be over specified
+% The so-called \emph{curse of dimensionality} is a
+% common problem in machine
+% learning, where the number of variables is much larger than the number of observations.
 
 There are two main types of dimensionality reduction algorithms: feature selection and
-feature extraction.  The former is done by selecting a subset of the variables that leads
-to the best models.  The latter is done by creating new variables that are combinations
+feature extraction.  The former selects a subset of the existing variables that leads
+to the best models.  The latter creates new variables that are combinations
 of the original ones.
 
-Feature selection can be performed before modeling (filter), together with the model
-search (wrapper), or as a part of the model itself (embedded).
+% Feature selection can be performed before modeling (filter), together with the model
+% search (wrapper), or as a part of the model itself (embedded).
 
-Feature extraction is usually done by linear methods, such as principal component analysis
-(PCA), or by non-linear methods, such as convolution layers and autoencoders.  These methods are able to
-compress the information in the data into a smaller number of variables.
+One example of feature selection is ranking the variables by their mutual information with
+the target variable and selecting the top $k$ variables.  Mutual information is a measure
+of the amount of information that one variable gives about another.  So, it is expected
+that variables with high mutual information with the target variable are more important
+for the model.
 
-% \begin{slidebox}{Dimensionality reduction}{}
-%   \begin{itemize}
-%     \item Dimensionality reduction is the process of reducing the number of variables in the data;
-%     \item Use feature selection to select a subset of the variables that leads to the best models;
-%     \item Use feature extraction to create new variables that are combinations of the original ones.
-%   \end{itemize}
-% \end{slidebox}
-
-% \begin{hlbox}{Practice!}
-%   Can you identify which data transformation operations are used to make datasets
-%   presented in \cref{chap:data} tidy?
-% \end{hlbox}
+Feature extraction uses either linear methods, such as \gls{pca}, or non-linear methods,
+such as autoencoders.  These methods are able to compress the information in the training
+data into a smaller number of variables.  Thus, the model can learn the solution in
+a lower dimensional space.  A drawback of this method is that the new variables are
+hard to interpret, since they are combinations of the original variables.
 
 \subsection{Data enhancement}
 
