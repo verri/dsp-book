@@ -602,12 +602,41 @@ can be used.
 
 Label encoding is the process of replacing the values $x \in \{a, b, c\}$ with the values
 $x' \in \{1, 2, 3\}$, where $x' = 1$ if $x = a$, $x' = 2$ if $x = b$, and $x' = 3$ if
-$x = c$.  One-hot encoding is the process of creating a new column for each possible value
+$x = c$.  Other numerical values can be assigned depending on the specific problem.
+
+One-hot encoding is the process of creating a new column for each possible value
 of the categorical variable.  The new column is filled with the logical value $1$ if the
 value is present and $0$ otherwise.
 
 However, in the second case, the number of categories might be too large or might be not
-known beforehand.
+known beforehand.  So, the preprocessing step must identify the unique values in the
+column and create the new columns accordingly.  It is common to group the less frequent
+values into a single column, called the \emph{other} column.  See \cref{tab:one-hot}.
+
+\begin{tablebox}[label=tab:one-hot]{One-hot encoding preprocessing task.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{One-hot encoding}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with categorical variables. \\
+    \textbf{Goal} &
+      Create a new column for each possible value of the categorical variable. \\
+    \textbf{Fitting} &
+      Store the unique values of the categorical variable.  If appropriate, store indicate
+      the special category \emph{other}.  \\
+    \textbf{Adjustment} &
+      Training set is adjusted sample by sample, independently. \\
+    \textbf{Applying} &
+      Preprocessor creates a new column for each possible value of the categorical
+      variable.  The new column is filled with the logical value $1$ if the old value
+      matches the new column and $0$ otherwise.  If the value is new or in the less
+      frequent values, it is assigned to the \emph{other} column.  \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
 
 are from categorical to numerical and from numerical to
 categorical.  The former is usually done by creating dummy variables, i.e., a new column
