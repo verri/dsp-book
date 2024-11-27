@@ -740,4 +740,21 @@ information about the region of the zip code.
 
 \section{Comments on unstructured data}
 
+Any unstructured data can be transformed into structured data.  We can see this task as a
+data preprocessing task.  Techniques like bag of words, word embeddings, and signal (or
+image) processing can be seen as preprocessing techniques that transform unstructured data
+into structured data, which is suitable for modeling.
+
+Also, modern machine learning methods, like \glspl{cnn}, are simply models that learn both
+the preprocessing and the model at the same time.  This is done by using convolutional
+layers that learn the features of the data.  In digital signal processing, this is called
+feature extraction.  The difference there is that the convolution filters are handcrafted,
+while in \glspl{cnn} they are learned from the data.
+
+The study of unstructured data is a vast field and is out of the scope of this book.  I
+recommend \citeauthor{Jurafsky2024}\footfullcite{Jurafsky2024} for a comprehensive
+introduction to Natural Language Processing and
+\citeauthor{Szeliski2022}\footfullcite{Szeliski2022} for a comprehensive introduction to
+Computer Vision.
+
 % vim: spell spelllang=en
