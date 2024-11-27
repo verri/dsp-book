@@ -152,7 +152,7 @@ Also, it includes the process of dealing with missing information, which most ma
 learning methods do not cope with.  Solutions range from the simple removal of the
 observations with missing data to the creation of information to encode the missing data.
 
-\subsection{Invalid and inconsistent data}
+\subsection{Treating inconsistent data}
 
 % TODO: move this somewhere when we talk about data handling and/or tidying
 % Sometimes, during data collection, information is recorded using special codes.  For
@@ -258,7 +258,7 @@ The reason we put them here is that the new data in production usually come with
 same issues.  Having the fixes programmed into the preprocessor makes it easier to
 guarantee that the model will behave as expected in production.
 
-\subsection{Outliers}
+\subsection{Outlier detection}
 
 Outliers are observations that are significantly different from the other observations.
 They can be caused by errors or by the presence of a different phenomena mixed in the data
@@ -332,7 +332,8 @@ for the model when an outlier sample is detected in production.  See
     \bottomrule
   \end{tabular}
 \end{tablebox}
-\subsection{Missing data}
+
+\subsection{Treating missing data}
 
 Since most models cannot handle missing data, it is crucial to deal with it in the data
 preprocessing.
@@ -456,6 +457,7 @@ There are three main tasks that sample the data: subsampling, scope filtering an
 balancing.
 
 \subsection{Random sampling}
+\label{sub:random-sampling}
 
 Some machine learning methods are computationally expensive and a smaller dataset might be
 enough to solve the problem.  Random sampling is simply done by selecting a random subset
@@ -529,24 +531,48 @@ steps).
 \subsection{Class balancing}
 
 Some data classification methods are heavily affected by the number of observations in each
-class.
+class.  This is especially true for methods that are ``learns'' the class priors directly
+from the data, like the naïve Bayes classifier.
 
-The most common sampling methods are random sampling and resampling\footnote{Resampling is
-the process of sampling with replacement, sometimes called bootstrapping.}.  The former is
-done by selecting a random subset of the data.  The latter is done by selecting a random
-subset of the data with replacement.
+Two strategies are often used to balance the classes: oversampling and undersampling.  The
+former is done by creating synthetic observations of the minority class.  The latter is
+done by removing observations of the majority class.
 
-While random sampling is useful to reduce the size of the data, resampling can be used to
-increase the size of the data.  (Although this has some caveats.)  Moreover, resampling
-can also create variations of the original dataset with the same distribution of the
-values.
+Undersampling can be done by removing observations of the majority class randomly
+(similarly to random sampling, \cref{sub:random-sampling}).  On the other hand,
+oversampling can be done by creating synthetic observations of the minority class.  The
+most common method is resampling\footnote{Sometimes called bootstrapping.}, which selects
+a random subset of the data with replacement.  A drawback of this method is that it
+produces repeated observations that contains no new information.
 
-The preprocessor for this task \emph{must never do anything with the new
-data} (or the test set we discuss in \cref{chap:planning}).
+In any case, the preprocessor for this task \emph{must never do anything with the new
+data} (or the test set we discuss in \cref{chap:planning}).  See
+\cref{tab:class-balancing}.
 
-More advanced sampling methods are usually used to create balanced datasets.  For
-instance, one can use the SMOTE algorithm\footfullcite{chawla2002smote} to create
-synthetic observations of the minority class.
+\begin{tablebox}[label=tab:class-balancing]{Task of class balancing.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{6cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Class balancing}} \\
+    \midrule
+    % \textbf{Requirements} &
+    %   A dataset with unbalanced classes. \\
+    \textbf{Goal} &
+      Balance the number of observations in each class. \\
+    \textbf{Fitting} &
+      None. User must declare number of sample in each class. \\
+    \textbf{Adjustment} &
+      Rows of the training set are randomly chosen. \\
+    \textbf{Applying} &
+      Pass-through: preprocessor does nothing with the new data. \\
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+More advanced sampling methods exist.  For instance, the SMOTE
+algorithm\footfullcite{chawla2002smote} creates synthetic observations of the minority
+class without repeating the same observations.
 
 \section{Data transformation}
 
@@ -680,7 +706,7 @@ compress the information in the data into a smaller number of variables.
 %   presented in \cref{chap:data} tidy?
 % \end{hlbox}
 
-\section{Data enhancement}
+\subsection{Data enhancement}
 
 Data integration is the process of combining data from different sources into a single
 dataset.  This is usually done to create a more complete dataset or to create a dataset
