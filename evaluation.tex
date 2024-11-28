@@ -41,9 +41,9 @@ evaluate how good the choice of $\phi$ (parameters of the preprocessor) and $\th
 
 \subsection{Binary classification evaluation}
 
-In order to assess the quality of a binary classification model, we need to know which
+In order to assess the quality of a solution for a binary classification task, we need to know which
 samples in the test set were classified into which classes.  This information is
-summarized in the \emph{confusion matrix}, which is the basis for performance measures in
+summarized in the \emph{confusion matrix}, which is the basis for performance metrics in
 classification tasks.
 
 \subsubsection{Confusion matrix}
@@ -62,18 +62,21 @@ classification, the confusion matrix is given by
     \end{block}
   \end{blockarray}
 \end{equation*}
-where
-\begin{itemize}
-  \item FP is the number of false positives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 0 \land \hat{y}_i = 1 \}|$,
-  \item FN is the number of false negatives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 1 \land \hat{y}_i = 0 \}|$,
-  \item TP is the number of true positives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 1 \land \hat{y}_i = 1 \}|$, and
-  \item TN is the number of true negatives $|\{ i \in \mathcal{I}_\text{test} \mid y_i = 0 \land \hat{y}_i = 0 \}|$.
-\end{itemize}
+where TP is the number of true positives
+$$|\{ i \in \mathcal{I}_\text{test} : y_i = 1 \land \hat{y}_i = 1 \}|\text{,}$$
+TN is the number of true negatives
+$$|\{ i \in \mathcal{I}_\text{test} : y_i = 0 \land \hat{y}_i = 0 \}|\text{,}$$
+FN is the number of false negatives
+$$|\{ i \in \mathcal{I}_\text{test} : y_i = 1 \land \hat{y}_i = 0 \}|\text{,}$$
+and FP is the number of false positives
+$$|\{ i \in \mathcal{I}_\text{test} : y_i = 0 \land \hat{y}_i = 1 \}|\text{.}$$
 
 \subsubsection{Performance measures}
 
-From the confusion matrix, we can derive several performance measures.  The most common
-ones are the accuracy, precision, recall, and F-score.
+From the confusion matrix, we can derive several performance measures.  Each of them focus
+on different aspects of the classification task, and the choice of the measure depends on
+the problem at hand.  The most common measures are the accuracy, precision, recall, and
+F-score.
 
 \paragraph{Accuracy} is the proportion of correct predictions over the total number of
 samples in the test set, given by
@@ -84,27 +87,28 @@ This measure is simple and easy to interpret, but it can be misleading when the 
 are imbalanced --- i.e. when the number of samples in each class is very different.
 Consider the case where the dataset has 90\% of samples in class 0 and 10\% in class 1;
 a classifier that always predicts class 0 will have an accuracy of 90\%, but it is not
-useful for the task.
+useful for the task. % TODO: symmetry and
 
-\paragraph{Specificity} is the proportion of true negative predictions over the total
-number of samples that are actually negative, given by
-\begin{equation*}
-  \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}}\text{.}
-\end{equation*}
-This measure is useful when the cost of false positives is high, as it quantifies the
-ability of the classifier to avoid false positives.  A test with a higher specificity has
-a lower type I error rate.  In terms of a medical diagnosis, a type I error corresponds to
-diagnosing a patient as sick\footnote{Sick is the positive class} when they are healthy.
-A classifier that always predicts class 1 will have a specificity of 0\% in the example
-above.  On the other hand, a classifier that always predicts class 0 will have a specificity
-of 100\%.
+% TODO: move to the end
+% \paragraph{Specificity} is the proportion of true negative predictions over the total
+% number of samples that are actually negative, given by
+% \begin{equation*}
+%   \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}}\text{.}
+% \end{equation*}
+% This measure is useful when the cost of false positives is high, as it quantifies the
+% ability of the classifier to avoid false positives.  A test with a higher specificity has
+% a lower type I error rate.  In terms of a medical diagnosis, a type I error corresponds to
+% diagnosing a patient as sick\footnote{Sick is the positive class} when they are healthy.
+% A classifier that always predicts class 1 will have a specificity of 0\% in the example
+% above.  On the other hand, a classifier that always predicts class 0 will have a specificity
+% of 100\%.
 
 \paragraph{Precision} is the proportion of true positive predictions over the total number
 of samples predicted as positive, given by
 \begin{equation*}
   \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}\text{.}
 \end{equation*}
-This measure is useful when the cost of false positives is high, as it quantifies the
+This metric is useful when the cost of false positives is high, as it quantifies the
 ability of the classifier to avoid false positives.  For example, in a medical diagnosis
 task, precision is important to avoid unnecessary treatments.  However, precision does not
 consider false negatives, which can be problematic in other scenarios.  For instance, in
@@ -141,6 +145,47 @@ F$_1$-score of 0.18 in the example above.  On the other hand, a classifier that 
 predicts class 0 will have an F$_1$-score of 0.  Note that, although guessing $1$ is
 better than guessing $0$ in terms of F$_1$-score, this measure is much better than
 accuracy to evaluate the performance of the classifier in imbalanced problems.
+
+\begin{tablebox}[label=tab:classification-metrics]{Summary of the properties of
+  data classification performance metrics.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l c c c}
+    \toprule
+    \textbf{Metric} & \textbf{Focus} & \textbf{Imbalance} & \textbf{Interpretation} \\
+    \midrule
+    Accuracy           & Symmetric & Affected & Penalizes all \\
+    Balanced Accuracy  & Symmetric & Not affected & Penalizes all \\
+    Recall (TPR)       & Positive & Not affected & Penalizes FN \\
+    Precision          & Positive & Affected & Penalizes FP \\
+    F-score            & Positive & Affected & Penalizes all \\
+    Specificity (TNR)  & Negative & Not affected & Penalizes FP \\
+    % Fall-out (FPR)     & Negative & Not affected & Penalizes TN \\
+    % FPR = 1 - TNR
+    \bottomrule
+  \end{tabular}
+\end{tablebox}
+
+\begin{tablebox}[label=tab:classification-metrics-ex]{Behavior of classification
+  performance metrics for different classifiers.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l c c}
+    \toprule
+    \textbf{Metric} & \textbf{Guess 1} & \textbf{Guess 0} \\
+    \midrule
+    Accuracy & $r$ & $1 - r$ \\
+    Balanced Accuracy & $0.5$ & $0.5$ \\
+    Recall (TPR) & $1$ & $0$ \\
+    Precision & $r$ & $0/0 = 0$ \\
+    F$_1$-score & $\frac{2r}{1 + r}$ & 0 \\
+    Specificity (TNR) & $0$ & $1$ \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Performance of different classifiers in the example of a dataset with ratio $r$ of
+  positive and $1-r$ of negative samples.
+\end{tablebox}
 
 % TODO: things get bad if majority class is positive
 
