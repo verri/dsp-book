@@ -87,14 +87,14 @@ This metric is simple and easy to interpret: a classifier with an accuracy of 1 
 perfect, while a classifier with an accuracy of 0.5 misses half of the predictions.
 Accuracy assigns the same weight to any kind of error --- i.e. false positives and false
 negatives.  As a result, if the proportion of positive and negative samples is imbalanced,
-the value of accuracy may become misleading.  Let $r$ be the ratio of positive samples in
-the test set --- consequently, $1-r$ is the ratio of negative samples ---, then a
+the value of accuracy may become misleading.  Let $\pi$ be the ratio of positive samples in
+the test set --- consequently, $1-\pi$ is the ratio of negative samples ---, then a
 classifier that correctly predicts all positive samples and none of the negative samples
-will have an accuracy of $r$.  If $r$ is close to 1, the classifier will have a high value
+will have an accuracy of $\pi$.  If $\pi$ is close to 1, the classifier will have a high value
 of accuracy even if it is not good at predicting the negative class.
 
 This issue is not impeditive for the usage of accuracy in imbalanced datasets, but one
-needs to be aware that accuracy values lower than $\max(r, 1-r)$ are not better than
+needs to be aware that accuracy values lower than $\max(\pi, 1-\pi)$ are not better than
 guessing.
 
 \paragraph{Balanced accuracy} aims to solve this interpretation issue of the accuracy.  It
@@ -120,7 +120,7 @@ errors based on the class proportion, which may not be the best choice for the p
 Other metrics focus only one of the classes and are more flexible to adjust the weight of
 errors.
 
-\paragraph{Precision} is an asymmetric metric that focuses on the positive class.  It is
+\paragraph{Precision} is an asymmetrical metric that focuses on the positive class.  It is
 the proportion of true positive predictions over the total number of samples predicted as
 positive, given by
 \begin{equation*}
@@ -133,7 +133,7 @@ Semantically, precision measures how confident we can be that a positive predict
 actually positive.  Note that it measures nothing about the ability of the classifier in
 terms of the negative predictions.
 
-\paragraph{Recall} is another asymmetric metric that also focuses on the positive class.
+\paragraph{Recall} is another asymmetrical metric that also focuses on the positive class.
 It is the proportion of true positive predictions over the total number of
 samples that are actually positive, given by
 \begin{equation*}
@@ -172,6 +172,14 @@ interesting.
 
 \subsubsection{Interpretation of metrics}
 
+\Cref{tab:classification-metrics} summarizes the properties of the classification
+performance metrics.  Accuracy and balanced accuracy are good metrics when no particular
+class is more important than the other.  Remember, however, that balanced accuracy gives
+more weight to errors on the minority class.  Precision and recall are useful to evaluate
+the performance of the solution in terms of the positive.  They are complementary metrics,
+and looking at only one of them may give a biased view of the performance --- more on that
+below.  The F-score is a way to balance precision and recall with a controlable parameter.
+
 \begin{tablebox}[label=tab:classification-metrics]{Summary of the properties of
   data classification performance metrics.}
   \centering
@@ -180,11 +188,11 @@ interesting.
     \toprule
     \textbf{Metric} & \textbf{Focus} & \textbf{Interpretation} \\
     \midrule
-    Accuracy           & Symmetric & Penalizes all \\
-    Balanced Accuracy  & Symmetric & Penalizes all \\
+    Accuracy           & Symmetrical & Penalizes all \\
+    Balanced Accuracy  & Symmetrical & Penalizes all (weighted) \\
     Recall (TPR)       & Positive & Penalizes FN \\
     Precision          & Positive & Penalizes FP \\
-    F-score            & Positive & Penalizes all \\
+    F-score            & Positive & Penalizes all (weighted) \\
     Specificity (TNR)  & Negative & Penalizes FP \\
     % Fall-out (FPR)     & Negative & Not affected & Penalizes TN \\
     % FPR = 1 - TNR
@@ -192,10 +200,11 @@ interesting.
   \end{tabular}
 \end{tablebox}
 
-A common misconception about the asymmetric metrics (especially precision and recall) is
-that they are robust to class imbalance.  This is not true.  Moreover, they benefit
-classifiers that prefer the positive class.  As a result, they should be preferred when
-the positive class is the minority class.
+A common misconception about the asymmetrical metrics (especially precision) is that they
+are always robust to class imbalance.  Observe \cref{tab:classification-metrics-ex}, which shows
+the behavior of the classification performance metrics for two (useless) classifiers: one
+that always predicts the positive class (Guess 1) and another that always predicts the
+negative class (Guess 0).
 
 \begin{tablebox}[label=tab:classification-metrics-ex]{Behavior of classification
   performance metrics for different classifiers.}
@@ -205,20 +214,24 @@ the positive class is the minority class.
     \toprule
     \textbf{Metric} & \textbf{Imbalance} & \textbf{Guess 1} & \textbf{Guess 0} \\
     \midrule
-    Accuracy & Affected & $r$ & $1 - r$ \\
+    Accuracy & Affected & $\pi$ & $1 - \pi$ \\
     Balanced Accuracy & Not affected & $0.5$ & $0.5$ \\
     Recall (TPR) & Not affected & $1$ & $0$ \\
-    Precision & Affected & $r$ & $0/0 = 0$ \\
-    F$_1$-score & Affected & $\frac{2r}{1 + r}$ & 0 \\
+    Precision & Affected & $\pi$ & $0/0 = 0$ \\
+    F$_1$-score & Affected & $\frac{2 \pi}{1 + \pi}$ & 0 \\
     Specificity (TNR) & Not affected & $0$ & $1$ \\
     \bottomrule
   \end{tabular}
   \tcblower
-  Performance of different classifiers in the example of a dataset with ratio $r$ of
-  positive and $1-r$ of negative samples.
+  Performance of different classifiers in the example of a dataset with ratio $\pi$ of
+  positive and $1-\pi$ of negative samples.
 \end{tablebox}
 
-% TODO: things get bad if majority class is positive
+We can see that, as $\pi \to 1$, guessing the positive class achieves high values for
+metrics like accuracy, precision, and F$_1$-score.  As a result, they should be preferred
+when the positive class is the minority class.
+\citeauthor{Williams2021}\footfullcite{Williams2021} provides an interesting discussion on
+that.
 
 \subsection{Regression estimation evaluation}
 
@@ -469,7 +482,7 @@ this scale, the axes are transformed to show the error rates in a more linear wa
 
 Some other points:
 \begin{itemize}
-  \item measures for classification are asymmetric (benefit positive, positive should be minority);
+  \item measures for classification are asymmetrical (benefit positive, positive should be minority);
   \item prefer measures that work well with averaging and good to compare;
   \item Be careful with priors.
   \item multiclass how to evaluate?
