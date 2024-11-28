@@ -6,8 +6,8 @@
   All models are wrong, but some are useful.
   \par\raggedleft--- \textup{George E. P. Box}, Robustness in Statistics}
 
-Once we have defined what an inductive problem is, we can start to think about how to
-solve it in practical terms.
+Once we have defined what an inductive problem is and the means to solve it, we need to
+think about how to validate the solution.
 
 In this chapter, we present the experimental planning one can use in the data-driven
 parts of a data science project.  \emph{Experimental planning}  in the context of data
@@ -16,13 +16,20 @@ systematically in order to reach specific goals or test hypotheses.
 
 The reason we need to plan experiments is that data science is experimental, i.e. we
 usually lack a theoretical model that can predict the outcome of a given algorithm on a
-given dataset  --- in other words, the quality of the solution given a certain approach.
-This is why we need to run experiments to gather data and make
-inferences from it.
+given dataset.  This is why we need to run experiments to gather performance data and make
+inferences from it.  The stochastic nature of data and of the learning process makes it
+more difficult to predict the outcome of a given algorithm on a given dataset.  Robust
+experimental planning is essential to ensure that the results of the experiments are
+reliable and can be used to make decisions.
+
+Moreover, we need to understand the main metrics that are used to evaluate the performance
+of a solution --- i.e. the pair preprocessor and model.  Each learning task has different
+metrics and the goals of the project will determine which metrics are more important.
 
 There is not a single way to plan experiments, but there are some common steps that can
 be followed to design a good experimental plan.  In this chapter, we present a
-framework for experimental planning that can be used in most data science projects.
+framework for experimental planning that can be used in most data science projects
+for inductive problems.
 
 \begin{mainbox}{Chapter remarks}
 
@@ -291,7 +298,7 @@ each fold.  (Note however that the predictions are not totally independent, as t
 some training data.  This dependency should be taken into account when analyzing the
 results.) This vector can be used to perform hypothesis tests --- like McNemar's test, see
 \cref{sub:comparison} --- or to plot ROC (Receiver Operating Characteristic) curves or DET
-(Detection Error Tradeoff) curves --- see \cref{chap:evaluation}.
+(Detection Error Tradeoff) curves --- see \cref{sec:evaluation}.
 
 \subsection{Validation methods}
 
