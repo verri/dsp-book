@@ -6,4 +6,4 @@ watch:
 log:
 	texloganalyser -wourt build/main.log
 
-.PHONY: watch ready log
+.PHONY: watch log
