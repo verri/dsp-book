@@ -71,23 +71,49 @@ $$|\{ i \in \mathcal{I}_\text{test} : y_i = 1 \land \hat{y}_i = 0 \}|\text{,}$$
 and FP is the number of false positives
 $$|\{ i \in \mathcal{I}_\text{test} : y_i = 0 \land \hat{y}_i = 1 \}|\text{.}$$
 
-\subsubsection{Performance measures}
+\subsubsection{Performance metrics}
 
-From the confusion matrix, we can derive several performance measures.  Each of them focus
-on different aspects of the classification task, and the choice of the measure depends on
-the problem at hand.  The most common measures are the accuracy, precision, recall, and
-F-score.
+From the confusion matrix, we can derive several performance metrics.  Each of them focus
+on different aspects of the classification task, and the choice of the metric depends on
+the problem at hand.  Each metric prioritizes different types of errors and yields
+a value between 0 and 1, where 1 is the best possible value.
 
 \paragraph{Accuracy} is the proportion of correct predictions over the total number of
 samples in the test set, given by
 \begin{equation*}
   \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\text{.}
 \end{equation*}
-This measure is simple and easy to interpret, but it can be misleading when the classes
-are imbalanced --- i.e. when the number of samples in each class is very different.
-Consider the case where the dataset has 90\% of samples in class 0 and 10\% in class 1;
-a classifier that always predicts class 0 will have an accuracy of 90\%, but it is not
-useful for the task. % TODO: symmetry and
+This metric is simple and easy to interpret: a classifier with an accuracy of 1 is
+perfect, while a classifier with an accuracy of 0.5 misses half of the predictions.
+Accuracy assigns the same weight to any kind of error --- i.e. false positives and false
+negatives.  As a result, if the proportion of positive and negative samples is imbalanced,
+the value of accuracy may become misleading.  Let $r$ be the ratio of positive samples in
+the test set --- consequently, $1-r$ is the ratio of negative samples ---, then a
+classifier that correctly predicts all positive samples and none of the negative samples
+will have an accuracy of $r$.  If $r$ is close to 1, the classifier will have a high value
+of accuracy even if it is not good at predicting the negative class.
+
+This issue is not impeditive for the usage of accuracy in imbalanced datasets, but one
+needs to be aware that accuracy values lower than $\max(r, 1-r)$ are not better than
+guessing.
+
+\paragraph{Balanced accuracy} aims to solve this interpretation issue of the accuracy.  It
+is the average of the true positive rate (TPR) and the true negative rate (TNR), given by
+\begin{equation*}
+  \text{Balanced Accuracy} = \frac{\text{TPR} + \text{TNR}}{2}\text{,}
+\end{equation*}
+where
+\[
+  \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{,}
+\]
+and
+\[
+  \text{TNR} = \frac{\text{TN}}{\text{TN} + \text{FP}}\text{.}
+\]
+Each term penalizes a different type of error independently: TPR penalizes false
+negatives, while TNR penalizes false positives.  Balanced accuracy is useful when the cost
+of errors on the minority class is higher than the cost of errors on the majority class.
+This way, any value greater than 0.5 is better than random guessing.
 
 % TODO: move to the end
 % \paragraph{Specificity} is the proportion of true negative predictions over the total
@@ -146,20 +172,22 @@ predicts class 0 will have an F$_1$-score of 0.  Note that, although guessing $1
 better than guessing $0$ in terms of F$_1$-score, this measure is much better than
 accuracy to evaluate the performance of the classifier in imbalanced problems.
 
+\subsubsection{Interpretation of metrics}
+
 \begin{tablebox}[label=tab:classification-metrics]{Summary of the properties of
   data classification performance metrics.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{l c c c}
+  \begin{tabular}{l c c}
     \toprule
-    \textbf{Metric} & \textbf{Focus} & \textbf{Imbalance} & \textbf{Interpretation} \\
+    \textbf{Metric} & \textbf{Focus} & \textbf{Interpretation} \\
     \midrule
-    Accuracy           & Symmetric & Affected & Penalizes all \\
-    Balanced Accuracy  & Symmetric & Not affected & Penalizes all \\
-    Recall (TPR)       & Positive & Not affected & Penalizes FN \\
-    Precision          & Positive & Affected & Penalizes FP \\
-    F-score            & Positive & Affected & Penalizes all \\
-    Specificity (TNR)  & Negative & Not affected & Penalizes FP \\
+    Accuracy           & Symmetric & Penalizes all \\
+    Balanced Accuracy  & Symmetric & Penalizes all \\
+    Recall (TPR)       & Positive & Penalizes FN \\
+    Precision          & Positive & Penalizes FP \\
+    F-score            & Positive & Penalizes all \\
+    Specificity (TNR)  & Negative & Penalizes FP \\
     % Fall-out (FPR)     & Negative & Not affected & Penalizes TN \\
     % FPR = 1 - TNR
     \bottomrule
@@ -170,16 +198,16 @@ accuracy to evaluate the performance of the classifier in imbalanced problems.
   performance metrics for different classifiers.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{l c c}
+  \begin{tabular}{l c c c}
     \toprule
-    \textbf{Metric} & \textbf{Guess 1} & \textbf{Guess 0} \\
+    \textbf{Metric} & \textbf{Imbalance} & \textbf{Guess 1} & \textbf{Guess 0} \\
     \midrule
-    Accuracy & $r$ & $1 - r$ \\
-    Balanced Accuracy & $0.5$ & $0.5$ \\
-    Recall (TPR) & $1$ & $0$ \\
-    Precision & $r$ & $0/0 = 0$ \\
-    F$_1$-score & $\frac{2r}{1 + r}$ & 0 \\
-    Specificity (TNR) & $0$ & $1$ \\
+    Accuracy & Affected & $r$ & $1 - r$ \\
+    Balanced Accuracy & Not affected & $0.5$ & $0.5$ \\
+    Recall (TPR) & Not affected & $1$ & $0$ \\
+    Precision & Affected & $r$ & $0/0 = 0$ \\
+    F$_1$-score & Affected & $\frac{2r}{1 + r}$ & 0 \\
+    Specificity (TNR) & Not affected & $0$ & $1$ \\
     \bottomrule
   \end{tabular}
   \tcblower
