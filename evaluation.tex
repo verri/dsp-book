@@ -115,62 +115,60 @@ negatives, while TNR penalizes false positives.  Balanced accuracy is useful whe
 of errors on the minority class is higher than the cost of errors on the majority class.
 This way, any value greater than 0.5 is better than random guessing.
 
-% TODO: move to the end
-% \paragraph{Specificity} is the proportion of true negative predictions over the total
-% number of samples that are actually negative, given by
-% \begin{equation*}
-%   \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}}\text{.}
-% \end{equation*}
-% This measure is useful when the cost of false positives is high, as it quantifies the
-% ability of the classifier to avoid false positives.  A test with a higher specificity has
-% a lower type I error rate.  In terms of a medical diagnosis, a type I error corresponds to
-% diagnosing a patient as sick\footnote{Sick is the positive class} when they are healthy.
-% A classifier that always predicts class 1 will have a specificity of 0\% in the example
-% above.  On the other hand, a classifier that always predicts class 0 will have a specificity
-% of 100\%.
+A limitation of the balanced accuracy is that it ``automatically'' assigns the weight of
+errors based on the class proportion, which may not be the best choice for the problem.
+Other metrics focus only one of the classes and are more flexible to adjust the weight of
+errors.
 
-\paragraph{Precision} is the proportion of true positive predictions over the total number
-of samples predicted as positive, given by
+\paragraph{Precision} is an asymmetric metric that focuses on the positive class.  It is
+the proportion of true positive predictions over the total number of samples predicted as
+positive, given by
 \begin{equation*}
   \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}\text{.}
 \end{equation*}
-This metric is useful when the cost of false positives is high, as it quantifies the
+This metric is useful when the cost of false alarm is high, as it quantifies the
 ability of the classifier to avoid false positives.  For example, in a medical diagnosis
-task, precision is important to avoid unnecessary treatments.  However, precision does not
-consider false negatives, which can be problematic in other scenarios.  For instance, in
-fraud detection, a false negative means that a fraudulent transaction was not detected.
-A classifier that always predicts class 1 will have a precision of 10\% in the example
-above.  On the other hand, a classifier that always predicts class 0 will have a precision
-of 0\% --- consider $0/0 = 0$.
+task, precision is important to avoid unnecessary treatments (false positive diagnosis).
+Semantically, precision measures how confident we can be that a positive prediction is
+actually positive.  Note that it measures nothing about the ability of the classifier in
+terms of the negative predictions.
 
-\paragraph{Recall} is the proportion of true positive predictions over the total number of
+\paragraph{Recall} is another asymmetric metric that also focuses on the positive class.
+It is the proportion of true positive predictions over the total number of
 samples that are actually positive, given by
 \begin{equation*}
-  \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{.}
+  \text{Recall} = \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{.}
 \end{equation*}
-This measure is useful when the cost of false negatives is high, as it quantifies the
+This metric is useful when the cost of missing a positive sample is high, as it quantifies the
 ability of the classifier to avoid false negatives.  It can also be interpreted as the
-``completeness'' of the classifier: how many positive samples were correctly identified.
+``completeness'' of the classifier: how many positive samples were correctly retrieved.
 For example, in a medical diagnosis task, recall is important to avoid missing a
-diagnosis.  A classifier that always predicts class 1 will have a recall of 100\% in the
-example above.  On the other hand, a classifier that always predicts class 0 will have a
-recall of 0\%.
+diagnosis.
 
-\paragraph{F-score} is the weighted harmonic mean of precision and recall given by
+\paragraph{F-score} is way of balancing both kinds of errors, false positives and false
+negatives, while maintaining the focus on the positive class. It is the weighted harmonic
+mean of precision and recall given by
 \begin{equation*}
-  \text{F-score}(\beta) =
+  \text{F-score}(\beta) = \text{F}_\beta\text{-score} =
     \frac%
       {(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}
       {\beta^2 \cdot \text{Precision} + \text{Recall}}\text{,}
 \end{equation*}
-where $\beta$ is a parameter that controls the weight of precision in the measure.  The
-most common value for $\beta$ is 1, which gives the F$_1$-score.  The F-score is useful
-when we want to balance precision and recall, as it considers both false positives and
-false negatives.  For instance, a classifier that always predicts class 1 will have an
-F$_1$-score of 0.18 in the example above.  On the other hand, a classifier that always
-predicts class 0 will have an F$_1$-score of 0.  Note that, although guessing $1$ is
-better than guessing $0$ in terms of F$_1$-score, this measure is much better than
-accuracy to evaluate the performance of the classifier in imbalanced problems.
+where $\beta > 0$ is a parameter that controls the weight of precision in the metric.
+The most common value for $\beta$ is 1, which gives the F$_1$-score.  Higher values of
+$\beta$ give more weight to precision ($\beta > 1$), while lower values give more weight
+to recall ($\beta < 0$).
+
+\paragraph{Specificity} goes in the opposite direction of recall, focusing on the negative
+class.  It is the proportion of true negative predictions over the total
+number of samples that are actually negative, given by
+\begin{equation*}
+  \text{Specificity} = \text{TNR} = \frac{\text{TN}}{\text{TN} + \text{FP}}\text{.}
+\end{equation*}
+This metric is very common in the medical literature, but less common in other contexts.
+The probable reason is that it is easier to interpret the metrics that focus on the
+positive class, as the negative class is usually the majority class --- and, thus, less
+interesting.
 
 \subsubsection{Interpretation of metrics}
 
@@ -193,6 +191,11 @@ accuracy to evaluate the performance of the classifier in imbalanced problems.
     \bottomrule
   \end{tabular}
 \end{tablebox}
+
+A common misconception about the asymmetric metrics (especially precision and recall) is
+that they are robust to class imbalance.  This is not true.  Moreover, they benefit
+classifiers that prefer the positive class.  As a result, they should be preferred when
+the positive class is the minority class.
 
 \begin{tablebox}[label=tab:classification-metrics-ex]{Behavior of classification
   performance metrics for different classifiers.}
