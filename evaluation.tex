@@ -1,25 +1,43 @@
-\section{Model evaluation}
+\section{Evaluation}
 \label{sec:evaluation}
 
-One fundamental step in the development of a data driven solution for a task is the
-evaluation of the model. This chapter presents strategies to measure performance of
+One fundamental step in the validation of a data driven solution for a task is the
+\emph{evaluation} of the pair preprocessor and model. This chapter presents strategies to
+measure performance of
 classifiers and regressors, and how to interpret the results.
 
-We consider the following setup.  Let $D = \{(\vec{x}_i, y_i)\}_{i=1,\dots,n}$ be the
-dataset, where $\vec{x}_i$ is a feature vector and $y_i$ is the target value.  We assume
+We consider the following setup.  Let $$D = \{(\vec{x}_i, y_i)\}_{i=1,\dots,n}$$ be a
+dataset\footnote{We assume that the dataset is tidy, in the appropriate observational
+unit, and representative of the phenomenon of interest.}, where $\vec{x}_i$ is a feature
+vector and $y_i$ is the target value.  We assume
 that the dataset is split into a training set, given by indices
-$\mathcal{I}_\text{training}$, and a test set, given by indices $\mathcal{I}_\text{test}$,
-where $\mathcal{I}_\text{training} \cap \mathcal{I}_\text{test} = \emptyset$ and
-$\mathcal{I}_\text{training} \cup \mathcal{I}_\text{test} = \{1,\dots,n\}$.
+$\mathcal{I}_\text{training} \in \{1, \dots, n\}$, and a test set, given by indices
+$\mathcal{I}_\text{test} \in \{1, \dots, n\}$, such that $$\mathcal{I}_\text{training}
+\cap \mathcal{I}_\text{test} = \emptyset$$ and $$\mathcal{I}_\text{training} \cup
+\mathcal{I}_\text{test} = \{1,\dots,n\}\text{.}$$
 
-For evaluation, we assume that the model has been trained on the training set and that
-predictions are made on the test set.  We denote the predicted values as $\hat{y}_i$ for
-$i \in \mathcal{I}_\text{test}$, such that
-\begin{equation*}
-  \hat{y}_i = f_\theta(\vec{x}_i)\text{,}
-\end{equation*}
-where $\theta$ is the solution found by the learning algorithm from the training set, see
-\cref{eq:risk}.
+For evaluation, we consider a data preprocessing technique $F$ and a learning machine
+$M$.  The following steps are taken:
+\begin{enumerate}
+  \item Preprocessing technique $F$ is applied to the training set $D_\text{training} =
+    \{(\vec{x}_i, y_i) : i \in \mathcal{I}_\text{training}\}$ to obtain a preprocessed
+    training set $D'_\text{training}$ and a fitted preprocessor $f(\vec{x}, y; \phi)
+    \equiv f_\phi(\vec{x}, y)$ --- consult \cref{chap:preprocess}.
+  \item The learning machine $M$ is trained on the preprocessed training set
+    $D'_\text{training}$ to obtain a model $f(\vec{x}'; \theta) \equiv
+    f_\theta(\vec{x}')$ --- consult \cref{chap:slt}.
+  \item The preprocessor $f_\phi$ is applied to the test set $D_\text{test} =
+    \{(\vec{x}_i, y_i) : i \in \mathcal{I}_\text{test}\}$ to obtain a preprocessed test
+    set $D'_\text{test} = \{(\vec{x}'_i, y'_i) : i \in \mathcal{I}_\text{test}\}$ such
+    that $(\vec{x}'_i, y'_i) = f_\phi(\vec{x}_i, y_i)$.
+  \item The model $f_\theta$ is used to make predictions on the preprocessed test set
+    $D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}_i)$ for all
+    $i \in \mathcal{I}_\text{test}$.
+\end{enumerate}
+
+Note that, by comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
+evaluate how good the choice of $\phi$ (parameters of the preprocessor) and $\theta$
+(parameters of the model) was.
 
 \subsection{Binary classification evaluation}
 
