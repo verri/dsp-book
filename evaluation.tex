@@ -202,9 +202,10 @@ below.  The F-score is a way to balance precision and recall with a controlable 
 
 A common misconception about the asymmetrical metrics (especially precision) is that they
 are always robust to class imbalance.  Observe \cref{tab:classification-metrics-ex}, which shows
-the behavior of the classification performance metrics for two (useless) classifiers: one
-that always predicts the positive class (Guess 1) and another that always predicts the
-negative class (Guess 0).
+the behavior of the classification performance metrics for three (useless) classifiers: one
+that always predicts the positive class (Guess 1), another that always predicts the
+negative class (Guess 0), and a classifier that randomly guesses the class independently
+of the class priors (Random).
 
 \begin{tablebox}[label=tab:classification-metrics-ex]{Behavior of classification
   performance metrics for different classifiers.}
@@ -212,24 +213,28 @@ negative class (Guess 0).
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l c c c}
     \toprule
-    \textbf{Metric} & \textbf{Imbalance} & \textbf{Guess 1} & \textbf{Guess 0} \\
+    \textbf{Metric} & \textbf{Guess 1} & \textbf{Guess 0} & \textbf{Random} \\
     \midrule
-    Accuracy & Affected & $\pi$ & $1 - \pi$ \\
-    Balanced Accuracy & Not affected & $0.5$ & $0.5$ \\
-    Recall (TPR) & Not affected & $1$ & $0$ \\
-    Precision & Affected & $\pi$ & $0/0 = 0$ \\
-    F$_1$-score & Affected & $\frac{2 \pi}{1 + \pi}$ & 0 \\
-    Specificity (TNR) & Not affected & $0$ & $1$ \\
+    Accuracy$^\dagger$ & $\pi$ & $1 - \pi$ & $0.5$ \\
+    Balanced Accuracy & $0.5$ & $0.5$ & $0.5$ \\
+    Recall (TPR) & $1$ & $0$ & $0.5$ \\
+    Precision$^\dagger$ & $\pi$ & $0/0 = 0$ & $\pi$ \\
+    F$_1$-score$^\dagger$ & $\frac{2 \pi}{1 + \pi}$ & 0 & $\frac{2 \pi}{1 + 2\pi}$ \\
+    Specificity (TNR) & $0$ & $1$ & $0.5$ \\
     \bottomrule
   \end{tabular}
   \tcblower
   Performance of different classifiers in the example of a dataset with ratio $\pi$ of
-  positive and $1-\pi$ of negative samples.
+  positive and $1-\pi$ of negative samples.  Metrics affected by class imbalance are
+  marked with $^\dagger$.
 \end{tablebox}
 
-We can see that, as $\pi \to 1$, guessing the positive class achieves high values for
-metrics like accuracy, precision, and F$_1$-score.  As a result, they should be preferred
-when the positive class is the minority class.
+We can see that, as $\pi \to 1$, i.e. the positive class dominates the dataset, guessing
+the positive class achieves maximum values for metrics like accuracy, precision, and
+F$_1$-score.  Even for random guessing the class, precision (and F$_1$-score) is affected
+by the class imbalance, yielding $1$ (and $2/3$) as $\pi \to 1$.  As a result, these
+metrics should be preferred when the positive class is the minority class, so the results
+are not errouneously inflated --- and, consequently, mistakenly interpreted as good.
 \citeauthor{Williams2021}\footfullcite{Williams2021} provides an interesting discussion on
 that.
 
