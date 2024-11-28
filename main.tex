@@ -48,34 +48,6 @@
 \usetikzlibrary{fit}
 \usetikzlibrary {datavisualization.formats.functions}
 \usepackage{pgfplots}
-\makeatletter
-\newcommand{\gnuplotResult}{}
-\newcommand*{\gnuplotInvnorm}[2][\jobname.gnuplot]{%
-  \immediate\write18{gnuplot -e "set print '#1'; print invnorm(#2)"}%
-  \IfFileExists{#1}{%
-    \renewcommand{\gnuplotResult}{\input{#1}}%
-  }{%
-    \PackageError{gnuplotInvnorm}{File `#1' not found}{%
-      The file `#1' could not be found. Maybe you need to enable \write18.%
-    }%
-  }%
-}%
-\newcommand*{\gnuplotNorm}[2][\jobname.gnuplot]{%
-  \immediate\write18{gnuplot -e "set print '#1'; print norm(#2)"}%
-  \IfFileExists{#1}{%
-    \renewcommand{\gnuplotResult}{\input{#1}}%
-  }{%
-    \PackageError{gnuplotNorm}{File `#1' not found}{%
-      The file `#1' could not be found. Maybe you need to enable \write18.%
-    }%
-  }%
-}%
-\def\pgfdvmathinvnorm#1#2{%
-  % Remove prefix "1Y" and suffix "]" in #2
-  \gnuplotInvnorm{#2}%
-  \let#1=\gnuplotResult%
-}%
-\makeatother
 
 \tikzset{%
   decision/.style={draw, diamond, text centered, minimum height=0.5cm, minimum width=1cm},
