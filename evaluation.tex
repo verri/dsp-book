@@ -240,9 +240,11 @@ that.
 
 \subsection{Regression estimation evaluation}
 
-Performance measures for regression tasks are usally calculated based on the error or residual
-$\epsilon_i = \hat{y}_i - y_i$ for all $i \in \mathcal{I}_\text{test}$.  The most common measures
-are the mean absolute error, mean squared error.
+Performance measures for regression tasks are usally calculated based on the error (also
+called residual) $\epsilon_i = \hat{y}_i - y_i$ for all $i \in \mathcal{I}_\text{test}$ or
+a scaled version $\epsilon_i^{(f)} = f(\hat{y}_i) - f(y_i)$, for some function $f$.
+
+\subsubsection{Performance metrics}
 
 \paragraph{Mean absolute error} is the average of the absolute values of the residuals,
 given by
@@ -265,22 +267,30 @@ residuals are summed.
 This measure is in the same unit as the target variable, which makes it easier to
 interpret.
 
-% Deixar de fora.
-% \paragraph{Coefficient of determination} is a measure of how well the model explains the
-% variance of the target variable, given by
-% \begin{equation*}
-%   R^2 = 1 - \frac{1}{(n-1)s^2} \sum_{i=1}^n \epsilon_i^2\text{,}
-% \end{equation*}
-% where $s^2$ is the sample variance of the target variable $y_i : i \in
-% \mathcal{I}_\text{test}$.  The coefficient of determination ranges from $-\infty$ to 1,
-% where 1 indicates a perfect fit and 0 indicates that the model is as good as the mean of
-% the target variable.  Negative values indicate that the model is worse than the mean.
-% TODO: falar que não é diretamente comparável,
-% TODO: assimétricas precisam manter as prioris
+\paragraph{Mean absolute logarithmic error} is the mean of the absolute logarithmic errors,
+given by (assumes that $y_i > 0$ and $\hat{y}_i > 0$)
+\begin{equation*}
+  \text{MALE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i^{(f)} |\text{,}
+\end{equation*}
+where \[
+  f(x) = \log(1 + x)\text{.}
+\]
 
-% Sometimes, \dots
-% Falar do RMSLE, plotar a curva em função da diferença. RMSLE incurs a larger penalty for
-% the underestimation of the Actual variable than the Overestimation.
+\paragraph{Mean absolute percentage error} is the average of the relative errors, given by
+\begin{equation*}
+  \text{MAPE} = \frac{1}{n} \sum_{i=1}^n \frac{|\epsilon_i|}{y_i}\text{.}
+\end{equation*}
+
+\subsubsection{Interpretation of metrics}
+
+Note that, unlike the classification performance metrics, the scale of the regression
+performance metrics is not bounded between 0 and 1.  This makes it harder to interpret
+the results, as the values depend on the scale of the target variable.
+
+For the experimental plan we propose in this book, we suggest using metrics that average
+the errors, and not metrics like $R^2$ that are based on the variance of the target
+variable.  We expect that the metrics work well with small test sets, as in the limit,
+to be able to calculate for a single sample.
 
 \subsection{Probabilistic classification evaluation}
 
