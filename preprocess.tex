@@ -23,45 +23,6 @@ Finally, I discuss the importance of the default behavior of the model when the
 preprocessing chain degenerates over a sample, i.e. when the preprocessor decides that it
 has no strategy to adjust the data to make it suitable for the model.
 
-\begin{mainbox}{Chapter remarks}
-
-  \boxsubtitle{Contents}
-
-  \startcontents[chapters]
-  \printcontents[chapters]{}{1}{}
-  \vspace{1em}
-
-  \boxsubtitle{Context}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Tidy data is not necessarily suitable for modeling.
-    \item Parameters of the preprocessor are fitted rather than being fixed.
-  \end{itemize}
-
-  \boxsubtitle{Objectives}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Understand the main data preprocessing tasks and techniques.
-    \item Learn the behavior of the preprocessing chain in terms of fitting, adjustment,
-      and application.
-  \end{itemize}
-
-  \boxsubtitle{Takeaways}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Each learning method requires specific data preprocessing tasks.
-    \item Fitting the preprocessor is crucial to avoid leakage.
-    \item Default behavior of the model when the preprocessing chain degenerates must be
-      specified.
-  \end{itemize}
-\end{mainbox}
-
-{}
-\clearpage
-
 \section{Introduction}
 
 In \cref{chap:data,chap:handling}, we discussed data semantics and the tools to
