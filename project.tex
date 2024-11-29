@@ -24,46 +24,6 @@ In this chapter, we discuss common methodologies for data science projects.  We 
 present the concept of agile methodologies and the Scrum framework.  We finally propose an
 extension to Scrum adapted for data science projects.
 
-\begin{mainbox}{Chapter remarks}
-
-  \boxsubtitle{Contents}
-
-  \startcontents[chapters]
-  \printcontents[chapters]{}{1}{}
-  \vspace{1em}
-
-  \boxsubtitle{Context}
-
-  \begin{itemize}
-    \itemsep0em
-    \item A data science project is a software project.
-    \item Data science methodologies focus on the data analysis process.
-    \item The industry demands not only data analysis but also software development.
-  \end{itemize}
-
-  \boxsubtitle{Objectives}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Explore common methodologies for data science projects.
-    \item Understand agile methodologies and the Scrum framework.
-    \item Propose an extension to Scrum adapted for data science projects.
-  \end{itemize}
-
-  \boxsubtitle{Takeaways}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Modern data science methodologies take into account the software development aspects of the
-      project.
-    \item Scrum is a good framework for software development, and it can be adapted for
-      data science projects.
-  \end{itemize}
-\end{mainbox}
-
-{}
-\clearpage
-
 \section{CRISP-DM}
 
 CRISP-DM\footnote{Official guide available at
@@ -100,9 +60,7 @@ software development aspects of the project.  The ``product'' of the project is 
 models and findings, not the full software solution.  As a result, aspects such as user
 interface, communication, and integration are not addressed by the methodology.
 
-\clearpage
-
-\begin{figurebox}[label=fig:cripdm]{Diagram of the CRISP-DM process.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \node (1) at (0, 0) {};
@@ -136,10 +94,13 @@ interface, communication, and integration are not addressed by the methodology.
     \path [bigarrow] (3.west) to[out=180, in=-90] (4.-120);
     \path [bigarrow] (4.120) to[out=90, in=180] (1.west);
   \end{tikzpicture}
-  \tcblower
+  \caption{
+  Diagram of the CRISP-DM process.
   Each block represents a phase of the CRISP-DM process.  Data is the central element of
   the process.  Arrows represent the transitions between the phases.
-\end{figurebox}
+  }
+  \label{fig:cripdm}
+\end{figure}
 
 \Cref{fig:cripdm} shows a diagram of the CRISP-DM process.  The double arrow between the
 business understanding and the data understanding phases represents the iterative nature
@@ -224,7 +185,7 @@ CRISP-DM.  In the ZM approach, result presentation is essential; data scientists
 to communicate their results effectively to the client/sponsor.  This phase is also
 emphasized in the view of \textcite{Wickham2023}.
 
-\begin{figurebox}[label=fig:zumel]{Diagram of the data science process proposed by \textcite{Zumel2019}.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \node (1) at (0, 0) {};
@@ -250,12 +211,14 @@ emphasized in the view of \textcite{Wickham2023}.
     \path [dline] (pd) -- (dm);
     \path [dline] (dm.north) to[in=180, out=90] (dg.west);
   \end{tikzpicture}
-
-  \tcblower
+  \caption{
+  Diagram of the data science process proposed by \textcite{Zumel2019}.
   Each block represents a phase of the data science process.  The emphasis is on the
   cyclic nature of the process.  Arrows represent the transitions between the phases, which
   can be back-and-forth.
-\end{figurebox}
+  }
+  \label{fig:zumel}
+\end{figure}
 
 \subsection{Limitations of the ZM approach}
 
@@ -337,7 +300,7 @@ defined amount of work is completed. The goal is to deliver a potentially shippa
 product increment at the end of each sprint. Sprints are continuous, with no breaks in
 between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
 
-\begin{figurebox}[label=fig:scrum]{Scrum framework overview.}
+\begin{figure}
     \centering
     \begin{tikzpicture}[%
         font=\LARGE,
@@ -375,11 +338,14 @@ between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
       \node[draw, rectangle, dashed, align=center, label=above:incremental version] (version) at (7.8, -1.3) {\faBox~\faUserTie};
       \node[draw, rectangle, dashed, align=center, label=above:sprint retrospective] (retrospective) at (7.8, -2.6) {\faUserTie~\faUser~\faUsers};
     \end{tikzpicture}
-    \tcblower
+    \caption{
+    Scrum framework overview.
     The development centers around the sprints, which are time-boxed iterations.  Roles,
     other ceremonies, and artifacts support the sprints and ensure the progress and
     quality of the product.
-\end{figurebox}
+    }
+    \label{fig:scrum}
+\end{figure}
 
 Before a sprint starts, the Scrum team holds a sprint planning meeting to decide what will
 be worked on. The work for the sprint is selected from the product backlog, which is a
@@ -514,9 +480,8 @@ Parts of the responsibilities of the product owner (that represents the stakehol
 Scrum project are divided between the sponsor and the client in the ZM approach.  The data
 scientist is the one that leads the project in a similar way as the Scrum master.
 
-\begin{tablebox}[label=tab:roles]{Roles and responsibilities of our approach.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.5cm}}
     \toprule
     \textbf{Our approach} & \textbf{Scrum} & \textbf{ZM approach} \\
@@ -527,13 +492,16 @@ scientist is the one that leads the project in a similar way as the Scrum master
     Data science team     & Development team        & Data architect and operations \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
+  Roles and responsibilities of our approach.
   The roles of Scrum are associated with the roles defined by \textcite{Zumel2019}.
   Note that the association is not exact.
   In our approach, the data scientist leads the development team and interacts with the
   business spokesman.  The development team includes people with both data science and software
   engineering expertise.
-\end{tablebox}
+  }
+  \label{tab:roles}
+\end{table}
 
 In our approach, we consider four roles that cover the responsibilities in a data science
 project that also involves software development: the business spokesman, the lead data
@@ -778,7 +746,7 @@ production.  \emph{It is very important that, at this stage, no transformation b
 on the values of the dataset is performed.}  Failing to do so leads to \gls{leakage} in
 the validation phase.
 
-\begin{defbox}{Data leakage}{}
+\begin{definition}{Data leakage}
   During the validation of the solution, we simulate the production environment by leaving
   some data out of the training set --- consult \cref{chap:planning}.  The remaining
   dataset, called test set, emulates unseen data.  \Gls{leakage} is the situation where
@@ -786,7 +754,7 @@ the validation phase.
   train the model.  As a result, the validation performance of the solution is
   overestimated.  Sometimes, even an excess of data exploration can lead to indirect
   leakage or bias in the validation phase.
-\end{defbox}
+\end{definition}
 
 \paragraph{Solution sprint}
 The \emph{solution sprint} is focused on the solution search tasks: data preprocessing, machine
@@ -811,7 +779,7 @@ sprint focus on the development of the user interface, the communication between
 front-end and the back-end, and the monitoring of the solution in production.  Software
 documentation and unit tests are also part of this sprint.
 
-\begin{figurebox}[label=fig:our-sprints]{Tasks and results for each sprint types and their relationships.}
+\begin{figure}
   \centering
   \begin{tikzpicture}[%
       % every label is left side and rotated 90 degrees
@@ -855,9 +823,12 @@ documentation and unit tests are also part of this sprint.
     \path [line, dashed] (validation-report.east) -- (6.2, -4.5);
     \path [line, dashed] (application.east) -- (6.2, -9);
   \end{tikzpicture}
-  \tcblower
+  \caption{
+  Tasks and results for each sprint types and their relationships.
   Summary of the tasks and results for each sprint type and their relationships.
-\end{figurebox}
+  }
+  \label{fig:our-sprints}
+\end{figure}
 
 \paragraph{}
 \Cref{fig:our-sprints} shows the tasks and results for each sprint type and their
@@ -875,7 +846,7 @@ and ZM approach, it is possible to go back to a previous sprint type, especially
 when new requirements or problems are identified.
 
 % A figure that shows sprints sequentially
-\begin{figurebox}[label=fig:sprints]{Example of sprints of a data science project.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \node [anchor=west] at (0, 0) (s1) {data};
@@ -903,10 +874,13 @@ when new requirements or problems are identified.
     \path [line] (s7.west) arc (-160:160:1);
     \path [line] (7.5, -3.5) -- (8.5, -3.5) node [anchor=west] {\dots};
   \end{tikzpicture}
-  \tcblower
+  \caption{
+  Example of sprints of a data science project.
   Each loop represents a sprint of a different kind: data sprint, solution sprint, and
   application sprint.  The arrows represent the transitions between the sprints.
-\end{figurebox}
+  }
+  \label{fig:sprints}
+\end{figure}
 
 \Cref{fig:sprints} shows an example of a sequence of sprints of a data science project.
 The figure shows that the sprints are sequential and their types can appear in
@@ -937,10 +911,8 @@ includes aspects of software development that are not covered by the other
 methodologies. \Cref{tab:phases} relates the phases of the CRISP-DM and the ZM approach
 with the sprint types and other artifacts and ceremonies of our approach.
 
-\begin{tablebox}[label=tab:phases]{Relationship between coverage of other methodologies and our approach.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
-  \small % TODO: ugly workaround, maybe use p{} instead of l
   \begin{tabular}{lll}
     \toprule
     \textbf{CRISP-DM} & \textbf{ZM approach} & \textbf{Our approach} \\
@@ -954,11 +926,14 @@ with the sprint types and other artifacts and ceremonies of our approach.
     Deployment & Deploy the model & Application sprint \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
+  Relationship between coverage of other methodologies and our approach.
   The phases of the CRISP-DM and the ZM approach are compared with the components of our
   approach.  The table shows that our approach covers all the phases of the other
   methodologies.
-\end{tablebox}
+  }
+  \label{tab:phases}
+\end{table}
 
 One highlight is that we approach CRISP-DM's ``data preparation'' and ZM's
 ``collect/manage data'' tasks more carefully.  Data handling operations that are not

@@ -24,45 +24,6 @@ focused on the requirements of data for analysis.  Both concepts interact with e
 and have their mathematical foundations.  I bridge the gap between the two concepts by
 discussing their common mathematical foundations.
 
-\begin{mainbox}{Chapter remarks}
-
-  \boxsubtitle{Contents}
-
-  \startcontents[chapters]
-  \printcontents[chapters]{}{1}{}
-  \vspace{1em}
-
-  \boxsubtitle{Context}
-
-  \begin{itemize}
-    \itemsep0em
-    \item There is no consensus on the definition of data science.
-    \item Understanding the nature of data is important to extract knowledge from it.
-    \item Structured data are data that are organized in a tabular format.
-  \end{itemize}
-
-  \boxsubtitle{Objectives}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Define data science.
-    \item Present the main concepts about data theory.
-  \end{itemize}
-
-  \boxsubtitle{Takeaways}
-
-  \begin{itemize}
-    \itemsep0em
-    \item Data science is a new science that studies the knowledge extraction from
-      measurable phenomena using computational methods.
-    \item Database normalization and tidy data are complementary concepts that interact
-      with each other.
-  \end{itemize}
-\end{mainbox}
-
-{}
-\clearpage
-
 \section{Data science definition}
 
 In literature, we can find many definitions and descriptions of data science.
@@ -103,10 +64,11 @@ they represent.
 Note that these definitions do not contradict each other.  But, they do not attempt to
 emphasize the ``science'' aspect of it.  From these ideas, let us define the term.
 
-\begin{defbox}{Data science}{ds}
+\begin{definition}[Data science]
+  \label{def:ds}
   Data science is the study of knowledge extraction from
   measurable phenomena using computational methods.
-\end{defbox}
+\end{definition}
 
 I want to highlight the meaning of some terms in this definition.  \emph{Computational methods} means
 that data science methods use computers to handle data and perform the calculations.
@@ -156,7 +118,7 @@ consequences.
 \def\verride {(2.5,0) circle (15mm)}
 \def\verrics {(0,-2.5) circle (15mm)}
 
-\begin{figurebox}[label=fig:myview]{My view of data science.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \begin{scope}
@@ -171,7 +133,8 @@ consequences.
     \draw[outline] \verrics node {Computer science};
     \node[anchor=north,above] at (0, 1) {Data science};
   \end{tikzpicture}
-  \tcblower
+  \caption{
+    My view of data science.
     Data science is an entirely new science.  Being a new science
     does not mean that its basis is built from the ground up.  Most of the subjects in
     data science come from other sciences, but its object of study (computational methods
@@ -179,7 +142,9 @@ consequences.
     new scientific questions -- such as data ethics, data collection, etc.
     Note that I emphasize philosophy over domain expertise because, in terms
     of scientific knowledge, the former is more general than the latter.
-\end{figurebox}
+  }
+  \label{fig:myview}
+\end{figure}
 
 \Cref{fig:myview} shows my view of data science.  Data science is an entirely new science
 that incorporates concepts from other sciences.  In the next section, I argue the reasons
@@ -219,7 +184,7 @@ the premises and hypotheses of new methods become distinctive.  The particular p
 of the methods lead to the inception of methodologies to validate them. While validating
 the methods, new questions arise.
 
-\begin{figurebox}[label=fig:continuum]{The data science continuum.}
+\begin{figure}
   \centering
   \begin{tikzpicture}[node distance=10mm and 3mm]
     % Base Layer: Established Sciences
@@ -240,7 +205,7 @@ the methods, new questions arise.
     \draw[-{Stealth}] (methods) -- (validation);
     \draw[-{Stealth}] (validation) -- (science);
   \end{tikzpicture}
-  \tcblower
+  \caption{
     The data science continuum is the process of development of data science as a new
     science.  It began by borrowing methods and techniques from established sciences. Over
     time, distinct principles emerged that spanned multiple disciplines. As these
@@ -248,7 +213,9 @@ the methods, new questions arise.
     led to the creation of specific methodologies for validating these methods. During the
     validation process, new questions and challenges arose, further distinguishing data
     science from its parent disciplines.
-\end{figurebox}
+  }
+  \label{fig:continuum}
+\end{figure}
 
 The data science continuum is an instance of this process; see \cref{fig:continuum}.  At
 first glance, data science seems like just a combination of computer science, statistics,
