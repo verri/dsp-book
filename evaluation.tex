@@ -21,21 +21,24 @@ $M$.  The following steps are taken:
 \begin{enumerate}
   \item Preprocessing technique $F$ is applied to the training set $D_\text{training} =
     \{(\vec{x}_i, y_i) : i \in \mathcal{I}_\text{training}\}$ to obtain a preprocessed
-    training set $D'_\text{training}$ and a fitted preprocessor $f(\vec{x}, y; \phi)
-    \equiv f_\phi(\vec{x}, y)$ --- consult \cref{chap:preprocess}.
+    training set $D'_\text{training}$ and a fitted preprocessor $f(\vec{x}; \phi)
+    \equiv f_\phi(\vec{x})$ --- consult \cref{chap:preprocess}.  Note that, by
+    definition, the size of the adjusted training set can be different from the original
+    due to sampling or filtering.
   \item The learning machine $M$ is trained on the preprocessed training set
     $D'_\text{training}$ to obtain a model $f(\vec{x}'; \theta) \equiv
     f_\theta(\vec{x}')$ --- consult \cref{chap:slt}.
   \item The preprocessor $f_\phi$ is applied to the test set $D_\text{test} =
     \{(\vec{x}_i, y_i) : i \in \mathcal{I}_\text{test}\}$ to obtain a preprocessed test
-    set $D'_\text{test} = \{(\vec{x}'_i, y'_i) : i \in \mathcal{I}_\text{test}\}$ such
-    that $(\vec{x}'_i, y'_i) = f_\phi(\vec{x}_i, y_i)$.
+    set $D'_\text{test} = \{(\vec{x}'_i, y_i) : i \in \mathcal{I}_\text{test}\}$ such
+    that $\vec{x}'_i = f_\phi(\vec{x}_i)$.  Note that, to avoid \gls{leakage} and other
+    issues, the preprocessor has no access to the target values $y_i$.
   \item The model $f_\theta$ is used to make predictions on the preprocessed test set
-    $D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}_i)$ for all
+    $D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}'_i)$ for all
     $i \in \mathcal{I}_\text{test}$.
 \end{enumerate}
 
-Note that, by comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
+By comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
 evaluate how good the choice of $\phi$ (parameters of the preprocessor) and $\theta$
 (parameters of the model) was.
 
@@ -238,6 +241,10 @@ are not errouneously inflated --- and, consequently, mistakenly interpreted as g
 \citeauthor{Williams2021}\footfullcite{Williams2021} provides an interesting discussion on
 that.
 
+Finally, besides accuracy, the other metrics do not behave well when the evaluation set is
+too small.  In this case, the metrics may be too sensitive to the particular samples in
+the test set or may not be able to be calculated at all.
+
 \subsection{Regression estimation evaluation}
 
 Performance measures for regression tasks are usally calculated based on the error (also
@@ -287,10 +294,10 @@ Note that, unlike the classification performance metrics, the scale of the regre
 performance metrics is not bounded between 0 and 1.  This makes it harder to interpret
 the results, as the values depend on the scale of the target variable.
 
-For the experimental plan we propose in this book, we suggest using metrics that average
-the errors, and not metrics like $R^2$ that are based on the variance of the target
-variable.  We expect that the metrics work well with small test sets, as in the limit,
-to be able to calculate for a single sample.
+For the experimental plan we propose in this book, we should avoid metrics like
+coefficient of determination, $R^2$, as we do not make assumptions about model --- in this
+case, we do not assume that the model is linear.  Similarly to data classification, we
+should prefer metrics work well with small test sets.
 
 \subsection{Probabilistic classification evaluation}
 
