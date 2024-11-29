@@ -68,7 +68,7 @@ processing’, North-Holland Publ. Co., Amsterdam, 1971.} Note however that his 
 science only ``deals with data [\dots] while the relation of data to what they represent
 is delegated to other fields and sciences.''
 
-\begin{figurebox}[label=fig:naur]{Naur's view of data science.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \begin{scope}
@@ -80,10 +80,13 @@ is delegated to other fields and sciences.''
     \draw[outline] \naurde node {Domain expertise};
     \node[anchor=north,above] at (0,2) {Data science};
   \end{tikzpicture}
-  \tcblower
+  \caption{
+    Naur's view of data science.
     For Naur, data science studies the techniques to deal
     with data, but he delegates the meaning of data to other fields.
-\end{figurebox}
+  }
+  \label{fig:naur}
+\end{figure}
 
 It is interesting to see the central role he gave to data in the field of computer
 science. His view that the relation of data to what they represent is delegated to other
@@ -113,7 +116,7 @@ used today. He is a highly influential figure in the fields of statistics, machi
 learning, data visualization, data analysis for multidisciplinary studies, and high
 performance computing for deep data analysis.
 
-\begin{figurebox}[label=fig:cleveland]{Cleveland's view of data science.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \begin{scope}
@@ -128,10 +131,13 @@ performance computing for deep data analysis.
     \draw[outline] \clevelandcs node {Computer science};
     \node[anchor=north,above] at (0,2) {Data science};
   \end{tikzpicture}
-  \tcblower
+  \caption{
+    Cleveland's view of data science.
     For Cleveland, data science is the ``modern'' statistics,
     where it is enlarged by computer science and domain expertise.
-\end{figurebox}
+  }
+  \label{fig:cleveland}
+\end{figure}
 
 In his view, data science is the ``modern'' statistics, where it is enlarged by computer
 science methods and domain expertise.  An illustration of Cleveland's view of data science
@@ -179,7 +185,7 @@ The importance of collecting and organizing data goes without saying.  Data fuel
 decision making.  In the following, I present some of the most important milestones in the history
 of data handling.
 
-\begin{figurebox}[label=fig:data-handling-history]{Timeline of the ages of data handling.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \draw (0,0) -- (8,0);
@@ -196,7 +202,9 @@ of data handling.
       \node[anchor=south] at (0.9 * \x,0.1) {\footnotesize\z};
     }
   \end{tikzpicture}
-\end{figurebox}
+  \caption{Timeline of the ages of data handling.}
+  \label{fig:data-handling-history}
+\end{figure}
 
 \Cref{fig:data-handling-history} illustrates the proposed timeline.  Ages have no absolute
 boundaries, but rather periods where some important events happened.  Also, observe that
@@ -424,7 +432,7 @@ The way we think about data and knowledge extraction has evolved significantly o
 years.  In the following, I present some of the most important milestones in the history
 of data analysis and knowledge extraction.
 
-\begin{figurebox}[label=fig:data-analysis-history]{Timeline of the ages of data analysis.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \draw (0,0) -- (8,0);
@@ -439,7 +447,9 @@ of data analysis and knowledge extraction.
       \node[anchor=south] at (\x,0.1) {\footnotesize\z};
     }
   \end{tikzpicture}
-\end{figurebox}
+  \caption{Timeline of the ages of data analysis.}
+  \label{fig:data-analysis-history}
+\end{figure}
 
 \Cref{fig:data-analysis-history} illustrates the proposed timeline.  I consider changes of
 ages to be smooth transitions, and not strict boundaries.  The theoretical advances are
