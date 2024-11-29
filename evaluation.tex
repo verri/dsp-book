@@ -247,31 +247,41 @@ the test set or may not be able to be calculated at all.
 
 \subsection{Regression estimation evaluation}
 
-Performance measures for regression tasks are usally calculated based on the error (also
-called residual) $\epsilon_i = \hat{y}_i - y_i$ for all $i \in \mathcal{I}_\text{test}$ or
-a scaled version $\epsilon_i^{(f)} = f(\hat{y}_i) - f(y_i)$, for some function $f$.
+Performance metrics for regression tasks are usally calculated based on the error (also
+called residual) $$\epsilon_i = \hat{y}_i - y_i$$ for all $i \in \mathcal{I}_\text{test}$ or
+a scaled version $$\epsilon_i^{(f)} = f(\hat{y}_i) - f(y_i)\text{,}$$ for some scaling
+function $f$.
 
 \subsubsection{Performance metrics}
 
-\paragraph{Mean absolute error} is the average of the absolute values of the residuals,
+From the errors, we can calculate several performance metrics that give us useful
+information about the behavior of the model.  Specifically, we are interested in
+understanding what kind of errors the model is making and how large they are.  Unlike
+classification, the higher the value of the metric, the worse the model is.
+
+\paragraph{Mean absolute error} is probably the simplest performance metric for regression
+estimation tasks.  It is the average of the absolute values of the errors,
 given by
 \begin{equation*}
   \text{MAE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i |\text{.}
 \end{equation*}
-This measure is easy to interpret and gives an idea of the average error of the model.
+This metric is easy to interpret, is in the same unit as the target variable, and gives an
+idea of the average error of the model.  It ignores the direction of the errors, so it is
+not useful to understand if the model is systematically overestimating or underestimating
+the target variable.
 
 \paragraph{Mean squared error} is the average of the squared residuals, given by
 \begin{equation*}
   \text{MSE} = \frac{1}{n} \sum_{i=1}^n \epsilon_i^2\text{.}
 \end{equation*}
-This measure penalizes large errors more than the mean absolute error, as the squared
+This metric penalizes large errors more than the mean absolute error, as the squared
 residuals are summed.
 
 \paragraph{Root mean squared error} is the square root of the mean squared error, given by
 \begin{equation*}
   \text{RMSE} = \sqrt{\text{MSE}}\text{.}
 \end{equation*}
-This measure is in the same unit as the target variable, which makes it easier to
+This metric is in the same unit as the target variable, which makes it easier to
 interpret.
 
 \paragraph{Mean absolute logarithmic error} is the mean of the absolute logarithmic errors,
@@ -291,7 +301,7 @@ where \[
 \subsubsection{Interpretation of metrics}
 
 Note that, unlike the classification performance metrics, the scale of the regression
-performance metrics is not bounded between 0 and 1.  This makes it harder to interpret
+performance metrics is not bounded between 0 and 1.  This makes it potentially harder to interpret
 the results, as the values depend on the scale of the target variable.
 
 For the experimental plan we propose in this book, we should avoid metrics like
@@ -324,7 +334,7 @@ threshold $\tau$:
   \end{cases}
 \end{equation*}
 
-Before we discuss the performance measures for probabilistic classifiers, let us define
+Before we discuss the performance metrics for probabilistic classifiers, let us define
 some rates that are used in the evaluation.  The true positive rate (TPR) is the proportion
 of true positive predictions over the total number of samples that are actually positive,
 \begin{equation*}
@@ -414,7 +424,7 @@ possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
 
 The ROC curve is useful to explore the trade-off between recall and specificity.  The
 diagonal line represents a random classifier, and points above the diagonal are better
-than random.  The area under the ROC curve (AUC) is a possible measure of the performance
+than random.  The area under the ROC curve (AUC) is a possible metric of the performance
 of the classifier.  The AUC is scale invariant, which means that it measures how well
 predictions are ranked, rather than their absolute values.  In our example, the AUC is
 $0.8$.
