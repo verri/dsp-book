@@ -1,4 +1,5 @@
-\documentclass{memoir}
+\documentclass[oneside,a4paper,10pt]{book}
+\usepackage[left=3cm, right=3cm, bottom=3cm, top=4cm]{geometry}
 
 \usepackage[T1]{fontenc}
 \usepackage[final]{microtype}
@@ -143,7 +144,7 @@
 
 \maketitle
 
-The book is typeset with \LaTeX{} using the Memoir class.  All figures are
+The book is typeset with \LaTeX{}.  All figures are
 original and created with Ti\textit{k}Z.  Proudly written in
 \href{https://neovim.io/}{Neovim} with the assistance of
 \href{https://github.com/features/copilot}{GitHub Copilot}.
@@ -181,7 +182,6 @@ Restricted use only.  All rights reserved.
 \input{preprocess}
 \input{planning}
 
-\renewcommand{\theHchapter}{A\arabic{chapter}} % workaround for hyperref
 \appendix
 \input{preliminaries}
 \input{machines}
