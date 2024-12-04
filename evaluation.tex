@@ -6,37 +6,72 @@ One fundamental step in the validation of a data driven solution for a task is t
 measure performance of
 classifiers and regressors, and how to interpret the results.
 
-We consider the following setup.  Let $$D = \{(\vec{x}_i, y_i)\}_{i=1,\dots,n}$$ be a
-dataset\footnote{We assume that the dataset is tidy, in the appropriate observational
-unit, and representative of the phenomenon of interest.}, where $\vec{x}_i$ is a feature
-vector and $y_i$ is the target value.  We assume
-that the dataset is split into a training set, given by indices
+We consider the following setup.  Let $T = (K, H, c)$ be a table that represents the data
+in the desired observational unit --- as defined in \cref{sec:formal-structured-data}.
+Without loss of generality --- as the keys are not used in the modeling process ---, we
+can consider $K = \{1, 2, \dots\}$ such that $\rowcard[i] = 1$, if $i \in \{1, \dots,
+n\}$, and $\rowcard[i] = 0$, otherwise.  That means that every row $r \in \{1, \dots, n\}$
+is present in the table.
+
+The table is split into a training set, given by indices
 $\mathcal{I}_\text{training} \in \{1, \dots, n\}$, and a test set, given by indices
 $\mathcal{I}_\text{test} \in \{1, \dots, n\}$, such that $$\mathcal{I}_\text{training}
 \cap \mathcal{I}_\text{test} = \emptyset$$ and $$\mathcal{I}_\text{training} \cup
 \mathcal{I}_\text{test} = \{1,\dots,n\}\text{.}$$
 
+The bridge between the table format (\cref{def:itable}) and the data format used in the
+learning process (as described in \cref{sec:learning-problem}) is explained in the
+following.  We say that the pair $(\vec{x}_i, y_i)$ contains the feature vector $\vec{x}_i$
+and the target value $y_i$ of the sample with key $i$ in table $T$.  Mathematically,
+given target variable $h \in H$, we have that $y_i = c(i, h)$ and $\vec{x}_i$ is the tuple
+$$\big(c(i, h') : h' \in H \setminus \left\{ h \right\}\big)\text{.}$$
+
 For evaluation, we consider a data preprocessing technique $F$ and a learning machine
-$M$.  The following steps are taken:
-\begin{enumerate}
-  \item Preprocessing technique $F$ is applied to the training set $D_\text{training} =
-    \{(\vec{x}_i, y_i) : i \in \mathcal{I}_\text{training}\}$ to obtain a preprocessed
-    training set $D'_\text{training}$ and a fitted preprocessor $f(\vec{x}; \phi)
-    \equiv f_\phi(\vec{x})$ --- consult \cref{chap:preprocess}.  Note that, by
-    definition, the size of the adjusted training set can be different from the original
-    due to sampling or filtering.
-  \item The learning machine $M$ is trained on the preprocessed training set
-    $D'_\text{training}$ to obtain a model $f(\vec{x}'; \theta) \equiv
-    f_\theta(\vec{x}')$ --- consult \cref{chap:slt}.
-  \item The preprocessor $f_\phi$ is applied to the test set $D_\text{test} =
-    \{(\vec{x}_i, y_i) : i \in \mathcal{I}_\text{test}\}$ to obtain a preprocessed test
+$M$.  The following steps are taken.
+
+\paragraph{Preprocessing}
+
+Preprocessing technique $F$ is applied to the training set $T_\text{training} = (K, H,
+c_\text{training})$ where \[
+  c_\text{training}(i, h) = \begin{cases}
+    c(i, h) & \text{if } i \in \mathcal{I}_\text{training}\text{,} \\
+    () & \text{otherwise}\text{.}
+  \end{cases}
+\]  The result is a preprocessed training set $T'_\text{training}$ and a fitted
+preprocessor $f(\vec{x}; \phi) \equiv f_\phi(\vec{x})$, where $\vec{x} \in \mathcal{X}$
+for some space $\mathcal{X}$ that does not include (or does not modify) the target
+variable --- consult \cref{sub:formal-preprocessing}.  Note that, by definition, the size
+of the adjusted training set can be different from the original due to sampling or
+filtering.  The hard requirement is that the target variable $h$ is not changed.
+
+\paragraph{Learning}
+
+The learning machine $M$ is trained on the preprocessed training set $D'_\text{training} =
+\{(\vec{x}'_i, y'_i)\}$, where pairs $(\vec{x}'_i, y'_i)$ come from the table
+$T'_\text{training}$.  The result is a model $f(\vec{x}'; \theta) \equiv
+f_\theta(\vec{x}')$ --- consult \cref{chap:slt}.
+
+\paragraph{Transformation}
+
+The preprocessor $f_\phi$ is applied to the test set $T_\text{test} = (K, H,
+c_\text{test})$ where \[
+  c_\text{test}(i, h) = \begin{cases}
+    c(i, h) & \text{if } i \in \mathcal{I}_\text{test}\text{,} \\
+    () & \text{otherwise}\text{.}
+  \end{cases}
+\]  The result is a preprocessed test set $T'_\text{test}$ from which we can obtain the
     set $D'_\text{test} = \{(\vec{x}'_i, y_i) : i \in \mathcal{I}_\text{test}\}$ such
     that $\vec{x}'_i = f_\phi(\vec{x}_i)$.  Note that, to avoid \gls{leakage} and other
-    issues, the preprocessor has no access to the target values $y_i$.
-  \item The model $f_\theta$ is used to make predictions on the preprocessed test set
+    issues, the preprocessor has no access to the target values $y_i$ (even if the
+    preprocessed training set use the label somehow).
+
+\paragraph{Prediction}
+
+The model $f_\theta$ is used to make predictions on the preprocessed test set
     $D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}'_i)$ for all
     $i \in \mathcal{I}_\text{test}$.
-\end{enumerate}
+
+\paragraph{Evaluation}
 
 By comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
 evaluate how good the choice of $\phi$ (parameters of the preprocessor) and $\theta$
