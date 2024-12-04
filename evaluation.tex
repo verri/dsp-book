@@ -37,7 +37,7 @@ c_\text{training})$ where \[
     c(i, h) & \text{if } i \in \mathcal{I}_\text{training}\text{,} \\
     () & \text{otherwise}\text{.}
   \end{cases}
-\]  The result is a preprocessed training set $T'_\text{training}$ and a fitted
+\]  The result is an adjusted training set $T'_\text{training}$ and a fitted
 preprocessor $f(\vec{x}; \phi) \equiv f_\phi(\vec{x})$, where $\vec{x} \in \mathcal{X}$
 for some space $\mathcal{X}$ that does not include (or does not modify) the target
 variable --- consult \cref{sub:formal-preprocessing}.  Note that, by definition, the size
@@ -46,7 +46,7 @@ filtering.  The hard requirement is that the target variable $h$ is not changed.
 
 \paragraph{Learning}
 
-The learning machine $M$ is trained on the preprocessed training set $D'_\text{training} =
+The learning machine $M$ is trained on the adjusted training set $D'_\text{training} =
 \{(\vec{x}'_i, y'_i)\}$, where pairs $(\vec{x}'_i, y'_i)$ come from the table
 $T'_\text{training}$.  The result is a model $f(\vec{x}'; \theta) \equiv
 f_\theta(\vec{x}')$ --- consult \cref{chap:slt}.
@@ -63,7 +63,7 @@ c_\text{test})$ where \[
     set $D'_\text{test} = \{(\vec{x}'_i, y_i) : i \in \mathcal{I}_\text{test}\}$ such
     that $\vec{x}'_i = f_\phi(\vec{x}_i)$.  Note that, to avoid \gls{leakage} and other
     issues, the preprocessor has no access to the target values $y_i$ (even if the
-    preprocessed training set use the label somehow).
+    adjusted training set use the label somehow).
 
 \paragraph{Prediction}
 
@@ -75,7 +75,7 @@ The model $f_\theta$ is used to make predictions on the preprocessed test set
 
 By comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
 evaluate how good the choice of $\phi$ (parameters of the preprocessor) and $\theta$
-(parameters of the model) was.
+(parameters of the model) is.
 
 \subsection{Binary classification evaluation}
 
