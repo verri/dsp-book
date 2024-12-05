@@ -368,7 +368,7 @@ the ratio between the number of folds and the total number of performance sample
 
 To estimate the probability of the performance of the solution being greater than the
 threshold, we first estimate the parameters $\mu$ and $\nu = \sigma^{-2}$ of the
-generative model.  \textcite{Benavoli2017} consider the prior
+generative model.  \citeauthor{Benavoli2017} consider the prior
 \begin{equation*}
   \Prob(\mu, \nu \mid \mu_0, \kappa_0, a, b) = \operatorname{NG}(\mu, \nu; \mu_0, \kappa_0, a, b)\text{,}
 \end{equation*}
@@ -399,14 +399,14 @@ the threshold $p^{*}$ consists of calculating the probability
 where $\gamma$ is the confidence level.
 
 Note that the Bayesian analysis is a more sophisticated technique than the null hypothesis
-significance testing, as it allows us to estimate the probability of the performance of
-the solution being better than a certain threshold.
+significance testing, as it allows us to estimate the probability of the hypothesis
+instead of the probability of observing the data given the hypothesis.
+\textcite{Benavoli2017}\footfullcite{Benavoli2017} deeply discuss the subject.
 
-% TODO: fix all textcite
 Also, be aware that the choice of the model and the prior distribution can affect the
-results.  \textcite{Benavoli2017} suggest using 10 repetitions of 10-fold cross-validation
+results.  \citeauthor{Benavoli2017} suggest using 10 repetitions of 10-fold cross-validation
 to estimate the parameters of the generative model.  They also show experimental evidence
-that their choices are robust to the choice of the prior distribution.  However, one
+that their procedure are robust to the choice of the prior distribution.  However, one
 should be aware of the limitations of the model.
 
 \subsection{Comparing strategies}
