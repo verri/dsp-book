@@ -411,10 +411,12 @@ probability\footnote{Although the term probability is used, the output of the re
 does not need to be a probability in the strict sense.  It is a confidence level in the
 interval $[0, 1]$ that can be interpreted as a probability.} of a sample belonging to the
 positive class --- i.e. $y = 1$.  In this case, the output of the model should be a
-probability in the interval $[0, 1]$.  We can use a threshold $\tau$ to convert the
+value in the interval $[0, 1]$.  We can use a threshold $\tau$ to convert the
 probabilities into binary predictions.  The default threshold is usually $\tau = 0.5$ ---
-a sample is positive if the probability is greater than or equal to 0.5 and negative
-otherwise ---, but it can be adjusted to change the trade-off between recall and
+a sample is positive if the probability is greater than or equal to 0.5, and it is negative,
+otherwise.
+
+However, the threshold can be adjusted to change the trade-off between recall and
 specificity. A low threshold, $\tau \approx 0$, will increase recall at the expense of
 specificity, while a high threshold, $\tau \approx 1$, will increase specificity at the
 expense of recall.
@@ -429,55 +431,85 @@ threshold $\tau$:
   \end{cases}
 \end{equation*}
 
-Before we discuss the performance metrics for probabilistic classifiers, let us define
-some rates that are used in the evaluation.  The true positive rate (TPR) is the proportion
-of true positive predictions over the total number of samples that are actually positive,
-\begin{equation*}
-  \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{,}
-\end{equation*}
-and the false positive rate (FPR) is the proportion of false positive predictions over the
-total number of samples that are actually negative,
+Since the task is still a classification task, one should not use regression performance
+metrics.  On the other hand, instead of choosing a particular threshold and measuring the
+resulting classifier performance, we can summarize the performance of all possible
+variations of the classifiers using appropriate metrics.
+
+Before, diving into the metrics, consider the following error metric.  Let false positive
+rate (FPR) be the proportion of false positive predictions over the total number of
+samples that are actually negative,
 \begin{equation*}
   \text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}\text{.}
 \end{equation*}
+It is the complement of the specificity, i.e. $\text{FPR} = 1 - \text{Specificity}$.
 
-The performance of the possible variations of the classifiers can be evaluated using
-appropriate measures.  Consider the example below of a given test set and the predictions
-of a regressor.  We first sort the samples by the predicted probabilities and then
-% TODO: define TPR, FPR, FNR somewhere else
-calculate the true positive rate and false positive rate for each threshold.
-We need to consider only thresholds equal to the unique predicted values to understand the
-variations.
+Consider the example in \cref{tab:prob-reg-out} of a given test set and the predictions of
+a regressor. We can see that that a threshold of 0.5 would yield a classifier that errors
+in 3 out of 9 samples.  We can adjust the threshold to understand the behavior of the
+other possible classifiers.
 
-\begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of probability .}
+\begin{tablebox}[label=tab:prob-reg-out]{Illustrative example of probability regressor
+  output.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{rrrr}
+  \begin{tabular}{rr}
     \toprule
-    \textbf{Predicted/Threshold} & \textbf{Expected} & \textbf{TPR} & \textbf{FPR}  \\
+    \textbf{Expected} & \textbf{Predicted} \\
     \midrule
-    - / $\infty$ & - & $0/5$ & $0/5$ \\
-    $0.98$       & 1 & $1/5$ & $0/5$ \\
-    $0.97$       & 1 & $2/5$ & $0/5$ \\
-    $0.80$       & 0 & $2/5$ & $1/5$ \\
-    $0.72$       & 1 & $3/5$ & $1/5$ \\
-    $0.70$       & 1 & $4/5$ & $1/5$ \\
-    $0.66$       & 0 & $4/5$ & $2/5$ \\
-    $0.52$       & 0 & $4/5$ & $3/5$ \\
-    $0.40$       & 1 & $5/5$ & $3/5$ \\
-    $0.25$       & 0 & $5/5$ & $4/5$ \\
-    $0.10$       & 0 & $5/5$ & $5/5$ \\
+    0 & 0.1  \\
+    0 & 0.5  \\
+    0 & 0.2  \\
+    0 & 0.6  \\
+    1 & 0.4  \\
+    1 & 0.9  \\
+    1 & 0.7  \\
+    1 & 0.8  \\
+    1 & 0.9  \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
-From this table, we can calculate the performance measures that are useful for
-probabilistic classifiers.
+We first sort the samples by the predicted probabilities and then calculate the TPR
+(recall) and FPR for each threshold.  We need to consider only thresholds equal to the
+predicted values to understand the variations.  In this case, TPR values become the
+cummulative sum of the expected outputs divided by the total number of positive samples,
+and FPR values become the cummulative sum of the complement of the expected outputs
+divided by the total number of negative samples.
+
+\begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of classifiers derived
+  from different threshold.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{rrrrr}
+    \toprule
+    \textbf{Expected} & \textbf{Threshold} & \textbf{TPR} & \textbf{FPR}  \\
+    \midrule
+    - & - / $\infty$ & $0/5$ & $0/4$ \\
+    1 & $0.9$        & $1/5$ & $0/4$ \\
+    1 & $0.9$        & $2/5$ & $0/4$ \\
+    1 & $0.8$        & $3/5$ & $0/4$ \\
+    1 & $0.7$        & $4/5$ & $0/4$ \\
+    0 & $0.6$        & $4/5$ & $1/4$ \\
+    0 & $0.5$        & $4/5$ & $2/4$ \\
+    1 & $0.4$        & $5/5$ & $2/4$ \\
+    0 & $0.2$        & $5/5$ & $3/4$ \\
+    0 & $0.1$        & $5/5$ & $4/4$ \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  Performance of different classifiers derived from the regressor output in
+  \cref{tab:prob-reg-out}.  The threshold are equal to the predicted values.
+\end{tablebox}
+
+Note that, from the ordered list of preditions, we can easily see that a threshold of 0.7
+would yield a classifier that commits only one error.  A way to summarize the performance
+of all possible classifiers is presented in the following.
 
 \subsubsection{Receiver operating characteristic}
 
 The receiver operating characteristic (ROC) curve is a graphical representation of the
-trade-off between the true positive rate and the false positive rate as the threshold
+trade-off between TPR and FPR as the threshold
 $\tau$ is varied.  The ROC curve is obtained by plotting the TPR against the FPR for all
 possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
 \cref{tab:prob-reg-example}.
@@ -488,27 +520,38 @@ possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
     \datavisualization [
       scientific axes=clean,
       visualize as line/.list={curve, diagonal},
+      visualize as scatter/.list={points},
       x axis={label={FPR}, include value=0.0, include value=1.0, length=5cm},
       y axis={label={TPR}, include value=0.0, include value=1.0, length=5cm},
       all axes={grid},
-      style sheet=vary dashing,
+      style sheet={vary dashing},
     ] data [set=curve] {
-      % based on the table above
       x, y
       0.0, 0.0
       0.0, 0.2
       0.0, 0.4
-      0.2, 0.4
-      0.2, 0.6
-      0.2, 0.8
-      0.4, 0.8
-      0.6, 0.8
-      0.6, 1.0
-      0.8, 1.0
+      0.0, 0.6
+      0.0, 0.8
+      0.25, 0.8
+      0.50, 0.8
+      0.50, 1.0
+      0.75, 1.0
       1.0, 1.0
     } data [set=diagonal] {
       x, y
       0.0, 0.0
+      1.0, 1.0
+    } data [set=points] {
+      x, y
+      0.0, 0.0
+      0.0, 0.2
+      0.0, 0.4
+      0.0, 0.6
+      0.0, 0.8
+      0.25, 0.8
+      0.50, 0.8
+      0.50, 1.0
+      0.75, 1.0
       1.0, 1.0
     };
   \end{tikzpicture}
@@ -519,99 +562,93 @@ possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
 
 The ROC curve is useful to explore the trade-off between recall and specificity.  The
 diagonal line represents a random classifier, and points above the diagonal are better
-than random.  The area under the ROC curve (AUC) is a possible metric of the performance
-of the classifier.  The AUC is scale invariant, which means that it measures how well
-predictions are ranked, rather than their absolute values.  In our example, the AUC is
-$0.8$.
+than random.
 
-\subsubsection{Detection error trade-off}
+The area under the ROC curve (AUC) is an interesting metric of the performance of the
+family of classifiers.  It ranges between 0 and 1, where 1 is the best possible value.
+The AUC is scale invariant, which means that it measures how well
+predictions are ranked, rather than their absolute values.  It is also robust to
+class imbalance, once both recall and specificity are considered.
+In our example, the AUC is $0.9$.
 
-The detection error trade-off (DET) curve is a graphical representation of the trade-off
-between the false positive rate and the false negative rate (FNR),
-\begin{equation*}
-  \text{FNR} = \frac{\text{FN}}{\text{TP} + \text{FN}} = 1 - \text{TPR}\text{.}
-\end{equation*}
-The DET curve is similar to the ROC curve, but by plotting only the FPR and FNR, it gives
-a better view of the ``cost'' (errors) of different thresholds.  The DET curve is
-especially useful when the cost of false positives and false negatives is different.
-The DET curve of our example is shown in \cref{fig:det-example}.
-
-\begin{figurebox}[label=fig:det-example]{Illustrative example of DET curve.}
-  \centering
-  \begin{tikzpicture}
-    \datavisualization [
-      scientific axes=clean,
-      visualize as line,
-      x axis={label={FPR}, include value=0.0, include value=1.0, length=5cm},
-      y axis={label={FNR}, include value=0.0, include value=1.0, length=5cm},
-      all axes={grid},
-    ] data {
-      % based on the table above
-      x, y
-      0.0, 1.0
-      0.0, 0.8,
-      0.0, 0.6,
-      0.2, 0.6,
-      0.2, 0.4,
-      0.2, 0.2,
-      0.4, 0.2,
-      0.6, 0.2,
-      0.6, 0.0,
-      0.8, 0.0,
-      1.0, 0.0,
-    };
-  \end{tikzpicture}
-  \tcblower
-  DET curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
-  a random classifier, and points below the diagonal are better than random.
-\end{figurebox}
-
-Usually, the DET curve is plotted in a normal deviate scale~\parencite{Martin1997}.  In
-this scale, the axes are transformed to show the error rates in a more linear way.
-
-\begin{figurebox}[label=fig:det-example-normal]{Illustrative example of DET curve (normal deviate scale).}
-  \centering
-  \begin{tikzpicture}
-    \datavisualization [
-      scientific axes=clean,
-      visualize as line,
-      x axis={%
-        label={FPR},
-        include value=0.001, include value=0.999,
-        scaling=-3 at 0cm and 3 at 5cm,
-        ticks={%
-        %   major={at={0.001, 0.005, 0.02, 0.05, 0.1, 0.2, 0.5, 0.8, 0.9, 0.95, 0.98, 0.995, 0.999}},
-          tick typesetter/.code={%
-            \pgfmathprintnumber{##1}$\sigma$
-          },%
-        },%
-      }%
-    ] data {
-      x,y
-      -3.090232306167813,3.090232306167813
-      -2.5758293035489,2.5758293035489
-      -2.0537489106318225,2.053748910631822
-      -1.6448536269514726,1.6448536269514715
-      -1.2815515655446008,1.2815515655446008
-      -0.8416212335729142,0.8416212335729144
-      0,0
-      0.8416212335729144,-0.8416212335729142
-      1.2815515655446008,-1.2815515655446008
-      1.6448536269514715,-1.6448536269514726
-      2.053748910631822,-2.0537489106318225
-      2.5758293035489,-2.5758293035489
-      3.090232306167813,-3.090232306167813
-    };
-  \end{tikzpicture}
-\end{figurebox}
-
-\subsection{Other variations}
-
-Some other points:
-\begin{itemize}
-  \item measures for classification are asymmetrical (benefit positive, positive should be minority);
-  \item prefer measures that work well with averaging and good to compare;
-  \item Be careful with priors.
-  \item multiclass how to evaluate?
-  \item customize to address the real problem.
-\end{itemize}
+% TODO: error visualization or summary of the DET curve
+% \subsubsection{Detection error trade-off}
+%
+% The detection error trade-off (DET) curve is a graphical representation of the trade-off
+% between the false positive rate and the false negative rate (FNR),
+% \begin{equation*}
+%   \text{FNR} = \frac{\text{FN}}{\text{TP} + \text{FN}} = 1 - \text{TPR}\text{.}
+% \end{equation*}
+% The DET curve is similar to the ROC curve, but by plotting only the FPR and FNR, it gives
+% a better view of the ``cost'' (errors) of different thresholds.  The DET curve is
+% especially useful when the cost of false positives and false negatives is different.
+% The DET curve of our example is shown in \cref{fig:det-example}.
+%
+% \begin{figurebox}[label=fig:det-example]{Illustrative example of DET curve.}
+%   \centering
+%   \begin{tikzpicture}
+%     \datavisualization [
+%       scientific axes=clean,
+%       visualize as line,
+%       x axis={label={FPR}, include value=0.0, include value=1.0, length=5cm},
+%       y axis={label={FNR}, include value=0.0, include value=1.0, length=5cm},
+%       all axes={grid},
+%     ] data {
+%       % based on the table above
+%       x, y
+%       0.0, 1.0
+%       0.0, 0.8,
+%       0.0, 0.6,
+%       0.2, 0.6,
+%       0.2, 0.4,
+%       0.2, 0.2,
+%       0.4, 0.2,
+%       0.6, 0.2,
+%       0.6, 0.0,
+%       0.8, 0.0,
+%       1.0, 0.0,
+%     };
+%   \end{tikzpicture}
+%   \tcblower
+%   DET curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
+%   a random classifier, and points below the diagonal are better than random.
+% \end{figurebox}
+%
+% Usually, the DET curve is plotted in a normal deviate scale~\parencite{Martin1997}.  In
+% this scale, the axes are transformed to show the error rates in a more linear way.
+%
+% \begin{figurebox}[label=fig:det-example-normal]{Illustrative example of DET curve (normal deviate scale).}
+%   \centering
+%   \begin{tikzpicture}
+%     \datavisualization [
+%       scientific axes=clean,
+%       visualize as line,
+%       x axis={%
+%         label={FPR},
+%         include value=0.001, include value=0.999,
+%         scaling=-3 at 0cm and 3 at 5cm,
+%         ticks={%
+%         %   major={at={0.001, 0.005, 0.02, 0.05, 0.1, 0.2, 0.5, 0.8, 0.9, 0.95, 0.98, 0.995, 0.999}},
+%           tick typesetter/.code={%
+%             \pgfmathprintnumber{##1}$\sigma$
+%           },%
+%         },%
+%       }%
+%     ] data {
+%       x,y
+%       -3.090232306167813,3.090232306167813
+%       -2.5758293035489,2.5758293035489
+%       -2.0537489106318225,2.053748910631822
+%       -1.6448536269514726,1.6448536269514715
+%       -1.2815515655446008,1.2815515655446008
+%       -0.8416212335729142,0.8416212335729144
+%       0,0
+%       0.8416212335729144,-0.8416212335729142
+%       1.2815515655446008,-1.2815515655446008
+%       1.6448536269514715,-1.6448536269514726
+%       2.053748910631822,-2.0537489106318225
+%       2.5758293035489,-2.5758293035489
+%       3.090232306167813,-3.090232306167813
+%     };
+%   \end{tikzpicture}
+% \end{figurebox}
