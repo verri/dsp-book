@@ -314,6 +314,7 @@ the real-world performance of the solution $M$.
 % analysis.
 
 \subsection{Estimating expected performance}
+\label{sub:expected-performance}
 
 We have seem that we need a process of interpreting or confirming the meaning of the
 evaluation results.
@@ -412,14 +413,12 @@ should be aware of the limitations of the model.
 \subsection{Comparing strategies}
 \label{sub:comparison}
 
-\textcolor{red}{Talk about paired dataset samples.}
-
 When we have two or more strategies to solve a problem, we need to compare them to see
 which one is better.  This is a common situation in data science projects, as we usually
 have many techniques to solve a problem.
 
 One way to look at this problem is to consider that the algorithm\footnote{That includes
-both data handling and machine learning.} $A$ has \emph{hyperparameters} $\lambda \in
+both data preprocessing and machine learning.} $A$ has \emph{hyperparameters} $\lambda \in
 \Lambda$.  A hyperparameter here is a parameter that is not learned by the algorithm, but
 is set by the user.  For example, the number of neighbors in a k-NN algorithm is a
 hyperparameter.  For the sake of generality, we can consider that the hyperparameters may
@@ -429,14 +428,18 @@ Let us say we have a baseline algorithm $A(\lambda_0)$ --- for instance, somethi
 in production, the result of the last sprint or a well-known algorithm --- and a new candidate algorithm $A(\lambda)$.
 Suppose $\vec{p}(\lambda_0)$ and $\vec{p}(\lambda)$ are the performance vectors of the
 baseline and the candidate algorithms, respectively, that are calculated using the same
-strategy described in \cref{sec:expected-performance}.  We can validate whether the
+strategy described in \cref{sub:expected-performance}.  It is important to note that the
+same samplings must be used to compare the algorithms --- i.e. performance samples must be
+paired, each one of them coming from the same sampling dataset.
+
+We can validate whether the
 candidate is better than the baseline by
 \begin{equation*}
   \Prob(\mu > 0 \mid \vec{z}) > \gamma\text{,}
 \end{equation*}
-where $\vec{z}$ is now $\vec{p}(\lambda) - \vec{p}(\lambda_0)$ and $\gamma$ is the confidence
-level.  Also, the expected performance gain of the candidate algorithm is $\mu$ --- if
-negative, the performance loss.
+where $\vec{z}$ is now $\vec{p}(\lambda) - \vec{p}(\lambda_0)$.  The interpretation of the
+results is similar, $\gamma$ is the chosen confidence level and $\mu$ is the expected
+performance gain of the candidate algorithm --- or the performance loss, if negative.
 
 This strategy can be applied iteratively to compare many algorithms.  For example, we can
 compare $A(\lambda_1)$ with $A(\lambda_0)$, $A(\lambda_2)$ with $A(\lambda_1)$, and so on,
@@ -465,7 +468,27 @@ application of $B$ to the whole dataset.  However, never use the choices of the
 hyperparameters in the experimental plan to make decisions about what goes to production.
 (The same is true for the parameters $\left[\phi, \theta\right]$ in the traditional case.)
 
-\textcolor{red}{We can unnest the search by interpreting the options as different
-algorithms two by two.}
+Although nesting experiments usually lead to a general understanding of the performance of
+the solution, it is not always the best choice.  Nested experiments are computationally
+expensive, as the possible combinations are multiplied.  Also, the size of the dataset
+in the inner experiment is smaller, which can lead to a less reliable estimate of the
+performance.
+
+Nonetheless, we can always unnest the search by taking the options as different
+algorithms two by two, like we described in \cref{sub:comparison}.  This solves the
+problem of the size of the dataset in the inner experiment, but it does not solve the
+problem of the computational cost --- often increasing it.
+
+\section{Final remarks}
+
+In this chapter, we presented a framework for experimental planning that can be used in
+most data science projects for inductive tasks.  One major limitation of the framework is
+that it assumes that the data is i.i.d.  This is not always the case, as the data can be
+dependent on time or space.  In these cases, the sampling strategy must be adjusted to
+account for the dependencies.
+
+Unfortunately, changing the sampling strategy also means that the validation method must
+be adjusted.  That is why tasks like time-series forecasting and spatial data analysis
+require a different approach to experimental planning.
 
 % vim: spell spelllang=en
