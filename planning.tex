@@ -63,7 +63,12 @@ for inductive problems.
 
 \input{evaluation}
 
-\section{Elements of an experimental plan}
+\section{An experimental plan for data science}
+
+Like any other experimental science, data science requires a well-thought-out experimental
+plan to ensure that evaluation results are reliable and can be used to make decisions.
+Failure to use well the resources we have at hand --- i.e. the limited amount of data ---
+can lead to incorrect conclusions about the performance of a solution.
 
 There are important elements that should be considered when designing an experimental
 plan.  These elements are:
@@ -72,15 +77,16 @@ plan.  These elements are:
     In this chapter, we address common questions in data science projects and how to
     validate them.
   \item \textbf{Data}: The dataset that will be used in the experiment.  In
-    \cref{chap:data}, we address topics about collecting and organizing data.
-  \item \textbf{Solution search algorithm}\footnote{We use the term ``search'' because,
-    the chosen algorithm aim at optimizing both the parameters of the data handling
-    pipeline and the ones of the model}: Techniques that find a solution for the task.
-    For us, a task includes both adjusting the appropriate data-handling
-    pipeline and learning the model.  The theoretical basis for these techniques is in
-    \cref{chap:slt}, and the practical aspects of data handling are in \cref{chap:handling}.
-  \item \textbf{Performance measure}: The metric that will be used to evaluate the
-    performance of the model.  Refer to \cref{sec:evaluation} for more information.
+    \cref{chap:fundamental,chap:data}, we address topics about collecting and organizing data.
+    In \cref{chap:handling}, we address topics about preparing the data for the
+    experiments.
+  \item \textbf{Solution search algorithm} Techniques that find a solution for the task.
+    We use the term ``search'' because, the chosen algorithm aim at optimizing both the
+    parameters of the preprocessing chain and the ones of the model.  The theoretical
+    basis for these techniques is in \cref{chap:preprocess,chap:slt}.
+  \item \textbf{Performance measuring}: The metric that will be used to evaluate the
+    performance of the model.  Refer to \cref{sec:evaluation} for the main metrics used in
+    binary classification and regression estimation tasks.
 \end{itemize}
 
 A general example of a description of an experimental plan is ``What is the probability of
@@ -91,8 +97,11 @@ dataset)?''
 Another example is ``Is technique $A$ better than technique $B$ for finding a model that
 predicts the output with $D$ as a training set in terms of metric $E$?''
 
-We consider these two cases: \emph{estimating expected performance} and \emph{comparing
-algorithms}.
+In the next sections, we consider these two cases: \emph{estimating expected performance}
+and \emph{comparing algorithms}.  Before that, we discuss an strategy to make the best use
+of the finite amount of data we have available.
+
+\subsection{Sampling strategy}
 
 \section{Estimating expected performance}
 \label{sec:expected-performance}
