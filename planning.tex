@@ -98,7 +98,7 @@ Another example is ``Is technique $A$ better than technique $B$ for finding a mo
 predicts the output with $D$ as a training set in terms of metric $E$?''
 
 In the next sections, we consider these two cases: \emph{estimating expected performance}
-and \emph{comparing algorithms}.  Before that, we discuss an strategy to make the best use
+and \emph{comparing algorithms}.  Before that, we discuss a strategy to make the best use
 of the finite amount of data we have available.
 
 \subsection{Sampling strategy}
@@ -136,6 +136,51 @@ Each training set is thus used to find solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $p_1, p_2,
 \ldots$ for each test set --- of the solution.  The test set emulates the real-world
 scenario, where the model is used to make predictions on new data.
+
+The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
+independent and identically distributed (i.i.d.).  The cross-validation technique divides
+the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
+test set once and as a training set $r-1$ times.  So, first we use as training set folds
+$2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
+\ldots, r$ and as test set fold $2$. And so on.  See \cref{fig:cross-validation}.
+
+\begin{figurebox}[label=fig:cross-validation]{Cross-validation}
+  \centering
+  \begin{tikzpicture}
+    \foreach \i in {1, 2, 3, 4} {
+      \node at (2 * \i, 0) {Fold \i};
+      \foreach \j in {1, 2, 3, 4} {
+        % if \i == \j, then it is the test set
+        \ifnum\i=\j
+          \node [smallblock, minimum width=16mm, minimum height=6mm] (fold\i\j) at (2 * \i, -\j) {Test};
+        \else
+          \node [smalldarkblock, minimum width=16mm, minimum height=6mm] (fold\i\j) at (2 * \i, -\j) {Training};
+        \fi
+      }
+    }
+    \foreach \j in {1, 2, 3, 4} {
+      \node [draw, dashed, fit={(fold1\j) (fold4\j)}] {};
+    }
+  \end{tikzpicture}
+  \tcblower
+  Cross-validation is a technique to sample training and test sets.  It divides the
+  dataset into $r$ folds, using $r-1$ folds as a training set and the remaining fold as a
+  test set.
+\end{figurebox}
+
+If possible, one should use repeated
+cross-validation, where this process is repeated many times.  Also, when dealing with
+classification problems, we should use stratified cross-validation, where the distribution
+of the classes is preserved in each fold.
+
+% TODO Performance Visualization
+% Also, the application of a single cross-validation sampling enables us to create a
+% predicted vector for the whole dataset.  This is done by concatenating the predictions for
+% each fold.  (Note however that the predictions are not totally independent, as they share
+% some training data.  This dependency should be taken into account when analyzing the
+% results.) This vector can be used to perform hypothesis tests --- like McNemar's test, see
+% \cref{sub:comparison} --- or to plot ROC (Receiver Operating Characteristic) curves or DET
+% (Detection Error Tradeoff) curves --- see \cref{sec:evaluation}.
 
 \subsection{Collecting evidence}
 
@@ -267,49 +312,6 @@ the performance of the solution $M$.
 A summary of the experimental plan for estimating expected performance is shown in
 \cref{fig:plan-single}.
 
-\clearpage
-\subsection{Cross validation}
-
-The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
-independent and identically distributed (i.i.d.).  The cross-validation technique divides
-the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
-test set once and as a training set $r-1$ times.  So, first we use as training set folds
-$2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
-\ldots, r$ and as test set fold $2$. And so on.  (See \cref{fig:cross-validation}.)
-
-\begin{figurebox}[label=fig:cross-validation]{Cross-validation}
-  \centering
-  \begin{tikzpicture}
-    \foreach \i in {1, 2, 3, 4} {
-      \node at (2 * \i, 0) {Fold \i};
-      \foreach \j in {1, 2, 3, 4} {
-        % if \i == \j, then it is the test set
-        \ifnum\i=\j
-          \node [smallblock, minimum width=18mm] (fold\i\j) at (2 * \i, -\j) {Test};
-        \else
-          \node [smalldarkblock, minimum width=18mm] (fold\i\j) at (2 * \i, -\j) {Training};
-        \fi
-      }
-    }
-  \end{tikzpicture}
-  \tcblower
-  Cross-validation is a technique to sample training and test sets.  It divides the
-  dataset into $r$ folds, using $r-1$ folds as a training set and the remaining fold as a
-  test set.
-\end{figurebox}
-
-If possible, one should use repeated
-cross-validation, where this process is repeated many times.  Also, when dealing with
-classification problems, we should use stratified cross-validation, where the distribution
-of the classes is preserved in each fold.
-
-Also, the application of a single cross-validation sampling enables us to create a
-predicted vector for the whole dataset.  This is done by concatenating the predictions for
-each fold.  (Note however that the predictions are not totally independent, as they share
-some training data.  This dependency should be taken into account when analyzing the
-results.) This vector can be used to perform hypothesis tests --- like McNemar's test, see
-\cref{sub:comparison} --- or to plot ROC (Receiver Operating Characteristic) curves or DET
-(Detection Error Tradeoff) curves --- see \cref{sec:evaluation}.
 
 \subsection{Estimating expected performance}
 
