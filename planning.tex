@@ -103,14 +103,11 @@ of the finite amount of data we have available.
 
 \subsection{Sampling strategy}
 
-\section{Estimating expected performance}
-\label{sec:expected-performance}
-
 When dealing with a data-driven solution, the available data is a representation of the
 real world.  So, we have to make the best use of the data we have to estimate how good our
 solution is expected to be in production.
 
-Obviously, the more data we use to search for a solution, the better the solution is
+As we have seen, the more data we use to search for a solution, the better the solution is
 expected to be.  Thus, we use the whole dataset for deploying a solution.  But, what
 method for preprocessing and learning should we use?  How well that technique is
 expected to perform in the real world?
@@ -120,22 +117,27 @@ by $A$ using the whole dataset $D$.  If we assess $M$ using the whole dataset $D
 performance $p$ we get is optimistic.  This is because $M$ has been trained and tested
 on the same data.
 
-\textcolor{red}{Hold out does not solve the problem.}
+One could argue that we could use a hold-out set to estimate the performance of $M$ ---
+i.e. splitting the dataset into a training set and a test set once.  However, this does
+not solve the problem.  The performance $p$ we in the test set might be an overestimation
+or an underestimation of the performance of $M$ in production.  This is because the
+randomly chosen test set might be an ``outlier'' in the representation of the real world,
+containing cases that are too easy or too hard to predict.
 
-To estimate better the expected performance of $M$ in production, we can use the following
-experimental plan.
+The correct way to estimate the performance of $M$ is to address performance as a
+random variable, since both the data and the learning process are stochastic.
+By doing so, we can study the distribution of the performance, not particular values.
 
-\paragraph{Sampling strategy}  As any statistical evaluation, we need to generate samples
+As any statistical evaluation, we need to generate samples
 of the performance of the possible solutions that $A$ is able to obtain. To do so, we use
-a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  \textcolor{red}{%
-Since we assume the dataset $D$ is a representative sample of the real world, we must
-ensure that each sampled dataset has similar characteristics.  So handling operators like
-balancing the dataset should be applied only afterwards.}  Each
+a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  Each
 dataset is further divided into a training set and a test set, which must be disjoint.
-The training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
+Each training set is thus used to find solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $p_1, p_2,
 \ldots$ for each test set --- of the solution.  The test set emulates the real-world
 scenario, where the model is used to make predictions on new data.
+
+\subsection{Collecting evidence}
 
 \paragraph{Solution search algorithm}  The solution search algorithm $A$ involves both a
 given data handling pipeline and a machine learning method.  Both of them generate a
@@ -308,6 +310,10 @@ some training data.  This dependency should be taken into account when analyzing
 results.) This vector can be used to perform hypothesis tests --- like McNemar's test, see
 \cref{sub:comparison} --- or to plot ROC (Receiver Operating Characteristic) curves or DET
 (Detection Error Tradeoff) curves --- see \cref{sec:evaluation}.
+
+\subsection{Estimating expected performance}
+
+\subsection{Comparing strategies}
 
 \subsection{Validation methods}
 
