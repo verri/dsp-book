@@ -168,8 +168,8 @@ $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds 
   test set.
 \end{figurebox}
 
-If possible, one should use repeated
-cross-validation, where this process is repeated many times.  Also, when dealing with
+If possible, one should use repeated cross-validation, where this process is repeated many
+times, each having a different fold partitioning chosen at random.  Also, when dealing with
 classification problems, we should use stratified cross-validation, where the distribution
 of the classes is preserved in each fold.
 
@@ -184,45 +184,32 @@ of the classes is preserved in each fold.
 
 \subsection{Collecting evidence}
 
-\paragraph{Solution search algorithm}  The solution search algorithm $A$ involves both a
-given data handling pipeline and a machine learning method.  Both of them generate a
+Once we understand the sampling strategy, we can design the experimental plan to collect
+evidence about the performance of the solution.  The plan involves the following steps.
+
+The solution search algorithm $A$ involves both a
+given data preprocessing chain and a machine learning method.  Both of them generate a
 different result for each dataset $D_k$ used as an input.  In other words, the parameters
-$\phi$ of the data handling operators are adjusted --- see \cref{chap:handling} --- and the
+$\phi$ of the data preprocessing step are adjusted --- see \cref{chap:preprocess} --- and the
 parameters $\theta$ of the machine learning model are adjusted --- see \cref{chap:slt}.
-These parameters, $\left[\phi_k, \theta_k\right]$ are the solution $M_i$, and must be
+These parameters, $\left[\phi_k, \theta_k\right]$ are the solution $M_k$, and must be
 calculated exclusively using the training set $D_{k,\text{train}}$.
 
-\paragraph{Prediction}  Once the parameters $\phi$ and $\theta$ are fixed, we apply them
+Once the parameters $\phi_k$ and $\theta_k$ are fixed, we apply them
 in the test set $D_{k,\text{test}}$.  For each sample $(x_i, y_i) \in D_{k,\text{test}}$,
-we calculate the prediction $\hat{y} = f_{\phi,\theta}(x_i)$.  The target value $y$ is
+we calculate the prediction $\hat{y}_i = f_{\phi,\theta}(x_i)$.  The target value $y$ is
 called the ground-truth or expected outcome.
 
-\paragraph{Performance assessment} Given a performance metric $R$, for each dataset $D_k$,
-we calculate
-$$p_k = R\!\left(\left[y_i\right]_i, \left[\hat{y}_i\right]_i\right)\text{.}$$
+Given a performance metric $R$, for each dataset $D_k$, we calculate
+$$p_k = R\!\left(\left[y_i : i\right], \left[\hat{y}_i : i\right]\right)\text{.}$$
 Note that, by definition, $p_k$ is free of \gls{leakage}, as $\left[\phi_k,
 \theta_k\right]$ are found without the use of the data in $D_{k,\text{test}}$ and to
 calculate $\hat{y}_i$ we use only $x_i$ (with no target $y_i$).
 
-\paragraph{Analysing the results} Finally, we study the sampled performance values $p_1,
-p_2, \ldots$ like any other statistical data.  We can calculate summary statistics, like
-the mean, median, variance, and standard deviation, or visualization techniques, like
-box plots or other distribution-based plots.  We can also use hypothesis tests to
-calculate the probability of the performance of the solution being better than a certain
-threshold.
-
-\begin{hlbox}{Evaluation \emph{vs.} validation}
-  We call evaluation the process of assessing the performance of a solution using a
-  test set.  Validation, on the other hand, is the process of interpreting or confirming
-  the meaning of the evaluation results.  Validation is the process of determining the
-  degree to which the evaluation results support the intended use of the solution (unseen
-  data).
-\end{hlbox}
-
-\paragraph{Interpretation}  The results are not the ``real'' performance of the solution
-$M$ in the real world, as that would require new data to be collected.  However, we can
-safely interpret the performance samples as being sampled from the same distribution as
-the performance of the solution $M$.
+For a detailed explanation of this process for each sampling, consult
+\cref{sec:evaluation}.
+A summary of the experimental plan for estimating expected performance is shown in
+\cref{fig:plan-single}.
 
 \begin{figurebox}[label=fig:plan-single]{Experimental plan for estimating expected performance of a solution.}
   \centering
@@ -293,14 +280,10 @@ the performance of the solution $M$.
       \right]$
     };
 
-    \node [block] (visualization) at (-2, -12) {Visualization};
-    \node [block] (summary) at (0.5, -12) {Summary statistics};
-    \node [block] (hypothesis) at (3, -12) {Hypothesis test};
+    \node [block] (hypothesis) at (-1, -12) {Hypothesis test};
 
     \path [line, dashed] (-4.2, -10.5) -- (perfs);
-    \path [line] (perfs) -- (-4.2, -13) -- (-2, -13) -- (visualization);
-    \path [line] (-2, -13) -- (0.5, -13) -- (summary);
-    \path [line] (0.5, -13) -- (3, -13) -- (hypothesis);
+    \path [line] (perfs) -- (hypothesis);
   \end{tikzpicture}
   \tcblower
   % A brief description of the experimental plan.
@@ -309,23 +292,31 @@ the performance of the solution $M$.
   validating the results.
 \end{figurebox}
 
-A summary of the experimental plan for estimating expected performance is shown in
-\cref{fig:plan-single}.
+Finally, we can study the sampled performance values $p_1, p_2, \ldots$ like any other
+statistical data to proof (or disproof) the hypothesis.  This process is called
+validation.
 
+\begin{defbox}{Validation}{validation}
+  While we call evaluation the process of assessing the performance of a solution using a
+  test set; validation, on the other hand, is the process of interpreting or confirming
+  the meaning of the evaluation results.  Validation is the process of determining the
+  degree to which the evaluation results support the intended use of the solution (unseen
+  data).
+\end{defbox}
 
-\subsection{Estimating expected performance}
+The results are not the ``real'' performance of the solution
+$M$ in the real world, as that would require new data to be collected.  However, we can
+safely interpret the performance samples as being sampled from the same distribution as
+the real-world performance of the solution $M$.
 
-\subsection{Comparing strategies}
-
-\subsection{Validation methods}
-
+% TODO: Visualization of results
 % Talk about summary statistics, visualization (boxplot, roc and det curves), and Bayesian
 % analysis.
 
-Validation is the process of interpreting or confirming the meaning of the evaluation
-results.  It is the process of determining the degree to which the evaluation results
-support the intended use of the solution.
+\subsection{Estimating expected performance}
 
+We have seem that we need a process of interpreting or confirming the meaning of the
+evaluation results.
 Sometimes, it is as simple as calculating the mean and standard deviation of the
 performance samples.  Other times, we need to use more sophisticated techniques, like
 hypothesis tests or Bayesian analysis.
@@ -344,7 +335,7 @@ performance samples to estimate the probability distribution of the performance 
 algorithm.  This distribution can be used to calculate the probability of the performance
 being better than a certain threshold.
 
-\textcite{Benavoli2017} propose an interesting Bayesian test that accounts for the
+\textcite{Benavoli2017}\footfullcite{Benavoli2017} propose an interesting Bayesian test that accounts for the
 overlapping training sets in the cross-validation\footnote{%
 This is actually a particular case of the proposal in the paper, where the authors
 consider the comparison between two performance vector --- which is the case described in
@@ -418,7 +409,7 @@ to estimate the parameters of the generative model.  They also show experimental
 that their choices are robust to the choice of the prior distribution.  However, one
 should be aware of the limitations of the model.
 
-\section{Comparing strategies}
+\subsection{Comparing strategies}
 \label{sub:comparison}
 
 \textcolor{red}{Talk about paired dataset samples.}
