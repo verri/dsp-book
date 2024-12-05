@@ -317,20 +317,30 @@ residuals are summed.
   \text{RMSE} = \sqrt{\text{MSE}}\text{.}
 \end{equation*}
 This metric is in the same unit as the target variable, which makes it easier to
-interpret.
+interpret.  It keeps the same properties as the mean squared error, such as penalizing
+large errors more than the mean absolute error.
 
-\paragraph{Mean absolute logarithmic error} is the mean of the absolute logarithmic errors,
-given by (assumes that $y_i > 0$ and $\hat{y}_i > 0$)
-\begin{equation*}
-  \text{MALE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i^{(f)} |\text{,}
-\end{equation*}
-where \[
-  f(x) = \log(1 + x)\text{.}
-\]
+Both MAE and RMSE (or MSE) work well for positive and negative values of the target
+variable.  However, they might be misleading when the range of the target variable is
+large.
 
-\paragraph{Mean absolute percentage error} is the average of the relative errors, given by
+\paragraph{Mean absolute percentage error} is an alternative when the target variable (and
+the predictions) assume only strictly positive values, i.e. $y_i > 0$ and $\hat{y}_i > 0$.
+It is the average of the relative errors, given by
 \begin{equation*}
   \text{MAPE} = \frac{1}{n} \sum_{i=1}^n \frac{|\epsilon_i|}{y_i}\text{.}
+\end{equation*}
+This metric is useful when the range of the target variable is large, as it gives an idea
+of the relative error of the model, not the absolute error.
+
+\paragraph{Mean absolute logarithmic error} is an alternative for the MAPE under the same
+premises of the target values.  It aims to reduce the influence of outliers in the error
+calculation, especially when the target variable prior follows a long tail distribution
+--- many small values and few large values.  Distributions like that are common in
+practice, e.g. in sales, income, and population data.  It is given by
+\begin{equation*}
+  \text{MALE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i^{(\ln)} | =
+    \frac{1}{n} \sum_{i=1}^n | \ln\hat{y}_i - \ln y_i |\text{.}
 \end{equation*}
 
 \subsubsection{Interpretation of metrics}
@@ -339,7 +349,57 @@ Note that, unlike the classification performance metrics, the scale of the regre
 performance metrics is not bounded between 0 and 1.  This makes it potentially harder to interpret
 the results, as the values depend on the scale of the target variable.
 
-For the experimental plan we propose in this book, we should avoid metrics like
+Absolute error metrics, like MAE and RMSE, are useful to understand the central tendency
+of the magnitude of the errors.  They are easy to interpret because they are in the same
+unit as the target variable.  However, they tend to be less informative when the target
+variable has a large range or when the errors are not normally distributed.
+
+In those situations, relative error metrics, like MAPE and MALE, are more useful.  For
+instance, imagine we are predicting house prices.  The error of \$20,000
+for a house that costs \$100,000 is more significant than the same error for a house that
+costs \$1,000,000.  The absolute error is the same in both cases, but the relative error
+is different.
+
+In that example, the MAPE would be 20\% for the first house and 2\% for the second house.
+Note, however, that MAPE punishes overestimating more than underestimating in
+multiplicative terms.  Consider the example in \cref{tab:MAPEvsMALE}.  In the first row,
+the prediction is ten times larger than the actual value, which results in a MAPE of
+900\%.  In the second row, the prediction is one tenth of the actual value, which results
+in a MAPE of 90\%.
+
+\begin{tablebox}[label=tab:MAPEvsMALE]{Comparison of relative error metrics.}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{r r r r r}
+    \toprule
+    $\hat{y}$ & $y$ & $\epsilon$ & MAPE & $\exp(\text{MALE})$ \\
+    \midrule
+    100 & 10 & 90 & 9.0 & 10 \\
+      1 & 10 &  9 & 0.9 & 10 \\
+    \bottomrule
+  \end{tabular}
+  \tcblower
+  MAPE and MALE for two predictions.  The MAPE punishes overestimating more than
+  underestimating.
+\end{tablebox}
+
+If multiplicative factors of the error are important, one should consider using MALE.
+Observe that $\ln(\hat{y}) - \ln(y) = \ln(\hat{y}/y)$, which is the logarithm of the
+ratio of the prediction to the actual value.  In the case of the absolute value, we have
+another interesting property: \[
+  |\ln\hat{y} - \ln y| =
+    |\ln\frac{\hat{y}}{y}| =
+    |\ln\frac{y}{\hat{y}}| =
+    \ln\max\left(\frac{\hat{y}}{y}, \frac{y}{\hat{y}}\right)\text{.}
+\]
+\textcite{Tofallis2015}\footfullcite{Tofallis2015} discuss some of these advantages.  To
+interpret MALE, we can use the exponential function, which gives us a multiplicative
+factor of the error.  In the example in \cref{tab:MAPEvsMALE}, we have that \[
+  \exp\ln\max\left(\frac{100}{10}, \frac{10}{100}\right) =
+    \max\left(\frac{100}{10}, \frac{10}{100}\right) = 10\text{.}
+\]
+
+Finally, for the experimental plan we propose in this book, we should avoid metrics like
 coefficient of determination, $R^2$, as we do not make assumptions about model --- in this
 case, we do not assume that the model is linear.  Similarly to data classification, we
 should prefer metrics work well with small test sets.
