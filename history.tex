@@ -233,21 +233,21 @@ of data handling.
   \begin{tikzpicture}
     \draw (0,0) -- (8,0);
     \foreach \x in {0,1,...,8} {
-      \draw (\x,-0.1) -- (\x,0.1);
+      \draw (0.9 * \x,-0.1) -- (0.9 * \x,0.1);
     }
     \foreach \x/\y/\z in {%
-        0/Pre-digital Age/{3,800 BC -- \nth{18} c.},
-        2/Digital Age/{1890 -- 1960},
-        4/Formal Age/{1970s},
-        6/Integrated Age/{1980 -- 1990},
-        8/Ubiquitous Age/{2000 -- present}} {
-      \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
-      \node[anchor=south] at (\x,0.1) {\footnotesize\z};
+        0/Pre-digital/{3,800 BC -- \nth{18} c.},
+        2/Digital/{1890 -- 1960},
+        4/Formal/{1970s},
+        6/Integrated/{1980 -- 1990},
+        8/Ubiquitous/{2000 --}} {
+      \node[anchor=north] at (0.9 * \x,-0.1) {\footnotesize\y};
+      \node[anchor=south] at (0.9 * \x,0.1) {\footnotesize\z};
     }
   \end{tikzpicture}
 \end{figurebox}
 
-\Cref{fig:data-handling-history} illustrates the proposed timeline.  Ages are not strict
+\Cref{fig:data-handling-history} illustrates the proposed timeline.  Ages have no absolute
 boundaries, but rather periods where some important events happened.  Also, observe that
 the timescale is not linear.  The Pre-digital Age is the longest period, and one could
 divide it into smaller periods.  My choices of ages and their boundaries are motivated by
@@ -257,7 +257,7 @@ didactic reasons.
 
 We can consider the earliest records of data collection to be the notches on sticks and
 bones to keep tracking of passing of time.  The Lebombo bone, a baboon fibula with
-notches, is probably the earliest known mathematical object.  It was found in the Lebombo
+notches, is one of the earliest known mathematical object.  It was found in the Lebombo
 Mountains located between South Africa and Eswatini.
 They estimate it is more
 than 40,000 years old. It is conjectured to be a tally stick, but its exact purpose is
@@ -270,7 +270,7 @@ demographic data.  One of first known census was conducted in 3,800 BC in the Ba
 Empire.  It was ordered to assess the population and resources of
 his empire.  Records were stored on  clay  tiles\footfullcite{Grajalez2013}.
 
-Since the early forms of writing, humanity abilities to record events and information
+Since the early forms of writing, humanity abilities to register events and data
 increased significantly.  The first known written records date back to around 3,500 BC, the
 Sumerian archaic (pre-cuneiform) writing.  This writing system was used to represent
 commodities using clay tokens and to record transactions\footfullcite{Ifrah1998}.
@@ -444,8 +444,8 @@ processing techniques arose.  The development of distributed computing framework
 Apache Hadoop and Apache Spark enabled the processing of massive amounts of data in a
 distributed manner.
 
-Douglass Read Cutting and Michael Cafarella, the developers of Apache Hadoop,
-proposed the \gls{hdfs} and MapReduce, which are the
+Douglass Read Cutting and Michael Cafarella, the developers of software Apache Hadoop,
+proposed both the \gls{hdfs} and MapReduce, which are the
 cornerstones of the Hadoop framework, in 2006.  Hadoop's distributed storage and
 processing capabilities enabled organizations to handle and analyze massive volumes of
 data.
@@ -490,7 +490,7 @@ of data analysis and knowledge extraction.
   \end{tikzpicture}
 \end{figurebox}
 
-\Cref{fig:data-analysis-history} illutrates the proposed timeline.  I consider changes of
+\Cref{fig:data-analysis-history} illustrates the proposed timeline.  I consider changes of
 ages to be smooth transitions, and not strict boundaries.  The theoretical advances are
 slower than the technological ones --- the latter influences more data handling than data
 analysis ---, so not much has changed since the beginning of the \nth{20} century.
@@ -505,8 +505,8 @@ of its central tendencies (e.g. arithmetic mean) e variability (e.g. range).
 
 \subsubsection{Probability advent}
 
-However, after the seventeenth century, the foundations of modern probability theory were
-laid out.  Important figures for developing the probability theory are Blaise Pascal (1623
+However, after the \nth{17} century, the foundations of modern probability theory were
+laid out.  Important figures for developing that theory are Blaise Pascal (1623
 -- 1662), Pierre de Fermat (1607 -- 1665), Christiaan Huygens (1629 -- 1695), and Jacob
 Bernoulli (1655 -- 1705).
 
@@ -565,14 +565,14 @@ that can learn from data with minimal human intervention.
 
 \paragraph{Fisher's discriminant analysis}
 
-In the 1930s, Sir Ronald Aylmer Fisher (1890 -- 1962), a British polymath, developed
+In the 1930s, Sir Ronald A. Fisher (1890 -- 1962), a British polymath, developed
 discriminant analysis\footnote{\url{https://digital.library.adelaide.edu.au/dspace/bitstream/2440/15227/1/138.pdf}},
 which was initially used find linear functions to solve the problem of separating two or
 more classes of objects\footnote{After, Rosenblatt's work, however, it was used to solve
 inductive inference (classification) as well.  For curiosity, Fisher's paper
 introduced the famous Iris data set.}.
 
-The method is based on the concept of the Fisher discriminant, which is a linear
+The method is based on the so called Fisher discriminant, which is a linear
 combination of variables.  The method can be used not only for classification but also for
 dimensionality reduction.
 
@@ -599,7 +599,7 @@ likelihood functions and the Bayesian approach.
 
 \paragraph{K-Nearest Neighbors}
 
-In 1951, Evelyn Fix (1904 -- 1965) and Joseph Lawson Hodges Jr. (1922 -- 2000) wrote a
+In 1951, Evelyn Fix (1904 -- 1965) and Joseph L. Hodges Jr. (1922 -- 2000) wrote a
 technical report entitled ``Discriminatory Analysis, Nonparametric Discrimination:
 Consistency Properties.''  In this paper, they proposed the k-nearest neighbors algorithm,
 which is a non-parametric method used for classification and regression.  The algorithm
@@ -614,7 +614,7 @@ the same class.
 
 \paragraph{Rosenblatt's perceptron}
 
-In the 1960s, Frank Rosenblatt (1928 -- 1971) developed the perceptron, the first model of
+In the 1960s, a psychologist called Frank Rosenblatt (1928 -- 1971) developed the perceptron, the first model of
 a learning machine.  While the idea of a mathematical neuron was not new, he was the first
 to describe the model as a program, showing the ability of the perceptron to learn simple
 tasks such as the logical operations AND and OR.
@@ -634,7 +634,7 @@ perceptron\footnote{Although the Rosenblatt was aware of the limitations of the 
 and was probably working on solutions, he died in 1971.}. They showed that a single-layer
 perceptron was limited to linearly separable problems, which led to a decline in the
 interest in neural networks.
-See \cref{sub:perceptron} for more details about the technique.
+Consult \cref{sub:perceptron} for more details about the technique.
 
 This fact contributed to the first AI winter, resulting in funding cuts for neural
 network research.
@@ -648,7 +648,7 @@ These algorithm gave rise to the field of decision trees, which is a popular met
 classification and regression.
 
 Trees are intuitive models that can be easily interpreted by humans.  They are based on
-symbolic rules that can be used to explain the decision-making process.
+symbolic rules that can be used to explain its internal decision-making process.
 
 % See \cref{sub:tree} for more details about the technique.
 
@@ -703,7 +703,7 @@ competitions.
 
 \paragraph{Support vector machines}
 
-In 1995, \citeauthor{Cortes1995}\footfullcite{Cortes1995} proposed the \gls{svm} algorithm, a
+In 1995, \textcite{Cortes1995}\footfullcite{Cortes1995} proposed the \gls{svm} algorithm, a
 learning machine based on the VC theory and the \gls{erm} principle.  Based on Cover's
 theorem\footfullcite{Cover1965}, they developed a method that finds the optimal hyperplane
 that separates two classes of data in a high-dimensional space with the maximum margins.
@@ -735,7 +735,7 @@ breakthroughs in the field, winning the 2018 Turing Award\footnote{\url{https://
 
 \paragraph{LUSI learning theory}
 
-In the 2010s, \citeauthor{Vapnik2015}\footfullcite{Vapnik2015} proposed the \gls{lusi}
+In the 2010s, the researchers \textcite{Vapnik2015}\footfullcite{Vapnik2015} proposed the \gls{lusi}
 principle, which is an extension of statistical learning theory.  The \gls{lusi}
 theory is based on the concept of statistical invariants, which are properties of
 the data that are preserved under transformations.  The theory is the foundation of the

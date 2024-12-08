@@ -171,7 +171,7 @@ collaborative, as they require domain expertise, data expertise, and software ex
 
 Requirements of a data science project are dynamic, and we need to perform many
 exploratory phases.  Unlike traditional software projects, we should expect the
-great changes in the initial requirements and project goals.
+great changes in the initial requirements and goals of the project.
 
 Usually,
 projects based on data are urgent, and they must be completed in a short time --- not
@@ -226,7 +226,7 @@ The phases and the answers we are looking for in each phase are:
   \item Deploy the model: how to use the solution?
 \end{itemize}
 
-The step ``Present results and document'' is a differentiator from other approaches, like
+The step ``Present results and document'' is a differentiator from the other approaches, like
 CRISP-DM.  In ZM approach, result presentation is essential; data scientists must be able
 to communicate their results effectively to the client/sponsor.  This phase is also
 emphasized in the view of \textcite{Wickham2023}.
@@ -296,7 +296,7 @@ is more important.
 The Scrum framework is one of the most widely adopted agile methodologies. It is an
 iterative, incremental process that enables teams to deliver high-value products
 efficiently while adapting to changing requirements. Scrum emphasizes teamwork,
-accountability, and continuous improvement. Developed by \citeauthor{schwaber2020scrum}%
+accountability, and continuous improvement. Developed by \textcite{schwaber2020scrum}%
 \footnote{Latest version of the Scrum Guide available at \fullcite{schwaber2020scrum}.}
 in the early 1990s, Scrum is based on three pillars: transparency, inspection, and
 adaptation. These principles help teams to navigate complex, adaptive problems and deliver
@@ -304,8 +304,8 @@ productive outcomes.
 
 Scrum organizes work into cycles called sprints, and involves defined roles, ceremonies,
 and artifacts that ensure the progress and quality of the product. Key events such as
-daily stand-ups, sprint reviews, and retrospectives create regular opportunities to inspect
-and adapt, making Scrum a responsive and resilient framework\footfullcite{denning2016scrum}.
+daily stand-ups, retrospectives, and sprint reviews create regular opportunities to inspect
+and adapt, making Scrum a responsive and resilient framework\nocite{denning2016scrum}.
 
 \subsection{Scrum roles}
 
@@ -329,10 +329,10 @@ objectives.
     directly but for enabling them to perform optimally by removing impediments and
     fostering a self-organizing culture\nocite{cobb2015scrum}.
 
-\paragraph{Development team} The development team is a cross-functional group of professionals
+\paragraph{Development team} It is a cross-functional group of professionals
     responsible for delivering potentially shippable product increments at the end of each
     sprint. The team is self-managing, meaning they decide how to achieve their goals
-    within the sprint. The team should be small enough to remain nimble but large enough
+    within the sprint. The team is small enough to remain nimble but large enough
     to complete meaningful work\nocite{rubin2012sprints}. The development team works
     collaboratively and takes collective responsibility for the outcome of the sprint.
 
@@ -350,13 +350,13 @@ between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
         font=\LARGE,
         every label/.style={font=\footnotesize},
       ]
-      \node[align=center, label=below:product owner] (po) at (0.5, 0) {\faUserTie};
-      \node[align=center, label=below:product backlog] (backlog) at (0.5, -1.5) {\faListOl};
+      \node[align=center, label=below:product owner] (po) at (0.9, 0) {\faUserTie};
+      \node[align=center, label=below:product backlog] (backlog) at (0.9, -1.5) {\faListOl};
 
       \node[align=center, label=below:dev team] (dev) at (3.2, 0) {\faUsers};
       \node[align=center, label=below:sprint backlog] (sbacklog) at (3.2, -1.5) {\faClipboardList};
 
-      \draw[-Stealth] (backlog) -- (sbacklog) node[midway, above, font=\footnotesize] {sprint planning};
+      \draw[-Stealth] (backlog) -- (sbacklog) node[midway, above, font=\footnotesize, yshift=2mm] {sprint planning};
 
       \draw[-Stealth, very thick] (sbacklog.east)
         to[out=0, in=180] (5.6, -1.5)
@@ -378,9 +378,9 @@ between, fostering a regular, predictable rhythm of work\nocite{cobb2015scrum}.
       \node[draw, rectangle, dashed, align=center, label=below:daily scrum] (daily) at (7, 2) {\faUser \faUsers};
       \draw[-] (daily.south west) -- (6, 0.8);
 
-      \node[draw, rectangle, dashed, align=center, label=above:sprint review] (review) at (8, 0) {\faUser~\faUsers};
-      \node[draw, rectangle, dashed, align=center, label=above:incremental version] (version) at (8, -1.3) {\faBox~\faUserTie};
-      \node[draw, rectangle, dashed, align=center, label=above:sprint retrospective] (retrospective) at (8, -2.6) {\faUserTie~\faUser~\faUsers};
+      \node[draw, rectangle, dashed, align=center, label=above:sprint review] (review) at (7.8, 0) {\faUser~\faUsers};
+      \node[draw, rectangle, dashed, align=center, label=above:incremental version] (version) at (7.8, -1.3) {\faBox~\faUserTie};
+      \node[draw, rectangle, dashed, align=center, label=above:sprint retrospective] (retrospective) at (7.8, -2.6) {\faUserTie~\faUser~\faUsers};
     \end{tikzpicture}
     \tcblower
     The development centers around the sprints, which are time-boxed iterations.  Roles,
@@ -401,13 +401,13 @@ meeting where the team discusses progress toward the sprint goal, any obstacles 
 facing, and their plans for the next day. This daily inspection ensures that everyone
 stays aligned and can quickly adapt to any changes or challenges\nocite{cobb2015scrum}.
 
-The burn down/up chart is a visual tool widely used during the sprint to track the Scrum
+The burn down/up chart is a visual tool used during the sprint to track the Scrum
 team's progress against the planned tasks. It displays the amount of remaining work (in
 hours or story points) over time, allowing the team and the product owner to monitor
 whether the work is on pace to be completed by the end of the sprint. The chart's line
 decreases as tasks are finished, providing a clear indicator of potential delays or
-blockers. If progress is falling behind, the team can adjust their approach during the
-sprint by re-prioritizing tasks or removing impediments. Thus, the burn-down chart provides
+blockers. If progress is falling behind, the team adjusts the approach during the
+sprint by re-prioritizing tasks or removing impediments. Thus, this chart provides
 real-time visibility into the team’s efficiency and contributes to more agile and
 proactive work management.
 
@@ -545,9 +545,9 @@ scientist is the one that leads the project in a similar way as the Scrum master
 In our approach, we consider four roles that cover the responsibilities in a data science
 project that also involves software development: the business spokesman, the lead data
 scientist, the Scrum master, and the data science team.  An association between the roles of
-our approach, Scrum, and the ZM approach is shown in \cref{tab:roles}.
+our proposal, Scrum, and the ZM approach is shown in \cref{tab:roles}.
 
-\paragraph{Business spokesman}  The business spokesman is the main stakeholder of the project.
+\paragraph{Business spokesman}  It is the main stakeholder of the project.
 He is the one that needs the results of the project and that understands the domain of the
 problem.  Like the ``client'' in ZM approach, he must be able to translate the business
 goals into technical requirements.  In a sense, the business spokesman evaluates the main
@@ -613,12 +613,10 @@ code.
 
 \subsubsection{Continuous integration and continuous deployment}
 
-% TODO: random seed
-
-This means that the code is
+The code should be
 automatically (or at least semi-automatically) tested and deployed.  The back-end and
 front-end are tested using unit tests.  The dataset is not exactly tested, but the
-exploratory analysis report should be updated for each version of the dataset.
+exploratory analysis report is updated for each version of the dataset.
 A human must validate the reports, but the reports must be generated automatically.
 The solution search code is tested using
 validation methods such as cross-validation and Bayesian analysis --- refer to
@@ -633,12 +631,16 @@ required infrastructure must be well documented.  Also aggregate commands using 
 Makefile\footnote{\url{https://www.gnu.org/software/make/manual/make.html}} or a similar tool.
 
 Pay attention on the dependences between dataset and the
-model training.  If the dataset changes significantly, not only the deployed model
-must be retrained, but the model search algorithm may need to be rethought.
+model training.  If the dataset changes significantly, not only the deployed preprocessor
+and model must be retrained, but the whole model search algorithm may need to be rethought.
+
+Finally, since both the solution search and validation methods are stochastic, one
+must guarantee that the results are reproducible.  Make sure you are using a good
+framework in which you can set the random seed.
 
 \subsubsection{Reports as deliverables}
 
-During sprints, the deliverables of exploratory analysis and solution search method are
+During sprints, the deliverables of phases like exploratory analysis and solution search are
 not only the source code, but also the reports generated.  That is probably the reason why
 interactive environments are so popular in data science projects.  However, the data
 scientist must guarantee that the reports are version controlled and reproducible.  The
@@ -670,7 +672,7 @@ strategies are more likely to find a good solution (preprocessor and model).
 
 \subsubsection{Report model stability and performance variance}
 
-Understanding the limitations and characteristics of the generated model is more important
+Understanding the limitations and properties of the generated model is more important
 than the model performance.  For example, if the model's expected performance is high, but
 the validation results showed instability, it is not suitable for production.  Also, in
 some scenarios, interpretability is more important than performance.
@@ -694,7 +696,7 @@ This helps non experts to use the software consciously.
 
 \subsubsection{Monitor model performance in production}
 
-Good data science products do not end with the deployment of the model.  There should
+Good data science products do not finish with the deployment of the model.  There should
 exist means to monitor the model behavior in production.  If possible, setup feedback from
 the user interface.  A history of usage is usually kept in a database.
 
@@ -731,7 +733,7 @@ If the user interface is used to submit batch requests, REST API is more suitabl
 \label{sub:workflow}
 
 The proposed workflow is based on the principles described above.  Our approach adapts
-the Scrum framework by defining three kinds of sprints: data sprints, solution sprints, and
+the Scrum framework by establishing three kinds of sprints: data sprints, solution sprints, and
 application sprints.  We also describe where exploratory and reporting phases fit in the
 workflow.
 
@@ -895,7 +897,7 @@ when new requirement or problems are identified.
     \path [line] (s3.west) arc (-160:160:1);
     \path [line] (6.5, -0.5) -- (7.5, -0.5) node [anchor=west] {\dots};
 
-    \path [line] (0, -3.5) node [anchor=east] {\dots} -- (1, -3.5);
+    \path [line] (0.5, -3.5) node [anchor=east] {\dots} -- (1, -3.5);
     \node [anchor=west] at (1, -3) (s5) {data};
     \path [line] (s5.west) arc (-160:160:1);
     \path [line] (2.5, -3.5) -- (3.5, -3.5);
@@ -925,11 +927,11 @@ that the solution is coherent and that the team members can help each other.
 
 \subsubsection{Sprint reviews}
 
-A proper configured \gls{cicd} pipeline guarantees that by the end of the sprint,
+A proper \gls{cicd} pipeline guarantees that by the end of the sprint,
 exploratory analysis, performance reports and the working software are ready for review.
 The sprint review is a meeting where the team presents the results of the sprint to the
 business spokesman.  The business spokesman must approve the results of the sprint.
-(In the absence of the business spokesman, the lead data scientist approve the results.)
+(The lead data scientist approve the results in the absence of the business spokesman.)
 It is important that the reports use the terminology of the client, and that the
 software is easy to use for the domain expert.
 
