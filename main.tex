@@ -4,9 +4,8 @@
 \setulmarginsandblock{20mm}{20mm}{*}
 \checkandfixthelayout
 
-\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage[style=authoryear,maxbibnames=99,giveninits=true,backref=true]{biblatex}
+\usepackage[style=authoryear,maxbibnames=99,giveninits=true,uniquename=init,backref=true]{biblatex}
 \addbibresource{references.bib}
 
 \usepackage{amsmath}
@@ -41,13 +40,13 @@
 
 \usepackage[Bjornstrup]{fncychap} % must come before cleveref to avoid break appendix name
 \usepackage{cleveref}
-\newcommand\pcref[1]{(\cref{#1})}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes, arrows.meta, positioning, shapes.geometric}
 \usetikzlibrary{fit}
 \usetikzlibrary {datavisualization.formats.functions}
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
 \tikzset{%
   decision/.style={draw, diamond, text centered, minimum height=0.5cm, minimum width=1cm},
@@ -316,7 +315,6 @@ visit
 
 \input{foreword}
 \input{about}
-% \input{courses}
 
 \mainmatter
 \input{history}
@@ -324,11 +322,9 @@ visit
 \input{project}
 \input{structured}
 \input{handling}
-% \input{exploratory} TODO
 \input{inductive}
 \input{preprocess}
 \input{planning}
-% \input{ethics} TODO
 
 \renewcommand{\theHchapter}{A\arabic{chapter}} % workaround for hyperref
 \appendix
