@@ -3,7 +3,7 @@
 \glsresetall
 
 \chapterprecishere{%
-  Like families, tidy datasets are all alike, but every messy dataset is messy in its own way.
+  Like families, tidy datasets are all alike, but every messy \\dataset is messy in its own way.
   \par\raggedleft--- \textup{Hadley Wickham}, Tidy Data}
 
 As one expects, when we measure a phenomenon, the resulting data come in many different
@@ -110,7 +110,7 @@ We can order weights, we can say that the difference between 10 and 20 kilograms
 same as the difference between 20 and 30 kilograms, and we can say that 20 kilograms is
 twice as heavy as 10 kilograms.
 
-However, Stevens' types do not exhaust all possibilities for data types.  For example,
+Nonetheless, Stevens' types do not exhaust all possibilities for data types.  For example,
 probabilities are bounded at both ends, and thus do not tolerate arbitrary scale shifts.
 \textcite{Paul1993}\footfullcite{Paul1993} provide interesting insights about data types.  Although I do not
 agree with all his points, I think it is a good reading.  In particular, I agree with
@@ -172,7 +172,7 @@ attributes, then they must agree on another attribute.  Specifically, the \emph{
 dependency} $U \to V$ holds in $R$ if and only if for every pair of tuples $t_1$ and $t_2$
 in $R$ such that $t_1[U] = t_2[U]$, it is also true that $t_1[V] = t_2[V]$.
 
-\paragraph{Multi-valued dependency}  A multi-valued dependency is a constraint between
+\paragraph{Multi-valued dependency}  A multi-valued dependency constrains
 two sets of attributes in a relation.  The
 \emph{multi-valued dependency} $U \twoheadrightarrow V$ holds in $R$ if and only if $R =
 R[UV] \bowtie R[UW]$, where $W$ are the remaining attributes.  Note, however, that unlike
@@ -233,7 +233,7 @@ dependency of $R$.  The PJNF guarantees that the
 table cannot be decomposed without losing information (except by decompositions based on
 keys).
 
-Note that the idea behind the definition of BCNF and 4NF are slightly different from the
+The idea behind the definition of BCNF and 4NF are slightly different from the
 PJNF.  In fact, if we consider that for each key dependency implies a join dependency, the
 relation is in the so-called overstrong projection-join normal
 form\footfullcite{Fagin1979}.  Such a level of normalization does not improve data storage
@@ -241,7 +241,7 @@ or eliminate inconsistencies.  In practice, it means that if a relation is in PJ
 careless joins --- i.e. those that violate a join dependency --- produce
 inconsistent results.
 
-\paragraph{Simple example}  Consider the 2NF relation $R[A, B, C, D]$ with the functional
+\paragraph{Simple example}  Consider the 2NF relation $R[A, B, C, D]$ with functional
 dependencies $A \to B,~B \to C,~C \to D$.  The relation is not in 3NF because $C$ is
 transitively dependent on $A$.  To normalize it, we can decompose it into the
 relations $R_1[A, B, C]$ and $R_2[C, D]$.  Now, $R_2$ is in 3NF and $R_1$ is in 2NF, but
@@ -406,8 +406,8 @@ It is based on the idea that a dataset is a collection of values, where:
     same unit across attributes.
   \item \emph{Attributes} are the characteristics of the units, e.g. height, temperature,
     duration.
-  \item \emph{Observational units} are the individual entities being measured, e.g. a
-    person, a day, an experiment.
+  \item \emph{Observational units} are the individual entities being measured, for
+    instance, a person, a day, an experiment.
 \end{itemize}
 Table \ref{tab:tidy} summarizes the main concepts.
 
@@ -471,7 +471,8 @@ Note that the order of the rows and columns is not important.  However, it might
 convenient to sort data in a particular way to facilitate the understanding.  For
 instance, one usually expects that the first columns are \emph{fixed
 variables}\footnote{Closely related (and potentially the same as) key in database
-theory.}, i.e. variables that are not the result of a measurement but describe the experimental design, and the last columns
+theory.} --- i.e. variables that are not the result of a measurement but that describe the
+experimental design ---, and the last columns
 are \emph{measured variables}.  Also, arranging rows by some variable might highlight some
 pattern in the data.
 
@@ -591,7 +592,7 @@ columns contains the names of the variables, in this case the column \emph{eleme
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llllcccc}
     \toprule
-    \textbf{id} & \textbf{year} & \textbf{month} & \textbf{element} & \textbf{d1} & \textbf{d2} & \textbf{\dots} & \textbf{d31} \\
+    \textbf{id} & \textbf{year} & \textbf{mo.} & \textbf{element} & \textbf{d1} & \textbf{d2} & \textbf{\dots} & \textbf{d31} \\
     \midrule
     MX17004 & 2010 & 1 & tmax &    & 24 & \dots & 27 \\
     MX17004 & 2010 & 1 & tmin & 14 &    & \dots &    \\
@@ -604,8 +605,7 @@ columns contains the names of the variables, in this case the column \emph{eleme
 
 To fix this issue, we must first decide which column contains the names of the variables.
 Then, we must lengthen the table in function of the variables (and potentially their
-names), as seen in \cref{tab:tidy3a}.  Afterwards, we widen the table in function of their names.  Finally, we remove
-implicit information, as seen in \cref{tab:tidy3b}.
+names), as seen in \cref{tab:tidy3a}.
 
 \begin{tablebox}[label=tab:tidy3a]{Partial solution to tidy \cref{tab:messy3}. Note that
   the table is now longer.}
@@ -624,6 +624,10 @@ implicit information, as seen in \cref{tab:tidy3b}.
   \end{tabular}
 \end{tablebox}
 
+\clearpage
+Afterwards, we widen the table in function of their names.  Finally, we remove
+implicit information, as seen in \cref{tab:tidy3b}.
+
 \begin{tablebox}[label=tab:tidy3b]{Tidy version of \cref{tab:messy3} where values are correctly moved.}
   \centering
   \rowcolors{2}{black!10!white}{}
@@ -637,12 +641,6 @@ implicit information, as seen in \cref{tab:tidy3b}.
     \bottomrule
   \end{tabular}
 \end{tablebox}
-
-% É comum que, durante a coleta de dados, várias unidades observacionais sejam registradas
-% numa mesma tabela Para arrumar estes dados, cada uma delas deve ser transportada para uma
-% tabela diferente A separação evita diversos tipos de potenciais inconsistências (processo
-% associado à normalização de bases de dados) No entanto, durante a análise é possível que
-% tenhamos que desnormalizá-las
 
 \subsubsection{Multiple types of observational units are stored in the same table}  For
 example, consider the \cref{tab:messy4}.  It is very common during data collection that
@@ -783,9 +781,9 @@ First and foremost, both concepts, normalization and tidy data, are not in confl
 
 In data normalization, given a set of functional, multivalued and join dependencies, there
 exists a normal form that is free of redundancy.  In tidy data,
-\citeauthor{Wickham2023} also state that there is only one way to organize the given data.
+\textcite{Wickham2023}\footfullcite{Wickham2023} also state that there is only one way to organize the given data.
 
-\textcite{Wickham2014} states that tidy data is 3NF.  However, he does not provide a
+\textcite{Wickham2014}\footfullcite{Wickham2014} state that tidy data is 3NF.  However, he does not provide a
 formal proof.  Since tidy data focuses on data analysis and not on data storage, I argue
 that there is more than one way to organize the data in a tidy format.  It actually
 depends on what you define as the observational unit.
@@ -807,17 +805,17 @@ appropriate to generalize.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
-    \textbf{Relational theory} & \textbf{Tidy data} & \textbf{Philosophy} \\
+    \textbf{Relations} & \textbf{Tidy data} & \textbf{Philosophy} \\
     \midrule
     Entities & Observational units & Substance \\
     Tuple & Observation & Primary substance \\
     %Attribute & Attribute & Predicate \\
     Primary key & Fixed variables & Univocal name \\
-    Non-prime attribute & Measured variable & Predicate \\
+    Non-prime attr. & Measured variable & Predicate \\
     \bottomrule
   \end{tabular}
   \tcblower
-  Equivalence (or similiarity) of data-related terms in different contexts.
+  Equivalence (or similarity) of data-related terms in different contexts.
   The ontological understanding of the data influences the way it is organized.
 \end{tablebox}
 
@@ -927,7 +925,7 @@ body)?
 
 In the first version of the data (\cref{tab:temp1}), it would be trivial to include head
 circumference and height.  In the second version, the choice becomes inconvenient.  This
-table seems ``overtidy''.  If the first fits enough for the analysis, it should be
+table seems ``overtidy''.  If the first fits well for the analysis, it should be
 preferred.
 
 In summary, tidiness is a matter of perspective.
@@ -1089,7 +1087,7 @@ This embedding can reveal the underlying dynamics and structure of the system.
 Unstructured data are data that do not have a predefined data model or are not organized
 in a predefined manner.  For example, text, images, and videos are unstructured data.
 
-Every unstructured dataset can be converted into a structured dataset.  However, the
+Every unstructured dataset can be converted into a structured one.  However, the
 conversion process is not always straightforward nor lossless.  For example, we can
 convert a text into a structured dataset by counting the number of occurrences of each
 word\footnote{This is called bag of words.}.
