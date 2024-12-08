@@ -15,7 +15,7 @@
 \usepackage{fontspec}
 \usepackage{xltxtra}
 \usepackage{sourcesanspro}
-\usepackage{unicode-math}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
 \usepackage{graphicx}
 \usepackage[super]{nth}
 \usepackage{booktabs}
@@ -106,7 +106,7 @@
 \setsecnumdepth{subsection}
 \maxtocdepth{subsection}
 
-\babelhyphenation[english]{par-a-digm pipe-line}
+\babelhyphenation[english]{par-a-digm pipe-line pa-ram-e-ter-ize ro-bot-ics}
 
 \newtcolorbox[auto counter, number within=chapter, crefname={algorithm}{algorithms}]{algobox}[2][]{%
   float=thbp, base={Algorithm \thetcbcounter: #2},
@@ -250,7 +250,24 @@
 \end{tikzpicture}
 
 \newpage
-\mbox{}
+
+{
+  % TODO: update based on Zenodo info.
+  \footnotesize\noindent Cite this book as:
+  \begin{verbatim}
+  @book{Verri2025,
+    author = {Filipe Alves Neto Verri},
+    title = {Data science project},
+    subtitle = {An inductive learning approach},
+    year = {2025},
+    publisher = {Leanpub},
+    url = {https://github.com/verri/dsp-book},
+    doi = {10.0000/zenodo.0000000},
+    note = {version 0.1},
+  }
+  \end{verbatim}
+}
+
 \vfill
 
 {
