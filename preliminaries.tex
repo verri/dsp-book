@@ -236,7 +236,6 @@ no repetitions.  The most common grid size is $9 \times 9$.
 
 \begin{figurebox}[label=fig:sudoku]{Backtracking to solve a Sudoku puzzle.}
   \centering
-  \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}
     % a tree like structure with the Sudoku puzzle at the root, and tries to fill each cell
     % with a number, backtracking when a number does not fit
@@ -372,7 +371,6 @@ no repetitions.  The most common grid size is $9 \times 9$.
 
     \draw[-Stealth] (n4.south) -- (dots);
   \end{tikzpicture}
-  }
   \tcblower
   A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
   numbers in each cell and backtracking when a number does not fit.  The solution is found
