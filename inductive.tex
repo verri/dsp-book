@@ -275,14 +275,14 @@ We can easily see that the Bayes classifier is the optimal solution for the bina
 classification task.  The probability of classification error for an arbitrary classifier
 $f$ is
 \begin{equation*}
-  R(f) = \int \mathbb{1}_{f(x) \neq y}\, d\!\Prob(x, y) =
-    \iint \mathbb{1}_{f(x) \neq y}\, d\!\Prob(y | x)\, d\!\Prob(x)\text{,}
+  R(f) = \int I_{f(x) \neq y}\, d\!\Prob(x, y) =
+    \iint I_{f(x) \neq y}\, d\!\Prob(y | x)\, d\!\Prob(x)\text{,}
 \end{equation*}
-where $\mathbb{1}_{\cdot}$ is the indicator function that returns one if the condition is
-true and zero otherwise.  Let $b(x) = \Prob(y = 1 \mid x)$; we have that
+where $I_{\cdot}$ is the indicator function that returns one if the condition is
+true and zero otherwise.  Let $b(x) = \Prob(y = 1 \mid x)$, we have that
 \[
-  \int \mathbb{1}_{f(x) \neq y}\, d\!\Prob(y | x) =
-    b(x) \mathbb{1}_{f(x) = 0} + (1 - b(x)) \mathbb{1}_{f(x) = 1}\text{,}
+  \int I_{f(x) \neq y}\, d\!\Prob(y | x) =
+    b(x) I_{f(x) = 0} + (1 - b(x)) I_{f(x) = 1}\text{,}
 \]
 which means only one of the terms is nonzero for each $x$.  Thus, the risk is minimized by choosing
 a classifier that $f(x) = 1$ if $b(x) > 1 - b(x)$ and $f(x) = 0$ otherwise.  This is the
@@ -293,8 +293,8 @@ classifier in a given problem.  The Bayes error rate sums the errors of the
 Bayes classifier for each class:
 \begin{equation*}
   R_\text{Bayes} = \int \left[
-    b(x) \mathbb{1}_{f_\text{Bayes}(x) = 0} +
-    \left(1 - b(x)\right) \mathbb{1}_{f_\text{Bayes}(x) = 1}
+    b(x) I_{f_\text{Bayes}(x) = 0} +
+    \left(1 - b(x)\right) I_{f_\text{Bayes}(x) = 1}
   \right] d\!\Prob(x)\text{.}
 \end{equation*}
 
@@ -656,7 +656,7 @@ One misconception about the VC dimension is that it is related to the number of 
 of the model.  The VC dimension is actually related to the complexity of the hypothesis space, not
 to the number of parameters.  For instance, the VC dimension of functions
 \[
-  f(z; \theta) = \mathbb{1}_{\sin \theta x > 0}
+  f(z; \theta) = I_{\sin \theta x > 0}
 \]
 is infinite, even though the parameter $\theta$ is a scalar.  See \cref{fig:vc-sin}.
 By increasing the frequency $\theta$ of the sine wave, the function can approximate any set
