@@ -33,9 +33,8 @@ Ratio data are data that can be classified into categories, ordered, measured in
 units, and have a true zero.  In practice, they differ on the logical and arithmetic operations
 we can perform on them.
 
-\begin{tablebox}[label=tab:stevens]{Stevens' types.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cc}
     \toprule
     \textbf{Data type} & \textbf{Operations} \\
@@ -46,10 +45,12 @@ we can perform on them.
     Ratio & $=, <, +, -, \times, \div$ \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Stevens' types are a classification of data types based on the operations we can perform
   on them.
-\end{tablebox}
+  }
+  \label{tab:stevens}
+\end{table}
 
 \Cref{tab:stevens} summarizes the allowed operations for each of Stevens' types.  All types
 enable equality comparison.  Ordinal data can also be tested in terms of their order, but
@@ -212,9 +213,8 @@ credits'', and ``grade''.  The primary key is the composite of ``student'' and `
 The functional dependencies are ``student'' and ``course'' determine ``grade'', and
 ``course'' determines ``course credits''.  The relation is in 2NF but not 3NF.
 
-\begin{tablebox}[label=tab:student-grade-illustration]{Student grade relation.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cccc}
     \toprule
     \textbf{Student} & \textbf{Course} & \textbf{Course credits} & \textbf{Grade} \\
@@ -225,9 +225,11 @@ The functional dependencies are ``student'' and ``course'' determine ``grade'', 
     Bob & Physics & 3 & A \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   An example of a relation of students and their grades in 2NF.
-\end{tablebox}
+  }
+  \label{tab:student-grade-illustration}
+\end{table}
 
 \Cref{tab:student-grade-illustration} shows an example of possible values of the relation.
 If we decide to change the course credits of the course ``Math'' to 5, we must update the
@@ -236,9 +238,8 @@ two rows; otherwise, the relation will be inconsistent.  A 3NF relation (see
 credits'' in a separate relation, avoiding the possibility of data inconsistency.  If
 needed, the relation would be reconstructed by a join operation.
 
-\begin{tablebox}[label=tab:student-grade-illustration2]{Student grade relation in 3NF.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cc}
     \toprule
     \textbf{Course} & \textbf{Course credits} \\
@@ -248,7 +249,6 @@ needed, the relation would be reconstructed by a join operation.
     \bottomrule
   \end{tabular}
   \quad
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{Student} & \textbf{Course} & \textbf{Grade} \\
@@ -259,9 +259,12 @@ needed, the relation would be reconstructed by a join operation.
     Bob & Physics & A \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
+  Student grade relation in 3NF.
   An example of a relation of students and their grades in 3NF.
-\end{tablebox}
+  }
+  \label{tab:student-grade-illustration2}
+\end{table}
 
 \paragraph{Invalid join example} Consider the 2NF relation $R[ABC]$\footnote{Here we abbreviate ${A,
 B, C}$ as $ABC$.} such that the primary key is the composite of $A$, $B$, and $C$.  The
@@ -325,9 +328,8 @@ In an unrestricted table, the meaning of rows and columns is not fixed.  In a ti
 the meaning of rows and columns is fixed.  The semantics are more restrictive than usually
 required for general tabular data.
 
-\begin{tablebox}[label=tab:simple-messy]{Example of same data in different formats.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
      & \textbf{Cases (2019)} & \textbf{Cases (2020)} \\
@@ -345,9 +347,11 @@ required for general tabular data.
     \textbf{Cases (2020)} & 200 & 400 \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   The same data in different formats.  Both are considered messy by Wickham.
-\end{tablebox}
+  }
+  \label{tab:simple-messy}
+\end{table}
 
 \Cref{tab:simple-messy} shows an example of the same data in different formats.  Although
 they emphasize different aspects (especially for visualization) of the data, both contain
@@ -367,11 +371,10 @@ It is based on the idea that a dataset is a collection of values, where:
   \item \emph{Observational units} are the individual entities being measured, for
     instance, a person, a day, an experiment.
 \end{itemize}
-Table \ref{tab:tidy} summarizes the main concepts.
+\Cref{tab:tidy} summarizes the main concepts.
 
-\begin{tablebox}[label=tab:tidy]{Tidy data concepts.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cccc}
     \toprule
     \textbf{Concept} & \textbf{Structure} & \textbf{Contains} & \textbf{Across} \\
@@ -380,11 +383,12 @@ Table \ref{tab:tidy} summarizes the main concepts.
     Observation & Row & Same unit & Attributes \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy data concepts.}
+  \label{tab:tidy}
+\end{table}
 
-\begin{tablebox}[label=tab:simple-tidy]{Example of tidy data.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{Country} & \textbf{Year} & \textbf{Cases} \\
@@ -395,9 +399,11 @@ Table \ref{tab:tidy} summarizes the main concepts.
     USA & 2020 & 400 \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   An example of tidy data from the data in \cref{tab:simple-messy}.
-\end{tablebox}
+  }
+  \label{tab:simple-tidy}
+\end{table}
 
 If we follow this structure, the meaning of the data is implicit in the table.
 \Cref{tab:simple-tidy} shows the same data in a tidy format.  The table is now longer, but
@@ -448,16 +454,14 @@ tidying are encouraged to read \textcite{Wickham2023}\footfullcite{Wickham2023}.
 
 The problems are summarized in the following.
 
-\clearpage
 \subsubsection{Headers are values, not variable names}  For example, consider
 \cref{tab:messy1}.  This table is not tidy because the column headers are values, not
 variable names.  This format is frequently used in presentations since it is more compact.
 It is also useful to perform matrix operations. However, it is not appropriate for general
 analysis.
 
-\begin{tablebox}[label=tab:messy1]{Messy table, from Pew Forum dataset, where headers are values, not variable names.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l r r r c}
     \toprule
     \textbf{Religion} & \textbf{<\$10k} & \textbf{\$10-20k} & \textbf{\$20-30k} & \textbf{\dots} \\
@@ -468,7 +472,9 @@ analysis.
     \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Messy table, from Pew Forum dataset, where headers are values, not variable names.}
+  \label{tab:messy1}
+\end{table}
 
 To make it tidy, we can transform it into the \cref{tab:tidy1} by explicitly introducing
 variables \emph{Income} and \emph{Frequency}.
@@ -476,9 +482,8 @@ Note that the table is now longer, but it is also narrower.  This is a common pa
 fixing this kind of issue.  The table is now tidy because the column headers are variable
 names, not values.
 
-\begin{tablebox}[label=tab:tidy1]{Tidy version of \cref{tab:messy1} where values are correctly moved.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l r}
     \toprule
     \textbf{Religion} & \textbf{Income} & \textbf{Frequency} \\
@@ -493,18 +498,18 @@ names, not values.
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy version of \cref{tab:messy1} where values are correctly moved.}
+  \label{tab:tidy1}
+\end{table}
 
-\clearpage
 \subsubsection{Multiple variables are stored in one column}  For example, consider the
 \cref{tab:messy2}.  This table is not tidy because the column --- interestingly called
 \emph{column} --- contains multiple variables.  This format is frequent, and sometimes the
 column name contains the names of the variables.  Sometimes it is very hard to separate
 the variables.
 
-\begin{tablebox}[label=tab:messy2]{Messy table, from TB dataset, where multiple variables are stored in one column.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l l r c}
     \toprule
     \textbf{country} & \textbf{year} & \textbf{column} & \textbf{cases} & \textbf{\dots} \\
@@ -516,7 +521,9 @@ the variables.
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Messy table, from TB dataset, where multiple variables are stored in one column.}
+  \label{tab:messy2}
+\end{table}
 
 To make it tidy, we can transform it into the \cref{tab:tidy2}.  Two columns are created
 to contain the variables \emph{Sex} and \emph{Age}, and the old column is removed.  The
@@ -524,9 +531,8 @@ table keeps the same number of rows, but it is now wider.  This is a common patt
 fixing this kind of issue.  The new version usually fixes the issue of correctly
 calculating ratios and frequency.
 
-\begin{tablebox}[label=tab:tidy2]{Tidy version of \cref{tab:messy2} where values are correctly moved.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l l l l r c}
     \toprule
     \textbf{country} & \textbf{year} & \textbf{sex} & \textbf{age} & \textbf{cases} & \textbf{\dots} \\
@@ -538,16 +544,16 @@ calculating ratios and frequency.
     \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy version of \cref{tab:messy2} where values are correctly moved.}
+  \label{tab:tidy2}
+\end{table}
 
-\clearpage
 \subsubsection{Variables are stored in both rows and columns}  For example, consider the
 \cref{tab:messy3}.  This is the most complicated case of messy data.  Usually, one of the
 columns contains the names of the variables, in this case the column \emph{element}.
 
-\begin{tablebox}[label=tab:messy3]{Messy table, adapted from molten weather dataset, where variables are stored in both rows and columns.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llllcccc}
     \toprule
     \textbf{id} & \textbf{year} & \textbf{mo.} & \textbf{element} & \textbf{d1} & \textbf{d2} & \textbf{\dots} & \textbf{d31} \\
@@ -559,16 +565,16 @@ columns contains the names of the variables, in this case the column \emph{eleme
     \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Messy table, adapted from molten weather dataset, where variables are stored in both rows and columns.}
+  \label{tab:messy3}
+\end{table}
 
 To fix this issue, we must first decide which column contains the names of the variables.
 Then, we must lengthen the table in function of the variables (and potentially their
 names), as seen in \cref{tab:tidy3a}.
 
-\begin{tablebox}[label=tab:tidy3a]{Partial solution to tidy \cref{tab:messy3}. Note that
-  the table is now longer.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllc}
     \toprule
     \textbf{id} & \textbf{date} & \textbf{element} & \textbf{value} \\
@@ -580,15 +586,17 @@ names), as seen in \cref{tab:tidy3a}.
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{
+    Partial solution to tidy \cref{tab:messy3}. Note that the table is now longer.
+  }
+  \label{tab:tidy3a}
+\end{table}
 
-\clearpage
 Afterwards, we widen the table in function of their names.  Finally, we remove
 implicit information, as seen in \cref{tab:tidy3b}.
 
-\begin{tablebox}[label=tab:tidy3b]{Tidy version of \cref{tab:messy3} where values are correctly moved.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llcc}
     \toprule
     \textbf{id} & \textbf{date} & \textbf{tmin} & \textbf{tmax} \\
@@ -598,15 +606,16 @@ implicit information, as seen in \cref{tab:tidy3b}.
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy version of \cref{tab:messy3} where values are correctly moved.}
+  \label{tab:tidy3b}
+\end{table}
 
 \subsubsection{Multiple types of observational units are stored in the same table}  For
 example, consider the \cref{tab:messy4}.  It is very common during data collection that
 many observational units are registered in the same table.
 
-\begin{tablebox}[label=tab:messy4]{Messy table, adapted from billboard dataset, where multiple types of observational units are stored in the same table.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllll}
     \toprule
     \textbf{year} & \textbf{artist} & \textbf{track} & \textbf{date} & \textbf{rank} \\
@@ -622,7 +631,9 @@ many observational units are registered in the same table.
     \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Messy table, adapted from billboard dataset, where multiple types of observational units are stored in the same table.}
+  \label{tab:messy4}
+\end{table}
 
 To fix this issue, we must ensure that each observation unit is moved to a different table.
 Sometimes, it is useful to create unique identifiers for each observation.
@@ -630,9 +641,8 @@ The separation avoids several types of potential inconsistencies.  However, take
 account that during data analysis, it is possible that we have to denormalize them.  The
 two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
 
-\begin{tablebox}[label=tab:tidy4a]{Tidy version of \cref{tab:messy4} containing the observational unit \emph{track}.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lll}
     \toprule
     \textbf{track id} & \textbf{artist} & \textbf{track} \\
@@ -642,11 +652,12 @@ two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy version of \cref{tab:messy4} containing the observational unit \emph{track}.}
+  \label{tab:tidy4a}
+\end{table}
 
-\begin{tablebox}[label=tab:tidy4b]{Tidy version of \cref{tab:messy4} containing the observational unit \emph{rank of the track in a certain week}.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lll}
     \toprule
     \textbf{track id} & \textbf{date} & \textbf{rank} \\
@@ -662,7 +673,12 @@ two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{
+    Tidy version of \cref{tab:messy4} containing the observational unit \emph{rank of the
+    track in certain week}.
+  }
+  \label{tab:tidy4b}
+\end{table}
 
 \subsubsection{A single observational unit is stored in multiple tables}  For example, consider
 \cref{tab:messy5a,tab:messy5b}.  It is very common during data
@@ -670,11 +686,8 @@ collection that a single observational unit is stored in multiple tables.  Usual
 table (or file) itself represents the value of a variable.  When columns are compatible,
 it is straightforward to combine the tables.
 
-\begin{tablebox}[label=tab:messy5a]{Messy tables, adapted from nycflights13 dataset, where
-  a single observational unit is stored in multiple tables.  Assume that the origin
-  filename is called \texttt{2013.csv}.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llll}
     \toprule
     \textbf{month} & \textbf{day} & \textbf{time} & \textbf{\dots} \\
@@ -686,13 +699,16 @@ it is straightforward to combine the tables.
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{
+    Messy tables, adapted from nycflights13 dataset, where a single observational unit is
+    stored in multiple tables.  Assume that the origin filename is called
+    \texttt{2013.csv}.
+  }
+  \label{tab:messy5a}
+\end{table}
 
-\begin{tablebox}[label=tab:messy5b]{Messy tables, adapted from nycflights13 dataset, where
-  a single observational unit is stored in multiple tables.  Assume that the origin
-  filename is called \texttt{2014.csv}.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llll}
     \toprule
     \textbf{month} & \textbf{day} & \textbf{time} & \textbf{\dots} \\
@@ -704,15 +720,20 @@ it is straightforward to combine the tables.
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{
+    Messy tables, adapted from nycflights13 dataset, where a single observational unit is
+    stored in multiple tables.  Assume that the origin filename is called
+    \texttt{2014.csv}.
+  }
+  \label{tab:messy5b}
+\end{table}
 
 To fix this issue, we must first make the columns compatible.  Then, we can combine the
 tables adding a new column that identifies the origin of the data.  The resulting table is
 shown in \cref{tab:tidy5}.
 
-\begin{tablebox}[label=tab:tidy5]{Tidy data where \cref{tab:messy5a,tab:messy5b} are combined.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllll}
     \toprule
     \textbf{year} & \textbf{month} & \textbf{day} & \textbf{time} & \textbf{\dots} \\
@@ -729,9 +750,10 @@ shown in \cref{tab:tidy5}.
     \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy data where \cref{tab:messy5a,tab:messy5b} are combined.}
+  \label{tab:tidy5}
+\end{table}
 
-\clearpage
 \section{Bridging normalization, tidiness, and data theory}
 \label{sub:bridge}
 
@@ -758,9 +780,8 @@ units to the remaining attributes.  They also should never be fed into a learnin
 machine (more details in \cref{chap:slt}), since they are individual and thus not
 appropriate to generalize.
 
-\begin{tablebox}[label=fig:bridge]{Terms in different contexts.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{Relations} & \textbf{Tidy data} & \textbf{Philosophy} \\
@@ -772,10 +793,12 @@ appropriate to generalize.
     Non-prime attr. & Measured variable & Predicate \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Equivalence (or similarity) of data-related terms in different contexts.
   The ontological understanding of the data influences the way it is organized.
-\end{tablebox}
+  }
+  \label{fig:bridge}
+\end{table}
 
 \Cref{fig:bridge} summarizes the equivalence (or similarity) of terms in different
 contexts.
@@ -789,9 +812,8 @@ collect data three times a day.  If we consider as the observational unit the
 event of measuring the temperature, we can organize the data in a tidy format as shown in
 \cref{tab:temp1}.
 
-\begin{tablebox}[label=tab:temp1]{Tidy data where the observational unit is the event of measuring the temperature.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lllc}
     \toprule
     \textbf{date} & \textbf{time} & \textbf{sensor} & \textbf{temperature} \\
@@ -805,15 +827,16 @@ event of measuring the temperature, we can organize the data in a tidy format as
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy data where the observational unit is the event of measuring the temperature.}
+  \label{tab:temp1}
+\end{table}
 
 However, since the sensors are fixed, we can consider the observational unit as the
 \emph{temperature at some time}.  In this case, we can organize the data in a tidy format
 as shown in \cref{tab:temp2}.
 
-\begin{tablebox}[label=tab:temp2]{Tidy data where the observational unit is the temperature at some time.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llccc}
     \toprule
     \textbf{date} & \textbf{time} & \textbf{temp. 1} & \textbf{temp. 2} & \textbf{temp. 3} \\
@@ -823,7 +846,9 @@ as shown in \cref{tab:temp2}.
     \dots & \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy data where the observational unit is the temperature at some time.}
+  \label{tab:temp2}
+\end{table}
 
 In both cases, one can argue that the data is also normalized.  In the first case, the
 primary key is the composite of the columns \emph{date}, \emph{time}, and \emph{sensor}.
@@ -835,9 +860,8 @@ sensors or sensor-specific attributes (using an extra table).  However, the seco
 methods.  Given the definition of tidy data, I believe both forms are correct.  It is
 just a matter of what ontological view you have of the data.
 
-\begin{tablebox}[label=tab:body1]{Tidy data for measurements of a person's body.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lccc}
     \toprule
     \textbf{name} & \textbf{chest} & \textbf{waist} & \textbf{hip} \\
@@ -847,16 +871,17 @@ just a matter of what ontological view you have of the data.
     \dots & \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Tidy data for measuments of a person body.}
+  \label{tab:body1}
+\end{table}
 
 Still, one can argue that the sensors share the same nature and thus only the first
 form is correct (or can even insist that the more flexible form is the correct one).
 Consider however the data in \cref{tab:body1}.  The observational unit is the person, and
 the attributes are the body measurements.
 
-\begin{tablebox}[label=tab:body2]{Another tidy data for measurements of a person's body.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llc}
     \toprule
     \textbf{name} & \textbf{body part} & \textbf{measurement} \\
@@ -870,7 +895,9 @@ the attributes are the body measurements.
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \caption{Another tidy data for measurements of a person body.}
+  \label{tab:body2}
+\end{table}
 
 If we apply the same logic of \cref{tab:temp1}, data in \cref{tab:body1} becomes
 \cref{tab:body2}.  Now, the observational unit is the measurement of a body part of a
@@ -960,9 +987,8 @@ student grade at the course.  If only $CDE$ is known, the table $R[CDE]$ is alre
 --- and the observational unit is the enrollment --- once there is no key to perform any
 kind of normalization.  This happens in many cases where privacy is a concern.
 
-\begin{tablebox}[label=tab:student]{Example of a dataset where the observational unit is the student.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llll}
     \toprule
     \textbf{A (student)} & \textbf{B (course)} & \textbf{C (grade)} & \textbf{E (load)} \\
@@ -984,10 +1010,13 @@ kind of normalization.  This happens in many cases where privacy is a concern.
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
+  Example of a dataset where the observational unit is the student.
   Relation $R[ABCE]$ becomes $R[AFG]$ after the summarization operation.  Now each row
   represents a student (values in $A$ are unique).
-\end{tablebox}
+  }
+  \label{tab:student}
+\end{table}
 
 But we can also consider that the observational unit is the student.  In this case, we
 must perform joins traversing the leftmost decomposition tree in \cref{fig:decomp} from
