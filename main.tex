@@ -4,6 +4,9 @@
 \setulmarginsandblock{20mm}{20mm}{*}
 \checkandfixthelayout
 
+\usepackage[T1]{fontenc}
+\usepackage[final]{microtype}
+
 \usepackage[english]{babel}
 \usepackage[style=authoryear,maxbibnames=99,giveninits=true,uniquename=init,backref=true]{biblatex}
 \addbibresource{references.bib}
@@ -106,7 +109,8 @@
 \setsecnumdepth{subsection}
 \maxtocdepth{subsection}
 
-\babelhyphenation[english]{par-a-digm pipe-line pa-ram-e-ter-ize ro-bot-ics pen-al-ty}
+\babelhyphenation[english]{par-a-digm pipe-line pa-ram-e-ter-ize ro-bot-ics pen-al-ty
+  quan-ti-fi-ca-tion}
 
 \newtcolorbox[auto counter, number within=chapter, crefname={algorithm}{algorithms}]{algobox}[2][]{%
   float=thbp, base={Algorithm \thetcbcounter: #2},
@@ -349,6 +353,7 @@ visit
 \input{machines}
 
 \backmatter
+\emergencystretch=1em
 \printbibliography
 \printglossary
 

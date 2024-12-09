@@ -74,7 +74,7 @@ for inductive problems.
 
 \section{An experimental plan for data science}
 
-Like any other experimental science, data science requires a well-thought-out experimental
+Like any other experimental science, data science requires a robust experimental
 plan to ensure that evaluation results are reliable and can be used to make decisions.
 Failure to use well the resources we have at hand --- i.e. the limited amount of data ---
 can lead to incorrect conclusions about the performance of a solution.
@@ -147,7 +147,7 @@ training set --- and the test set is used to evaluate the performance --- $p_1, 
 scenario, where the model is used to make predictions on new data.
 
 The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
-independent and identically distributed (i.i.d.).  The cross-validation technique divides
+independent and identically distributed (i.i.d.).  Cross-validation divides
 the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
 test set once and as a training set $r-1$ times.  So, first we use as training set folds
 $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
@@ -222,6 +222,7 @@ A summary of the experimental plan for estimating expected performance is shown 
 
 \begin{figurebox}[label=fig:plan-single]{Experimental plan for estimating expected performance of a solution.}
   \centering
+  \resizebox{\textwidth}{!}{
   \begin{tikzpicture}
     \node [darkcircle] (data) at (0, 0) {Data};
     \node [block] (sampling) at (0, -2) {Sampling strategy};
@@ -294,6 +295,7 @@ A summary of the experimental plan for estimating expected performance is shown 
     \path [line, dashed] (-4.2, -10.5) -- (perfs);
     \path [line] (perfs) -- (hypothesis);
   \end{tikzpicture}
+  }
   \tcblower
   % A brief description of the experimental plan.
   The experimental plan for estimating the expected performance of a solution involves
@@ -382,7 +384,7 @@ generative model.  \citeauthor{Benavoli2017} consider the prior
 \begin{equation*}
   \Prob(\mu, \nu \mid \mu_0, \kappa_0, a, b) = \operatorname{NG}(\mu, \nu; \mu_0, \kappa_0, a, b)\text{,}
 \end{equation*}
-that is a Normal-Gamma distribution with parameters $(\mu_0, \kappa_0, a, b)$.  This is a
+which is a Normal-Gamma distribution with parameters $(\mu_0, \kappa_0, a, b)$.  This is a
 conjugate prior to the likelihood model.  Choosing the prior parameters $\mu_0 = 0$,
 $\kappa_0 \to \infty$, $a = -1/2$, and $b = 0$, the posterior distribution of $\mu$ is a
 location-scale Student distribution.  Mathematically, we have
@@ -439,7 +441,8 @@ Suppose $\vec{p}(\lambda_0)$ and $\vec{p}(\lambda)$ are the performance vectors 
 baseline and the candidate algorithms, respectively, that are calculated using the same
 strategy described in \cref{sub:expected-performance}.  It is important to note that the
 same samplings must be used to compare the algorithms --- i.e. performance samples must be
-paired, each one of them coming from the same sampling dataset.
+paired, each one of them coming from the same sampling, and consequently, from the same
+training and test datasets.
 
 We can validate whether the
 candidate is better than the baseline by

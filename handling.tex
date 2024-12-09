@@ -707,7 +707,7 @@ operation, but if the value of $U$ is missing in the second table, the operation
 create a new row with the columns of the first table and missing values for the columns of
 the second table.
 
-In our context, we can see this operation as an unary operation, where the second table is
+In our context, this operation is an unary operation, where the second table is
 a fixed parameter.
 
 \begin{defbox}{Left join operation}{left-join}
@@ -1182,7 +1182,7 @@ missing values.  This is a powerful tool to deal with time series data. For exam
 can use the \code{lead} function to create a new column with the next value of the
 \code{x} column sorted by \code{year}.
 
-If the data contains \code{x = (1, 3)} and
+If data contains both \code{x = (1, 3)} and
 \code{year = (2019, 2021)}, the calculation of the lead will result in
 \begin{center}
   \code{x = (1, ?, 3)}, \code{year = (2019, 2020, 2021)}, and \code{lead = (?, 3, ?)},

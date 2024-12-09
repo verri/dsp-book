@@ -78,8 +78,8 @@ artificial intelligence that studies algorithms that exhibit some form of intell
 behavior.
 
 A more specific subfield of \gls{ai} is \gls{ml}, which studies algorithms that
-enable computers to automatically learn and improve their performance on a task from
-experience, without being explicitly programmed by a human being.
+enable computers to learn and improve their performance on a task from
+experience automatically, without being explicitly programmed by a human being.
 
 Programming a computer to play chess is a good example of the difference between
 traditional \gls{ai} and \gls{ml}.  In traditional \gls{ai}, a human programmer
@@ -266,8 +266,8 @@ In the binary classification task, the output $y$ is
 a binary variable.  However, it is possible to have a multiclass classification task,
 where  $y$ can take on more than two possible values.  Although some learning methods can
 address directly the multiclass classification task, it is possible to transform the
-problem into a binary classification task.  The most common method is the
-\emph{one-versus-all} method where we train $l$ binary classifiers, one for each class,
+problem into a binary classification task.  The most common method is
+\emph{one-versus-all}, where we train $l$ binary classifiers, one for each class,
 and the class with the highest score is the predicted class.  Another method is the
 \emph{one-versus-one} method, where we train $l(l-1)/2$ binary classifiers, one for each
 pair of classes, and the class with the most votes is the predicted class.
@@ -506,7 +506,7 @@ the \emph{empirical risk functional}
 Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so called
 \gls{erm} inductive principle.  The ERM principle is the basis of the \gls{slt}.
 
-Traditional methods, such as least-squares, maximum likelihood, and maximum a posteriori are
+Traditional methods, such as least squares, maximum likelihood, and maximum a posteriori are
 all realizations of the ERM principle for specific loss functions and hypothesis spaces.
 
 \subsection{Consistency of the learning process}

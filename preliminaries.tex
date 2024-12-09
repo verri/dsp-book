@@ -18,7 +18,7 @@ Statisticians with strong programming background and computer scientists with st
 statistics background will probably not find much new here.
 
 I first introduce the main concepts in algorithms and data structures, which are the
-building blocks of computational thinking.  Then, I present the basic concepts in set
+building blocks of computational thinking.  Then, I show the basic concepts in set
 theory and linear algebra, which are important mathematical foundations for data science.
 Finally, I introduce the main concepts in probability theory, the cornerstone of
 statistical learning and inference.
@@ -70,7 +70,7 @@ My suggestion of a comprehensive book about algorithms and data structures is
 
 \subsection{Computational complexity}
 
-The computational complexity of an algorithm is the amount of resources it uses to
+The computational complexity of an algorithm is the total amount of resources it uses to
 run as a function of the size of the input.  The most common resources are time and
 space.
 
@@ -168,7 +168,7 @@ Divide and conquer algorithms can be implemented using recursion.  \emph{Recursi
 is also a algorithmic paradigm where a function calls itself to solve smaller instances of the
 same problem.  The recursion stops when the problem is small enough to be solved directly.
 
-\Cref{alg:bsearch2} shows a recursive implementation of the binary search algorithm.
+\Cref{alg:bsearch2} displays a recursive implementation of the binary search algorithm.
 The smaller instances, or so called \emph{base cases}, are when the array is empty or the key
 is found in the middle.  Other conditions --- key is smaller or greater than the middle element ---
 are handled by calling the function recursively with the left or right half of the array.
@@ -275,6 +275,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
 
 \begin{figurebox}[label=fig:sudoku]{Backtracking to solve a Sudoku puzzle.}
   \centering
+  \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}
     % a tree like structure with the Sudoku puzzle at the root, and tries to fill each cell
     % with a number, backtracking when a number does not fit
@@ -410,6 +411,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
 
     \draw[-Stealth] (n4.south) -- (dots);
   \end{tikzpicture}
+  }
   \tcblower
   A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
   numbers in each cell and backtracking when a number does not fit.  The solution is found
@@ -882,7 +884,7 @@ function $p_X : \mathbb{Z} \rightarrow [0, 1]$ defined by
 
 \paragraph{Probability density function}
 
-The \gls{pdf} of a continuous random variable $X$ is the
+We call \gls{pdf} of a continuous random variable $X$ the
 function $f_X : \mathbb{R} \rightarrow [0, \infty)$ defined by
 \begin{equation}
   \label{eq:pdf}
@@ -891,7 +893,7 @@ function $f_X : \mathbb{R} \rightarrow [0, \infty)$ defined by
 
 \paragraph{Cumulative distribution function}
 
-The \gls{cdf} of a random variable $X$ is the function
+Similarly, the \gls{cdf} of a random variable $X$ is the function
 $F_X : \mathbb{R} \rightarrow [0, 1]$ defined by
 \begin{equation}
   \label{eq:cdf}
@@ -1002,7 +1004,7 @@ sample $X_1, \dots, X_n$ such that $X_i \sim X$ for all $i$, the sample skewness
 \begin{equation*}
   \text{Skewness} = \frac{\frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^3}{S^3}\text{.}
 \end{equation*}
-Skewness is zero for a symmetric distribution, positive for a right-skewed distribution,
+Skewness is zero for a symmetric distribution.  Otherwise, it is positive for a right-skewed distribution,
 and negative for a left-skewed distribution.
 
 \paragraph{Sample kurtosis}  The kurtosis is a measure of the tailedness of a probability
