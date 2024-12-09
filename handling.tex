@@ -39,7 +39,7 @@ the table, which is a key concept in data handling.  We also consider that value
 missing.  Repeated rows are represented by allowing cells to contain sets of values.
 In this chapter, we consider dataset and table as synonyms.
 
-\begin{defbox}{Indexed table}{itable}
+\begin{definition}{Indexed table}\label{def:itable}
 An indexed table $T$ is a tuple $(K, H, c)$, where $K = \left\{K_i : i = 1, \dots,
 k\right\}$ is the set of index columns, $H$ is the set of (non-index) columns, and $c :
 \domainof{K_1} \times \dots \times \domainof{K_k} \times H \to \mathcal{V}$ is the cell function.
@@ -48,7 +48,7 @@ may include missing values $\missing$.  Values have arbitrary types, such as int
 real numbers, strings, etc.
 Each index column $K_i$ has a domain $\domainof{K_i}$, which is an enumerable set of
 values.
-\end{defbox}
+\end{definition}
 
 A possible row $r$ of the table is indexed by a tuple $r = (k_1, \dots,
 k_k)$, where $k_i \in \domainof{K_i}$.  Each row has a cardinality $\rowcard[r]$, which
@@ -61,7 +61,7 @@ such that $|\vec{v}| = \rowcard[r]$.  We say that $\domainof{h}$ is the valid do
 the column $h$.
 The order of the elements in the tuple $\vec{v}$ is arbitrary but fixed.
 
-\begin{defbox}{Nested row}{nested-row}
+\begin{definition}{Nested row}\label{nested-row}
 A \emph{nested
 row} consists of a tuple of values that associates different columns with the same
 repetition of the entity, i.e. \[
@@ -69,16 +69,16 @@ repetition of the entity, i.e. \[
 \]
 where $c(r, h) = [v^h_i : i = 1, \dots, \rowcard[r]]$, assuming an arbitrary fixed order
 of the columns $h$.
-\end{defbox}
+\end{definition}
 
 We can stack nested rows to form a matrix of values.  This matrix is called the value
 matrix of the row $r$.
 
-\begin{defbox}{Value matrix}{vmatrix}
+\begin{definition}{Value matrix}\label{def:vmatrix}
 The value matrix $V = (v_{i, j})$ of the row $r$ is \[
   \Big[ c(r, h) : h \in H \Big]\text{,}
 \] with dimensions $\rowcard[r] \times |H|$.
-\end{defbox}
+\end{definition}
 
 We assume that value matrices --- and consequently row cardinalities --- are minimal. This
 means that there are no nested rows $$v_{i, 1}, \dots, v_{i, |H|}$$ in the value matrices
@@ -94,7 +94,7 @@ inverses of each other and are used to divide and combine tables, respectively.
 They are important in the data science process because they play a key role in
 data semantics and validation of solutions.
 
-\begin{defbox}{Split operation}{split}
+\begin{definition}{Split operation}\label{def:split}
 Given an indicator function $s : \domainof{K_1} \times \dots \times \domainof{K_k} \to
 \left\{0, 1\right\}$, the split operation creates two tables, $T_0$ and $T_1$, that
 contain only the rows for which
@@ -108,21 +108,21 @@ Mathematically, the split operation is defined as \[
     () & \text{otherwise.}
   \end{dcases}
 \]
-\end{defbox}
+\end{definition}
 
 \emph{Note that, by definition, the split operation never ``breaks'' a row.  So, the
 indices define the indivisible entities of the table.}  The resulting tables are
 disjoint:
 
-\begin{defbox}{Disjoint tables}{disjoint-tables}
+\begin{definition}{Disjoint tables}\label{def:disjoint-tables}
   Two tables $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$ are said to be disjoint if
   $$\rowcard[r; c_0] > 0 \Rightarrow \rowcard[r; c_1] = 0\text{ and}$$
   $$\rowcard[r; c_1] > 0 \Rightarrow \rowcard[r; c_0] = 0$$ for any $r$.
-\end{defbox}
+\end{definition}
 
 The binding operation is the inverse of the split operation.
 
-\begin{defbox}{Bind operation}{bind}
+\begin{definition}{Bind operation}\label{def:bind}
   Given two disjoint tables
   $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, the binding operation creates a new table $T$
   that contains all the rows of $T_0$ and $T_1$.
@@ -133,7 +133,7 @@ The binding operation is the inverse of the split operation.
   The operator $+$ stands for the tuple concatenation operator%
   \footnote{The order of the concatenation here is not an issue since we guarantee
   that at least one of the operands is empty.}.
-\end{defbox}
+\end{definition}
 
 \emph{Thus, a requirement for the binding operation is that the tables are disjoint in
 terms of the row entities they have.}
@@ -179,13 +179,13 @@ From now on, we will denote \[
   T_0 + T_1 = \operatorname{bind}(T_0, T_1)\text{,}
 \] for any tables $T_0$ and $T_1$ to simplify the notation.
 
-\begin{defbox}{Split invariance}{split-invariance}
+\begin{definition}{Split invariance}\label{def:split-invariance}
 An arbitrary data handling operation $f(T)$ is said to be split-invariant
 if, for any table $T$ and split function $s$, the following equation holds \[
   f\!\left(T_0 + T_1\right) =
     f\!\left(T_0\right) + f\!\left(T_1\right)\text{,}
 \] where $T_0, T_1 = \operatorname{split}\!\left(T; s\right)$.
-\end{defbox}
+\end{definition}
 
 Split invariance is a desirable property for data handling operations during the data
 tasks described in \cref{chap:project}: integration and tidying.  Even while exploring
@@ -197,9 +197,8 @@ property is important to avoid \gls{leakage} or to bias the results of the analy
 
 \subsection{Illustrative example}
 
-\begin{tablebox}[label=tab:grades1]{Data table of student grades.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cccc}
     \toprule
     \textbf{student} & \textbf{subject} & \textbf{year} & \textbf{grade} \\
@@ -217,9 +216,11 @@ property is important to avoid \gls{leakage} or to bias the results of the analy
     Carol & Math & 2020 & 10 \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Data collected about student grades.  All information that is available is presented.
-\end{tablebox}
+  }
+  \label{tab:grades1}
+\end{table}
 
 Consider the example of data collected about student grades.  \Cref{tab:grades1}
 exemplifies all information we can possibly have about the grades of students.  A missing
@@ -248,9 +249,8 @@ Knowing that the data is complete, we can safely assume that:
   \item Carol has only taken classes in 2020.
 \end{enumerate}
 
-\begin{tablebox}[label=tab:grades2]{Data table of student grades assuming student and subject as indices.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccccc}
     \toprule
     \textbf{s} & \textbf{student} & \textbf{subject} & \textbf{year} & \textbf{grade} \\
@@ -266,10 +266,12 @@ Knowing that the data is complete, we can safely assume that:
     1 & Carol & Math & (2020) & (10) \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Indexed table with data from \cref{tab:grades1} assuming student and
   subject as indices.  The column $s$ is the split indicator.
-\end{tablebox}
+  }
+  \label{tab:grades2}
+\end{table}
 
 Now consider an arbitrary collection mechanism that considers student and subject as the
 indices of the table.  \Cref{tab:grades2} shows the table we have in hand.  The column $s$
@@ -287,9 +289,8 @@ Now, about the statements we made before:
     some row (Carol, subject) with a year different from 2020 is missing in the table.
 \end{enumerate}
 
-\begin{tablebox}[label=tab:grades3]{Data table of student grades assuming student as the index.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccp{2.6cm}p{1.8cm}>{\raggedright\arraybackslash}p{1.2cm}}
     \toprule
     \textbf{s} & \textbf{student} & \textbf{subject} & \textbf{year} & \textbf{grade} \\
@@ -299,10 +300,12 @@ Now, about the statements we made before:
     1 & Carol & (Biology, Chemistry, Math) & (2020, 2020, 2020) & (8, 3, 10) \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Indexed table with data from \cref{tab:grades1} assuming student
   as index.  The column $s$ is the split indicator and only rows with $s = 1$ are available to us.
-\end{tablebox}
+  }
+  \label{tab:grades3}
+\end{table}
 
 Now consider an arbitrary collection mechanism that considers student as the index of the table.
 Imposing this restriction would difficult the data collection process, but it would
@@ -348,7 +351,7 @@ outputs of one operation are the inputs of the next one.
 Operations are extensively parameterized, for instance, most of them can use predicates to
 define the groups, arrangements, or conditions under which they should be applied.
 
-\begin{figurebox}[label=fig:pipeline]{Example of data handling pipeline.}
+\begin{figure}
   \centering
   \begin{tikzpicture}[every node/.style={font=\small, inner sep=4pt}]
     \node (s1) [darkcircle] at (0, 0) {Source 1};
@@ -369,12 +372,15 @@ define the groups, arrangements, or conditions under which they should be applie
     \path [line] (f4) -- (f5);
     \path [line] (f5) -- (data);
   \end{tikzpicture}
-  \tcblower
+  \caption{
+  Example of data handling pipeline.
   A data handling pipeline is a set of operations that transform a dataset into
   another dataset.  We can have more than one source dataset and the output is a single
   dataset where each row represents a sample in the observational unit we are interested
   in.
-\end{figurebox}
+  }
+  \label{fig:pipeline}
+\end{figure}
 
 In \cref{fig:pipeline}, we show an example of a data handling pipeline.  The pipeline
 starts with two source datasets, Source 1 and Source 2.  The datasets are processed by a
@@ -430,7 +436,7 @@ process of combining two or more datasets into a single dataset.  In order to ma
 operation reversible, we can parametrize it with a split column that indicates the source
 of each row.
 
-\begin{defbox}{Tagged bind operation}{tagged-bind}
+\begin{definition}{Tagged bind operation}\label{def:tagged-bind}
   Given two or more disjoint tables $T_i = (K, H, c_i)$, $i = 0, 1, \dots$, the tagged
   bind operation creates a new table $T = (K, H \cup \{s\}, c)$ that contains all the rows
   of tables $T_i$.  The split column $s$ is a new column that indicates the source of each
@@ -443,7 +449,7 @@ of each row.
   \]
   where $i$ is the index of the table $T_i$ that contains the row $r$, i.e. $d =
   \rowcard[r; c_i] > 0$.
-\end{defbox}
+\end{definition}
 
 When binding datasets by rows, the datasets must have the same columns.  In practice,
 one can assume, if a column is missing, that all values in that column are missing.
@@ -454,9 +460,8 @@ different year, one can create a new column \emph{year} that contains the year o
 data.  It is important to pay attention to the semantics of the split column, as it can
 also contain extra information.
 
-\begin{tablebox}[label=tab:gas-usage]{Gas usage datasets.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{month} & \textbf{gas} & \textbf{distance} \\
@@ -468,7 +473,6 @@ also contain extra information.
     \bottomrule
   \end{tabular}
   ~
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{month} & \textbf{gas} & \textbf{distance} \\
@@ -479,9 +483,11 @@ also contain extra information.
     \dots & \dots & \dots \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Monthly gas usage data from US (left) and Brazil (right) residents.
-\end{tablebox}
+  }
+  \label{tab:gas-usage}
+\end{table}
 
 Consider \cref{tab:gas-usage}, which contains monthly gas usage data from
 US and Brazil residents.  From the requirements described in the previous section, we can
@@ -496,7 +502,7 @@ observational unit being stored in multiple tables described in \cref{sub:messy}
 
 The reverse function consists of splitting the dataset using as a predicate the split column.
 
-\begin{defbox}{Tagged split operation}{tagged-split}
+\begin{definition}{Tagged split operation}\label{def:tagged-split}
   Let $s$ be a non-index column of a table $T = (K, H \cup \{s\}, c)$ with $\domainof{s}$
   known and finite, and such that $c(r, s)$ contains only unique values. The tagged split
   operation parametrized by $s$ creates disjoint tables $T_i = (K, H, c_i)$ that contain
@@ -505,7 +511,7 @@ The reverse function consists of splitting the dataset using as a predicate the 
   Mathematically, the tagged split operation is defined as \[
     \operatorname{split}_{s}(T) = \left(T_0, T_1, \dots\right)\text{,}
   \] where $c_i(r, h) = c(r, h)$ if $i \in c(r, s)$ and $c_i(r, h) = ()$ otherwise.
-\end{defbox}
+\end{definition}
 
 Note that the tagged split is split-invariant by definition, since we assume that the
 nested rows of the input table $T$ contain only one value for column $s$ for all
@@ -527,7 +533,7 @@ possible values will become the names of the new columns --- and a value column 
 values will be \emph{spread} across the rows.  Other than these columns, all remaining columns
 must be indexes.
 
-\begin{defbox}{Pivot long-to-wide operation}{pivot-l2w}
+\begin{definition}{Pivot long-to-wide operation}\label{def:pivot-l2w}
   Let $T = (K \cup \{\text{name}\}, \{\text{value}\}, c)$. The pivot long-to-wide
   operation is defined as \[
     \operatorname{pivot}_\text{name}(T) = T'\text{,}
@@ -535,7 +541,7 @@ must be indexes.
     c'(r, h) = c\left(r + (h),~\text{value}\right)\text{,}
   \]
   for all valid row $r$ and $h \in \domainof{\text{name}}$.
-\end{defbox}
+\end{definition}
 
 Note however that the operation only works if $\rowcard[r + (h); c]$ is constant for all
 $h \in \domainof{\text{name}}$.  If this is not the case, one must aggregate the rows
@@ -546,7 +552,7 @@ specify all the columns whose names are the values of the previously called ``na
 The values of these columns will be \emph{gathered} into a new column. As before, all
 remaining columns are indexes.
 
-\begin{defbox}{Pivot wide-to-long operation}{pivot-w2l}
+\begin{definition}{Pivot wide-to-long operation}\label{def:pivot-w2l}
   Let $T = (K, H, c)$ be a table.  The pivot wide-to-long
   operation is defined as \[
     \operatorname{pivot}^{-1}(T) = T'\text{,}
@@ -554,15 +560,14 @@ remaining columns are indexes.
   = H$ and \[
     c'((r, h), \text{value}) = c(r, h)\text{,}
   \] for all valid row $r$ and $h \in H$.
-\end{defbox}
+\end{definition}
 
 In practical applications, where not all remaining columns are indexes, one must aggregate
 rows or drop extra non-indexed columns beforehand.  This is discussed in
 \cref{sub:aggregation,sub:selection}.
 
-\begin{tablebox}[label=tab:pivot]{Pivoting example.}
+\begin{table}
     \centering
-    \rowcolors{2}{black!10!white}{}
     \begin{tabular}{ccc}
       \toprule
       \textbf{city} & \textbf{year} & \textbf{qty.} \\
@@ -576,7 +581,6 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
       \bottomrule
     \end{tabular}
     ~
-    \rowcolors{2}{black!10!white}{}
     \begin{tabular}{cccc}
       \toprule
       \textbf{city} & \textbf{2019} & \textbf{2020} & \textbf{2021} \\
@@ -585,10 +589,13 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
       B & 4 & 5 & 6 \\
       \bottomrule
     \end{tabular}
-  \tcblower
+  \caption{
+  Pivoting example.
   The left-hand-side table is in the long format and the right-hand-side table is in the
   wide format.
-\end{tablebox}
+  }
+  \label{tab:pivot}
+\end{table}
 
 \Cref{tab:pivot} shows an example of pivoting.  Here, we can consider \emph{city} and
 \emph{year} as the index columns.  The left-hand-side table is in the long format and the
@@ -635,7 +642,7 @@ columns in $U$, i.e.
   r[U] = (k_i : k_i \in \domainof{K_i} \forall K_i \in U)\text{.}
 \end{equation*}
 
-\begin{defbox}{Join operation}{join}
+\begin{definition}{Join operation}\label{def:join}
   Let $T' = (K', H', c')$ and $T'' = (K'', H'', c'')$ be two tables such that $K'
   \cap K'' \neq \emptyset$ and $H' \cap H'' = \emptyset$.  The join operation is
   defined as \[
@@ -649,7 +656,7 @@ columns in $U$, i.e.
       c''(r[K''], h) & \text{if } h \in H''\text{.}
     \end{dcases}
   \]
-\end{defbox}
+\end{definition}
 
 The join of two tables is the operation that returns a new table with the columns of both
 tables.  Let $U$ be the common set of index columns.  For each occurring value of $U$ in
@@ -672,7 +679,7 @@ the second table.
 In our context, this operation is a unary operation, where the second table is
 a fixed parameter.
 
-\begin{defbox}{Left join operation}{left-join}
+\begin{definition}{Left join operation}\label{def:left-join}
   Let $T' = (K', H', c')$ and $T'' = (K'', H'', c'')$ be two tables such that $K'
   \cap K'' \neq \emptyset$ and $H' \cap H'' = \emptyset$.  The left join operation is
   defined as \[
@@ -686,7 +693,7 @@ a fixed parameter.
       c''(r[K''], h) & \text{if } h \in H''\text{.}
     \end{dcases}
   \]
-\end{defbox}
+\end{definition}
 
 The left join operation is split-invariant.  To see this, consider two disjoint tables
 $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, and a third table $T' = (K', H', c')$ such
@@ -733,23 +740,23 @@ relevant to the analysis.  Also, it might be needed before other operations, suc
 pivoting, to avoid unnecessary columns (wide-to-long) and to keep only the value column
 (long-to-wide).
 
-\begin{defbox}{Selection operation}{selection}
+\begin{definition}{Selection operation}\label{def:selection}
   Let $T = (K, H, c)$ be a table and $H' \subseteq H$.  The selection operation is
   defined as \[
     \operatorname{select}_{H'}(T) = T'\text{,}
   \] where $T' = (K, H', c)$.
-\end{defbox}
+\end{definition}
 
 Sometimes, it is useful to select columns based on a function of the column properties.
 In other words, the selection operation can be parameterized by a predicate.  The predicate
 is a function that returns a logical value given the column.
 
-\begin{defbox}{Predicate selection operation}{predicate-selection}
+\begin{definition}{Predicate selection operation}\label{def:predicate-selection}
   Let $T = (K, H, c)$ be a table and $P : H \to \{0, 1\}$ be a predicate.  The predicate
   selection operation is defined as \[
     \operatorname{select}_{P}(T) = T'\text{,}
   \] where $T' = (K, H', c)$ and $H' = \{h \in H : P(h) = 1\}$.
-\end{defbox}
+\end{definition}
 
 It is trivial to see that, if $P$ does not depend on the values of the columns (i.e., has no
 access to $c$), the predicate selection operation is split-invariant.  This is because the
@@ -788,7 +795,7 @@ For instance, the predicate \code{age > 18} will select all rows where the value
 age column is greater than 18.  Keeping each row independent, we can also generalize
 predicates to deal with the values of the indexes as well.
 
-\begin{defbox}{Filtering operation}{filtering}
+\begin{definition}{Filtering operation}\label{def:filtering}
   Let $T = (K, H, c)$ be a table and $P_1, \dots P_n$ be predicates.  The
   filtering operation is defined as \[
     \operatorname{filter}_{P_1, \dots, P_n}(T) = T'\text{,}
@@ -800,7 +807,7 @@ predicates to deal with the values of the indexes as well.
   \] where predicate $$P_i : \bigtimes_{K_i} K_i \times
   \bigtimes_{h\in H}\left(\domainof{h} \cup \{?\}\right) \to \{0, 1\}$$ is applied to the value
   matrix $V(r)$ of the row $r$.
-\end{defbox}
+\end{definition}
 
 It is also trivial to see that the filtering operation is split-invariant, even in its
 generalized form where the value matrix has many rows.  This property comes from the fact
@@ -817,7 +824,7 @@ a function that returns a vector of values given the values in the other columns
 Similarly to filtering, in its simplest form, we can assume that $\rowcard[r] \leq 1$ for
 all $r$ and that the predicates are applied to each row independently.
 
-\begin{defbox}{Mutation operation}{mutating}
+\begin{definition}{Mutation operation}\label{def:mutating}
   Let $T = (K, H, c)$ be a table and $f$ be a transformation function.  The mutating
   operation is defined as \[
     \operatorname{mutate}_{f}(T) = T'\text{,}
@@ -829,7 +836,7 @@ all $r$ and that the predicates are applied to each row independently.
   \] where the function $$f : \bigtimes_{K_i \in K} K_i \times \bigtimes_{h\in H}
   \left(\domainof{h} \cup \{?\}\right) \to \domainof{h'} \cup \{?\}$$ is applied to the
   value matrix $V(r)$ of the row $r$.
-\end{defbox}
+\end{definition}
 
 The expression can be a simple function, such as \code{y = x + 1}, or a more complex
 function, such as
@@ -855,7 +862,7 @@ the row it is applied to.
 Many times, it is easier to reason about the table when all rows have cardinality 1.
 Aggregation ensures that the table has this property.
 
-\begin{defbox}{Aggregation operation}{aggregating}
+\begin{definition}{Aggregation operation}\label{def:aggregating}
   Let $T = (K, H, c)$ be a table and $f$ be an aggregation function.  The aggregation
   operation is defined as \[
     \operatorname{aggregate}_{f}(T) = T'\text{,}
@@ -865,7 +872,7 @@ Aggregation ensures that the table has this property.
   an image $$\left(\domainof{h} \cup \{?\} : h \in H\right)\text{,}$$ independently of the
   input size.  The notation $v[h]$ refers to the value corresponding to the column $h$ in the
   output tuple.
-\end{defbox}
+\end{definition}
 
 As with mutation, aggregation is split-invariant as it treats each row independently,
 even if the function $f$ considers order semantics of the values in the matrix.
@@ -884,7 +891,7 @@ operation that transforms some of the columns in the table into indexes is calle
 The reason for the name is that the operation decreases the cardinality of rows
 by creating new rows, effectively ungrouping the values.
 
-\begin{defbox}{Ungrouping operation}{grouping}
+\begin{definition}{Ungrouping operation}\label{def:grouping}
   Let $T = (K, H, c)$ be a table and $h' \in H$ such that $\domainof{h'}$ is known and
   finite.  The ungrouping operation is defined as \[
     \operatorname{ungroup}_{h'}(T) = T'\text{,}
@@ -895,13 +902,12 @@ by creating new rows, effectively ungrouping the values.
   matrix $V(r; T)$ in the original table such that \[
     v_{i, h'} = r'\text{.}
   \]
-\end{defbox}
+\end{definition}
 
 Note that the operation requires that the column $h'$ has no missing values.
 
-\begin{tablebox}[label=tab:ungroup]{Ungrouping example.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{city} & \textbf{year} & \textbf{qty.} \\
@@ -912,7 +918,6 @@ Note that the operation requires that the column $h'$ has no missing values.
   \end{tabular}
 
   \vspace{1em}
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc}
     \toprule
     \textbf{city} & \textbf{year} & \textbf{qty.} \\
@@ -925,10 +930,13 @@ Note that the operation requires that the column $h'$ has no missing values.
     B & 2021 & 7 \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
+  Ungrouping example.
   The index of the top table is the column \emph{city}.  The bottom table is the result of
   ungrouping the column \emph{year}.
-\end{tablebox}
+  }
+  \label{tab:ungroup}
+\end{table}
 
 \Cref{tab:ungroup} shows an example of ungrouping.  In the top table, there are two rows,
 one with cardinality 4 and the other with cardinality 3.  The column \emph{year} is
@@ -982,7 +990,7 @@ of the index columns of the table.
 
 Adapting the definitions of projection to our context, we can define it as follows.
 
-\begin{defbox}{Projection operation}{projection}
+\begin{definition}{Projection operation}\label{def:projection}
   Let $T = (K, H, c)$ be a table and $K' \subset K$ a subset of the columns.  The
   projection operation is defined as \[
     \operatorname{project}_{K'}(T) = T'\text{,}
@@ -993,16 +1001,15 @@ Adapting the definitions of projection to our context, we can define it as follo
     \end{dcases}
   \] for all valid row $r$ considering the indices $K'$ and for all tuples $r' = (k_i :
   i)$ such that $k_i \in \domainof{K_i}$ for all $K_i \in K \setminus K'$.
-\end{defbox}
+\end{definition}
 
 We can see that projection for our tables is a little more complex than the usual
 projection in relational algebra.  Consider the example we discussed in
 \cref{sec:normalization} as well, where we have a table with the columns \emph{student},
 \emph{subject}, \emph{year}, and \emph{grade}.
 
-\begin{tablebox}[label=tab:student-grade-handling]{Student grade table.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cccc}
     \toprule
     \textbf{student} & \textbf{course} & \textbf{course credits} & \textbf{grade} \\
@@ -1016,7 +1023,6 @@ projection in relational algebra.  Consider the example we discussed in
   \end{tabular}
 
   \vspace{1em}
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cccc}
     \toprule
     \textbf{course} & \textbf{student} & \textbf{course credits} & \textbf{grade} \\
@@ -1025,11 +1031,14 @@ projection in relational algebra.  Consider the example we discussed in
     Physics & (Alice, Bob, Carol) & (3, 3, ?) & (B, A, ?) \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
+  Student grade table.
   (Top) An example of a table of students and their grades in courses.  The columns
   \emph{student} and \emph{course} are the index columns. (Bottom) The same table
   projected into the entity \emph{course}.
-\end{tablebox}
+  }
+  \label{tab:student-grade-handling}
+\end{table}
 
 \Cref{tab:student-grade-handling} (top) shows that table adapted for our definitions.
 Suppose we want to project the table to have only the entity \emph{course}.
@@ -1099,7 +1108,7 @@ For example, the expression
 will create a new column \code{y} with the cumulative sum of the \code{x} column for each
 \code{category} given the order of the rows defined by the \code{date} column.
 
-\begin{figurebox}[label=fig:mutating-groups-order]{Mutating with groups and order.}
+\begin{figure}
   \centering
   \begin{tikzpicture}[every node/.style={font=\small, inner sep=4pt}]
     \node (source) [darkcircle] at (0, -2) {Source};
@@ -1120,9 +1129,11 @@ will create a new column \code{y} with the cumulative sum of the \code{x} column
     \path [line] (source) -- (join);
     \path [line] (join) -- (result);
   \end{tikzpicture}
-  \tcblower
+  \caption{
   The mutating operation with groups and order is implemented as a pipeline.
-\end{figurebox}
+  }
+  \label{fig:mutating-groups-order}
+\end{figure}
 
 This operation can be implemented as a pipeline.  First, we group (project) the table by
 the \code{category} column.  Then, we sort all the tuples by the \code{date} column. Finally,
