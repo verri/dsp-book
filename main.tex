@@ -1,9 +1,6 @@
 \documentclass[oneside,a4paper,10pt]{book}
 \usepackage[left=3cm, right=3cm, bottom=3cm, top=4cm]{geometry}
 
-\usepackage[T1]{fontenc}
-\usepackage[final]{microtype}
-
 \usepackage[english]{babel}
 \usepackage[style=authoryear,maxbibnames=99,giveninits=true,uniquename=init,backref=true]{biblatex}
 \addbibresource{references.bib}
@@ -16,13 +13,9 @@
 \usepackage{graphicx}
 \usepackage[super]{nth}
 \usepackage{booktabs}
-\usepackage{csquotes}
 \usepackage{multirow}
 \usepackage[table]{xcolor}
-\usepackage{titletoc}
-\usepackage[noend,noline,linesnumbered]{algorithm2e}
 \usepackage[automake]{glossaries-extra}
-\usepackage{orcidlink}
 \usepackage{fontawesome5}
 \usepackage{nicefrac}
 \usepackage{cancel}
@@ -60,70 +53,13 @@
 }
 
 \usepackage{titling}
-\usepackage[most]{tcolorbox}
-\usepackage{xhfill}
-
-\newtcolorbox[auto counter, number within=chapter, crefname={algorithm}{algorithms}]{algobox}[2][]{%
-  float=thbp, base={Algorithm \thetcbcounter: #2},
-  colframe=black!20!white, #1,
-  before upper={\begin{algorithm}[H]},
-  after upper={\end{algorithm}}}
 
 \input{glossary}
 
 \begin{document}
 
 \newcommand{\code}[1]{\texttt{#1}}
-
-\tcbset {
-  base/.style={
-    arc=0mm,
-    bottomtitle=0.5mm,
-    boxrule=0mm,
-    colbacktitle=black!20!white,
-    coltitle=black,
-    left=2.5mm,
-    leftrule=1mm,
-    right=3.5mm,
-    title={#1},
-    toptitle=0.75mm,
-    lower separated=false,
-  }
-}
-
 \newtheorem{definition}{Definition}[chapter]
-\newtcbtheorem[auto counter, number within=chapter]{defbox}{Definition}{
-  float=h!,
-  colframe=black!20!white,
-  description delimiters parenthesis,
-  label type=definition,
-  base
-}{def}
-
-\newtcolorbox{hlbox}[1]{
-  float=h,
-  colframe=black!20!white,
-  fonttitle=\bfseries,
-  base={#1},
-}
-
-\newtcolorbox[blend into=figures]{figurebox}[2][]{%
-  float=thbp,
-  base={#2},
-  colframe=black!20!white,
-  every float=\centering, #1}
-
-\newtcolorbox[blend into=tables]{tablebox}[2][]{%
-  float=thbp, base={#2},
-  colframe=black!20!white,
-  every float=\centering, #1}
-
-\newcommand\boxsubtitle[1]{%
-  \vspace{0.5em}
-  \noindent\xrfill[0.5ex]{1pt}[black!20]\phantom{x}\textbf{#1}\phantom{x}\xrfill[0.5ex]{1pt}[black!20]%
-  \vspace{0.5em}
-}
-
 \renewcommand{\vec}[1]{\mathbf{#1}}
 
 \title{Data Science Project: An Inductive Learning Approach}
@@ -137,15 +73,7 @@ The book is typeset with \LaTeX{}.  All figures are
 original and created with Ti\textit{k}Z.  Proudly written in
 \href{https://neovim.io/}{Neovim} with the assistance of
 \href{https://github.com/features/copilot}{GitHub Copilot}.
-The book cover image was created with the assistance of
-\href{https://gemini.google.com}{Gemini} and \href{https://openai.com/dall-e-2}{DALL·E 2}.
-We use the beautiful \href{https://www.stixfonts.org/}{STIX fonts} for text and math.
 Some icons are from \href{https://fontawesome.com/}{Font Awesome 5} by Dave Gandy.
-
-% TODO: which version of the Bible in the translations?
-Scripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®),
-copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by
-permission. All rights reserved.
 
 \thetitle{} © 2023--\the\year{} by \theauthor{}.
 Restricted use only.  All rights reserved.
@@ -170,10 +98,6 @@ Restricted use only.  All rights reserved.
 \input{inductive}
 \input{preprocess}
 \input{planning}
-
-\appendix
-\input{preliminaries}
-\input{machines}
 
 \backmatter
 \emergencystretch=1em

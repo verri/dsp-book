@@ -42,10 +42,10 @@ For this reason, the solution sprint tasks in \cref{sub:workflow} include not on
 learning tasks but also the \emph{data preprocessing} tasks, which are dependent on the
 chosen machine learning methods.
 
-\begin{defbox}{Data preprocessing}{preprocessing}
+\begin{definition}{Data preprocessing}\label{def:preprocessing}
   The process of adjusting the data to make it suitable for a particular learning machine
   or, at the least, to ease the learning process.
-\end{defbox}
+\end{definition}
 
 This is done by applying a series of operations to the data, like in data handling.  The
 difference here is that some of the parameters of the operations are not fixed; rather, they
@@ -157,9 +157,8 @@ check whether all columns that store physical quantities have the same unit of
 measurement.  If not, one must convert the values to the same unit.  A summary of this
 preprocessing task is presented in \cref{tab:unit-conversion}.
 
-\begin{tablebox}[label=tab:unit-conversion]{Unit conversion preprocessing task.}
+\begin{table}\caption{Unit conversion preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Unit conversion}} \\
@@ -177,7 +176,8 @@ preprocessing task is presented in \cref{tab:unit-conversion}.
       Preprocessor converts the numerical values and drops the unit of measurement column.  \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:unit-conversion}
+\end{table}
 
 Moreover, if one knows that a variable must follow a specific range of values, we can check
 whether the values are within this range.  If not, one must replace the values with
@@ -185,9 +185,8 @@ missing data or with the closest valid value.  Alternatively, one can discard th
 observation based on that criterion.  Consult \cref{tab:range-check} for a summary of this
 operation.
 
-\begin{tablebox}[label=tab:range-check]{Range check preprocessing task.}
+\begin{table}\caption{Range check preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Range check}} \\
@@ -207,7 +206,8 @@ operation.
       value $\max(a, \min(b, x))$, or (c) degenerates (discards the observation). \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:range-check}
+\end{table}
 
 Another common problem in inconsistent information is that the same category might be
 represented by different strings.  This is usually done by creating a dictionary that maps
@@ -215,9 +215,8 @@ the different names to a single one, using standardizing lower or upper case, re
 special characters, or more advanced fuzzy matching techniques --- see
 \cref{tab:text-standardization}.
 
-\begin{tablebox}[label=tab:text-standardization]{Category standardization preprocessing task.}
+\begin{table}\caption{Category standardization preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Category standardize}} \\
@@ -236,7 +235,8 @@ special characters, or more advanced fuzzy matching techniques --- see
       dictionary fuzzy matching. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:text-standardization}
+\end{table}
 
 Note that these technique parameters are not fitted from the data, but rather are fixed
 from the problem definition.  As a result, they could be done in the data handling phase.
@@ -263,9 +263,8 @@ respectively.  The \gls{iqr} is defined as $Q_3 - Q_1$.  The values that are les
 $Q_1 - 1.5\, \text{IQR}$ or greater than $Q_3 + 1.5\, \text{IQR}$ are considered outliers.
 See \cref{tab:iqr-outlier}.
 
-\begin{tablebox}[label=tab:iqr-outlier]{Outlier detection using the interquartile range.}
+\begin{table}\caption{Outlier detection using the interquartile range.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Outlier detection using the IQR}} \\
@@ -282,7 +281,8 @@ See \cref{tab:iqr-outlier}.
       Preprocessor replaces the outlier values with missing data. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:iqr-outlier}
+\end{table}
 
 More sophisticated methods can be used to detect samples that are outliers, such as using
 the definition of an outlier in the DBSCAN\footfullcite{Ester1996}. But, this is not
@@ -296,9 +296,8 @@ Like filtering operations in the pipeline, the developer must specify a default 
 for the model when an outlier sample is detected in production.  See
 \cref{tab:outlier-removal}.
 
-\begin{tablebox}[label=tab:outlier-removal]{Task of filtering outliers.}
+\begin{table}\caption{Task of filtering outliers.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Outlier removal}} \\
@@ -317,7 +316,8 @@ for the model when an outlier sample is detected in production.  See
       nothing, otherwise. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:outlier-removal}
+\end{table}
 
 \subsection{Treating missing data}
 
@@ -341,9 +341,8 @@ random.  Row removal suffers from the same problem as any filtering operations
 (degeneration) in the preprocessing step; the developer must specify a default behavior
 for the model when a row is discarded in production.  See \cref{tab:row-removal-missing}.
 
-\begin{tablebox}[label=tab:row-removal-missing]{Task of filtering rows based on missing data.}
+\begin{table}\caption{Task of filtering rows based on missing data.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Row removal based on missing data}} \\
@@ -362,15 +361,15 @@ for the model when a row is discarded in production.  See \cref{tab:row-removal-
       \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:row-removal-missing}
+\end{table}
 
 In the case of column removal, the
 preprocessor just learns to drop the columns that have missing data during fitting.
 Beware that valuable information might be lost when removing columns for all the samples.
 
-\begin{tablebox}[label=tab:col-drop-missing]{Task of dropping columns based on missing data.}
+\begin{table}\caption{Task of dropping columns based on missing data.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Column removal based on missing data}} \\
@@ -387,7 +386,8 @@ Beware that valuable information might be lost when removing columns for all the
       Preprocessor drops the chosen columns in fitting. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:col-drop-missing}
+\end{table}
 
 Imputing the missing data is usually done by replacing the missing values with some
 statistic of the available values in the column, such as the mean, the median, or the
@@ -396,9 +396,8 @@ algorithm, for example, consult \fullcite{Troyanskaya2001}.}.  This is a simple 
 effective strategy, but it can introduce bias in the data, especially when the number of
 samples with missing data is large.  See \cref{tab:imputation}.
 
-\begin{tablebox}[label=tab:imputation]{Task of imputing missing data.}
+\begin{table}\caption{Task of imputing missing data.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Imputation of missing data}} \\
@@ -417,7 +416,8 @@ samples with missing data is large.  See \cref{tab:imputation}.
       missing or not missing. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:imputation}
+\end{table}
 
 Just imputing data is not suitable when one is not sure whether the missing data is
 missing because of a systematic error or phenomenon.  A model can learn the effect of the
@@ -453,9 +453,8 @@ However, note that the preprocessor for this task \emph{must never do anything w
 new data} (or the test set we discuss in \cref{chap:planning}).  See
 \cref{tab:random-sampling}.
 
-\begin{tablebox}[label=tab:random-sampling]{Task of random sampling.}
+\begin{table}\caption{Task of random sampling.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Random sampling}} \\
@@ -472,7 +471,8 @@ new data} (or the test set we discuss in \cref{chap:planning}).  See
       Pass-through: preprocessor does nothing with the new data. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:random-sampling}
+\end{table}
 
 \subsection{Scope filtering}
 
@@ -484,9 +484,8 @@ Unlike outlier detection, we assume that the rule is fixed and known beforehand.
 preprocessor degenerates over the samples that do not satisfy the rule.  A summary of the
 task is presented in \cref{tab:scope-filtering}.
 
-\begin{tablebox}[label=tab:scope-filtering]{Task of filtering the scope of the data.}
+\begin{table}\caption{Task of filtering the scope of the data.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Scope filtering}} \\
@@ -504,7 +503,8 @@ task is presented in \cref{tab:scope-filtering}.
       Preprocessor degenerates over the samples that do not satisfy the rule. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:scope-filtering}
+\end{table}
 
 An interesting variation is the model trees\footfullcite{Freek2015}.  They are shallow
 decision trees that are used to filter the data.  At each leaf, a different model is
@@ -535,9 +535,8 @@ In any case, the preprocessor for this task \emph{must never do anything with th
 data} (or the test set we discuss in \cref{chap:planning}).  See
 \cref{tab:class-balancing}.
 
-\begin{tablebox}[label=tab:class-balancing]{Task of class balancing.}
+\begin{table}\caption{Task of class balancing.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Class balancing}} \\
@@ -554,7 +553,8 @@ data} (or the test set we discuss in \cref{chap:planning}).  See
       Pass-through: preprocessor does nothing with the new data. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:class-balancing}
+\end{table}
 
 More advanced sampling methods exist.  For instance, the SMOTE
 algorithm\footfullcite{chawla2002smote} creates synthetic observations of the minority
@@ -599,9 +599,8 @@ known beforehand.  So, the preprocessing step must identify the unique values in
 column and create the new columns accordingly.  It is common to group the less frequent
 values into a single column, called the \emph{other} column.  See \cref{tab:one-hot}.
 
-\begin{tablebox}[label=tab:one-hot]{One-hot encoding preprocessing task.}
+\begin{table}\caption{One-hot encoding preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{One-hot encoding}} \\
@@ -622,7 +621,8 @@ values into a single column, called the \emph{other} column.  See \cref{tab:one-
       frequent values, it is assigned to the \emph{other} column.  \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:one-hot}
+\end{table}
 
 The other direction is also common: converting numerical values to categorical values.
 This is usually done by binning the numerical variable, either by frequency or by range.
@@ -631,9 +631,8 @@ finding the percentiles of the values and creating the bins accordingly.  Binnin
 range is done by dividing the range of the values into equal parts, given the minimum and
 maximum values.  See \cref{tab:binning}.
 
-\begin{tablebox}[label=tab:binning]{Binning numerical values preprocessing task.}
+\begin{table}\caption{Binning numerical values preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Binning numerical values}} \\
@@ -651,7 +650,8 @@ maximum values.  See \cref{tab:binning}.
       which bin the value falls into. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:binning}
+\end{table}
 
 Another common task, although it receives less attention, is the conversion of dates (or
 other interval variables) to numerical values.  Interval variables, like dates, have
@@ -680,9 +680,8 @@ standard deviation of the values in the column, the standardization is done by
 \end{equation}
 See \cref{tab:standardization}.
 
-\begin{tablebox}[label=tab:standardization]{Standardization preprocessing task.}
+\begin{table}\caption{Standardization preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Standardization}} \\
@@ -699,7 +698,8 @@ See \cref{tab:standardization}.
       Preprocessor scales the values according to \cref{eq:standardization}. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:standardization}
+\end{table}
 
 In the case of rescaling, during production, the preprocessor usually clamps\footnote{The
 operation $\clamp(x; a, b)$ where $a$ and $b$ are the lower and upper bounds,
@@ -714,9 +714,8 @@ the rescaling is done by
 \end{equation}
 See \cref{tab:rescaling}.
 
-\begin{tablebox}[label=tab:rescaling]{Rescaling preprocessing task.}
+\begin{table}\caption{Normalization preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Rescaling}} \\
@@ -734,7 +733,8 @@ See \cref{tab:rescaling}.
       Preprocessor scales the values according to \cref{eq:rescaling}. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:rescaling}
+\end{table}
 
 Related to normalization is the log transformation, which applies the logarithm to the
 values in the column.  This is usually done to make the data distribution more symmetric
@@ -786,9 +786,8 @@ The preprocessor, then, stores the external dataset and the column to join the d
 During production, it enhances any new observation with the external information.  See
 \cref{tab:data-enhancement}.
 
-\begin{tablebox}[label=tab:data-enhancement]{Data enhancement preprocessing task.}
+\begin{table}\caption{Data enhancement preprocessing task.}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
     \multicolumn{2}{c}{\textbf{Data enhancement}} \\
@@ -807,7 +806,8 @@ During production, it enhances any new observation with the external information
       Preprocessor enhances the new data with the external information. \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+  \label{tab:data-enhancement}
+\end{table}
 
 \subsection{Comments on unstructured data}
 

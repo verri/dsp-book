@@ -109,17 +109,17 @@ test set once and as a training set $r-1$ times.  So, first we use as training s
 $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
 \ldots, r$ and as test set fold $2$. And so on.  See \cref{fig:cross-validation}.
 
-\begin{figurebox}[label=fig:cross-validation]{Cross-validation}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \foreach \i in {1, 2, 3, 4} {
-      \node at (2 * \i, 0) {Fold \i};
+      \node at (3 * \i, 0) {Fold \i};
       \foreach \j in {1, 2, 3, 4} {
         % if \i == \j, then it is the test set
         \ifnum\i=\j
-          \node [smallblock, minimum width=16mm, minimum height=6mm] (fold\i\j) at (2 * \i, -\j) {Test};
+          \node [block, minimum width=16mm, minimum height=6mm] (fold\i\j) at (3 * \i, -\j) {Test};
         \else
-          \node [smalldarkblock, minimum width=16mm, minimum height=6mm] (fold\i\j) at (2 * \i, -\j) {Training};
+          \node [darkblock, minimum width=16mm, minimum height=6mm] (fold\i\j) at (3 * \i, -\j) {Training};
         \fi
       }
     }
@@ -127,11 +127,13 @@ $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds 
       \node [draw, dashed, fit={(fold1\j) (fold4\j)}] {};
     }
   \end{tikzpicture}
-  \tcblower
+  \caption{
   Cross-validation is a technique to sample training and test sets.  It divides the
   dataset into $r$ folds, using $r-1$ folds as a training set and the remaining fold as a
   test set.
-\end{figurebox}
+  }
+  \label{fig:cross-validation}
+\end{figure}
 
 If possible, one should use repeated cross-validation, where this process is repeated many
 times, each having a different fold partitioning chosen at random.  Also, when dealing with
@@ -176,9 +178,8 @@ For a detailed explanation of this process for each sampling, consult
 A summary of the experimental plan for estimating expected performance is shown in
 \cref{fig:plan-single}.
 
-\begin{figurebox}[label=fig:plan-single]{Experimental plan for estimating expected performance of a solution.}
+\begin{figure}
   \centering
-  \resizebox{\textwidth}{!}{
   \begin{tikzpicture}
     \node [darkcircle] (data) at (0, 0) {Data};
     \node [block] (sampling) at (0, -2) {Sampling strategy};
@@ -251,25 +252,26 @@ A summary of the experimental plan for estimating expected performance is shown 
     \path [line, dashed] (-4.2, -10.5) -- (perfs);
     \path [line] (perfs) -- (hypothesis);
   \end{tikzpicture}
-  }
-  \tcblower
+  \caption{
   % A brief description of the experimental plan.
   The experimental plan for estimating the expected performance of a solution involves
   sampling the data, training and testing the solution, evaluating the performance, and
   validating the results.
-\end{figurebox}
+  }
+  \label{fig:plan-single}
+\end{figure}
 
 Finally, we can study the sampled performance values $p_1, p_2, \ldots$ like any other
 statistical data to prove (or disprove) the hypothesis.  This process is called
 validation.
 
-\begin{defbox}{Validation}{validation}
+\begin{definition}{Validation}\label{def:validation}
   While we call evaluation the process of assessing the performance of a solution using a
   test set; validation, on the other hand, is the process of interpreting or confirming
   the meaning of the evaluation results.  Validation is the process of determining the
   degree to which the evaluation results support the intended use of the solution (unseen
   data).
-\end{defbox}
+\end{definition}
 
 The results are not the ``real'' performance of the solution
 $M$ in the real world, as that would require new data to be collected.  However, we can

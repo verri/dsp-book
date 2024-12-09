@@ -218,10 +218,8 @@ the performance of the solution in terms of the positive class.  They are comple
 and looking at only one of them may give a biased view of the performance --- more on that
 below.  The F-score is a way to balance precision and recall with a controllable parameter.
 
-\begin{tablebox}[label=tab:classification-metrics]{Summary of the properties of
-  data classification performance metrics.}
+\begin{table}\caption{Summary of the properties of data classification performance metrics.}\label{tab:classification-metrics}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l c c}
     \toprule
     \textbf{Metric} & \textbf{Focus} & \textbf{Interpretation} \\
@@ -236,7 +234,7 @@ below.  The F-score is a way to balance precision and recall with a controllable
     % FPR = 1 - TNR
     \bottomrule
   \end{tabular}
-\end{tablebox}
+\end{table}
 
 A common misconception about the asymmetrical metrics (especially precision) is that they
 are always robust to class imbalance.  Observe \cref{tab:classification-metrics-ex}, which shows
@@ -245,10 +243,14 @@ that always predicts the positive class (Guess 1), another that always predicts 
 negative class (Guess 0), and a classifier that randomly guesses the class independently
 of the class priors (Random).
 
-\begin{tablebox}[label=tab:classification-metrics-ex]{Behavior of classification
-  performance metrics for different classifiers.}
+\begin{table}
+  \caption{
+    Performance of different classifiers in the example of a dataset with ratio $\pi$ of
+    positive and $1-\pi$ of negative samples.  Metrics affected by class imbalance are
+    marked with $^\dagger$.
+  }
+  \label{tab:classification-metrics-ex}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l c c c}
     \toprule
     \textbf{Metric} & \textbf{Guess 1} & \textbf{Guess 0} & \textbf{Random} \\
@@ -261,11 +263,7 @@ of the class priors (Random).
     Specificity (TNR) & $0$ & $1$ & $0.5$ \\
     \bottomrule
   \end{tabular}
-  \tcblower
-  Performance of different classifiers in the example of a dataset with ratio $\pi$ of
-  positive and $1-\pi$ of negative samples.  Metrics affected by class imbalance are
-  marked with $^\dagger$.
-\end{tablebox}
+\end{table}
 
 We can see that, as $\pi \to 1$, i.e. the positive class dominates the dataset, guessing
 the positive class achieves maximum values for metrics like accuracy, precision, and
@@ -367,9 +365,13 @@ the prediction is ten times larger than the actual value, which results in a MAP
 900\%.  In the second row, the prediction is one tenth of the actual value, which results
 in a MAPE of 90\%.
 
-\begin{tablebox}[label=tab:MAPEvsMALE]{Comparison of relative error metrics.}
+\begin{table}
+  \caption{
+    Comparison of relative error metrics.  MAPE and MALE for two predictions.  The MAPE
+    punishes overestimating more than underestimating.
+  }
+  \label{tab:MAPEvsMALE}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{r r r r r}
     \toprule
     $\hat{y}$ & $y$ & $\epsilon$ & MAPE & $\exp(\text{MALE})$ \\
@@ -378,10 +380,7 @@ in a MAPE of 90\%.
       1 & 10 &  9 & 0.9 & 10 \\
     \bottomrule
   \end{tabular}
-  \tcblower
-  MAPE and MALE for two predictions.  The MAPE punishes overestimating more than
-  underestimating.
-\end{tablebox}
+\end{table}
 
 If multiplicative factors of the error are important, one should consider using MALE.
 Observe that $\ln(\hat{y}) - \ln(y) = \ln(\hat{y}/y)$, which is the logarithm of the
@@ -449,10 +448,8 @@ a regressor. We can see that a threshold of 0.5 would yield a classifier that er
 in 3 out of 9 samples.  We can adjust the threshold to understand the behavior of the
 other possible classifiers.
 
-\begin{tablebox}[label=tab:prob-reg-out]{Illustrative example of probability regressor
-  output.}
+\begin{table}\caption{Illustrative example of probability regressor output.}\label{tab:prob-reg-out}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{rr}
     \toprule
     \textbf{Expected} & \textbf{Predicted} \\
@@ -468,7 +465,7 @@ other possible classifiers.
     1 & 0.9  \\
     \bottomrule
   \end{tabular}
-\end{tablebox}
+\end{table}
 
 We first sort the samples by the predicted probabilities and then calculate the TPR
 (recall) and FPR for each threshold.  We need to consider only thresholds equal to the
@@ -477,10 +474,8 @@ cumulative sum of the expected outputs divided by the total number of positive s
 and FPR values become the cumulative sum of the complement of the expected outputs
 divided by the total number of negative samples.
 
-\begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of classifiers derived
-  from different thresholds.}
+\begin{table}
   \centering
-  \rowcolors{2}{black!10!white}{}
   \begin{tabular}{rrrrr}
     \toprule
     \textbf{Expected} & \textbf{Threshold} & \textbf{TPR} & \textbf{FPR}  \\
@@ -497,10 +492,12 @@ divided by the total number of negative samples.
     0 & $0.1$        & $5/5$ & $4/4$ \\
     \bottomrule
   \end{tabular}
-  \tcblower
+  \caption{
   Performance of different classifiers derived from the regressor output in
   \cref{tab:prob-reg-out}.  The thresholds are equal to the predicted values.
-\end{tablebox}
+  }
+  \label{tab:prob-reg-example}
+\end{table}
 
 Note that, from the ordered list of predictions, we can easily see that a threshold of 0.7
 would yield a classifier that commits only one error.  A way to summarize the performance
@@ -514,7 +511,7 @@ $\tau$ is varied.  The ROC curve is obtained by plotting the TPR against the FPR
 possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
 \cref{tab:prob-reg-example}.
 
-\begin{figurebox}[label=fig:roc-example]{Illustrative example of ROC curve.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \datavisualization [
@@ -555,10 +552,12 @@ possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
       1.0, 1.0
     };
   \end{tikzpicture}
-  \tcblower
+  \caption{
   ROC curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
   a random classifier, and points above the diagonal are better than random.
-\end{figurebox}
+  }
+  \label{fig:roc-example}
+\end{figure}
 
 The ROC curve is useful to explore the trade-off between recall and specificity.  The
 diagonal line represents a random classifier, and points above the diagonal are better
