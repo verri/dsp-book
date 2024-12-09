@@ -69,7 +69,7 @@ general rules can make predictions about \emph{any} new instances.  Such an appr
 is exactly what we want to apply in the project methodology we described in
 \cref{sec:our-approach}:  the solution is the general rule inferred from the data.
 
-\begin{figurebox}[label=fig:learning]{Organizational chart of the learning field.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \draw[outline] (0,0) circle (30mm) node {};
@@ -81,14 +81,17 @@ is exactly what we want to apply in the project methodology we described in
     \draw[outline] (0,-1.5) circle (15mm) node {};
     \node[below] at (0, -1.0) {inductive learning};
   \end{tikzpicture}
-  \tcblower
+  \caption{
+  Organizational chart of the learning field.
   Artificial intelligence studies algorithms that exhibit intelligent behavior and the
   behavior of intelligent systems.  Machine learning is a subfield of artificial
   intelligence that studies algorithms that enable computers to automatically learn from
   data.  Predictive learning, which focuses on making predictions about outcomes given
   known input data.  Inductive learning is a yet more specific type of learning that
   involves deriving general rules from specific observations.
-\end{figurebox}
+  }
+  \label{fig:learning}
+\end{figure}
 
 \Cref{fig:learning} gives us a hierarchical view of the learning field.  Alternatives ---
 such as descriptive learning in opposition to predictive learning, or transductive
@@ -301,7 +304,7 @@ Thus, the Bayes error rate can be rewritten as
   R_\text{Bayes} = \int \min\left\{ b(x), 1 - b(x) \right\}\, d\!\Prob(x)\text{.}
 \end{equation*}
 
-\begin{figurebox}[label=fig:bayes-classifier]{Bayes classifier illustration.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -326,10 +329,12 @@ Thus, the Bayes error rate can be rewritten as
       \draw[dashed, gray] (axis cs:-0.4, 0) -- (axis cs:-0.4, 0.4);
     \end{axis}
   \end{tikzpicture}
-  \tcblower
+  \caption{
   The Bayes classifier is the line that separates the two classes.  The Bayes error is a
   result of the darker area in which the distributions of the classes intersect.
-\end{figurebox}
+  }
+  \label{fig:bayes-classifier}
+\end{figure}
 
 \Cref{fig:bayes-classifier} illustrates the Bayes classifier and its error rate.
 The vertical line represents the Bayes classifier that separates the classes the best way

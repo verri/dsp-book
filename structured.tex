@@ -286,11 +286,8 @@ example, if $R_1$ contains $(a, b)$ and $R_2$ contains $(a, c')$, the join conta
 $(a, b, c')$, which might not be a valid tuple in the original relation if $(b, c')$ is
 not in $R_3$.
 
-\begin{hlbox}{Important note on PJNF}
-  \em
   This is very important to notice, as it is a common mistake to assume
   that the join of the decomposed relations always contains valid tuples.
-\end{hlbox}
 
 \paragraph{Valid joins example}  Consider the 2NF relation $R[A, B, C, D, E]$ with the functional
 dependencies $A \to D$, $AB \to C$, and $B \to E$.  To make it PJNF, we can decompose it
@@ -928,8 +925,7 @@ dependencies $A \to D$, $B \to E$, and $AB \to C$.  The relation can be normaliz
 Every decomposition tree must take into account that the join of the projections is
 lossless and dependency preserving.
 
-\begin{figurebox}[label=fig:decomp]{Decomposition trees for the relation $R[ABCDE]$ and
-  the functional dependencies $A \to D$, $B \to E$, and $AB \to C$ to reach 3NF.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \node (root1) at (0, 0) {ABCDE}
@@ -943,13 +939,18 @@ lossless and dependency preserving.
         child {node {AD}}
         child {node {ABC}}};
   \end{tikzpicture}
-\end{figurebox}
+  \caption{
+    Decomposition trees for the relation $R[ABCDE]$ and the functional dependencies $A \to
+    D$, $B \to E$, and $AB \to C$ to reach 3NF.
+  }
+  \label{fig:decomp}
+\end{figure}
 
 Note that the decomposition that splits first $R[ABC]$ is not valid, since the resulting
 relation $R[AB]$ is not a consequence of a functional dependency; see
 \cref{fig:wrongdecomp}.
 
-\begin{figurebox}[label=fig:wrongdecomp]{Invalid decomposition trees for the relation $R[ABCDE]$.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \node (root1) at (0, 0) {ABCDE}
@@ -967,10 +968,13 @@ relation $R[AB]$ is not a consequence of a functional dependency; see
           child {node {AD}}
           child {node[gray] {AB}}}};
   \end{tikzpicture}
-  \tcblower
+  \caption{
+  Invalid decomposition trees for the relation $R[ABCDE]$.
   We consider the functional dependencies $A \to D$, $B \to E$, and $AB \to C$.
   Note that $R[AB]$ is not a consequence of a functional dependency.
-\end{figurebox}
+  }
+  \label{fig:wrongdecomp}
+\end{figure}
 
 In this kind of relation schema, we have a set of key attributes, here $\mathcal{K} = AB$,
 and a set of non-prime attributes, here $\mathcal{N} = CDE$.  Note that the case
