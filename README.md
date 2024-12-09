@@ -1,7 +1,11 @@
-# Data science project: an inductive learning approach
+# Data Science Project: An Inductive Learning Approach
 
-This repository contains the source of [Data science project: an inductive
-learning approach](https://leanpub.com/dsp).  The book is built using XeLaTeX.
+This repository contains the source of [Data Science Project: An inductive
+Learning Approach](https://leanpub.com/dsp).  The book is built using XeLaTeX.
+
+## Downloading the book
+
+You can download the book from the [Leanpub](https://leanpub.com/dsp) website.
 
 ## Building the book
 
@@ -17,7 +21,7 @@ It has been tested in:
 
 ## Abstract
 
-"Data science project: an inductive learning approach" provides a comprehensive
+"Data Science Project: An Inductive Learning Approach" provides a comprehensive
 methodology for data science project development, emphasizing software
 engineering principles essential for reliable solutions.
 
@@ -43,15 +47,16 @@ scientists, researchers and seasoned professionals alike.
 1. Data handling
 1. Learning from data
 1. Data preprocessing
-1. Validation
+1. Solution validation
 
 An appendix provides a brief introduction to the mathematical foundations of
 data science, including algorithms, set theory, linear algebra, and probability.
 
 ## About the author
 
-Prof. Dr. Filipe Verri is a senior data science project manager and professor at
-the Aeronautics Institute of Technology (ITA). He has a Ph.D. in computer
+Prof. Dr. Filipe Verri is a senior data science project manager and affiliate professor at
+the Aeronautics Institute of Technology (ITA) and Federal University of São
+Paulo (UNIFESP). He has a Ph.D. in computer
 science and computational mathematics from the University of São Paulo (USP).
 
 ## License
