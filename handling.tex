@@ -44,7 +44,7 @@ due to the way the data was collected.
     \itemsep0em
     \item Data handling consists of operating on tables.
     \item Properties of the operations are important to avoid bias.
-    \item Data handling pipelines are a way to organize the operations.
+    \item Data handling pipelines are a way to organize these operations.
   \end{itemize}
 
   \boxsubtitle{Objectives}
@@ -60,7 +60,7 @@ due to the way the data was collected.
   \begin{itemize}
     \itemsep0em
     \item Split-invariant operations avoid sampling bias.
-    \item One must understanding the properties and premises of the operations.
+    \item One must understand the properties and premises of the operations.
   \end{itemize}
 \end{mainbox}
 
@@ -123,7 +123,7 @@ The value matrix $V = (v_{i, j})$ of the row $r$ is \[
 \end{defbox}
 
 We assume that value matrices --- and consequently row cardinalities --- are minimal. This
-means that there are no nested row $$v_{i, 1}, \dots, v_{i, |H|}$$ in the value matrices
+means that there are no nested rows $$v_{i, 1}, \dots, v_{i, |H|}$$ in the value matrices
 such that $v_{i, j} = \missing$ for all $j$.
 
 From these concepts, we can define the basic operations and properties that can be applied
@@ -139,7 +139,7 @@ data semantics and validation of solutions.
 \begin{defbox}{Split operation}{split}
 Given an indicator function $s : \domainof{K_1} \times \dots \times \domainof{K_k} \to
 \left\{0, 1\right\}$, the split operation creates two tables, $T_0$ and $T_1$, that
-contains only the rows for which
+contain only the rows for which
 $s(r) = 0$ and $s(r) = 1$, respectively.
 
 Mathematically, the split operation is defined as \[
@@ -158,7 +158,7 @@ disjoint:
 
 \begin{defbox}{Disjoint tables}{disjoint-tables}
   Two tables $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$ are said to be disjoint if
-  $\rowcard[r; c_0] = 0$ if $\rowcard[r; c_1] > 0$ for any row $r$, and vice-versa.
+  $\rowcard[r; c_0] = 0$ whenever $\rowcard[r; c_1] > 0$ for any row $r$, and vice-versa.
 \end{defbox}
 
 The binding operation is the inverse of the split operation.  Given two disjoint tables
@@ -185,7 +185,7 @@ share the same entities.
 
 In real-world applications, this is not always true.  Many times, we do not know the
 process someone else has used to collect the data.  In these cases, we must be careful
-about the guarantees we explain in this chapter.  On the other hand, one can consider the
+about the guarantees we discuss in this chapter.  On the other hand, one can consider the
 premises we use as a guideline to design good data collection processes.
 
 We can see data collection as the result of a splitting operation in the universe set of
@@ -194,16 +194,16 @@ to ensure that we collect all possible information about the entities we are int
 in.
 
 This, of course, depends on what we define as the index columns of the table.  Consider
-the example of collecting information about grades of students.  If we define as the index
-columns the student's name and year, we must ensure that we collect all the grades of all
+the example of collecting information about grades of students.  If we define the student's
+name and year as the indexes, we must ensure that we collect all the grades of all
 subjects a student has taken in a year.  We do not need, though, to collect information
-from all students or all years.  On the other hand, if we define as the index column only
-the student's name, we must collect all the grades of all subjects a student has taken in
-all years.
+from all students or all years.  On the other hand, if we define only the student's name
+as the index column, we must collect all the grades of all subjects a student has taken
+in all years.
 
-In summary, the less variables we define as index columns, the more information we must
+In summary, the fewer variables we define as index columns, the more information we must
 collect about each entity.  However, in the next sections, we show that assuming many index columns
-lead to restrictions in the operations we can perform on the table.
+leads to restrictions in the operations we can perform on the table.
 
 This conceptual trade-off is important to understand when structuring the problem we are
 trying to solve.  Neglecting these issues can lead to strong statistical biases and
@@ -265,7 +265,7 @@ exemplifies all information we can possibly have about the grades of students.  
 value in a cell of that table indicates that, for some reason, the information is not
 retrievable.
 
-The domain of the variables are:
+The domains of the variables are:
 \begin{itemize}
   \itemsep0em
   \item $\domainof{\text{student}} = \left\{\text{Alice}, \text{Bob}, \text{Carol}\right\}$;
@@ -275,7 +275,7 @@ The domain of the variables are:
   \item $\domainof{\text{grade}} = \left[0, 10\right] \cup \left\{\missing\right\}$.
 \end{itemize}
 
-Of course, in practice, we have no guarantee that the data we have is complete nor the
+Of course, in practice, we have no guarantee that the data we have is complete nor a
 clear specification of the domain of the variables.  Instead, we must choose good
 premises about the data we are working with.
 
@@ -310,7 +310,7 @@ Knowing that the data is complete, we can safely assume that:
   subject as indices.  The column $s$ is the split indicator.
 \end{tablebox}
 
-Now consider an arbitrary collection mechanism that consider student and subject as the
+Now consider an arbitrary collection mechanism that considers student and subject as the
 indices of the table.  \Cref{tab:grades2} shows the table we have in hand.  The column $s$
 is the split indicator.  Only rows with $s = 1$ are available to us.
 
@@ -320,10 +320,10 @@ Now, about the statements we made before:
   \item There is no way we can know if Alice has taken Biology or not.  It could be that
     the data collection mechanism failed to collect this information or that the
     information simply does not exist.
-  \item We can safely assume that Bob has passed Physics in the second try, once all
+  \item We can safely assume that Bob has passed Physics in his second attempt, once all
     information about (Bob, Physics) is assumed to be available.
   \item There is no guarantee that Carol has only taken classes in 2020.  It could be that
-    some row (Carol, subject) with year different than 2020 is missing in the table.
+    some row (Carol, subject) with a year different from 2020 is missing in the table.
 \end{enumerate}
 
 \begin{tablebox}[label=tab:grades3]{Data table of student grades assuming student as the index.}
@@ -339,11 +339,11 @@ Now, about the statements we made before:
     \bottomrule
   \end{tabular}
   \tcblower
-  Indexed table with data from \cref{tab:grades1} assuming only student
-  as the index.  The column $s$ is the split indicator.
+  Indexed table with data from \cref{tab:grades1} assuming student
+  as index.  The column $s$ is the split indicator and only rows with $s = 1$ are available to us.
 \end{tablebox}
 
-We can be even more restrictive and consider only the student as the index of the table.
+Now consider an arbitrary collection mechanism that considers student as the index of the table.
 Imposing this restriction would difficult the data collection process, but it would
 guarantee that we have all information about each student.  \Cref{tab:grades3} shows the
 table we have in hand.  As before, the column $s$ is the split indicator and only rows with
@@ -354,17 +354,18 @@ Our conclusions may change again:
   \itemsep0em
   \item We can safely assume that Alice has never taken the Biology class, as $\text{Chemistry}
     \not\in c(\text{Alice}, \text{subject})$.
-  \item We can assume nothing about Bob's grades, as all information about him is missing.
+  \item There is no information about Bob's grades, so we can not affirm nor deny anything
+    about his grades.
   \item We can safely assume that Carol has only taken classes in 2020, as $c(\text{Carol},
     \text{year})$ contains only values with 2020.
 \end{enumerate}
 
-It is straightforward to see that the less index columns we have, the more information we
-have about the present entities.  Also, we can see how important it is the assumptions on
-the index columns to the conclusions we can draw from the data.  Consequently,
+It is straightforward to see that the fewer index columns we have, the more information we
+have about the present entities.  Also, it is clear how important the assumptions on the
+index columns are to the conclusions we can draw from the data. Consequently,
 split-invariant operations can preserve valid conclusions about the data even when
 information is missing\footnote{Absence can be due to incomplete data collection or
-artificial splitting for validation, consult \cref{chap:planning}.}.
+artificial splitting for validation; consult \cref{chap:planning}.}.
 
 \section{Data handling pipelines}
 
@@ -383,7 +384,7 @@ In this section, I present a summary of these operations mostly based on
 During the preparation of data for our project, we will need to perform a set of operations
 on possibly multiple datasets.  These operations are organized in a pipeline, where the
 outputs of one operation are the inputs of the next one.
-Operations are extensively parametrized, for instance, most of them can use predicates to
+Operations are extensively parameterized, for instance, most of them can use predicates to
 define the groups, arrangements, or conditions under which they should be applied.
 
 \begin{figurebox}[label=fig:pipeline]{Example of data handling pipeline.}
@@ -420,9 +421,9 @@ set of operations, $f_1, f_2, f_3, f_4, f_5$, and the output is a single dataset
 Data.  Our goal at the data tasks --- see \cref{sub:workflow} --- is to create a dataset
 that is representative of the observational unit we are interested in.  Representative
 here means that the dataset is tidy\footnote{Remember that our definition of tidiness
-depend on the observational unit.  That means, in practice, that if the original data
+depends on the observational unit.  That means, in practice, that if the original data
 sources are in a observational unit different from the one we are interested in, after
-joining them, the connecting variables might be dropped to eliminate transitive
+joining them, the connecting variables may need to be removed to eliminate transitive
 dependencies.  Consult \cref{sub:tidy-not-tidy,sub:change-unit}.} and that the priors,
 i.e. the distribution of the data is faithful to the real distribution of the phenomenon.
 
@@ -436,7 +437,7 @@ Pipelines are great conceptual tools to organize the data handling process.  The
 for the separation of concerns, where each operation is responsible for a single task.
 Also, declaring the whole pipeline at once allows for the optimization of the operations
 and the use of parallel processing.  This is important when dealing with large datasets.
-The declarative approach, opposed to the imperative one, makes it easier to reason about
+The declarative approach, as opposed to the imperative one, makes it easier to reason about
 and maintain the code\footnote{Tidyverse and Polars are examples of
 libraries that use a declarative approach to data handling.}.
 
@@ -484,12 +485,12 @@ of each row.
 \end{defbox}
 
 When binding datasets by rows, the datasets must have the same columns.  In practice,
-one can assume, if the column is missing, that all values in that column are missing.
+one can assume, if a column is missing, that all values in that column are missing.
 
 The indication of the source table usually captures some hidden semantics that has split
-the tables in first place. For instance, if each table represents data collected in a
+the tables in the first place. For instance, if each table represents data collected in a
 different year, one can create a new column \emph{year} that contains the year of the
-data.  It is important to pay attention on the semantics of the split column, as it can
+data.  It is important to pay attention to the semantics of the split column, as it can
 also contain extra information.
 
 \begin{tablebox}[label=tab:gas-usage]{Gas usage datasets.}
@@ -521,23 +522,23 @@ also contain extra information.
   Monthly gas usage data from US (left) and Brazil (right) residents.
 \end{tablebox}
 
-Consider \cref{tab:gas-usage} that contain monthly gas usage data from
+Consider \cref{tab:gas-usage}, which contains monthly gas usage data from
 US and Brazil residents.  From the requirements described in the previous section, we can
-safely bind these datasets --- as they are disjoint.  We can use as tag a new column to
+safely bind these datasets --- as they are disjoint.  We can use as a tag a new column to
 represent the country.  However, an attentive reader will notice that the unit of
 measurement of the gas usage and distance are different in each table: gallons and miles
 in the US dataset and liters and kilometers in the Brazil dataset.  Ideally, thus, we
 should create two other columns to represent the units of measurement.
 
 It is straightforward to see that this operation solves the issue of a single
-observational unit is stored in multiple tables described in \cref{sub:messy}.
+observational unit being stored in multiple tables described in \cref{sub:messy}.
 
-The reverse function consists of splitting the dataset using as predicate the split column.
+The reverse function consists of splitting the dataset using as a predicate the split column.
 
 \begin{defbox}{Tagged split operation}{tagged-split}
   Let $s$ be a non-index column of a table $T = (K, H \cup \{s\}, c)$ with $\domainof{s}$
-  known and finite and that $c(r, s)$ contains only unique values. The tagged split
-  operation parametrized by $s$ creates disjoint tables $T_i = (K, H, c_i)$ that contains
+  known and finite, and such that $c(r, s)$ contains only unique values. The tagged split
+  operation parametrized by $s$ creates disjoint tables $T_i = (K, H, c_i)$ that contain
   only the rows $r$ for which $c(r, s) = i$.
 
   Mathematically, the tagged split operation is defined as \[
@@ -546,18 +547,18 @@ The reverse function consists of splitting the dataset using as predicate the sp
 \end{defbox}
 
 Note that the tagged split is split-invariant by definition, since we assume that the
-nested rows of the input table $T$ contains only one value for column $s$ for all
+nested rows of the input table $T$ contain only one value for column $s$ for all
 rows\footnote{We consider a slightly different definition of split invariance here, where
-the binding operations is applied for each element of the output of the split operation.}.
-Failing to meet this assumption can lead to a biased split.  Also, in practice, it is a
-good practice to keep the column $s$ in the output tables to preserve the information
-about the source of the rows.  In terms of storage, smart strategies can be used to
-avoid the unnecessary repetition of the same value in column $s$.
+the binding operation is applied to each element of the output of the split operation.}.
+Failing to meet this assumption can lead to a biased split.  Also, in practice, it is
+good practice to keep the column $s$ in the output tables to preserve information about
+the source of the rows.  In terms of storage, smart strategies can be used to avoid the
+unnecessary repetition of the same value in column $s$.
 
 \subsection{Pivoting}
 
-Another important operation is to pivot datasets.  There are two types of pivoting:
-long-to-wide and wide-to-long.  These operations are reversible  and they are the inverse
+Another important operation is pivoting datasets.  There are two types of pivoting:
+long-to-wide and wide-to-long.  These operations are reversible and are the inverse
 of each other.
 
 Pivoting long-to-wide requires a name column --- whose discrete and finite
@@ -580,12 +581,12 @@ $h \in \domainof{\text{name}}$.  If this is not the case, one must aggregate the
 before applying the pivot operation.  This is discussed in \cref{sub:aggregation}.
 
 Pivoting wide-to-long\footnote{Also known as unpivot.} is the reverse operation. One must
-specify all the columns whose names are the values of the before called ``name column.''
+specify all the columns whose names are the values of the previously called ``name column.''
 The values of these columns will be \emph{gathered} into a new column. As before, all
 remaining columns are indexes.
 
 \begin{defbox}{Pivot wide-to-long operation}{pivot-w2l}
-  Let $T = (K, H, c)$ be a table, the pivot wide-to-long
+  Let $T = (K, H, c)$ be a table.  The pivot wide-to-long
   operation is defined as \[
     \operatorname{pivot}^{-1}(T) = T'\text{,}
   \] where $T' = (K \cup \{\text{name}\}, \{\text{value}\}, c')$, $\domainof{\text{name}}
@@ -652,16 +653,16 @@ where $c'(r, h) = c(r + (h), \text{value})$.
 
 Similarly, the reverse operation is also split-invariant.
 
-Using the pivot operation, we can solve the issues of headers are values, not variable
-names and variables are stored in both rows and columns.  In the first case, we can pivot
-the table to have the headers as the domain of new index (name column).  In the second
+Using the pivot operation, we can solve the issues of headers being values, not variable
+names and variables being stored in both rows and columns.  In the first case, we can pivot
+the table to have the headers as the domain of a new index (name column).  In the second
 case, we have to pivot both long-to-wide and wide-to-long to solve the issue.
 
 \subsection{Joining}
 
 Joining is the process of combining two datasets into a single dataset based on common
 columns.  This is one of the two fundamental operations in relational algebra. We will see
-the conditions under with the operation is split invariant. However, the join operation
+the conditions under which the operation is split invariant. However, the join operation
 has some other risks you should be aware of; consult \cref{sec:normalization} for more
 details.
 
@@ -700,14 +701,14 @@ joined rows is constant for all $h \in H' \cup H''$.  If this is not the case, o
 aggregate the rows before applying the join operation.  This is discussed in
 \cref{sub:aggregation}.
 
-Before we discuss whether the join operation is split invariant\footnote{Note that up to
+Before we discuss whether the join operation is split-invariant\footnote{Note that up to
 this point, we have defined this property only for unary operations.}, we can discuss a
 variation of the join operation: the left join.  The left join is the same as the join
 operation, but if the value of $U$ is missing in the second table, the operation will
 create a new row with the columns of the first table and missing values for the columns of
 the second table.
 
-In our context, this operation is an unary operation, where the second table is
+In our context, this operation is a unary operation, where the second table is
 a fixed parameter.
 
 \begin{defbox}{Left join operation}{left-join}
@@ -753,10 +754,10 @@ So we can safely use it to join tables without worrying about biasing the datase
 fix the second table.
 
 I conjecture that the (inner) join operation shares similar properties but it is not as
-safe, nonetheless I clear definition of split invariance for binary operations is needed.
+safe; nonetheless, a clear definition of split invariance for binary operations is needed.
 This is left as a thought exercise for the reader.  Notice that the traditional join has
 the ability to ``erase'' rows from any of the tables involved in the operation.  This is a
-potential source of bias in the data.  This further emphasizes the importance of the
+potential source of bias in the data.  This further emphasizes the importance of
 understanding the semantics of the data schema before joining tables --- consult
 \cref{sec:normalization}.
 
@@ -766,9 +767,9 @@ understanding the semantics of the data schema before joining tables --- consult
 Selecting is the process of choosing a subset of non-index columns from a dataset.  The
 remaining columns are discarded.  Rows of the table remain unchanged.
 
-Although very simple, the selection operation is useful to remove columns that are not
+Although very simple, the selection operation is useful for removing columns that are not
 relevant to the analysis.  Also, it might be needed before other operations, such as
-pivoting, to avoid unnecessary columns (wide-to-long) and to keep the only value column
+pivoting, to avoid unnecessary columns (wide-to-long) and to keep only the value column
 (long-to-wide).
 
 \begin{defbox}{Selection operation}{selection}
@@ -789,12 +790,12 @@ is a function that returns a logical value given the column.
   \] where $T' = (K, H', c)$ and $H' = \{h \in H : P(h) = 1\}$.
 \end{defbox}
 
-It is trivial to see that, if $P$ does not depend on the values of the columns (i.e. has no
+It is trivial to see that, if $P$ does not depend on the values of the columns (i.e., has no
 access to $c$), the predicate selection operation is split-invariant.  This is because the
-operation does not change the rows of the table nor it depends on the values of the rows.
+operation does not change the rows of the table nor does it depend on the values of the rows.
 
 One example of the use of the predicate selection operation is to keep columns whose
-values are in a specific domain.  For instance, to keep only columns that contains real
+values are in a specific domain.  For instance, to keep only columns that contain real
 numbers, we choose $P(h) = 1$ if $\domainof{h} = \mathbb{R}$, and $P(h) = 0$ otherwise.
 
 The case where the predicate depends on the values of the columns is discussed in
@@ -808,7 +809,7 @@ predicate.
 
 A predicate can be a combination of other predicates using logical operators, such as
 logical disjunction (or) or logical conjunction (and).  In the general case, predicates
-need to be robust enough to deal with value matrices of any size and that contains missing
+need to be robust enough to deal with value matrices of any size and those that contain missing
 values.
 
 After filtering, the dataset will contain only the rows that satisfy the predicate.
@@ -848,7 +849,7 @@ that rows are treated independently.  More complex cases are discussed in
 \subsection{Mutating}
 
 Mutating is the process of creating new columns in a table.  The operation is reversible,
-as the original columns are kept.  The new columns are added to dataset.
+as the original columns are kept.  The new columns are added to the dataset.
 
 The values in the new column are determined by a function of the rows.  The expression is
 a function that returns a vector of values given the values in the other columns.
@@ -864,7 +865,7 @@ all $r$ and that the predicates are applied to each row independently.
       c(r, h) & \text{if } h \in H\text{,} \\
       f(r, V(r)) & \text{if } h = h'\text{,}
     \end{dcases}
-  \] where function $$f : \bigtimes_{K_i \in K} K_i \times \bigtimes_{h\in H}
+  \] where the function $$f : \bigtimes_{K_i \in K} K_i \times \bigtimes_{h\in H}
   \left(\domainof{h} \cup \{?\}\right) \to \domainof{h'} \cup \{?\}$$ is applied to the
   value matrix $V(r)$ of the row $r$.
 \end{defbox}
@@ -882,15 +883,15 @@ This function solves the issue of multiple variables stored in one column descri
 \cref{sub:messy}.
 
 As with filtering, the mutating operation is split-invariant even if $\rowcard[r] > 1$ for
-any $r$\footnote{It just change the input space of function $f$.}.  This is because the
+any $r$\footnote{It just changes the input space of function $f$.}.  This is because the
 operation is applied to each row independently.  In this general case, an extra
-requirement is that the function $f$ must be return tuples with the same cardinality of
+requirement is that the function $f$ must return tuples with the same cardinality as
 the row it is applied to.
 
 \subsection{Aggregating}
 \label{sub:aggregation}
 
-Many times, it is easier to reason the table when all rows have cardinality 1.
+Many times, it is easier to reason about the table when all rows have cardinality 1.
 Aggregation ensures that the table has this property.
 
 \begin{defbox}{Aggregation operation}{aggregating}
@@ -900,35 +901,35 @@ Aggregation ensures that the table has this property.
   \] where $T' = (K, H, c')$ and \[
     c'(r, h) = f(r, V(r))[h]\text{,}
   \] where function $f$ is applied to the value matrix $V(r)$ of the row $r$ and it has
-  image $$\left(\domainof{h} \cup \{?\} : h \in H\right)\text{,}$$ independently of the
-  input size.  The notation $v[h]$ refers to value corresponding to the column $h$ in the
+  an image $$\left(\domainof{h} \cup \{?\} : h \in H\right)\text{,}$$ independently of the
+  input size.  The notation $v[h]$ refers to the value corresponding to the column $h$ in the
   output tuple.
 \end{defbox}
 
 As with mutation, aggregation is split-invariant as it treats each row independently,
-even if the function $f$ consider order semantics of the values in the matrix.
+even if the function $f$ considers order semantics of the values in the matrix.
 
 \subsection{Ungrouping}
 \label{sub:ungrouping}
 
-We discussed that the less index columns a table has ---
-assuming we guarantee that all information about that entity is present --- the more
-safer it is to infer conclusions from the data.  Thus, reducing the number of indices
+We discussed that the fewer index columns a table has ---
+assuming we guarantee that all information about that entity is present --- the safer
+it is to infer conclusions from the data.  Thus, reducing the number of indices
 must be done very carefully --- more on that in \cref{sub:projection}.
 
 On the other hand, sometimes it is useful to increase the number of index columns.  For
 instance, pivoting long-to-wide requires all columns except one to be indexes.  The
 operation that transforms some of the columns in the table into indexes is called ungrouping.
-The reason for the name is that the operation transforms decreases the cardinality of rows
+The reason for the name is that the operation decreases the cardinality of rows
 by creating new rows, effectively ungrouping the values.
 
 \begin{defbox}{Ungrouping operation}{grouping}
   Let $T = (K, H, c)$ be a table and $h' \in H$ such that $\domainof{h'}$ is known and
-  finite.  The grouping operation is defined as \[
+  finite.  The ungrouping operation is defined as \[
     \operatorname{ungroup}_{h'}(T) = T'\text{,}
   \] where $T' = (K \cup \{h'\}, H \setminus \{h'\}, c')$, and \[
     c'(r + r', h) = (v_{i,h} : i)\text{,}
-  \] where $r$ refers to values of the indices in $K$, $r'$ refers to value of new index
+  \] where $r$ refers to values of the indices in $K$, $r'$ refers to the value of the new index
   $h'$, and $v_{i,h}$ is the value of the column $h$ in any $i$-th nested row of the value
   matrix $V(r; T)$ in the original table such that \[
     v_{i, h'} = r'\text{.}
@@ -957,10 +958,10 @@ Note that the operation requires that the column $h'$ has no missing values.
     \midrule
     A & 2019 & 1 \\
     A & 2020 & (2, 3) \\
-    A & 2021 & 3 \\
-    B & 2019 & 4 \\
-    B & 2020 & 5 \\
-    B & 2021 & 6 \\
+    A & 2021 & 4 \\
+    B & 2019 & 5 \\
+    B & 2020 & 6 \\
+    B & 2021 & 7 \\
     \bottomrule
   \end{tabular}
   \tcblower
@@ -996,7 +997,6 @@ Then,
 \end{multline*}
 where $c'(r + r', h) = c_0'(r + r', h) + c_1'(r + r', h)$.
 
-
 \section{Other operations}
 
 We saw that, under reasonable premises, split-invariant operations are safe to use in the
@@ -1005,7 +1005,7 @@ the context of tidying and integrating datasets\footnote{And, sometimes, we may 
 use other transformations even for these tasks.}.  It is also used in tasks like data
 exploration and data preprocessing.  In these cases, other operations are needed.
 
-In this section, we discuss some of these operations.  Instead of focusing in the
+In this section, we discuss some of these operations.  Instead of focusing on the
 mathematical definitions, we will discuss the semantics of the operations and some
 of their properties.
 
@@ -1019,7 +1019,7 @@ major difference is that they are sets of tuples, which means that each tuple is
 In our scenario, this is similar to what we call rows represented by the possible values
 of the index columns of the table.
 
-Adapting the definitions of projection our context, we can define it as follows.
+Adapting the definitions of projection to our context, we can define it as follows.
 
 \begin{defbox}{Projection operation}{projection}
   Let $T = (K, H, c)$ be a table and $K' \subset K$ a subset of the columns.  The
@@ -1072,8 +1072,8 @@ projection in relational algebra.  Consider the example we discussed in
 
 \Cref{tab:student-grade-handling} (top) shows that table adapted for our definitions.
 Suppose we want to project the table to have only the entity \emph{course}.
-Now each row (bottom table) represents a course.  The column \emph{student} is not a
-index column anymore, and the values in the column are exhaustive and unique, i.e
+Now each row (bottom table) represents a course.  The column \emph{student} is not an
+index column anymore, and the values in the column are exhaustive and unique, i.e.,
 the whole set $\domainof{\text{student}}$ is represented in the column for each row.
 
 Thus, projection is a very useful operation when we want to change the observational unit
@@ -1095,7 +1095,7 @@ without fully denormalizing them is a bad practice that can lead to spurious inf
 \subsection{Grouped and arranged operations}
 \label{sub:grouped-arranged}
 
-In practice, when we need more flexibility on the kind of operations we can perform ---
+In practice, when we need more flexibility in the kind of operations we can perform ---
 for instance, in data preprocessing ---, we use variations of some operations in
 \cref{sec:split-invariant-ops} that are not split-invariant.  These operations are
 parametrized by the groups and the order of the rows.
@@ -1163,7 +1163,7 @@ will create a new column \code{y} with the cumulative sum of the \code{x} column
   The mutating operation with groups and order is implemented as a pipeline.
 \end{figurebox}
 
-This operations can be implemented as a pipeline.  First, we group (project) the table by
+This operation can be implemented as a pipeline.  First, we group (project) the table by
 the \code{category} column.  Then, we sort all the tuples by the \code{date} column. Finally,
 we apply the \code{cumsum} function to the \code{x} column and ungroup everything.  In the
 result table, we select only columns \code{category} and \code{y}.  Going back to the
@@ -1171,9 +1171,9 @@ original table, we can left-join the original table with the result table using 
 \code{category} column.  Now, we have the new column \code{y} in the original table.
 This is shown in \cref{fig:mutating-groups-order}.
 
-Note that the trivial group would be the whole table, i.e. a column with a single value.
-Thus, the grouping is always required which makes the operation not split-invariant.
-In practical applications, I suggest to be as explicit as possible about the groups and
+Note that the trivial group would be the whole table, i.e., a column with a single value.
+Thus, the grouping is always required, which makes the operation not split-invariant.
+In practical applications, I suggest being as explicit as possible about the groups and
 order criteria.  This helps to avoid errors and to make the code more readable.
 
 One important aspect about mutating sorted values is that one can use nontrivial
@@ -1202,11 +1202,11 @@ rows defined by the \code{date} column.
 
 \section{An algebra for data handling}
 
-In recent years, some researchers made an effort to create a formal algebra for data
+In recent years, some researchers have made an effort to create a formal algebra for data
 transformations.  The idea is to define a set of operations that can be combined to create
 complex transformations and describe their main properties.
 
-Note that statistical data handling differ from relational algebra, because the former focus
+Note that statistical data handling differs from relational algebra, because the former focuses
 on transformations and the latter on information retrieval.
 
 \textcite{Song2021}\footfullcite{Song2021}, for example, propose a formal paradigm for statistical data
@@ -1217,7 +1217,7 @@ statistical software.
 However, in my opinion, the major deficiency of their work is that they mostly try to
 ``reverse engineer'' the operations that are commonly used in statistical software.  This
 is useful for the translation of code between different software, but it is not productive
-to advance in the theoretical understanding of statistical transformations.
+to advance the theoretical understanding of statistical transformations.
 
 If one ought to tackle the challenge of formally expressing statistical transformations, I
 think one should start from the basic operations.  By basic operations, I mean that they
@@ -1234,12 +1234,12 @@ For future directions, I suggest that one should try to express completeness in 
 handling context.  Drawing a parallel with computation theory, one could define a
 computational model for data handling and try to prove that the operations in the algebra
 are complete in the sense that they can express any transformation that can be expressed
-in the model.  It would look like a formal language for data handling that is ``Turing
+in the model.  It would resemble a formal language for data handling that is ``Turing
 complete.''
 
 A formal ``complete'' algebra for data handling would be a powerful tool for the
 development of new software and the translation of code between different software.  It
 would also benefit performance optimizations and pave the way for semantic analysis of
-data transformations.  It would be a step as big as C was from assembly language!
+data transformations.  It would be a step as significant as C was from assembly language!
 
 % vim: spell spelllang=en
