@@ -6,15 +6,15 @@
   \par\raggedleft but the prudent gives thought to his steps.
   \par\raggedleft--- \textup{Proverbs 14:15} (ESV)}
 
-A useful start point for someone studying data science is a definition of the term itself.
-In this chapter, I discuss some definitions in literature and provide a definition of my
+A useful starting point for someone studying data science is a definition of the term itself.
+In this chapter, I discuss some definitions in the literature and provide a definition of my
 own.  As discussed in \cref{chap:history}, there is no consensus on the definition of data
 science.  However, they all agree that data science is cross-disciplinary and a very
 important field of study.
 
 Another important discussion is the evidence that data science is actually a new science.
-I argue that a ``new science'' is not a subject that its basis is built from the ground
-up\footnote{As it would as unproductive as creating a ``new math'' for each new
+I argue that a ``new science'' is not a subject whose basis is built from the ground
+up\footnote{As it would be as unproductive as creating a ``new math'' for each new
 application.  All ``sciences'' rely on each other in some way}, but a subject that has a
 particular object of study and that meets some criteria.
 
@@ -24,7 +24,7 @@ in a tabular format.  I discuss the importance of understanding the nature of th
 are working with and how we represent them.
 
 Finally, I discuss two important concepts in data science: database normalization and tidy
-data.  Database normalization is mainly focused on the data storage.  Tidy data is mainly
+data.  Database normalization is mainly focused on data storage.  Tidy data is mainly
 focused on the requirements of data for analysis.  Both concepts interact with each other
 and have their mathematical foundations.  I bridge the gap between the two concepts by
 discussing their common mathematical foundations.
@@ -42,7 +42,7 @@ discussing their common mathematical foundations.
   \begin{itemize}
     \itemsep0em
     \item There is no consensus on the definition of data science.
-    \item Understanding the nature of data is important to extract knowledge from them.
+    \item Understanding the nature of data is important to extract knowledge from it.
     \item Structured data are data that are organized in a tabular format.
   \end{itemize}
 
@@ -74,7 +74,7 @@ In literature, we can find many definitions and descriptions of data science.
 
 For \textcite{Zumel2019}\footfullcite{Zumel2019}, \emph{``data science is a cross-disciplinary practice that draws
 on methods from data engineering, descriptive statistics, data mining, machine learning,
-and predictive analytics.''}  They compare the area with the operations research, stating
+and predictive analytics.''}  They compare the area with operations research, stating
 that data science focuses on implementing data-driven decisions and managing their
 consequences.
 
@@ -82,13 +82,13 @@ consequences.
 allows you to transform raw data into understanding, insight, and knowledge.''}
 
 \textcite{Hayashi1998}\footfullcite{Hayashi1998} says that data science ``is not only a
-synthetic concept to unify statistics, data analysis and their related methods, but also
+synthetic concept to unify statistics, data analysis, and their related methods, but also
 comprises its results'' and that it ``intends to analyze and understand actual phenomena
 with `data.'{}''
 
 I find the first definition too restrictive once new methods and techniques are always
 under development.  We never know when new ``data-related'' methods will become obsolete
-or a trend.  Also, \citeauthor{Zumel2019}'s view gives the impression that data science is a
+or a trend.  Also, \citeauthor{Zumel2019}'s view gives the impression that data science is an
 operations research subfield.  Although I do not try to prove otherwise, I think it
 is much more useful to see it as an independent field of study.  Obviously, there are
 many intersections between both areas (and many other areas as well).  Because of such
@@ -119,11 +119,11 @@ that data science methods use computers to handle data and perform the calculati
 problems.  \emph{Measurable phenomena} are events or processes where raw data can be
 quantified in some way\footnote{%
   Non-measurable phenomena are related to metaphysics and are not the object of study in
-  data science.  They are be the object of study in other sciences, such as
-  philosophy, theology, etc.  However, many metaphysics concepts are borrowed to
+  data science.  They are the object of study in other sciences, such as
+  philosophy, theology, etc.  However, many concepts from metaphysics are borrowed to
   explain data science concepts.%
 }.  \emph{Raw data} are data collected directly from some source and
-that have not been subject to any other transformation by a software program or a human
+that have not been subject to any transformation by a software program or a human
 expert.  \emph{Data} is any piece of information that can be digitally stored.
 
 
@@ -133,9 +133,9 @@ cleaning, and transforming [\dots] data; [storing and processing] big [\dots] da
 and questions related to data ethics and regulation.''
 
 Data science naming contrasts with conventional sciences.  Usually, a ``science'' is named after
-its object of study.  Biology is the study of the life, Earth science studies the planet
+its object of study.  Biology is the study of life, Earth science studies the planet
 Earth, and so on.  I argue that data science does not study data itself, but how we can
-use them to understand a certain phenomenon.
+use it to understand a certain phenomenon.
 
 One similar example is ``computer science.''  Computer science is not the study of
 computers themselves, but the study of computing and computer systems.  Similarly, one
@@ -145,13 +145,13 @@ handling, see \cref{sub:time-handling}.}.
 
 Moreover, the conventional scientific paradigm is
 essentially model-driven: we observe a phenomenon related to the object of study, we
-reason the possible explanation (the model or hypothesis), and we validate our hypothesis
-(most of the time using data, though).  In data science, however, we extract the knowledge
-directly and primarily from the data.  The expert knowledge and reasoning may be taken
+reason about the possible explanation (the model or hypothesis), and we validate our hypothesis
+(most of the time using data, though).  In data science, however, we extract knowledge
+directly and primarily from the data.  Expert knowledge and reasoning may be taken
 into account, but we give data the opportunity to surprise us.
 
-Thus, while the objects of the study in conventional sciences are the phenomena themselves
-and the models that can explain them, the objects of the study in data
+Thus, while the objects of study in conventional sciences are the phenomena themselves
+and the models that can explain them, the objects of study in data
 science are the means (computational methods and processes) that can extract reliable and ethical
 knowledge from data acquired from any measurable phenomenon --- and, of course, their
 consequences.
@@ -177,7 +177,7 @@ consequences.
     \node[anchor=north,above] at (0, 1) {Data science};
   \end{tikzpicture}
   \tcblower
-    Data science is an entire new science.  Being a new science
+    Data science is an entirely new science.  Being a new science
     does not mean that its basis is built from the ground up.  Most of the subjects in
     data science come from other sciences, but its object of study (computational methods
     to extract knowledge from measurable phenomena) is particular enough to unfold
@@ -186,7 +186,7 @@ consequences.
     of scientific knowledge, the former is more general than the latter.
 \end{figurebox}
 
-\Cref{fig:myview} shows my view of data science.  Data science is an entire new science
+\Cref{fig:myview} shows my view of data science.  Data science is an entirely new science
 that incorporates concepts from other sciences.  In the next section, I argue the reasons
 to understand data science as a new science.
 
@@ -199,7 +199,7 @@ sciences have been studying methods to process data for a long time.
 
 One key aspect of the establishment of a new science is the social demand and the
 importance of the object of study in our society.  Many say that ``data is the new oil.''
-This is because the generation, storage and processing of data has increased exponentially
+This is because the generation, storage, and processing of data has increased exponentially
 in the last decades.  As a consequence, whoever holds the data and can effectively extract
 knowledge from them has a competitive advantage.
 
@@ -208,9 +208,9 @@ designed to assess their effectiveness.  If the methods are effective, they gain
 credibility, are widely accepted, and become the foundation of a new scientific
 discipline.
 
-Usually, a practical consequence of academic recognition is the creation of a new courses
+Usually, a practical consequence of academic recognition is the creation of new courses
 and programs in universities.  This is the case of data science.  Many universities have
-created data science programs in the last years.
+created data science programs in the last few years.
 
 Once efforts to develop the subject increase, it is natural that some methodologies and
 questions not particularly related to any other science evolve.  This effect produces what I
@@ -220,7 +220,7 @@ In a continuum, the subject is not a new science yet.  It is a set of methods an
 techniques borrowed from other sciences.  However, some principles emerge that are
 connected with more than one already established science.  (For instance, a traditional
 computational method adapted to assume statistical properties of the data.)  With time,
-the premises and hypothesis of new methods become distinctive.  The particular properties
+the premises and hypotheses of new methods become distinctive.  The particular properties
 of the methods lead to the inception of methodologies to validate them. While validating
 the methods, new questions arise.
 
@@ -258,20 +258,19 @@ the methods, new questions arise.
 The data science continuum is an instance of this process; see \cref{fig:continuum}.  At
 first glance, data science seems like just a combination of computer science, statistics,
 linear algebra, etc. However, the principles and priorities of data science are not the
-same as the ones in that disciplines.  Similarly, the accepted methodologies in data
-science differ, and keep evolving, from the ones in the other sciences.  New questions
-like arise such as:
+same as those in these disciplines. Similarly, the accepted methodologies in data science
+differ and keep evolving from those in other sciences. New questions arise, such as:
 \begin{itemize}
   \itemsep0em
-  \item How can we guarantee that the data we are using are reliable?
+  \item How can we guarantee that the data we are using is reliable?
   \item How can we collect data in a way that does not bias our conclusions?
-  \item How can we guarantee that the data we are using are ethical?
+  \item How can we guarantee that the data we are using is ethical?
   \item How can we present our results in a way that is understandable to non-experts?
 \end{itemize}
 
 \section{Fundamental data theory}
 
-As I stated, data science is not a isolated science.  It incorporates several concepts
+As I stated, data science is not an isolated science. It incorporates several concepts
 from other fields and sciences.  In this section, I explain the basis of each component of
 \cref{def:ds}.
 
@@ -298,11 +297,11 @@ Although rudimentary\footnote{Most historians agree that Categories was written 
 Aristotle's other works.  Many concepts are further developed in his later works.},
 Aristotle's categories served as a basis for the development of logical reasoning and
 scientific classification, especially in the Western world.  The categories are still
-still used in many applications, including computer systems and data systems.
+used in many applications, including computer systems and data systems.
 
 Aristotle marked a rupture with many previous philosophers.  While Heraclitus (\nth{6}
 century -- \nth{5} century BC) defended that everything is in a constant state of flux and
-Plato (c. 427 -- 348 BC) defended that only the perfect can be known, Aristotle focused in
+Plato (c. 427 -- 348 BC) defended that only the perfect can be known, Aristotle focused on
 the world we can perceive and understand.  His practical view also opposed Antisthenes (c.
 446 -- 366 BC) view that the predicate determines the object, which leads to the
 impossibility of negation and consequently contradiction.
@@ -311,13 +310,13 @@ What is the importance of ontology for data science?  Describing, which is basic
 reducing the complexity of the world to simple, small pieces, is the first step to
 understand any phenomenon.  Drawing a simplistic parallel, phenomena are like the
 substance category, and the data we collect are like the other categories, which describe
-the properties, relations, and states of the substance.  A person that can easily organize
+the properties, relations, and states of the substance.  A person who can easily organize
 their thoughts to identify the entities and their properties in a problem is more likely
 to collect relevant data.  Also, the understanding of logical and grammatical limitations
 --- such as univocal and equivocal terms --- is important to avoid errors in data
 science applications\footnote{It is very common to see data scientists reducing the
-meaning of the columns in a dataset to a single word.  Or even worse, the assume
-that the same word in different columns have the same meaning.  This is a common source
+meaning of the columns in a dataset to a single word.  Or even worse, they assume
+that different columns with the same name have the same meaning.  This is a common source
 of errors in data science projects.}.
 
 Another important field in Philosophy is epistemology, which is the study of knowledge.
@@ -331,17 +330,17 @@ fallacies.
 
 I further discuss knowledge and reasoning in \cref{sub:knowledge}.
 
-In the context of a data science project, we usually focus on phenomena from particular domain of
-expertise.  For example, we may be interested in a phenomena related to the stock
-market, or related to the weather, or related to the human
+In the context of a data science project, we usually focus on phenomena from a particular domain of
+expertise.  For example, we may be interested in phenomena related to the stock
+market, or related to the weather, or related to human
 health.  Thus, we need to understand the nature of the phenomena we are studying.
 
-Fully understanding the phenomena we are tackling requires both a general knowledge
-of epistemology, ontology, and logic, and a particular knowledge of the domain of
+Fully understanding the phenomena we are tackling requires both general knowledge
+of epistemology, ontology, and logic, and particular knowledge of the domain of
 expertise.
 
 Observe as well that we do not restrict ourselves to the intellectual understanding of
-philosophy.  There are several computational methods that implements the concepts of
+philosophy.  There are several computational methods that implement the concepts of
 epistemology, ontology, and logic.  For example, we can use a computer to perform
 deductive reasoning, to classify objects, or to validate an argument.  Also, we have
 strong mathematical foundations and computational tools to organize categories, relations, and
@@ -349,8 +348,8 @@ properties.
 
 The reason we need to understand the nature of the phenomena we are studying is that we
 need to guarantee that the data we are collecting are relevant to the problem we are
-trying to solve.  Incorrectly perception of the phenomena may lead to incorrect data
-collection, which certainly lead to incorrect conclusions.
+trying to solve.  An incorrect perception of the phenomena may lead to incorrect data
+collection, which certainly leads to incorrect conclusions.
 
 \subsection{Measurements}
 
@@ -364,7 +363,7 @@ measurable phenomenon because we can measure it using a thermometer.  The number
 people in a room is also a measurable phenomenon because we can count them.
 
 When we quantify a phenomenon, we perform data collection.  Data collection is the process
-of gathering data on targeted phenomenon in an established systematic way.
+of gathering data on a targeted phenomenon in an established systematic way.
 Systematic means that we have a plan to collect the data and we understand the
 consequences of the plan, including the sampling bias.  Sampling bias is the influence
 that the method of collecting the data has on the conclusions we can draw from them.
@@ -398,14 +397,14 @@ the concepts and not on the tools.
 \label{sub:knowledge}
 
 Like discussed before, knowledge and reasoning are important aspects of data science.
-Philosophical and mathematical foundations from epistemology and logic provide us ways
+Philosophical and mathematical foundations from epistemology and logic provide us with ways
 to obtain knowledge from a set of premises and known (and accepted) facts\footnote{In
-mathematics, we call the premises and accepted facts as axioms.  Corollaries,
+mathematics, axioms are the premises and accepted facts.  Corollaries,
 lemmas, and theorems are the results of the reasoning process.}.
 
 Deductive reasoning is the process of deriving a conclusion (or new knowledge) from
 a set of previous knowledge.  Deductive reasoning, thus, enables us to infer
-generalization rules from generalization rules.
+generalization rules from known general rules.
 
 Important figures that bridged the gap between the subjects of philosophy and mathematics are
 René Descartes (1596 -- 1650) and Gottfried Wilhelm Leibniz (1646 -- 1716).  Descartes
@@ -442,9 +441,9 @@ Each method has its own assumptions and limitations.  Thus, we need to understan
 nature of the methods we are using.  In particular, we need to understand the
 expected input and output of them.  Whenever the available data do not match the
 requirements of the technique, we may perform data preprocessing\footnote{%
-  It is important to highlight that it is expected that some of the methods assumptions
+  It is important to highlight that it is expected that some of the method's assumptions
   are not fully met.  These methods are usually robust enough to extract valuable
-  knowledge even when data contain imperfections, errors and noise.  However, it is still
+  knowledge even when data contain imperfections, errors, and noise.  However, it is still
   useful to perform data preprocessing to adjust data as much as possible.%
 }.
 
@@ -452,7 +451,7 @@ Data preprocessing mainly includes data cleaning, data transformation, and data
 enhancement. Data cleaning is the process of detecting and correcting (or removing)
 corrupt or inaccurate pieces of data.  Data transformation is the process of converting
 data from one format or type to another.  Data enhancement is the process of adding
-additional information to the data, usually, by integrating
+additional information to the data, usually by integrating
 data from different sources into a single, unified view.
 
 % vim: set spell spelllang=en:
