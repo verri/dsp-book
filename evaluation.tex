@@ -1,7 +1,7 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-One fundamental step in the validation of a data driven solution for a task is the
+One fundamental step in the validation of a data-driven solution for a task is the
 \emph{evaluation} of the pair preprocessor and model. This chapter presents strategies to
 measure performance of
 classifiers and regressors, and how to interpret the results.
@@ -60,21 +60,21 @@ c_\text{test})$ where \[
     () & \text{otherwise}\text{.}
   \end{cases}
 \]  The result is a preprocessed test set $T'_\text{test}$ from which we can obtain the
-    set $D'_\text{test} = \{(\vec{x}'_i, y_i) : i \in \mathcal{I}_\text{test}\}$ such
-    that $\vec{x}'_i = f_\phi(\vec{x}_i)$.  Note that, to avoid \gls{leakage} and other
-    issues, the preprocessor has no access to the target values $y_i$ (even if the
-    adjusted training set use the label somehow).
+set $D'_\text{test} = \{(\vec{x}'_i, y_i) : i \in \mathcal{I}_\text{test}\}$ such
+that $\vec{x}'_i = f_\phi(\vec{x}_i)$.  Note that, to avoid \gls{leakage} and other
+issues, the preprocessor has no access to the target values $y_i$ (even if the
+adjusted training set uses the label somehow).
 
 \paragraph{Prediction}
 
 The model $f_\theta$ is used to make predictions on the preprocessed test set
-    $D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}'_i)$ for all
-    $i \in \mathcal{I}_\text{test}$.
+$D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}'_i)$ for all
+$i \in \mathcal{I}_\text{test}$.
 
 \paragraph{Evaluation}
 
 By comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
-evaluate how good the choice of $\phi$ (parameters of the preprocessor) and $\theta$
+evaluate how well the choice of $\phi$ (parameters of the preprocessor) and $\theta$
 (parameters of the model) is.
 
 \subsection{Binary classification evaluation}
@@ -111,7 +111,7 @@ $$|\{ i \in \mathcal{I}_\text{test} : y_i = 0 \land \hat{y}_i = 1 \}|\text{.}$$
 
 \subsubsection{Performance metrics}
 
-From the confusion matrix, we can derive several performance metrics.  Each of them focus
+From the confusion matrix, we can derive several performance metrics.  Each of them focuses
 on different aspects of the classification task, and the choice of the metric depends on
 the problem at hand.  Each metric prioritizes different types of errors and yields
 a value between 0 and 1, where 1 is the best possible value.
@@ -123,7 +123,7 @@ samples in the test set, given by
 \end{equation*}
 This metric is simple and easy to interpret: a classifier with an accuracy of 1 is
 perfect, while a classifier with an accuracy of 0.5 misses half of the predictions.
-Accuracy assigns the same weight to any kind of error --- i.e. false positives and false
+Accuracy assigns the same weight to any kind of error --- i.e., false positives and false
 negatives.  As a result, if the proportion of positive and negative samples is imbalanced,
 the value of accuracy may become misleading.  Let $\pi$ be the ratio of positive samples in
 the test set --- consequently, $1-\pi$ is the ratio of negative samples ---, then a
@@ -155,7 +155,7 @@ This way, any value greater than 0.5 is better than random guessing.
 
 A limitation of the balanced accuracy is that it ``automatically'' assigns the weight of
 errors based on the class proportion, which may not be the best choice for the problem.
-Other metrics focus only one of the classes and are more flexible to adjust the weight of
+Other metrics focus only on one of the classes and are more flexible to adjust the weight of
 errors.
 
 \paragraph{Precision} is an asymmetrical metric that focuses on the positive class.  It is
@@ -164,9 +164,9 @@ positive, given by
 \begin{equation*}
   \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}\text{.}
 \end{equation*}
-This metric is useful when the cost of false alarm is high, as it quantifies the
+This metric is useful when the cost of false alarms is high, as it quantifies the
 ability of the classifier to avoid false positives.  For example, in a medical diagnosis
-task, precision is important to avoid unnecessary treatments (false positive diagnosis).
+task, precision is important to avoid unnecessary treatments (false positive diagnoses).
 Semantically, precision measures how confident we can be that a positive prediction is
 actually positive.  Note that it measures nothing about the ability of the classifier in
 terms of the negative predictions.
@@ -183,7 +183,7 @@ ability of the classifier to avoid false negatives.  It can also be interpreted 
 For example, in a medical diagnosis task, recall is important to avoid missing a
 diagnosis.
 
-\paragraph{F-score} is way of balancing both kinds of errors, false positives and false
+\paragraph{F-score} is a way of balancing both kinds of errors, false positives and false
 negatives, while maintaining the focus on the positive class. It is the weighted harmonic
 mean of precision and recall given by
 \begin{equation*}
@@ -195,7 +195,7 @@ mean of precision and recall given by
 where $\beta > 0$ is a parameter that controls the weight of precision in the metric.
 The most common value for $\beta$ is 1, which gives the F$_1$-score.  Higher values of
 $\beta$ give more weight to precision ($\beta > 1$), while lower values give more weight
-to recall ($\beta < 0$).
+to recall ($0 < \beta < 1$).
 
 \paragraph{Specificity} goes in the opposite direction of recall, focusing on the negative
 class.  It is the proportion of true negative predictions over the total
@@ -214,9 +214,9 @@ interesting.
 performance metrics.  Accuracy and balanced accuracy are good metrics when no particular
 class is more important than the other.  Remember, however, that balanced accuracy gives
 more weight to errors on the minority class.  Precision and recall are useful to evaluate
-the performance of the solution in terms of the positive.  They are complementary metrics,
+the performance of the solution in terms of the positive class.  They are complementary metrics,
 and looking at only one of them may give a biased view of the performance --- more on that
-below.  The F-score is a way to balance precision and recall with a controlable parameter.
+below.  The F-score is a way to balance precision and recall with a controllable parameter.
 
 \begin{tablebox}[label=tab:classification-metrics]{Summary of the properties of
   data classification performance metrics.}
@@ -272,7 +272,7 @@ the positive class achieves maximum values for metrics like accuracy, precision,
 F$_1$-score.  Even for random guessing the class, precision (and F$_1$-score) is affected
 by the class imbalance, yielding $1$ (and $2/3$) as $\pi \to 1$.  As a result, these
 metrics should be preferred when the positive class is the minority class, so the results
-are not errouneously inflated --- and, consequently, mistakenly interpreted as good.
+are not erroneously inflated --- and, consequently, mistakenly interpreted as good.
 \textcite{Williams2021}\footfullcite{Williams2021} provides an interesting discussion on
 that.
 
@@ -282,7 +282,7 @@ the test set or may not be able to be calculated at all.
 
 \subsection{Regression estimation evaluation}
 
-Performance metrics for regression tasks are usally calculated based on the error (also
+Performance metrics for regression tasks are usually calculated based on the error (also
 called residual) $$\epsilon_i = \hat{y}_i - y_i$$ for all $i \in \mathcal{I}_\text{test}$ or
 a scaled version $$\epsilon_i^{(f)} = f(\hat{y}_i) - f(y_i)\text{,}$$ for some scaling
 function $f$.
@@ -325,7 +325,7 @@ variable.  However, they might be misleading when the range of the target variab
 large.
 
 \paragraph{Mean absolute percentage error} is an alternative when the target variable (and
-the predictions) assume only strictly positive values, i.e. $y_i > 0$ and $\hat{y}_i > 0$.
+the predictions) assume only strictly positive values, i.e., $y_i > 0$ and $\hat{y}_i > 0$.
 It is the average of the relative errors, given by
 \begin{equation*}
   \text{MAPE} = \frac{1}{n} \sum_{i=1}^n \frac{|\epsilon_i|}{y_i}\text{.}
@@ -335,9 +335,9 @@ of the relative error of the model, not the absolute error.
 
 \paragraph{Mean absolute logarithmic error} is an alternative for the MAPE under the same
 premises of the target values.  It aims to reduce the influence of outliers in the error
-calculation, especially when the target variable prior follows a long tail distribution
+calculation, especially when the target variable prior follows a long-tail distribution
 --- many small values and few large values.  Distributions like that are common in
-practice, e.g. in sales, income, and population data.  It is given by
+practice, e.g., in sales, income, and population data.  It is given by
 \begin{equation*}
   \text{MALE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i^{(\ln)} | =
     \frac{1}{n} \sum_{i=1}^n | \ln\hat{y}_i - \ln y_i |\text{.}
@@ -349,7 +349,7 @@ Note that, unlike the classification performance metrics, the scale of the regre
 performance metrics is not bounded between 0 and 1.  This makes it potentially harder to interpret
 the results, as the values depend on the scale of the target variable.
 
-Absolute error metrics, like MAE and RMSE, are useful to understand the central tendency
+Absolute error metrics, like MAE and RMSE, are useful for understanding the central tendency
 of the magnitude of the errors.  They are easy to interpret because they are in the same
 unit as the target variable.  However, they tend to be less informative when the target
 variable has a large range or when the errors are not normally distributed.
@@ -400,9 +400,9 @@ factor of the error.  In the example in \cref{tab:MAPEvsMALE}, we have that \[
 \]
 
 Finally, for the experimental plan we propose in this book, we should avoid metrics like
-coefficient of determination, $R^2$, as we do not make assumptions about model --- in this
+coefficient of determination, $R^2$, as we do not make assumptions about the model --- in this
 case, we do not assume that the model is linear.  Similarly to data classification, we
-should prefer metrics work well with small test sets.
+should prefer metrics that work well with small test sets.
 
 \subsection{Probabilistic classification evaluation}
 
@@ -436,7 +436,7 @@ metrics.  On the other hand, instead of choosing a particular threshold and meas
 resulting classifier performance, we can summarize the performance of all possible
 variations of the classifiers using appropriate metrics.
 
-Before, diving into the metrics, consider the following error metric.  Let false positive
+Before diving into the metrics, consider the following error metric.  Let false positive
 rate (FPR) be the proportion of false positive predictions over the total number of
 samples that are actually negative,
 \begin{equation*}
@@ -445,7 +445,7 @@ samples that are actually negative,
 It is the complement of the specificity, i.e. $\text{FPR} = 1 - \text{Specificity}$.
 
 Consider the example in \cref{tab:prob-reg-out} of a given test set and the predictions of
-a regressor. We can see that that a threshold of 0.5 would yield a classifier that errors
+a regressor. We can see that a threshold of 0.5 would yield a classifier that errors
 in 3 out of 9 samples.  We can adjust the threshold to understand the behavior of the
 other possible classifiers.
 
@@ -473,12 +473,12 @@ other possible classifiers.
 We first sort the samples by the predicted probabilities and then calculate the TPR
 (recall) and FPR for each threshold.  We need to consider only thresholds equal to the
 predicted values to understand the variations.  In this case, TPR values become the
-cummulative sum of the expected outputs divided by the total number of positive samples,
-and FPR values become the cummulative sum of the complement of the expected outputs
+cumulative sum of the expected outputs divided by the total number of positive samples,
+and FPR values become the cumulative sum of the complement of the expected outputs
 divided by the total number of negative samples.
 
 \begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of classifiers derived
-  from different threshold.}
+  from different thresholds.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{rrrrr}
@@ -499,10 +499,10 @@ divided by the total number of negative samples.
   \end{tabular}
   \tcblower
   Performance of different classifiers derived from the regressor output in
-  \cref{tab:prob-reg-out}.  The threshold are equal to the predicted values.
+  \cref{tab:prob-reg-out}.  The thresholds are equal to the predicted values.
 \end{tablebox}
 
-Note that, from the ordered list of preditions, we can easily see that a threshold of 0.7
+Note that, from the ordered list of predictions, we can easily see that a threshold of 0.7
 would yield a classifier that commits only one error.  A way to summarize the performance
 of all possible classifiers is presented in the following.
 
@@ -652,3 +652,5 @@ In our example, the AUC is $0.9$.
 %     };
 %   \end{tikzpicture}
 % \end{figurebox}
+
+% vim: spell spelllang=en
