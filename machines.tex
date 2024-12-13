@@ -17,7 +17,7 @@ other machine learning algorithms will be discussed here.
 \label{sec:mlp}
 
 The \gls{mlp} is a non-linear classifier that generates a set of hyperplanes
-that separates the classes.  In order to simplify the understanding, consider the
+that separates the classes.  In order to simplify understanding, consider
 that the activation function of the hidden layer is the discrete step function
 \begin{equation*}
   \sigma(x) = \begin{cases}
@@ -85,7 +85,7 @@ XOR problem is setting $\vec{w}^{(3)} = [0, 1, 1]$.
     \bottomrule
   \end{tabular}
   \tcblower
-  Preditions of the \gls{mlp} for the XOR problem.  The output of the \nth{1} and \nth{2}
+  Predictions of the \gls{mlp} for the XOR problem.  The output of the \nth{1} and \nth{2}
   neurons are hyperplanes that separate the classes in the hidden layer, which are
   combined by the \nth{3} neuron to generate the correct output.
 \end{tablebox}
@@ -157,15 +157,14 @@ are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  The decision tree learning bias is the assumption that the classes can be separated with
+  Decision trees assume that the classes can be separated with
   hyperplanes orthogonal to the axes.
 \end{figurebox}
 
-The spatial representation of the decision tree is shown in \cref{fig:tree-bias}.  The
-decision tree generates hyperplanes that are orthogonal to the axes, which is the learning
-bias of the model.
+The spatial representation of the decision tree is shown in \cref{fig:tree-bias}.
+Decision trees are a type of classifier that generates a set of hyperplanes orthogonal to the axes.
 
-Decision tree are nonparametric models, one can easily increase the depth of the tree to
+Decision trees are nonparametric models, one can easily increase the depth of the tree to
 fit the data, generating as many hyperplanes as necessary to separate the classes.
 Training a decision tree with a large depth can lead to overfitting, so it is important to
 use techniques like depth limit and pruning to prevent this from happening.
