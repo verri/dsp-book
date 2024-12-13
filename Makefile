@@ -1,7 +1,7 @@
 all: watch
 
 watch:
-	latexmk -pdfxe -synctex=1 -pvc -interaction=nonstopmode main.tex -output-directory=build
+	latexmk -pdfxe -synctex=1 -pvc main.tex -output-directory=build
 
 ready:
 	latexmk -pdfxe main.tex -output-directory=build

@@ -47,7 +47,7 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes, arrows.meta, positioning, shapes.geometric}
 \usetikzlibrary{fit}
-\usetikzlibrary {datavisualization.formats.functions}
+\usetikzlibrary{datavisualization.formats.functions}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
@@ -63,7 +63,8 @@
   smalldarkcircle/.style={smallcircle, fill=gray, text=white},
   line/.style={draw, -latex},
   dline/.style={draw, latex-latex},
-  bigarrow/.style={draw, -latex, line width=3pt, gray}}
+  bigarrow/.style={draw, -latex, line width=3pt, gray},
+}
 
 \usepackage{titling}
 \usepackage[most]{tcolorbox}
@@ -194,7 +195,8 @@
 }
 
 \newtcolorbox[blend into=figures]{figurebox}[2][]{%
-  float=thbp, base={#2},
+  float=thbp,
+  base={#2},
   colframe=black!20!white,
   every float=\centering, #1}
 
@@ -216,7 +218,7 @@
 
 \hypersetup{%
   pdftitle={\thetitle},
-  pdfsubject={Data science},
+  pdfsubject={Data Science},
   pdfauthor={\theauthor},
   pdfkeywords={data science, statistics, machine learning, databases},
   urlcolor=black!60,
@@ -287,7 +289,7 @@ The book is typeset with \XeTeX{} using the Memoir class.  All figures are
 original and created with Ti\textit{k}Z.  Proudly written in
 \href{https://neovim.io/}{Neovim} with the assistance of
 \href{https://github.com/features/copilot}{GitHub Copilot}.
-Book cover image was created with the assistance of
+The book cover image was created with the assistance of
 \href{https://gemini.google.com}{Gemini} and \href{https://openai.com/dall-e-2}{DALL·E 2}.
 We use the beautiful \href{https://www.stixfonts.org/}{STIX fonts} for text and math.
 Some icons are from \href{https://fontawesome.com/}{Font Awesome 5} by Dave Gandy.
@@ -319,7 +321,7 @@ visit
 \begin{center}
   \vspace{0.2\textheight}
   \itshape
-  To my wife, for inspiring and supporting me to write this book.
+  To my wife, for inspiring and supporting me in writing this book.
 
   \vfill
   \raggedleft Above all, God be praised.
