@@ -40,7 +40,7 @@ has no strategy to adjust the data to make it suitable for the model.
   \begin{itemize}
     \itemsep0em
     \item Tidy data is not necessarily suitable for modeling.
-    \item Parameters of the preprocessor are fitted rather than fixed.
+    \item Parameters of the preprocessor are fitted rather than being fixed.
   \end{itemize}
 
   \boxsubtitle{Objectives}
@@ -77,7 +77,7 @@ As a result, although data might be appropriate for the learning tasks we descri
 \cref{chap:slt} --- in the sense that we know what the feature vectors and the target
 variable are ---, they might not be suitable for the machine learning methods we will use.
 
-One simple example is the perceptron (\cref{sub:perceptron}) that assumes that all
+One simple example is the perceptron (\cref{sub:perceptron}) that assumes all
 input variables are real numbers.  If the data contains categorical variables, we must
 convert them to numerical variables before applying the perceptron.
 
@@ -91,7 +91,7 @@ chosen machine learning methods.
 \end{defbox}
 
 This is done by applying a series of operations to the data, like in data handling.  The
-difference here is that some of the parameters of the operations are not fixed rather they
+difference here is that some of the parameters of the operations are not fixed; rather, they
 are fit from a data sampling.  Once fitted, the operations can be applied to
 new data, sample by sample.
 
@@ -102,7 +102,7 @@ As a result, a data processing technique acts in three steps:
     data (which has already been integrated and tidied, represents well the phenomenon of
     interest, and each sample is in the correct observational unit);
   \item \textbf{Adjustment}: The training data is adjusted according to the fitted
-    parameters, eventually, changing the sampling size and distribution;
+    parameters, eventually changing the sampling size and distribution;
   \item \textbf{Applying}: The operation is applied to new data, sample by sample.
 \end{enumerate}
 
@@ -120,7 +120,7 @@ generality --- as the keys are not used in the modeling process ---, we can cons
 every row $r \in \{1, \dots, n\}$ is present in the table.
 
 A data preprocessing strategy $F$ is a function that takes a table $T = (K, H, c)$ and
-returns a adjusted table $T' = (K', H', c')$ and a fitted \emph{preprocessor} $f(z; \phi)
+returns an adjusted table $T' = (K', H', c')$ and a fitted \emph{preprocessor} $f(z; \phi)
 \equiv f_\phi(z)$ such that $$z \in \bigtimes_{h\, \in\, H} \domainof{h} \cup \{?\}$$ and $\phi$ are
 the fitted parameters of the operation.  Similarly, $z' = f_\phi(z)$, called the
 preprocessed tuple, satisfies $$z' \in \bigtimes_{h'\, \in\, H'} \domainof{h'} \cup
@@ -138,7 +138,7 @@ previous ones.
 \subsection{Degeneration}
 
 The objective of the fitted preprocessor is to adjust the data to make it suitable for the
-model.  However, sometimes it can not achieve this goal for a particular input $z$.  This
+model.  However, sometimes it cannot achieve this goal for a particular input $z$.  This
 can happen for many reasons, such as unexpected values, information ``too incomplete'' to
 make a prediction, etc.
 
@@ -149,7 +149,7 @@ the model.  For the sake of simplicity, if any step $f_{\phi_i}$ degenerates ove
 tuple $z^{(i)}$, the whole preprocessing chain degenerates\footnote{Usually, this is
 implemented as an exception or similar programming mechanism.} over $z = z^{(0)}$.
 
-Consequently, in the implementation of the solution, the developer must chose a default
+Consequently, in the implementation of the solution, the developer must choose a default
 behavior for the model when the preprocessing chain degenerates over a tuple.  It can
 be as simple as returning a default value or as complex as redirecting the tuple to a
 different pair of preprocessor and model.  Sometimes, the developer can choose to
@@ -162,11 +162,11 @@ The most common data preprocessing tasks can be divided into three categories:
   \itemsep0em
   \item Data cleaning;
   \item Data sampling; and
-  \item Data transformation. % colocar enhancement aqui
+  \item Data transformation.
 \end{itemize}
 
 In the next sections, I address some of the most common data preprocessing tasks
-in each of these categories.  I present them at the order they are usually applied in the
+in each of these categories.  I present them in the order they are usually applied in the
 preprocessing, but note that the order is not fixed and can be changed according to the
 needs of the problem.
 
@@ -179,7 +179,7 @@ and can lead to poor performance models.
 
 Also, it includes the process of dealing with missing information, which most machine
 learning methods do not cope with.  Solutions range from the simple removal of the
-observations with missing data to the creation of information to encode the missing data.
+observations with missing data to the creation of new information to encode the missing data.
 
 \subsection{Treating inconsistent data}
 
@@ -195,7 +195,7 @@ the semantics of the data have been solved in the data handling phase.  Especial
 production, the developer must be aware of the behavior of the model when it faces
 information that is not supposed to be present in the data.
 
-One of the tasks is to assert that physical quantities are dealt with standard units.  One must
+One of the tasks is to ensure that physical quantities are dealt with standard units.  One must
 check whether all columns that store physical quantities have the same unit of
 measurement.  If not, one must convert the values to the same unit.  A summary of this
 preprocessing task is presented in \cref{tab:unit-conversion}.
@@ -217,7 +217,7 @@ preprocessing task is presented in \cref{tab:unit-conversion}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor converts the numerical values and drop the unit of measurement column.  \\
+      Preprocessor converts the numerical values and drops the unit of measurement column.  \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -245,7 +245,7 @@ operation.
       Training set is adjusted sample by sample, independently.  If appropriate,
       degenerated samples are removed. \\
     \textbf{Applying} &
-      Preprocessor checks whether the value $x$ of a variable are within the range $[a,
+      Preprocessor checks whether the value $x$ of a variable is within the range $[a,
       b]$.  If not, it replaces $x$ with: (a) missing value $?$, (b) the closest valid
       value $\max(a, \min(b, x))$, or (c) degenerates (discards the observation). \\
     \bottomrule
@@ -274,14 +274,14 @@ special characters, or more advanced fuzzy matching techniques --- see
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor replaces the categorical variables $x$ of a variable with the mapped
+      Preprocessor replaces the categorical variable $x$ with the mapped
       value $f(x)$ that implements case standardization, special character removal, and/or
       dictionary fuzzy matching. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
-Note that these techniques parameters are not fitted from the data, but rather are fixed
+Note that these technique parameters are not fitted from the data, but rather are fixed
 from the problem definition.  As a result, they could be done in the data handling phase.
 The reason we put them here is that the new data in production usually come with the
 same issues.  Having the fixes programmed into the preprocessor makes it easier to
@@ -290,11 +290,11 @@ guarantee that the model will behave as expected in production.
 \subsection{Outlier detection}
 
 Outliers are observations that are significantly different from the other observations.
-They can be caused by errors or by the presence of a different phenomena mixed in the data
+They can be caused by errors or by the presence of different phenomena mixed in the data
 collection process.  In both cases, it is important to deal with outliers before modeling.
 
 The standard way to deal with outliers is to remove them from the dataset.  Assuming that
-the errors or the out of distribution data appear randomly and rarely, this is a good
+the errors or the out-of-distribution data appear randomly and rarely, this is a good
 strategy.
 
 Another approach is dealing with each variable independently.  This way, one can replace
@@ -356,7 +356,7 @@ for the model when an outlier sample is detected in production.  See
       Training set is adjusted sample by sample, independently, removing
       degenerated samples. \\
     \textbf{Applying} &
-      Preprocessor degenerates if the sample is classified as outliers and does
+      Preprocessor degenerates if the sample is classified as an outlier and does
       nothing, otherwise. \\
     \bottomrule
   \end{tabular}
@@ -379,7 +379,7 @@ There are four main strategies to deal with missing data:
 Removing rows and columns are commonly used when the number of missing data is small
 compared to the total number of rows or columns.  However, be aware that removing rows
 ``on demand'' can
-artificially change data distribution, especially when the missing data is not missing at
+artificially change the data distribution, especially when the missing data is not missing at
 random.  Row removal suffers from the same problem as any filtering operations
 (degeneration) in the preprocessing step; the developer must specify a default behavior
 for the model when a row is discarded in production.  See \cref{tab:row-removal-missing}.
@@ -456,7 +456,7 @@ samples with missing data is large.  See \cref{tab:imputation}.
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
       Preprocessor replaces the missing values with the chosen statistic. If an indicator
-      variable is required, it is created and it is filled with the logical value:
+      variable is required, it is created and filled with the logical value:
       missing or not missing. \\
     \bottomrule
   \end{tabular}
@@ -472,25 +472,25 @@ better with it since it can decide using both the indicator and the original var
 
 Many times the indicator variable is already present in the data.  For instance, in a
 dataset that contains information about pregnancy, let us say the number of days since
-the last pregnancy.  This information certainly be missing if sex is male
-or number of children is zero.  In this case, no new indicator variable is needed.
+the last pregnancy.  This information will certainly be missing if sex is male
+or the number of children is zero.  In this case, no new indicator variable is needed.
 See \cref{tab:col-drop-missing}.
 
 \section{Data sampling}
 
 Once data is cleaned, the next step is (typically) to sample the data.  Sampling is the
-process of selecting a random subset of the data or to create variations of the original
+process of selecting a random subset of the data or creating variations of the original
 training set.
 
-There are three main tasks that sample the data: subsampling, scope filtering and class
+There are three main tasks that sample the data: subsampling, scope filtering, and class
 balancing.
 
 \subsection{Random sampling}
 \label{sub:random-sampling}
 
-Some machine learning methods are computationally expensive and a smaller dataset might be
+Some machine learning methods are computationally expensive, and a smaller dataset might be
 enough to solve the problem.  Random sampling is simply done by selecting a random subset
-of the training data with a user defined size.
+of the training data with a user-defined size.
 
 However, note that the preprocessor for this task \emph{must never do anything with the
 new data} (or the test set we discuss in \cref{chap:planning}).  See
@@ -549,19 +549,19 @@ task is presented in \cref{tab:scope-filtering}.
   \end{tabular}
 \end{tablebox}
 
-An interesting variation are the model trees\footfullcite{Freek2015}.  They are shallow
+An interesting variation is the model trees\footfullcite{Freek2015}.  They are shallow
 decision trees that are used to filter the data.  At each leaf, a different model is
 trained with the data that satisfies the rules that reach the leaf.  This is a good
 strategy when the phenomenon is complex and can be divided into simpler subproblems.
-In this case, the preprocessor do not degenerates over the samples, but rather the
+In this case, the preprocessor does not degenerate over the samples, but rather the
 preprocessing chain branches into different models (and potentially other preprocessing
 steps).
 
 \subsection{Class balancing}
 
 Some data classification methods are heavily affected by the number of observations in each
-class.  This is especially true for methods that are ``learns'' the class priors directly
-from the data, like the naïve Bayes classifier.
+class.  This is especially true for methods that learn the class priors directly from the
+data, like the naïve Bayes classifier.
 
 Two strategies are often used to balance the classes: oversampling and undersampling.  The
 former is done by creating synthetic observations of the minority class.  The latter is
@@ -572,7 +572,7 @@ Undersampling can be done by removing observations of the majority class randoml
 oversampling can be done by creating synthetic observations of the minority class.  The
 most common method is resampling\footnote{Sometimes called bootstrapping.}, which selects
 a random subset of the data with replacement.  A drawback of this method is that it
-produces repeated observations that contains no new information.
+produces repeated observations that contain no new information.
 
 In any case, the preprocessor for this task \emph{must never do anything with the new
 data} (or the test set we discuss in \cref{chap:planning}).  See
@@ -590,7 +590,7 @@ data} (or the test set we discuss in \cref{chap:planning}).  See
     \textbf{Goal} &
       Balance the number of observations in each class. \\
     \textbf{Fitting} &
-      None. User must declare number of sample in each class. \\
+      None. User must declare the number of samples in each class. \\
     \textbf{Adjustment} &
       Rows of the training set are randomly chosen. \\
     \textbf{Applying} &
@@ -609,13 +609,13 @@ Another important task in data handling is data transformation.  This is the pro
 adjusting the types of the data and the choice of variables to make it suitable for
 modeling.
 
-At this point, the data format is acceptable, i.e. each observation is in the correct
+At this point, the data format is acceptable, i.e., each observation is in the correct
 observational unit, there are no missing values, and the sampling is representative of the
 phenomenon of interest.  Now, we can perform a series of operations to make the
 column's types and values suitable for modeling.  The reason for this is that most
 machine learning methods require the input variables to follow some restrictions.  For
 instance, some methods require the input variables to be real numbers, others require the
-input variables are in a specific range, etc.
+input variables to be in a specific range, etc.
 
 \subsection{Type conversion}
 
@@ -626,7 +626,7 @@ The most common type conversion is the conversion from categorical to numerical 
 Ideally, the possible values of a categorical variable are known beforehand.
 For instance, given the values $x \in \{a, b, c\}$ in a column, there are two main ways to
 convert them to numerical values: label encoding and one-hot encoding.  If there is a
-natural order $a < b < c$, label encoding is usually enough.  Otherwise, one-hot encoding
+natural order $a < b < c$, label encoding is usually sufficient.  Otherwise, one-hot encoding
 can be used.
 
 Label encoding is the process of replacing the values $x \in \{a, b, c\}$ with the values
@@ -637,7 +637,7 @@ One-hot encoding is the process of creating a new column for each possible value
 of the categorical variable.  The new column is filled with the logical value $1$ if the
 value is present and $0$ otherwise.
 
-However, in the second case, the number of categories might be too large or might be not
+However, in the second case, the number of categories might be too large or might not be
 known beforehand.  So, the preprocessing step must identify the unique values in the
 column and create the new columns accordingly.  It is common to group the less frequent
 values into a single column, called the \emph{other} column.  See \cref{tab:one-hot}.
@@ -654,14 +654,14 @@ values into a single column, called the \emph{other} column.  See \cref{tab:one-
     \textbf{Goal} &
       Create a new column for each possible value of the categorical variable. \\
     \textbf{Fitting} &
-      Store the unique values of the categorical variable.  If appropriate, store indicate
+      Store the unique values of the categorical variable.  If appropriate, indicate
       the special category \emph{other}.  \\
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
       Preprocessor creates a new column for each possible value of the categorical
       variable.  The new column is filled with the logical value $1$ if the old value
-      matches the new column and $0$ otherwise.  If the value is new or in the less
+      matches the new column and $0$ otherwise.  If the value is new or among the less
       frequent values, it is assigned to the \emph{other} column.  \\
     \bottomrule
   \end{tabular}
@@ -669,7 +669,7 @@ values into a single column, called the \emph{other} column.  See \cref{tab:one-
 
 The other direction is also common: converting numerical values to categorical values.
 This is usually done by binning the numerical variable, either by frequency or by range.
-In both cases, the user declare the number of bins.  Binning by frequency is done by
+In both cases, the user declares the number of bins.  Binning by frequency is done by
 finding the percentiles of the values and creating the bins accordingly.  Binning by
 range is done by dividing the range of the values into equal parts, given the minimum and
 maximum values.  See \cref{tab:binning}.
@@ -686,7 +686,7 @@ maximum values.  See \cref{tab:binning}.
     \textbf{Goal} &
       Create a new categorical column from a numerical one.  \\
     \textbf{Fitting} &
-      Store the range of each bins. \\
+      Store the range of each bin. \\
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
@@ -705,13 +705,13 @@ the date of the last purchase becomes the age of the customer.
 \subsection{Normalization}
 
 Normalization is the process of scaling the values in the columns.  This is usually done to
-keep data in a specific range or to make different variables comparable.  For instance,
+keep data within a specific range or to make different variables comparable.  For instance,
 some machine
 learning methods require the input variables to be in the range $[0, 1]$.
 
 The most common normalization methods are standardization and rescaling.  The former is done
 by subtracting the mean and dividing by the standard deviation of the values in the column.
-The latter is performed so the values are in a specific range, usually $[0, 1]$ or $[-1, 1]$.
+The latter is performed so that the values are in a specific range, usually $[0, 1]$ or $[-1, 1]$.
 
 Standardization works well when the values in the column are normally distributed.
 It not only keeps the values in an expected range but also makes the data distribution
@@ -744,10 +744,10 @@ See \cref{tab:standardization}.
   \end{tabular}
 \end{tablebox}
 
-In the case of rescaling, during production, the preprocessor usually clamp\footnote{The
+In the case of rescaling, during production, the preprocessor usually clamps\footnote{The
 operation $\clamp(x; a, b)$ where $a$ and $b$ are the lower and upper bounds,
 respectively, is defined as $\max(a, \min(b, x))$.} the values after rescaling.  This is
-done to avoid the model to make predictions that are out of the range of the training
+done to avoid the model making predictions that are out of the range of the training
 data.  Given that we want to rescale the values in the column to the range $[a, b]$, and
 that $x_\text{min}$ and $x_\text{max}$ are the minimum and maximum values in the column,
 the rescaling is done by
@@ -757,12 +757,12 @@ the rescaling is done by
 \end{equation}
 See \cref{tab:rescaling}.
 
-\begin{tablebox}[label=tab:rescaling]{Normalization preprocessing task.}
+\begin{tablebox}[label=tab:rescaling]{Rescaling preprocessing task.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lp{6cm}}
     \toprule
-    \multicolumn{2}{c}{\textbf{Standardization and rescaling}} \\
+    \multicolumn{2}{c}{\textbf{Rescaling}} \\
     \midrule
     % \textbf{Requirements} &
     %   A dataset with numerical variables. \\
@@ -789,10 +789,10 @@ over the mean or to reduce the effect of outliers.
 
 Dimensionality reduction is the process of reducing the number of variables in the data.
 It can identify irrelevant variables and reduce the complexity of the model (since there
-are less variables to deal with).
+are fewer variables to deal with).
 
 % TODO: talk about curse of dimensionality in chapter stl,
-%       maybe even showing how the linear regression problem must be over specified
+%       maybe even showing how the linear regression problem must be over-specified
 % The so-called \emph{curse of dimensionality} is a
 % common problem in machine
 % learning, where the number of variables is much larger than the number of observations.
@@ -814,7 +814,7 @@ for the model.
 Feature extraction uses either linear methods, such as \gls{pca}, or non-linear methods,
 such as autoencoders.  These methods are able to compress the information in the training
 data into a smaller number of variables.  Thus, the model can learn the solution in
-a lower dimensional space.  A drawback of this method is that the new variables are
+a lower-dimensional space.  A drawback of this method is that the new variables are
 hard to interpret, since they are combinations of the original variables.
 
 \subsection{Data enhancement}
@@ -845,7 +845,7 @@ During production, it enhances any new observation with the external information
     \textbf{Adjustment} &
       Training set is left joined with the external dataset.  Because of the properties of
       the left join, the new dataset has the same number of rows as the original dataset,
-      and it is equivalent to enhance each row independently.  \\
+      and it is equivalent to enhancing each row independently.  \\
     \textbf{Applying} &
       Preprocessor enhances the new data with the external information. \\
     \bottomrule
@@ -867,7 +867,7 @@ while in \glspl{cnn} they are learned from the data.
 
 The study of unstructured data is a vast field and is out of the scope of this book.  I
 recommend \textcite{Jurafsky2008}\footnote{\fullcite{Jurafsky2008}. A new edition is
-free to download and under preparation: \fullcite{Jurafsky2024}.} for a vast
+is under preparation and it is available for free: \fullcite{Jurafsky2024}.} for a complete
 introduction to Natural Language Processing and
 \textcite{Szeliski2022}\footfullcite{Szeliski2022} for a comprehensive introduction to
 Computer Vision.
