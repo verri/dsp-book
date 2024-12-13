@@ -8,13 +8,13 @@
 
 Foundations in data science come from a variety of fields, including
 algebra, statistics, computer science, optimization theory, and information theory.
-This appendix provides a brief overview of the main computational, algebra and statistical
+This appendix provides a brief overview of the main computational, algebraic, and statistical
 concepts in data science.
 
 My goal is not to provide a comprehensive treatment of these topics, but to consolidate
 notations and definitions that are used throughout the book.  The reader is encouraged to
 consult the references provided at the end of each topic for a more in-depth treatment.
-Statisticians with strong programming background and computer scientists with strong
+Statisticians with a strong programming background and computer scientists with a strong
 statistics background will probably not find much new here.
 
 I first introduce the main concepts in algorithms and data structures, which are the
@@ -22,9 +22,6 @@ building blocks of computational thinking.  Then, I show the basic concepts in s
 theory and linear algebra, which are important mathematical foundations for data science.
 Finally, I introduce the main concepts in probability theory, the cornerstone of
 statistical learning and inference.
-
-If your are familiar with these topics, you can safely skip this annex.  Otherwise, I
-encourage you to read it and the references provided at each topic.
 
 \begin{mainbox}{Chapter remarks}
 
@@ -47,9 +44,9 @@ encourage you to read it and the references provided at each topic.
 
   \begin{itemize}
     \itemsep0em
-    \item Introduce a brief overview of the main computational, mathematical and
+    \item Introduce a brief overview of the main computational, mathematical, and
       statistical concepts in data science.
-    \item Remind the reader the main definitions and properties of these concepts.
+    \item Remind the reader of the main definitions and properties of these concepts.
     \item Consolidate notations and definitions that are used throughout the book.
   \end{itemize}
 \end{mainbox}
@@ -64,7 +61,7 @@ manipulate data structures, which are ways of organizing data to solve problems.
 They are realized in programming languages, which are formal languages that can be used
 to express algorithms.
 
-My suggestion of a comprehensive book about algorithms and data structures is
+My suggestion for a comprehensive book about algorithms and data structures is
 \textcite{Cormen2022}\footfullcite{Cormen2022}.  An alternative for beginners is
 \textcite{Guttag2021}\footfullcite{Guttag2021}.
 
@@ -74,17 +71,17 @@ The computational complexity of an algorithm is the total amount of resources it
 run as a function of the size of the input.  The most common resources are time and
 space.
 
-Usually, we are interested in the asymptotic complexity of an algorithm, i.e. how
+Usually, we are interested in the asymptotic complexity of an algorithm, i.e., how
 the complexity grows as the size of the input grows.  The most common notation for
 asymptotic complexity is the Big-O notation.
 
 \paragraph{Big-O notation}  Let $f$ and $g$ be functions from the set of natural numbers
-to the set of real numbers, i.e. $f, g : \mathbb{N} \rightarrow \mathbb{R}$.  We say that $f$ is
+to the set of real numbers, i.e., $f, g : \mathbb{N} \rightarrow \mathbb{R}$.  We say that $f$ is
 $O(g)$ if there exists a constant $c > 0$ such that $f(n) \leq c g(n)$ for all $n \geq
 n_0$, where $n_0$ is a natural number.
 We can order functions by their asymptotic complexity.  For example, $O(1) < O(\log n) <
 O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)$.  Throughout this book, we consider
-$\log n = \log_2 n$, i.e. whenever the base of the logarithm is not specified, it is
+$\log n = \log_2 n$, i.e., whenever the base of the logarithm is not specified, it is
 assumed to be $2$.
 
 The asymptotic analysis of algorithms is usually done in the worst-case scenario, i.e.
@@ -104,7 +101,7 @@ An important property of the Big-O notation is that
 i.e. if an algorithm has two sequential steps with time complexity $O(f)$ and $O(g)$, the
 highest complexity is the one that determines the overall complexity.
 
-\subsection{Algoritmic paradigms}
+\subsection{Algorithmic paradigms}
 
 Some programming techniques are used to solve a wide variety of problems.  They are called
 algorithmic paradigms.  The most common ones are listed below.
@@ -135,8 +132,8 @@ search.
   An iterative algorithm that searches for a key in a sorted array.
 \end{algobox}
 
-Consider as an example the \cref{alg:bsearch} that solves the binary search problem.  Given a
-$n$-elements sorted array $\vec{a} = \left[a_1, a_2, \dots, a_n\right]$, $a_1 \leq a_2 \leq
+Consider as an example the \cref{alg:bsearch} that solves the binary search problem.  Given an
+$n$-element sorted array $\vec{a} = \left[a_1, a_2, \dots, a_n\right]$, $a_1 \leq a_2 \leq
 \dots \leq a_n$, and a key $x$, the algorithm returns true if $x$ is in $A$ and false
 otherwise.  The algorithm works by dividing the array in half at each step and comparing
 the key with the middle element.  Each time the key is not found, the search space is
@@ -165,11 +162,11 @@ reduced by half.
 \end{algobox}
 
 Divide and conquer algorithms can be implemented using recursion.  \emph{Recursion}
-is also a algorithmic paradigm where a function calls itself to solve smaller instances of the
+is also an algorithmic paradigm where a function calls itself to solve smaller instances of the
 same problem.  The recursion stops when the problem is small enough to be solved directly.
 
 \Cref{alg:bsearch2} displays a recursive implementation of the binary search algorithm.
-The smaller instances, or so called \emph{base cases}, are when the array is empty or the key
+The smaller instances, or so-called \emph{base cases}, are when the array is empty or the key
 is found in the middle.  Other conditions --- key is smaller or greater than the middle element ---
 are handled by calling the function recursively with the left or right half of the array.
 
@@ -180,24 +177,24 @@ are handled by calling the function recursively with the left or right half of t
 
 This solution --- both algorithms --- has a worst-case time complexity of $O(\log n)$. The
 search space is halved at each step, thus, in the $i$-th iteration, the remaining number
-of elements in the array is $n / 2^{i-1}$.  In the worst-case, the algorithm stops when the
+of elements in the array is $n / 2^{i-1}$.  In the worst case, the algorithm stops when the
 search space has size $1$ or smaller, i.e.
 \[
   \frac{n}{2^{i-1}} = 1 \implies
   i = 1 + \log n\text{.}
 \]
 
-Note this strategy leads to such a low time complexity that we can solve large instances
+Note that this strategy leads to such a low time complexity that we can solve large instances
 of the problem in a reasonable amount of time.  Consider the case of an array with $2^{64}
 = 18{,}446{,}744{,}073{,}709{,}551{,}616$ elements, the algorithm will find the key in at most $65$
 steps.
 
 \paragraph{Greedy algorithms}  The problem is solved with incremental steps, each of which
 is locally optimal.  The overall solution is not guaranteed to (but might) be optimal.  Some example
-algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithm are usually
+algorithms are Dijkstra's algorithm and Prim's algorithm.  Greedy algorithms are usually
 very efficient in terms of time complexity --- see more in the following.
 
-One example of suboptimal greedy algorithm is a heuristic solution for the knapsack problem.
+One example of a suboptimal greedy algorithm is a heuristic solution for the knapsack problem.
 The \emph{knapsack problem} is a combinatorial optimization problem where the goal is to
 maximize the value of items in a knapsack without exceeding its capacity.  The problem is
 mathematically defined as
@@ -226,7 +223,7 @@ knapsack.
   }
   \Return{$x_i,~\forall i$}
   \tcblower
-  A greedy algorithm that solves suboptimally the knapsack problem.  The algorithm iterates over
+  A greedy algorithm that solves the knapsack problem suboptimally.  The algorithm iterates over
   the items in decreasing order of value and puts the item in the knapsack if it fits.
 \end{algobox}
 
@@ -425,7 +422,7 @@ Smaller puzzles are more didactic, but the same principles apply to larger puzzl
 is shown in \cref{fig:sudoku}.
 The puzzle is solved by trying all possible numbers in each cell and backtracking when a
 number does not fit.  The solution is found when all cells are filled and the constraints
-are satisfied.  Arrows indicate the the steps of the backtracking algorithm.  Every time a
+are satisfied.  Arrows indicate the steps of the backtracking algorithm.  Every time a
 constraint is violated --- indicated in gray ---, the algorithm backtracks to the previous
 cell and tries a different number.
 
@@ -441,7 +438,7 @@ data structures can be found in \textcite{Cormen2022}\footfullcite{Cormen2022}.
 
 \paragraph{Arrays}  An array is a homogeneous collection of elements that are accessed by
 an integer index.  The elements are usually stored in contiguous memory locations.
-In the scope of this book, it is equivalent to a mathematical vector whose element's type
+In the scope of this book, it is equivalent to a mathematical vector whose elements' type
 are not necessarily numerical.  Thus, a $n$-elements array $\vec{a}$ is denoted by
 $\left[a_1, a_2, \dots, a_n\right]$, where the $i$ in $a_i$ is the index of the element.
 
@@ -464,7 +461,7 @@ front and back elements are accessible.
 
 \paragraph{Trees}  A tree is a collection of nodes.  Each node contains a value and a list
 of references to its children.  The first node is called the root.  A node with no
-children is called a leaf.  No cycles are allowed in a tree, i.e. a child cannot be an
+children is called a leaf.  No cycles are allowed in a tree, i.e., a child cannot be an
 ancestor of its parent. The most common type of tree is the binary tree, where each node
 has at most two children.
 
@@ -480,7 +477,7 @@ children.   Thus, a binary tree $T$ is
 Note that the left and right children are themselves binary trees.  If $T$ is a leaf,
 then $T_l = T_r = \emptyset$.
 
-This properties makes it easy to represent a binary tree using parentheses notation.  For
+These properties make it easy to represent a binary tree using parentheses notation.  For
 example, $(1, (2, \emptyset, \emptyset), (3, \emptyset, \emptyset))$ is a binary tree
 with root $1$, left child $2$, and right child $3$.
 
@@ -488,12 +485,12 @@ with root $1$, left child $2$, and right child $3$.
 list of references to its neighbors; the references are called edges.  A graph can be
 directed or undirected.  A graph is directed if the edges have a direction.
 
-Mathematically, a graph is a pair $G = (V, E)$, where $V$ is a set of vertices and $E \in
-V \times V$ is a set of edges.  An edge is a pair of vertices, i.e. $e = (v_i, v_j)$,
-where $v_i, v_j \in V$. If the graph is directed, the edge is an ordered pair, i.e. $e =
+Mathematically, a graph is a pair $G = (V, E)$, where $V$ is a set of vertices and $E \subseteq
+V \times V$ is a set of edges.  An edge is a pair of vertices, i.e., $e = (v_i, v_j)$,
+where $v_i, v_j \in V$. If the graph is directed, the edge is an ordered pair, i.e., $e =
 (v_i, v_j) \neq (v_j, v_i)$.
 
-Not only each node can hold a value, but also each edge can have a weight.  A weighted
+Not only can each node hold a value, but also each edge can have a weight.  A weighted
 graph is a graph where there exists a function $w : E \rightarrow \mathbb{R}$ that assigns
 a real number to each edge.
 
@@ -540,7 +537,7 @@ and $0$ otherwise.  The adjacency matrix of the graph in \cref{fig:graph} is
 
 A set is a collection of elements.  The elements of a set can be anything, including
 other sets.  The elements of a set are unordered, and each element is unique.  The
-most common notation for sets is the curly braces notation, e.g. $\{1, 2, 3\}$.
+most common notation for sets is the curly braces notation, e.g., $\{1, 2, 3\}$.
 
 Some special sets are listed below.
 
@@ -574,7 +571,7 @@ set $B$ if all elements of $A$ are also elements of $B$.  It is denoted by $A \s
 
 \subsection{Set operations properties}
 
-Union and intersection are commutative, associative and distributive.  Thus, given sets
+Union and intersection are commutative, associative, and distributive.  Thus, given sets
 $A$, $B$, and $C$, the following statements hold:
 \begin{itemize}
   \item \emph{Commutativity:} $A \cup B = B \cup A$ and $A \cap B = B \cap A$;
@@ -599,7 +596,7 @@ This property is known as De Morgan's laws.
 
 In terms of inclusion, given sets $A$, $B$, and $C$, the following statements hold:
 \begin{itemize}
-  \item \emph{Reflexity:} $A \subseteq A$;
+  \item \emph{Reflexivity:} $A \subseteq A$;
   \item \emph{Antisymmetry:} $A \subseteq B$ and $B \subseteq A$ if and only if $A = B$;
   \item \emph{Transitivity:} $A \subseteq B$ and $B \subseteq C$ implies $A \subseteq C$.
 \end{itemize}
@@ -610,7 +607,7 @@ Set operations are closely related to Boolean algebra.  In Boolean algebra, the 
 of a set are either true or false, many times represented by $1$ and $0$, respectively.
 The union operation is equivalent to the logical OR operation, expressed by the symbol
 $\lor$; and the intersection operation is equivalent to the logical AND operation,
-expressed by the symbol $\land$.  The compliment operation is equivalent to the logical
+expressed by the symbol $\land$.  The complement operation is equivalent to the logical
 NOT operation, expressed by the symbol $\lnot$.
 
 The distributive property of set operations is equivalent to the distributive property of
@@ -622,7 +619,7 @@ Boolean algebra is the foundation of digital electronics and computer science.  
 logical operations are implemented in hardware using logic gates, and the logical
 operations are used in programming languages to control the flow of a program.
 
-Reader interested in more details about Boolean algebra and Discrete Mathematics
+Readers interested in more details about Boolean algebra and Discrete Mathematics
 should consult \textcite{Rosen2018}\footfullcite{Rosen2018}.
 
 \section{Linear algebra}
@@ -633,10 +630,10 @@ The basic objects of linear algebra are vectors and matrices.  A common textbook
 covers the subject in depth is \textcite{Strang2023}\footfullcite{Strang2023}.
 
 \paragraph{Vector}  A vector is an ordered collection of numbers.  It is denoted by a bold
-lowercase letter, e.g. $\vec{v} = [v_i]_{i= 1,\dots, n}$ is a vector of length $n$.
+lowercase letter, e.g., $\vec{v} = [v_i]_{i=1,\dots, n}$ is a vector of length $n$.
 
 \paragraph{Matrix}  A matrix is a rectangular collection of numbers.  It is denoted by an
-uppercase letter, e.g. $A = (a_{ij})_{i = 1, \dots, n;~j = 1, \dots, m}$ is the matrix
+uppercase letter, e.g., $A = (a_{ij})_{i = 1, \dots, n;~j = 1, \dots, m}$ is the matrix
 with $n$ rows and $m$ columns.
 
 \paragraph{Tensor}  Tensors are generalizations of vectors and matrices.  A tensor of rank
@@ -667,7 +664,7 @@ $C = A B$ whose $i, j$-th entry is $$c_{ij} = \sum_{k = 1}^n a_{ik} b_{kj}\text{
 The number of columns of $A$ must be equal to the number of rows of $B$, and the
 resulting matrix $C$ has the same number of rows as $A$ and the same number of columns as $B$.
 Unless otherwise stated, we consider the vector $\vec{v}$ with length $n$ as a column
-matrix, i.e. a matrix with one column and $n$ rows.
+matrix, i.e., a matrix with one column and $n$ rows.
 
 \paragraph{Transpose}  The transpose of a matrix $A$ is the matrix $A^T$ whose $i, j$-th
 entry is the $j, i$-th entry of $A$.  If $A$ is a square matrix, then $A^T$ is the
@@ -678,7 +675,7 @@ measure of the (signed) volume of the parallelepiped spanned by the columns of $
 denoted by $\det(A)$ or $|A|$.
 
 The determinant is nonzero if and only if the matrix is invertible and the linear map
-represented by the matrix is an isomorphism -- i.e. it preserves the dimension of the
+represented by the matrix is an isomorphism -- i.e., it preserves the dimension of the
 vector space.  The determinant of a product of matrices is the product of their
 determinants.
 
@@ -690,8 +687,8 @@ $A^{-1}$ if
 \[
   A A^{-1} = A^{-1} A = I_n\text{,}
 \]
-where $I_n$ is the $n \times n$ identity matrix, i.e. a matrix whose diagonal entries are
-$1$ and all other entries are $0$. If such a matrix exists, $A$ is said
+where $I_n$ is the $n \times n$ identity matrix, i.e., a matrix whose diagonal entries are
+$1$ and all other entries are $0$. If such a matrix exists, $A$ is said to be
 \emph{invertible}.  A square matrix that is not invertible is called singular. A square
 matrix with entries in a field is singular if and only if its determinant is zero.
 
@@ -699,7 +696,7 @@ To calculate the inverse of a matrix, we can use the formula
 \[
   A^{-1} = \frac{1}{\det(A)} \operatorname{adj}(A)\text{,}
 \]
-where $\operatorname{adj}(A)$ is the adjugate (or adjoint) of $A$, i.e. the transpose of the cofactor matrix
+where $\operatorname{adj}(A)$ is the adjugate (or adjoint) of $A$, i.e., the transpose of the cofactor matrix
 of $A$.
 
 The cofactor of the $i, j$-th entry of a matrix $A$ is the determinant of the matrix
@@ -791,7 +788,7 @@ non-zero vector $\vec{v}$ satisfying
 \end{equation}
 The vector $\vec{v}$ is called an eigenvector of $A$ corresponding to $\lambda$.
 
-The eigenvalues of a matrix are the roots of its characteristic polynomial, i.e. the
+The eigenvalues of a matrix are the roots of its characteristic polynomial, i.e., the
 roots of the polynomial $\det(A - \lambda I_n) = 0$, where $I_n$ is the $n \times n$ identity matrix.
 
 \section{Probability}
@@ -841,7 +838,7 @@ that $A$ occurs given that $B$ occurs.  It is denoted by $\Prob(A \mid B)$.
 \paragraph{Independence}
 
 Two events $A$ and $B$ are independent if the probability of $A$ given $B$ is the
-same as the probability of $A$, i.e. $\Prob(A \mid B) = \Prob(A)$.  It is equivalent to
+same as the probability of $A$, i.e., $\Prob(A \mid B) = \Prob(A)$.  It is equivalent to
 $\Prob(A, B) = \Prob(A) \cdot \Prob(B)$.
 
 \paragraph{Bayes' rule}
@@ -859,7 +856,7 @@ used in Bayesian statistics and machine learning.
 \subsection{Random variables}
 
 A random variable is a function that maps the sample space $\Omega$ to the real
-numbers.  It is denoted by a capital letter, e.g. $X$.
+numbers.  It is denoted by a capital letter, e.g., $X$.
 
 Formally, let $X : \Omega \rightarrow E$ be a random variable.  The
 probability that $X$ takes on a value in a set $A \subseteq E$ is
@@ -949,7 +946,7 @@ spread out the values of $X$ are.  It is denoted by $\Var(X)$.  By definition, i
   \Var(X) = \E\!\left[\left(X - \E[X]\right)^2\right]\text{.}
 \end{equation}
 
-Note that, as a consequence, the expectation of $X^2$ --- called second moment --- is
+Note that, as a consequence, the expectation of $X^2$ --- called the second moment --- is
 \[
   \E[X^2] = \Var(X) + \E[X]^2\text{,}
 \]
@@ -996,7 +993,7 @@ Note that the denominator is $n - 1$ instead of $n$ to correct the bias of the s
 variance.
 
 \paragraph{Sample standard deviation}  The sample standard deviation is the square root
-of the sample variance, i.e. $S = \sqrt{S^2}$.
+of the sample variance, i.e., $S = \sqrt{S^2}$.
 
 \paragraph{Sample skewness}  The skewness is a measure of the asymmetry of a probability
 distribution.  The sample skewness is based on the third moment of the sample.  Given a
@@ -1089,7 +1086,7 @@ degrees of freedom.  It is denoted by $\mathcal{T}(\nu)$.
 %   \left(1 + \frac{x^2}{\nu}\right)^{-\frac{\nu + 1}{2}}\text{.}
 % \end{equation}
 
-The T distribution generalizes to the three parameter location-scale t distribution
+The T distribution generalizes to the three-parameter location-scale t distribution
 $\mathcal{T}(\mu, \sigma^2, \nu)$, where $\mu$ is the location parameter and $\sigma$ is
 the scale parameter.  Thus, given $X \sim \mathcal{T}(\nu)$, we have that
 $\mu + \sigma X \sim \mathcal{T}(\mu, \sigma^2, \nu)$.
@@ -1113,13 +1110,13 @@ where $\Gamma(\alpha)$ is the gamma function, defined by
   \Gamma(\alpha) = \int_0^\infty t^{\alpha - 1} e^{-t} dt\text{.}
 \end{equation}
 
-In Bayesian analysis, the gamma distribution is commonly used as a conjugate prior.
+In Bayesian analysis, the Gamma distribution is commonly used as a conjugate prior.
 A conjugate prior is a prior distribution that, when combined with the likelihood,
 results in a posterior distribution that is of the same family as the prior.
 
 \subsection{Permutations and combinations}
 
-For the sake of the reference, we present some definitions and formulas from
+For the sake of reference, we present some definitions and formulas from
 combinatorics. Combinatorics is the branch of mathematics that studies the counting of
 objects.
 
@@ -1138,7 +1135,7 @@ to count the number of ways to arrange a set of elements.
 The number of combinations of $k$ elements from a set of $n$ elements is $$\binom{n}{k} =
 \frac{n!}{k!(n - k)!}\text{.}$$  Combinations are used in combinatorics to count the
 number of ways to select a subset of elements from a set.  The binomial coefficient
-$\binom{n}{k}$ is also called a choose function.
+is also called a choose function, and is read as ``$n$ choose $k$''.
 
 % \section{Optimization}
 %
