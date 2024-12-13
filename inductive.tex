@@ -3,7 +3,7 @@
 \glsresetall
 
 \chapterprecishere{%
-  To  understand  God's  thoughts  we  must study statistics, for these are the measure of His purpose.
+  To understand God's thoughts we must study statistics, for these are the measures of His purpose.
   \par\raggedleft--- \textup{Florence Nightingale}, her diary}
 
 As we discussed before, in this book, I focus on the problem of inferring a solution for a
@@ -56,7 +56,7 @@ algorithms for the learning process: the perceptron and the maximal margin class
     \itemsep0em
     \item Optimal solutions establish how good a solution can possibly be.
     \item Reducing error is not enough to guarantee a good solution.
-    \item Controlling the complexity of the model is crucial to generalize.
+    \item Controlling model complexity is crucial for generalization.
   \end{itemize}
 \end{mainbox}
 
@@ -65,7 +65,7 @@ algorithms for the learning process: the perceptron and the maximal margin class
 
 \section{Introduction} % TODO: I don't like this title
 
-Several problems can be addressed by techniques that use data somehow.  Once we focus on
+Several problems can be addressed by techniques that utilize data in some way.  Once we focus on
 one particular problem --- inductive learning ---, we need to define the scope of the
 tasks we are interested in.  Let us start from the broader fields to the more specific
 ones.
@@ -98,16 +98,16 @@ outcomes (sometimes about the future) based on historical data.  Predictive task
 involve predicting the value of a target variable based on the values of one or more
 input variables\footnote{Descriptive learning, which is out of the scope of this book,
 focuses on describing the relationships between variables in the data without the
-need of a target variable.}.
+need for a target variable.}.
 
 Depending on the reasoning behind the learning algorithms, we can divide the learning
 field into two main approaches: \emph{inductive learning} and \emph{transductive
-learning}\footnote{Trasduction is the process obtaining specific knowledge from specific
-observation, and it is not the focus of this book.}.
+learning}\footnote{Trasduction is the process of obtaining specific knowledge from specific
+observations, and it is not the focus of this book.}.
 
 Inductive learning involves deriving general rules from specific observations.  The
 general rules can make predictions about \emph{any} new instances.  Such an approach
-is exactly what we want to apply the project methodology we described in
+is exactly what we want to apply in the project methodology we described in
 \cref{sec:our-approach}:  the solution is the general rule inferred from the data.
 
 \begin{figurebox}[label=fig:learning]{Organizational chart of the learning field.}
@@ -126,12 +126,12 @@ is exactly what we want to apply the project methodology we described in
   Artificial intelligence studies algorithms that exhibit intelligent behavior and the
   behavior of intelligent systems.  Machine learning is a subfield of artificial
   intelligence that studies algorithms that enable computers to automatically learn from
-  data.  Predictive learning which focuses on making predictions about outcomes given
+  data.  Predictive learning, which focuses on making predictions about outcomes given
   known input data.  Inductive learning is a yet more specific type of learning that
   involves deriving general rules from specific observations.
 \end{figurebox}
 
-\Cref{fig:learning} give us a hierarchical view of the learning field.  Alternatives ---
+\Cref{fig:learning} gives us a hierarchical view of the learning field.  Alternatives ---
 such as descriptive learning in opposition to predictive learning, or transductive
 learning in opposition to inductive learning --- are out of the scope of this book.
 
@@ -148,34 +148,34 @@ Consider the set
   \big\{(\vec{x}_i, y_i) : i = 1, \dots, n \big\}
 \end{equation}
 where each sample $i$ is associated with a feature vector $\vec{x}_i \in \mathcal{X}$ and a target variable
-$y_i \in \mathcal{Y}$.  We assume that samples are random independent identically
+$y_i \in \mathcal{Y}$.  We assume that samples are random, independent, and identically
 distributed (i.i.d.) observations drawn according to $$\Prob(x, y) = \Prob(y \mid x) \Prob(x)\text{.}$$
 Both distributions $\Prob(x)$ and $\Prob(y \mid x)$ are fixed but unknown.
 
 This is equivalent to the original \gls{slt} setup stated by \textcite{Vapnik1999b}, where
-a generator produce random vectors $\vec{x}$ according to a fixed but unknown
+a generator produces random vectors $\vec{x}$ according to a fixed but unknown
 probability distribution $\Prob(x)$ and a supervisor returns an output value $y$ for every
 input vector $x$ according to a conditional distribution function $\Prob(y \mid x)$, also fixed but
 unknown.
 
 Moreover, note that this setup is compatible with the idea of tidy data and 3NF (see
 \cref{sub:bridge}). Of course, we assume $X, Y$ are only the measured variables (or
-non-prime attributes).  In practice, it means that we left aside the keys in the learning
+non-prime attributes).  In practice, it means that we set aside the keys in the learning
 process.
 
 In terms of the tables defined in \cref{sec:formal-structured-data}, any row $r$ in the
 table $T = (K, H, c)$, in the desired observational unit, such that $\rowcard[r] > 0$, and
 $h \in H$ the chosen target variable, we have a corresponding target $y = c(r, h)$ and a
-feature vector $\vec{x}$ corresponds to the tuple $$\big(c(r, h') : h' \in H \setminus
+feature vector $\vec{x}$ that corresponds to the tuple $$\big(c(r, h') : h' \in H \setminus
 \left\{ h \right\}\big)\text{.}$$  Similarly, the variables $K$ that describe each unit
-are left aside, as it does not make sense to infer general rules from them.
+are set aside, as it does not make sense to infer general rules from them.
 
-From the statistical point-of-view, learning problems consist of answering questions about
+From the statistical point of view, learning problems consist of answering questions about
 the distribution of the data.
 
 \subsection{Learning tasks}
 
-In terms of predictive learning, given de before-mentioned scenario, we can refine our
+In terms of predictive learning, given the before-mentioned scenario, we can refine our
 goals by tackling specific tasks\footnote{I consider tasks as well-defined subproblems of
 a higher-level problem.}.
 
@@ -183,7 +183,7 @@ Consider a \emph{learning machine} capable of generating a set of functions, or
 \emph{models}, $f(x; \theta) \equiv f_\theta(x)$, for a set of parametrizations $\theta
 \in \Theta$ and such that $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.  In a learning
 task, we must choose, among all possible $f_\theta$, the one that predicts the target
-variable the best possible way.
+variable in the best possible way.
 
 In order to learn, we must first define the \emph{loss} (or discrepancy) $\mathcal{L}$
 between the response $y$ to a given input $x$, drawn from $\Prob(x, y)$, and the
@@ -197,12 +197,12 @@ Then, given the \emph{risk function}
 the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
 where the only available information is the \emph{training set} given by \eqref{eq:training-set}.
 
-This formulation encompasses many specific tasks. I focus on the two of them which I
+This formulation encompasses many specific tasks. I focus on two of them, which I
 believe are the most fundamental ones: \emph{binary data classification}\footnote{In
 \gls{slt}, Vapnik calls it \emph{pattern recognition}.} and \emph{regression
 estimation}\footnote{We are not talking about \emph{regression analysis}; regression
 estimation is closer to the \emph{scoring} task definition by \fullcite{Zumel2019}.}.  (I
-left aside the density estimation problem, once it is not addressed in the remaining of
+left aside the density estimation problem, once it is not addressed in the remainder of
 the book.)
 
 \subsubsection{Binary data classification task}
@@ -219,7 +219,7 @@ functions. Choosing the loss
   \end{cases}
 \end{equation*}
 the risk $\eqref{eq:risk}$ becomes the probability of
-classification error.  The function $f_\theta$, in this case, is called \emph{classifier}
+classification error.  The function $f_\theta$, in this case, is called a \emph{classifier}
 and $y$ is called the \emph{label}.
 
 \subsubsection{Regression estimation task}
@@ -230,13 +230,13 @@ functions.  The loss function is the squared error
   \mathcal{L}(y, f_\theta(x)) = \big(y - f_\theta(x)\big)^2\text{.}
 \]
 In \cref{sec:optimal-solution}, we show that the function that minimizes the risk with such
-loss function is the so-called \emph{regression}.
+a loss function is the so-called \emph{regression}.
 The estimator $f_\theta$ of the regression, in this case, is called a \emph{regressor}.
 
 \subsection{A few remarks}
 
-These two tasks are pretty general and can be applied to a wide range of problems.  The
-modeling of the task at hand and choice of the loss function is crucial to the success of
+These two tasks are quite general and can be applied to a wide range of problems.  The
+modeling of the task at hand and choice of the loss function are crucial to the success of
 the learning process.
 
 About these learning tasks, we can make a few remarks.
@@ -244,7 +244,7 @@ About these learning tasks, we can make a few remarks.
 \paragraph{Supervised and semisupervised learning}
 In both cases, classification and regression estimation, the learning task is to find the function
 that maps the input data to the output data in the best possible way.  Although the
-learning machine described generate models in a \emph{supervised} manner --- i.e. target
+learning machine described generates models in a \emph{supervised} manner --- i.e., the target
 is known for all samples in the training set ---, there are
 alternative ways to solve the inductive learning problem, such as the \emph{semisupervised}
 approach, where the model can be trained with a small subset of labeled data and a large
@@ -271,7 +271,7 @@ problem into a binary classification task.  The most common method is
 and the class with the highest score is the predicted class.  Another method is the
 \emph{one-versus-one} method, where we train $l(l-1)/2$ binary classifiers, one for each
 pair of classes, and the class with the most votes is the predicted class.
-As one should expected, dealing with more than two classes is more complex than dealing
+As one should expect, dealing with more than two classes is more complex than dealing
 with only two classes.  If possible, prefer to deal with binary classification tasks first.
 
 \paragraph{Number of inputs and outputs}
@@ -317,12 +317,12 @@ $f$ is
     \iint \mathbb{1}_{f(x) \neq y}\, d\!\Prob(y | x)\, d\!\Prob(x)\text{,}
 \end{equation*}
 where $\mathbb{1}_{\cdot}$ is the indicator function that returns one if the condition is
-true and zero otherwise.  Let $b(x) = \Prob(y = 1 \mid x)$, we have that
+true and zero otherwise.  Let $b(x) = \Prob(y = 1 \mid x)$; we have that
 \[
   \int \mathbb{1}_{f(x) \neq y}\, d\!\Prob(y | x) =
     b(x) \mathbb{1}_{f(x) = 0} + (1 - b(x)) \mathbb{1}_{f(x) = 1}\text{,}
 \]
-which only of the terms is nonzero for each $x$.  Thus, the risk is minimized by choosing
+which means only one of the terms is nonzero for each $x$.  Thus, the risk is minimized by choosing
 a classifier that $f(x) = 1$ if $b(x) > 1 - b(x)$ and $f(x) = 0$ otherwise.  This is the
 Bayes classifier.
 
@@ -419,7 +419,7 @@ Deriving the last expression with respect to $f(x)$ and setting it to zero, we o
   f(x) = r(x)\text{.}
 \end{equation*}
 
-Like for the Bayes classifier, the stochastic nature of the data leads to an irreducible
+Like the Bayes classifier, the stochastic nature of the data leads to an irreducible
 error in the regression estimation task.  We have that
 \begin{equation*}
   R(r) = \int \big(y - r(x)\big)^2\, d\!\Prob(x, y) =
@@ -481,19 +481,19 @@ reduced.
 
 \Cref{fig:explained-unexplained-variance} illustrates the irreducible error of the
 regression function for arbitrary distributions $\Prob(y \mid x)$ and $\Prob(x)$.
-In this case $\E\!\left[ \Var(y \mid x) \right] = 1$, which means that points drawn
+In this case, $\E\!\left[ \Var(y \mid x) \right] = 1$, which means that points drawn
 by $\Prob(x, y)$ are distributed around the regression function $r(x)$ with a standard
 deviation of one.  The explained variance is the spread of the regression across the
 x-domain.
 
 \section{ERM inductive principle}
 
-It is very interesting to study the optimal solution for the learning tasks, but in the
+It is very interesting to study the optimal solution for learning tasks, but in the
 real-world, we do not have access to the distributions $\Prob(x)$ and $\Prob(y \mid x)$.
 We must rely on the training data $(x_1, y_1), \dots, (x_n, y_n)$ to infer a solution.
 
 In the following sections, for the sake of simplicity, let $z$ describe the pair $(x, y)$
-and $L(z, \theta)$, a generic loss function for the model $f_\theta$.  Note that the
+and $L(z, \theta)$ be a generic loss function for the model $f_\theta$.  Note that the
 training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
 
 Since the distribution $\Prob(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
@@ -502,11 +502,12 @@ the \emph{empirical risk functional}
   \label{eq:empirical-risk}
   R_n(\theta) = \frac{1}{n} \sum_{i=1}^n L(z_i, \theta)\text{.}
 \end{equation}
+```
 
-Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so called
+Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so-called
 \gls{erm} inductive principle.  The ERM principle is the basis of the \gls{slt}.
 
-Traditional methods, such as least squares, maximum likelihood, and maximum a posteriori are
+Traditional methods, such as least squares, maximum likelihood, and maximum a posteriori, are
 all realizations of the ERM principle for specific loss functions and hypothesis spaces.
 
 \subsection{Consistency of the learning process}
@@ -517,7 +518,7 @@ functional $R_n(\theta)$ converges to the true risk functional $R(\theta)$ over 
 hypothesis space $\Theta$.
 
 The consistency of the ERM principle is guaranteed by the uniform (two-sided)
-convergence\footnote{ Actually, only a weaker one-sided uniform is needed; consult a
+convergence\footnote{Actually, only a weaker one-sided uniform convergence is needed; consult a
 detailed explanation in chapter 2 of \fullcite{Vapnik1999b}.  The equivalence is a
 consequence of the key theorem of learning proved by Vapnik and Chervonenkis in 1989 and
 later translated to English in \fullcite{Vapnik1991}.} of the empirical risk functional
@@ -525,7 +526,7 @@ $R_n(\theta)$ to the true risk functional $R(\theta)$ over the hypothesis space 
 The uniform convergence is defined as
 \[
   \lim_{n \to \infty} \Prob\!\left(
-    \sup_{\theta \in \Theta} \Big| R_n(\theta) - R(\theta_{n_0}) \Big| > \epsilon
+    \sup_{\theta \in \Theta} \Big| R_n(\theta) - R(\theta) \Big| > \epsilon
   \right) = 0\text{.}
 \]
 
@@ -533,7 +534,7 @@ The uniform convergence is defined as
 
 Beyond consistency, it is also useful to understand the rate at which $R_n(\theta)$
 converges to $R(\theta)$ as the sample size $n$ increases.  It is possible for a learning
-machine be consistent but have a slow convergence rate, which means that a large number of
+machine to be consistent but have a slow convergence rate, which means that a large number of
 samples is needed to achieve a good solution.
 
 The asymptotic rate of convergence of the empirical risk functional $R_n(\theta)$ is
@@ -554,7 +555,7 @@ for some constant $M$ and all $z$ and $\theta$.  One can construct $n$-dimension
   l(z_1, \dots, z_n; \theta) = \big[ L(z_1, \theta), \dots, L(z_n, \theta) \big]\text{.}
 \]
 Once the loss functions are bounded, this set of vectors belongs to a $n$-dimensional
-cube and has finite minimal $\epsilon$-net\footnote{An $\epsilon$-net is a set of points
+cube and has a finite minimal $\epsilon$-net\footnote{An $\epsilon$-net is a set of points
 that are $\epsilon$-close to any point in the set.}.
 
 Consider the quantity $N(z_1, \dots, z_n; \Theta, \epsilon)$ that counts the number of
@@ -565,13 +566,13 @@ Once the quantity $N$ is a random variable, we can define the VC entropy as
 \]
 where $z_i$ are i.i.d. samples drawn from some $\Prob(z)$.
 
-If $L(z, \theta)$, $\theta \in \Theta$ is a set of indicator functions (i.e. the loss in a binary
+If $L(z, \theta)$, $\theta \in \Theta$, is a set of indicator functions (i.e., the loss in a binary
 classification task),  we measure the diversity of this set using the quantity $N(z_1,
 \dots, z_n; \Theta)$ that counts the number of different separations of the given sample
-can be made by the functions.  In this case, the minimal $\epsilon$-net for $\epsilon$ < 1
+that can be made by the functions.  In this case, the minimal $\epsilon$-net for $\epsilon < 1$
 does not depend on $\epsilon$ and is a subset of the vertices of the unit cube.
 
-A necessary and sufficient condition for the uniform convergence is
+A necessary and sufficient condition for uniform convergence is
 \begin{equation}
   \label{eq:uniform-convergence}
   \lim_{n \to \infty} \frac{H(n; \Theta, \epsilon)}{n} = 0\text{,}
@@ -579,7 +580,7 @@ A necessary and sufficient condition for the uniform convergence is
 for all $\epsilon > 0$.
 
 The VC entropy measures the complexity of the hypothesis space $\Theta$.  The intuition
-behind the need of a decreasing VC entropy with increasing numbers of observations is
+behind the need for a decreasing VC entropy with increasing numbers of observations is
 related to the nonfalsifiability of the learning machine.  For instance, the set of
 functions that can always separate the training data perfectly (contains all the vertices
 of the cube) is nonfalsifiable because
@@ -607,7 +608,7 @@ satisfies
 \]
 or is bounded by
 \[
-  G(n; \Theta) \leq h \left( \ln \frac{l}{n} + 1 \right)\text{,}
+  G(n; \Theta) \leq h \left( \ln \frac{n}{h} + 1 \right)\text{,}
 \]
 where $h$ is an integer.  Thus, the growth function is either linear or logarithmic in
 $n$.  In the first case, we say that the \emph{VC dimension} of the hypothesis space is
@@ -653,7 +654,7 @@ We say that $h$ vectors can be shattered if they can be separated into two class
 $2^h$ possible ways.  \Cref{fig:vc-dimension} illustrates the VC dimension of a set of
 lines in the plane.
 
-\begin{figurebox}[label=fig:vc-sin]{High-frequency sine wave functions have infinite VC dimension.}
+\begin{figurebox}[label=fig:vc-sin]{High-frequency sine wave functions have an infinite VC dimension.}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -677,12 +678,12 @@ lines in the plane.
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  High-frequency sine wave approximate well any set of points even though they may come
+  High-frequency sine waves approximate any set of points well, even though they may come
   from a low-frequency sine wave or any other function.
 \end{figurebox}
 
 One misconception about the VC dimension is that it is related to the number of parameters
-of the model.  The VC dimension is related to the complexity of the hypothesis space, not
+of the model.  The VC dimension is actually related to the complexity of the hypothesis space, not
 to the number of parameters.  For instance, the VC dimension of functions
 \[
   f(z; \theta) = \mathbb{1}_{\sin \theta x > 0}
@@ -722,7 +723,7 @@ with
 \]
 where $B$ is the upper bound of the loss function, $h$ is the VC dimension of the
 hypothesis space, $n$ is the number of samples.  The term $\eta$ is the confidence level,
-i.e. the inequality holds with probability $1 - \eta$.
+i.e., the inequality holds with probability $1 - \eta$.
 
 It is easy to see that as the number of samples $n$ increases, the empirical risk
 $R_n(\theta_n)$ approaches the true risk $R(\theta_n)$.  Also, the greater the VC
@@ -811,12 +812,12 @@ complexity of the approximating function --- see \cref{fig:srm-tradeoff}.
 
 \subsection{Bias invariance trade-off}
 
-The trade-off that the \gls{srm} principle deals with is the general case of the so called
+The trade-off that the \gls{srm} principle deals with is the general case of the so-called
 \emph{bias-variance trade-off}.  The bias-variance trade-off is a well-known concept in
 machine learning that describes the relationship between different kinds of errors a model
 can have.
 
-The \emph{bias error} comes from failure to capture relevant relationship between features
+The \emph{bias error} comes from failure to capture relevant relationships between features
 and target outputs.  The \emph{variance error} comes from erroneously modeling the random
 noise in the training data.
 
@@ -866,7 +867,7 @@ The term \eqref{eq:term3} is null:
 since $\Prob(D)$ and $\Prob(\epsilon)$ are independent and $\E[\epsilon] = 0$ by
 definition.
 
-We can apply a similar strategy to analyse the term \eqref{eq:term2}:
+We can apply a similar strategy to analyze the term \eqref{eq:term2}:
 \begin{align}
   \notag \int \big( f(x) - \hat{f}(x) \big)^2\, d\!\Prob(D)
     &= \int \big( f(x) - \bar{f}(x) + \bar{f}(x) - \hat{f}(x) \big)^2\, d\!\Prob(D) \\
@@ -904,7 +905,7 @@ Finally, putting all together --- i.e.  \cref{eq:irreducible-error,eq:bias,eq:mo
 \[
   \E_D\!\left[ \big( y - \hat{f}(x; D) \big)^2 \right] =
     \sigma^2 +
-    \big( f(x) - \E\!\left[ \hat{f}(x; D) \right) \big]^2 +
+    \big( f(x) - \E\!\left[ \hat{f}(x; D) \right] \big)^2 +
     \Var_D\!\left( \hat{f}(x; D) \right)\text{.}
 \]
 
@@ -913,7 +914,7 @@ The irreducible error is the regression error that cannot be reduced by any mode
 model acquired by the learning machine and that we observe in the training data --- i.e.
 the empirical risk.  The variance error, which does not depend on the real function $f$
 but on the models the learning machine can generate, is the error that comes from how
-different the models can be from each other --- i.e. the confidence interval the come from
+different the models can be from each other --- i.e. the confidence interval that comes from
 the VC dimension.
 
 \subsection{Regularization}
@@ -930,7 +931,7 @@ $R_n(\theta)$, the learning machine minimizes the regularized empirical risk
 \]
 where $\Omega(\theta)$ is the complexity of the model and $\lambda$ is a hyperparameter
 that controls the trade-off between the empirical risk and the complexity.
-Note that the regularization term acts a proxy for the confidence interval in the
+Note that the regularization term acts as a proxy for the confidence interval in the
 \gls{srm} principle.  However, regularization is often justified by common sense or
 intuition, rather than by strong theoretical arguments.
 
@@ -978,7 +979,7 @@ The AND problem is linearly separable, while the XOR problem is not.
   \end{minipage}
   \tcblower
   The AND and XOR datasets are binary classification datasets where the output $y$ is the
-  ``logical AND'' and the ``exclusive OR'' of the inputs $x_1$ and $x_2$, i.e.
+  ``logical AND'' and the ``exclusive OR'' of the inputs $x_1$ and $x_2$, i.e.,
   $y = x_1 \land x_2$ and $y = x_1 \oplus x_2$.
 \end{tablebox}
 
@@ -995,7 +996,7 @@ We show two learning machines that implement the \gls{srm} principle in differen
 \label{sub:perceptron}
 
 The perceptron is a linear classifier that generates a hyperplane that separates the
-classes in the feature space.  It is a parametric model and the learning process minimizes the empirical risk
+classes in the feature space.  It is a parametric model, and the learning process minimizes the empirical risk
 by adjusting its fixed set of parameters.
 
 \begin{defbox}{Parametric model}{parametric}
@@ -1006,7 +1007,7 @@ by adjusting its fixed set of parameters.
 Parametric models are usually simpler and faster to fit, but they are less flexible.  In
 other words, it is up to the researcher to choose the best model ``size'' for the problem.
 If the model is too small, it will not be able to capture the complexity of the data.  If
-the model is too large, it tends to be too complex, too slow to train and might overfit to
+the model is too large, it tends to be too complex, too slow to train, and might overfit to
 the data.  Note, however, that the VC dimension and number of parameters are not the same
 thing --- consult \cref{sub:vc-dimension-intuition}.
 
@@ -1014,7 +1015,7 @@ The perceptron model (with two inputs) is
 \begin{equation*}
   f(x_1, x_2; \vec{w} = \left[w_0, w_1, w_2\right]) = u(w_0 + w_1 x_1 + w_2 x_2)\text{,}
 \end{equation*}
-where $u$ is the heaviside step function
+where $u$ is the Heaviside step function
 \begin{equation*}
   u(x) = \begin{cases}
     1 & \text{if } x > 0\text{,} \\
@@ -1056,8 +1057,9 @@ x_2]$, is the equation of a hyperplane.
 \end{figurebox}
 
 In \cref{fig:perceptron-and}, we show the hyperplane (in this case, a line) that the model
-with weights $\vec{w} = [-1.1, 0.6, 1]$ generates in this feature space. Such a choice
-of parameters correctly classifies the AND dataset, see \cref{tab:and-perceptron}.
+with weights $\vec{w} = [-1.1, 0.6, 1]$ generates in this feature space.
+As one can see, the classes are linearly separable, and the perceptron model classifies
+the dataset correctly; see \cref{tab:and-perceptron}.
 
 \begin{tablebox}[label=tab:and-perceptron]{Truth table for the predictions of the perceptron in the AND dataset.}
   \centering
@@ -1074,7 +1076,7 @@ of parameters correctly classifies the AND dataset, see \cref{tab:and-perceptron
   \end{tabular}
   \tcblower
   The perceptron model with parameters $w_0 = 1.1$, $w_1 = -1$, and $w_2 = -1$
-  correctly classifies the AND dataset.
+  classifies the AND dataset correctly.
 \end{tablebox}
 
 \begin{figurebox}[label=fig:perceptron-xor]{Perceptron decision boundaries in the XOR
@@ -1110,10 +1112,10 @@ of parameters correctly classifies the AND dataset, see \cref{tab:and-perceptron
 \end{figurebox}
 
 In \cref{fig:perceptron-xor}, we show the hyperplane that the model $\vec{w} = [-0.5, 1, -1]$
-generates for the XOR dataset.  As one can see, the classes are not linearly separable,
-and the perceptron model fails to classify the dataset correctly, see \cref{tab:xor-perceptron}.
+generates for the XOR dataset.  As one can see, the perceptron model fails to solve the
+task since there is no single decision boundary that can classify this data.
 
-\begin{tablebox}[label=tab:xor-perceptron]{Truth table for the predictions of the perceptron.}
+\begin{tablebox}[label=tab:xor-perceptron]{Truth table for the predictions of the perceptron in the XOR dataset.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{ccc|cc}
@@ -1134,7 +1136,7 @@ and the perceptron model fails to classify the dataset correctly, see \cref{tab:
 It is easy to see that there are an infinite number of hyperplanes that can separate the
 classes in the AND dataset.  The training procedure of the perceptron is a simple
 algorithm that adjusts the weights of the model to find one of these hyperplanes ---
-effectively minimizing the empirical risk.  The algorithm updates the weights iteractively
+effectively minimizing the empirical risk.  The algorithm updates the weights iteratively
 for each sample that is misclassified, repeating the samples as many times as necessary.
 It stops when all samples are correctly classified.
 
@@ -1148,17 +1150,17 @@ situations for a given sample $\vec{x}$ and $y$:
   \item $y = 1$ and $u(\vec{w} \cdot \vec{x})= 1$.
 \end{enumerate}
 
-By definition, the algorithm must update the weights when the situation 2 or 3 occurs.
+By definition, the algorithm must update the weights when situation 2 or 3 occurs.
 Let $e = y - u(\vec{w} \cdot \vec{x})$ be the error of the model for a given sample.
 
 In situation 2, we have that $\vec{w} \cdot \vec{x} > 0$ which means that the angle
-$\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is less than $90^\circ$, once
-$\|\vec{w}\|\|\vec{x}\|\alpha\theta > 0 \implies \cos\alpha > 0 \implies \alpha <
+$\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is less than $90^\circ$, since
+$\|\vec{w}\|\|\vec{x}\|\cos\alpha > 0 \implies \cos\alpha > 0 \implies \alpha <
 90^\circ$.  To increase the angle between the vectors, we can subtract $\eta\vec{x}$ from
 $\vec{w}$, for some small $\eta > 0$ --- see \cref{fig:perceptron-w2}.  The error
 here is $e = -1$.
 
-\begin{figurebox}[label=fig:perceptron-w2]{Angle between $\vec{w}$ and $\vec{x}$ in a posite output.}
+\begin{figurebox}[label=fig:perceptron-w2]{Angle between $\vec{w}$ and $\vec{x}$ in a positive output.}
   \centering
   \begin{tikzpicture}
     \draw[-Stealth] (0, 0) -- (2, 0) node[right] {$\vec{x}$};
@@ -1174,9 +1176,10 @@ here is $e = -1$.
   > 0$.
 \end{figurebox}
 
-Similarly, in situation 3, we have that $\vec{w} \cdot \vec{x} < 0$ which means that the
-angle $\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is greater than $90^\circ$.
-To decrease the angle between the vectors, we can add $\eta\vec{x}$ from $\vec{w}$, for
+In situation 3, we have that $\vec{w} \cdot \vec{x} < 0$ which means that the
+angle $\alpha$ between the vectors $\vec{w}$ and $\vec{x}$ is greater than $90^\circ$,
+since $\|\vec{w}\|\|\vec{x}\|\cos\alpha < 0 \implies \cos\alpha < 0 \implies \alpha > 90^\circ$.
+To decrease the angle between the vectors, we can add $\eta\vec{x}$ to $\vec{w}$, for
 some small $\eta > 0$ --- see \cref{fig:perceptron-w3}.  Now, the error is $e = 1$.
 
 \begin{figurebox}[label=fig:perceptron-w3]{Angle between $\vec{w}$ and $\vec{x}$ in a negative output.}
@@ -1191,7 +1194,7 @@ some small $\eta > 0$ --- see \cref{fig:perceptron-w3}.  Now, the error is $e = 
   \tcblower
   A negative output for the perceptron with weights $\vec{w}$ and input $\vec{x}$ means
   that the angle between the vectors is greater than $90^\circ$.  To decrease the angle
-  between the vectors, we can add $\eta\vec{x}$ from $\vec{w}$, for some small $\eta
+  between the vectors, we can add $\eta\vec{x}$ to $\vec{w}$, for some small $\eta
   > 0$.
 \end{figurebox}
 
@@ -1203,12 +1206,12 @@ where $\eta$ is a small positive number that controls the step size of the algor
 Note that this rule works even for cases 1 and 4, where the error is zero.
 
 The algorithm converges given $\eta$ sufficiently small and the dataset is linearly
-separable.  Note that the algorithm do not make any effort to reduce the confidence
+separable.  Note that the algorithm does not make any effort to reduce the confidence
 interval.
 
 The perceptron is (possibly) the simplest artificial neural network.  More complex
 networks can be built by stacking perceptrons in layers and adding non-linear activation
-functions.  The training strategies for those network are usually based on reducing the
+functions.  The training strategies for those networks are usually based on reducing the
 empirical risk using the gradient descent algorithm while controlling the complexity of
 the model with regularization techniques\footnote{To counterbalance the potential
 ``excess'' of neurons, techniques like $l_2$ regularization ``disable'' some neurons by
@@ -1220,7 +1223,7 @@ pressuring their weights to zero.}.  Consult \cref{sec:mlp}.
 
 We saw that the perceptron tries to minimize the empirical risk, but it makes no effort to
 reduce the confidence interval.  A different approach would be to fix the empirical risk
---- in our case, assuming that the classes are linearly separable, equals to zero --- and
+--- in our case, assuming that the classes are linearly separable, to fix it to zero --- and
 minimize the confidence interval.
 
 The confidence interval is an increasing function
@@ -1235,7 +1238,7 @@ In the case of the perceptron, since it can generate any hyperplane, the VC dime
 $h = d + 1$, where $d$ is the number of dimensions of the feature space --- consult
 \cref{sub:vc-dimension-intuition}.
 
-Before we dive in the classifier that minimizes the confidence interval, consider the
+Before we dive into the classifier that minimizes the confidence interval, consider the
 following property.  \textcite{Vapnik1999b}\footfullcite{Vapnik1999b} state that a
 $\Delta$-margin separating hyperplane is the hyperplane
 \[
@@ -1249,9 +1252,9 @@ such that classifies vector $\vec{x}$ as
   \end{cases}
 \]
 Given that vectors $\vec{x} \in \mathbb{R}^d$ belong to a (hyper)sphere of radius $R$, the
-VC dimension of of the $\Delta$-margin separating hyperplane is
+VC dimension of the $\Delta$-margin separating hyperplane is
 \[
-  h \leq \min\left(\left\lfloor \frac{R^2}{\Delta^2} \right\rceil, d\right) + 1\text{,}
+  h \leq \min\left(\left\lfloor \frac{R^2}{\Delta^2} \right\rfloor, d\right) + 1\text{,}
 \]
 which can be less than $d + 1$.
 
@@ -1293,7 +1296,7 @@ margin between the classes.
 \end{figurebox}
 
 Thus, given the training set $(\vec{x}_1, y_1), \dots, (\vec{x}_n, y_n)$, $\vec{x} \in
-\mathbb{R}^d$ and $y_i \in \{-1, 1\}$, the optimal hypeplane --- see
+\mathbb{R}^d$ and $y_i \in \{-1, 1\}$, the optimal hyperplane --- see
 \cref{fig:maximal-margin-and} --- is the one that satisfies
 \[
   y_i \left[(\vec{w} \cdot \vec{x}_i - b)\right] \geq 1\text{,}
@@ -1306,7 +1309,7 @@ greater than $1$ or less than $-1$.)
 Without entering into the details of the optimization process, one interesting property of
 the maximal margin classifier is that the separating hyperplane is built from the \emph{support vectors}
 --- the vectors that are exactly in the margin.  In \cref{fig:maximal-margin-and}, the
-support vectors are the vectors $(1, 0)$, $(0, 1)$, and $(1, 1)$.
+support vectors are the points $(1, 0)$, $(0, 1)$, and $(1, 1)$.
 
 In other words, maximal margin classifier is
 \[
@@ -1318,8 +1321,8 @@ In the case that the classes are not linearly separable, the maximal margin clas
 be extended to the \emph{soft margin classifier}, which sets the empirical risk to a value
 greater than zero.
 
-Moreover, since the number of parameters of the maximal margin classifier depend on the
-training data (i.e. the number of support vectors), it is a nonparametric model.
+Moreover, since the number of parameters of the maximal margin classifier depends on the
+training data (i.e., the number of support vectors), it is a nonparametric model.
 Nonparametric models are those in which the number of parameters is not fixed and can grow
 as needed to fit the data.  This property becomes more clear when we consider the kernel
 trick, which allows the maximal margin classifier to deal with nonlinear problems.
@@ -1332,10 +1335,11 @@ learning machines.  The principle not only explains many of the empirical result
 \gls{ml} but also provides a theoretical framework to guide the development of new
 learning machines.
 
-Many powerful methods have been proposed in the literature --- e.g. support vector
+Many powerful methods have been proposed in the literature --- e.g., support vector
 machines, boosting, and deep learning --- that can deal with complex nonlinear problems.
 I encourage the reader to dive into the literature to learn more about these methods and
 the theoretical principles behind them.  Some comments about a few methods are given in
 \cref{chap:learning-machines}.
 
 % vim: spell spelllang=en
+
