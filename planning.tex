@@ -9,12 +9,12 @@
 Once we have defined what an inductive problem is and the means to solve it, we need to
 think about how to validate the solution.
 
-In this chapter, we present the experimental planning one can use in the data-driven
+In this chapter, we present the experimental planning that one can use in the data-driven
 parts of a data science project.  \emph{Experimental planning}  in the context of data
 science involves designing and organizing experiments to gather performance data
 systematically in order to reach specific goals or test hypotheses.
 
-The reason we need to plan experiments is that data science is experimental, i.e. we
+The reason we need to plan experiments is that data science is experimental, i.e., we
 usually lack a theoretical model that can predict the outcome of a given algorithm on a
 given dataset.  This is why we need to run experiments to gather performance data and make
 inferences from it.  The stochastic nature of data and of the learning process makes it
@@ -23,8 +23,8 @@ experimental planning is essential to ensure that the results of the experiments
 reliable and can be used to make decisions.
 
 Moreover, we need to understand the main metrics that are used to evaluate the performance
-of a solution --- i.e. the pair preprocessor and model.  Each learning task has different
-metrics and the goals of the project will determine which metrics are more important.
+of a solution --- i.e., the pair preprocessor and model.  Each learning task has different
+metrics, and the goals of the project will determine which metrics are more important.
 
 There is not a single way to plan experiments, but there are some common steps that can
 be followed to design a good experimental plan.  In this chapter, we present a
@@ -76,7 +76,7 @@ for inductive problems.
 
 Like any other experimental science, data science requires a robust experimental
 plan to ensure that evaluation results are reliable and can be used to make decisions.
-Failure to use well the resources we have at hand --- i.e. the limited amount of data ---
+Failure to use the resources we have at hand --- i.e., the limited amount of data ---
 can lead to incorrect conclusions about the performance of a solution.
 
 There are important elements that should be considered when designing an experimental
@@ -89,17 +89,17 @@ plan.  These elements are:
     \cref{chap:fundamental,chap:data}, we address topics about collecting and organizing data.
     In \cref{chap:handling}, we address topics about preparing the data for the
     experiments.
-  \item \textbf{Solution search algorithm} Techniques that find a solution for the task.
-    We use the term ``search'' because, the chosen algorithm aim at optimizing both the
-    parameters of the preprocessing chain and the ones of the model.  The theoretical
+  \item \textbf{Solution search algorithm}: Techniques that find a solution for the task.
+    We use the term ``search'' because the chosen algorithm aims at optimizing both the
+    parameters of the preprocessing chain and those of the model. The theoretical
     basis for these techniques is in \cref{chap:preprocess,chap:slt}.
   \item \textbf{Performance measuring}: The metric that will be used to evaluate the
     performance of the model.  Refer to \cref{sec:evaluation} for the main metrics used in
     binary classification and regression estimation tasks.
 \end{itemize}
 
-A general example of a description of an experimental plan is ``What is the probability of
-the technique $A$ to find a model that reaches a performance $X$ in terms of metric $Y$ in
+A general example of a description of an experimental plan is ``What is the probability that
+the technique $A$ will find a model that reaches a performance $X$ in terms of metric $Y$ in
 the real-world given dataset $Z$ as training set (assuming $Z$ is a representative
 dataset)?''
 
@@ -113,12 +113,12 @@ of the finite amount of data we have available.
 \subsection{Sampling strategy}
 
 When dealing with a data-driven solution, the available data is a representation of the
-real world.  So, we have to make the best use of the data we have to estimate how good our
+real world.  So, we have to make the best use of the data we have to estimate how well our
 solution is expected to be in production.
 
 As we have seen, the more data we use to search for a solution, the better the solution is
 expected to be.  Thus, we use the whole dataset for deploying a solution.  But, what
-method for preprocessing and learning should we use?  How well that technique is
+method for preprocessing and learning should we use?  How well is that technique
 expected to perform in the real world?
 
 Let us say we fix a certain technique, let us call it $A$.  Let $M$ be the solution found
@@ -127,8 +127,8 @@ performance $p$ we get is optimistic.  This is because $M$ has been trained and 
 on the same data.
 
 One could argue that we could use a hold-out set to estimate the performance of $M$ ---
-i.e. splitting the dataset into a training set and a test set once.  However, this does
-not solve the problem.  The performance $p$ we in the test set might be an overestimation
+i.e., splitting the dataset into a training set and a test set once.  However, this does
+not solve the problem.  The performance $p$ we observe in the test set might be an overestimation
 or an underestimation of the performance of $M$ in production.  This is because the
 randomly chosen test set might be an ``outlier'' in the representation of the real world,
 containing cases that are too easy or too hard to predict.
@@ -137,17 +137,17 @@ The correct way to estimate the performance of $M$ is to address performance as 
 random variable, since both the data and the learning process are stochastic.
 By doing so, we can study the distribution of the performance, not particular values.
 
-As any statistical evaluation, we need to generate samples
+As with any statistical evaluation, we need to generate samples
 of the performance of the possible solutions that $A$ is able to obtain. To do so, we use
 a sampling strategy to generate datasets $D_1, D_2, \ldots$ from $D$.  Each
 dataset is further divided into a training set and a test set, which must be disjoint.
-Each training set is thus used to find solution --- $M_1, M_2, \ldots$ for each
+Each training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $p_1, p_2,
 \ldots$ for each test set --- of the solution.  The test set emulates the real-world
 scenario, where the model is used to make predictions on new data.
 
-The most common sampling strategy is the \emph{cross-validation}.  It assumes that data is
-independent and identically distributed (i.i.d.).  Cross-validation divides
+The most common sampling strategy is the \emph{cross-validation}.  It assumes that data are
+independent and identically distributed (i.i.d.).  This sampling strategy divides
 the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
 test set once and as a training set $r-1$ times.  So, first we use as training set folds
 $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
@@ -304,7 +304,7 @@ A summary of the experimental plan for estimating expected performance is shown 
 \end{figurebox}
 
 Finally, we can study the sampled performance values $p_1, p_2, \ldots$ like any other
-statistical data to proof (or disproof) the hypothesis.  This process is called
+statistical data to prove (or disprove) the hypothesis.  This process is called
 validation.
 
 \begin{defbox}{Validation}{validation}
@@ -327,17 +327,17 @@ the real-world performance of the solution $M$.
 \subsection{Estimating expected performance}
 \label{sub:expected-performance}
 
-We have seem that we need a process of interpreting or confirming the meaning of the
+We have seen that we need a process of interpreting or confirming the meaning of the
 evaluation results.
 Sometimes, it is as simple as calculating the mean and standard deviation of the
 performance samples.  Other times, we need to use more sophisticated techniques, like
 hypothesis tests or Bayesian analysis.
 
 Let us say our goal is to reach a certain performance threshold $p_0$.  After an
-experiments done with $10$ repeated $10$-fold cross-validation, we have the average
+experiment done with $10$ repeated $10$-fold cross-validation, we have the average
 performance $\bar{p}$ and the standard deviation $\sigma$.  If $\bar{p} - \sigma \gg
 p_0$, it is very likely that the solution will reach the threshold in production.
-Although this is not a formal validation, it is a good and likely enough indication.
+Although this is not a formal validation, it is a good and likely indication.
 
 Also, it is common to use visualization techniques to analyze the results.  Box plots are
 a good way to see the distribution of the performance samples.
@@ -350,7 +350,7 @@ being better than a certain threshold.
 \textcite{Benavoli2017}\footfullcite{Benavoli2017} propose an interesting Bayesian test that accounts for the
 overlapping training sets in the cross-validation\footnote{%
 This is actually a particular case of the proposal in the paper, where the authors
-consider the comparison between two performance vector --- which is the case described in
+consider the comparison between two performance vectors --- which is the case described in
 \cref{sub:comparison}.}.
 Let $z_k = p_k - p^{*}$ be the
 difference between the performance of the $k$-th fold and the performance goal $p^{*}$,
@@ -358,7 +358,7 @@ a generative model for the data is
 \begin{equation*}
   \vec{z} = \vec{1}\mu + \vec{v}\text{,}
 \end{equation*}
-where $\vec{z} = (z_1, z_2, \ldots, z_n)$ is the vector performance gains, $\vec{1}$ is a
+where $\vec{z} = (z_1, z_2, \ldots, z_n)$ is the vector of performance gains, $\vec{1}$ is a
 vector of ones, $\mu$ is the parameter of interest (the mean performance gain), and
 $\vec{v} \sim \operatorname{MVN}(0, \Sigma)$ is a multivariate normal noise with zero mean
 and covariance matrix $\Sigma$.  The covariance matrix $\Sigma$ is characterized as
@@ -410,15 +410,15 @@ the threshold $p^{*}$ consists of calculating the probability
 \end{equation*}
 where $\gamma$ is the confidence level.
 
-Note that the Bayesian analysis is a more sophisticated technique than the null hypothesis
+Note that the Bayesian analysis is a more sophisticated technique than null hypothesis
 significance testing, as it allows us to estimate the probability of the hypothesis
 instead of the probability of observing the data given the hypothesis.
-\textcite{Benavoli2017}\footfullcite{Benavoli2017} deeply discuss the subject.
+\textcite{Benavoli2017}\footfullcite{Benavoli2017} thoroughly discuss the subject.
 
 Also, be aware that the choice of the model and the prior distribution can affect the
 results.  \citeauthor{Benavoli2017} suggest using 10 repetitions of 10-fold cross-validation
 to estimate the parameters of the generative model.  They also show experimental evidence
-that their procedure are robust to the choice of the prior distribution.  However, one
+that their procedure is robust to the choice of the prior distribution.  However, one
 should be aware of the limitations of the model.
 
 \subsection{Comparing strategies}
@@ -440,7 +440,7 @@ in production, the result of the last sprint or a well-known algorithm --- and a
 Suppose $\vec{p}(\lambda_0)$ and $\vec{p}(\lambda)$ are the performance vectors of the
 baseline and the candidate algorithms, respectively, that are calculated using the same
 strategy described in \cref{sub:expected-performance}.  It is important to note that the
-same samplings must be used to compare the algorithms --- i.e. performance samples must be
+same samplings must be used to compare the algorithms --- i.e., performance samples must be
 paired, each one of them coming from the same sampling, and consequently, from the same
 training and test datasets.
 
@@ -450,7 +450,7 @@ candidate is better than the baseline by
   \Prob(\mu > 0 \mid \vec{z}) > \gamma\text{,}
 \end{equation*}
 where $\vec{z}$ is now $\vec{p}(\lambda) - \vec{p}(\lambda_0)$.  The interpretation of the
-results is similar, $\gamma$ is the chosen confidence level and $\mu$ is the expected
+results is similar; $\gamma$ is the chosen confidence level and $\mu$ is the expected
 performance gain of the candidate algorithm --- or the performance loss, if negative.
 
 This strategy can be applied iteratively to compare many algorithms.  For example, we can
@@ -459,11 +459,11 @@ keeping the best algorithm found so far as the baseline. In the cases where the 
 level is not reached, but the expected performance gain is positive, we can consider
 additional characteristics of the algorithms, like the interpretability of the model, the
 computational cost, or the ease of implementation, to decide which one is better. However,
-one should pay attention whether the probability
+one should pay attention to whether the probability
 \begin{equation*}
   \Prob(\mu < 0 \mid \vec{z})
 \end{equation*}
-is too high or not.  Always ask yourself if the risk of the performance loss is worth in
+is too high or not.  Always ask yourself if the risk of performance loss is worth it in
 the real-world scenario.
 
 \subsection{About nesting experiments}
@@ -473,9 +473,9 @@ $\left[\phi, \theta\right]$ and the choice of $\lambda$.  Thus, some techniques 
 grid search --- can be used to find the best hyperparameters using a nested experimental
 plan.
 
-The idea is the same, we assess how good is the expected choice of the
-hyperparameter-optimization technique $B$ to find the appropriate hyperparameters.  Similarly,
-the choice of the hyperparameters and the parameters that goes to production is the
+The idea is the same: we assess how good the expected choice of the
+hyperparameter-optimization technique $B$ is to find the appropriate hyperparameters.  Similarly,
+the choice of the hyperparameters and the parameters that go to production is the
 application of $B$ to the whole dataset.  However, never use the choices of the
 hyperparameters in the experimental plan to make decisions about what goes to production.
 (The same is true for the parameters $\left[\phi, \theta\right]$ in the traditional case.)
