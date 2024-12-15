@@ -225,7 +225,7 @@ The phases and the answers we are looking for in each phase are:
   \item Deploy the model: how to use the solution?
 \end{itemize}
 
-The step ``Present results and document'' is a differentiator from other approaches, like
+The step ``Present results and document'' is a differentiator from the other approaches, like
 CRISP-DM.  In the ZM approach, result presentation is essential; data scientists must be able
 to communicate their results effectively to the client/sponsor.  This phase is also
 emphasized in the view of \textcite{Wickham2023}.
@@ -265,7 +265,7 @@ emphasized in the view of \textcite{Wickham2023}.
 
 \subsection{Limitations of the ZM approach}
 
-The ZM approach is particularly interesting in consulting projects, where the data scientist
+The ZM approach is particularly interesting in consulting projects, as the data scientist
 is not part of the organization.  Note that tasks beyond deployment, such as maintenance and
 monitoring, are not directly addressed by the methodology but are delegated to the operations
 role.  Like CRISP-DM, the ZM approach does not address the software development aspects of
@@ -432,7 +432,7 @@ over time.
 
 Some consider that Scrum is not adequate for data science projects.  The main reason is
 that Scrum is designed for projects where the requirements are known in advance.  Also,
-data science projects have exploratory phases, which are not well supported by Scrum.
+data-driven exploratory phases are not well supported by Scrum.
 
 I argue that this view is wrong.  Scrum is a framework, and it is designed to be adapted to
 the needs of the project;  Scrum is not a rigid process.  In the following, I propose an
@@ -689,7 +689,7 @@ different classifiers depending on a threshold.  In this scenario, the user must
 to choose the threshold in terms of expected performance of (usually conflicting) metrics
 of interest.
 
-In order to avoid confusion, the user interface must mask data-science-specific
+In order to avoid confusion, the user interface must mask data science
 terminology, preferring domain-specific terms that are more understandable by the client.
 This helps non-experts to use the software consciously.
 
@@ -699,7 +699,7 @@ Good data science products do not finish with the deployment of the model.  Ther
 exist means to monitor the model behavior in production.  If possible, set up feedback from
 the user interface.  A history of usage is usually kept in a database.
 
-In most cases, the model loses performance over time, usually caused by changes in
+In most cases, the model loses performance over time, usually because of changes in
 the data distribution.  This is called concept drift.
 If that happens with considerable effect on the model performance, the model must be
 retrained.  The retraining can be automated, but it must be monitored by robust validation
@@ -713,8 +713,8 @@ The solution search method is usually computationally intensive.  The dataset ca
 large, and the model can be complex.  The infrastructure must be able to handle the
 computational requirements of the project.
 
-Unless the application is known to be very challenging, projects should start with simple methods
-and small datasets.  Then, as the project evolves, the complexity of the methods and the
+Unless the application is known to be challenging, projects should start with the simplest methods
+and a small dataset.  Then, as the project evolves, the complexity of the methods and the
 size of the dataset can be increased.  Nowadays, cloud services are a good option for
 scalability.
 
