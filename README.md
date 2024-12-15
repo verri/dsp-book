@@ -1,7 +1,27 @@
 # Data Science Project: An Inductive Learning Approach
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14498011.svg)](https://doi.org/10.5281/zenodo.14498011)
+
 This repository contains the source of [Data Science Project: An inductive
 Learning Approach](https://leanpub.com/dsp).  The book is built using XeLaTeX.
+
+The book is a work in progress, and the current version is v0.1.0.
+
+## Citing the book
+
+```bibtex
+@misc{verri2024datascienceproject,
+  author       = {Verri, Filipe Alves Neto},
+  title        = {Data Science Project},
+  subtitle     = {An Inductive Learning Approach},
+  month        = dec,
+  year         = 2024,
+  publisher    = {Leanpub},
+  version      = {v0.1.0},
+  doi          = {10.5281/zenodo.14498011},
+  url          = {https://leanpub.com/dsp}
+}
+```
 
 ## Downloading the book
 
