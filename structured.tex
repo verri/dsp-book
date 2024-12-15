@@ -8,22 +8,22 @@
 
 As one expects, when we measure a phenomenon, the resulting data come in many different
 formats.  For example, we can measure the temperature of a room using a thermometer.  The
-resulting data is a number.  We can assess English proficiency using an essay test.  The
-resulting data is a text.  We can register relationships between proteins and their
-functions.  The resulting data is a graph.  Thus, it is important to understand the nature
+resulting data are numbers.  We can assess English proficiency using an essay test.  The
+resulting data are texts.  We can register relationships between proteins and their
+functions.  The resulting data are graphs.  Thus, it is essential to understand the nature
 of the data we are working with.
 
 The most common data format is the \emph{structured data}.  Structured data refers to
 information that is organized in a tabular format.
-We restrict the kind of information we store in each cell, i.e. the data type of each
-measurement.  The data type restrict the operations we can
+We restrict the kind of information we store in each cell, i.e., the data type of each
+measurement.  The data type restricts the operations we can
 perform on the data.  For example, we can perform arithmetic operations on numbers, but
 not on text.  All cells in the same column must share the same data type.
 
 In this chapter, I discuss the most common data types and the most common data formats.
 More specifically, we are interested in how the semantics of the data are encoded in the
-data format.  Database normalization and tidy data are two concepts that are very important
-for the understanding of structured data.
+data format.  Database normalization and tidy data are two concepts that are crucial for
+the understanding of structured data.
 
 As a result, the reader will be equipped with the mindset to perform data tasks
 --- collection, integration, tidying, and exploration --- well.
@@ -41,7 +41,7 @@ As a result, the reader will be equipped with the mindset to perform data tasks
   \begin{itemize}
     \itemsep0em
     \item Data comes in many different formats.
-    \item Good data analysis requires understanding the data types and their meaning.
+    \item Good data analysis requires understanding the data types and their meanings.
   \end{itemize}
 
   \boxsubtitle{Objectives}
@@ -93,14 +93,14 @@ we can perform on them.
   on them.
 \end{tablebox}
 
-\Cref{tab:stevens} summarizes the allowed operations for each of Stevens' type.  All types
+\Cref{tab:stevens} summarizes the allowed operations for each of Stevens' types.  All types
 enable equality comparison.  Ordinal data can also be tested in terms of their order, but
 they do not allow quantitative difference.  Interval data, on the other hand, allow
-addition and subtraction.  Finally, the true zero of ratio data enable us to calculate
+addition and subtraction.  Finally, the true zero of ratio data enables us to calculate
 relative differences (multiplication and division).
 
-For example, color are nominal data.  We can classify colors into categories, but we cannot
-order them.  A categorical variable that classifies sizes in small, medium, and large is
+For example, colors are nominal data.  We can classify colors into categories, but we cannot
+order them.  A categorical variable that classifies sizes into small, medium, and large is
 ordinal data.  We can order the sizes, but we cannot say that the difference between small
 and medium is the same as the difference between medium and large.  Temperature in Celsius
 is interval data.  We can order temperatures, and we can say that the difference between
@@ -113,15 +113,15 @@ twice as heavy as 10 kilograms.
 Nonetheless, Stevens' types do not exhaust all possibilities for data types.  For example,
 probabilities are bounded at both ends, and thus do not tolerate arbitrary scale shifts.
 \textcite{Paul1993}\footfullcite{Paul1993} provide interesting insights about data types.  Although I do not
-agree with all his points, I think it is a good reading.  In particular, I agree with
+agree with all his points, I think it is a good read.  In particular, I agree with
 his criticism of statements that data types are evident from the data independent of the
 questions asked.  The same data can be interpreted in different ways depending on the
 context and the goals of the analysis.
 
 However, I do not agree with the idea that good data analysis does not assume data types.
 I think that data scientists should be aware of the data types they are working with and
-how they affect the analysis.  With no bias, there is no learning.  There is no such a
-thing as a ``bias-free'' analysis, the amount of possible combinations of assumptions
+how they affect the analysis.  With no bias, there is no learning.  There is no such
+thing as a ``bias-free'' analysis; the amount of possible combinations of assumptions
 easily grows out of control.  The data scientist must take responsibility for the
 consequences of their assumptions.  Good assumptions and hypotheses are a key part of the
 data science methodology.
@@ -129,7 +129,7 @@ data science methodology.
 When we work with structured data, two concepts are very important: database normalization
 and tidy data.  Database normalization is mainly focused on the data storage.  Tidy data is
 mainly focused on the requirements of data for analysis.  Both concepts have their
-mathematical/logical foundations and tools for data handling.
+mathematical and logical foundations and tools for data handling.
 
 \section{Database normalization}
 \label{sec:normalization}
@@ -139,7 +139,7 @@ database to minimize data redundancy and improve data integrity.  The need for d
 normalization comes from the fact that the same data can be stored in many different ways.
 
 Normal form is a state of a database that is free of certain types of data redundancy.
-Before studying normal forms, we need to understand basic concepts in the database theory
+Before studying normal forms, we need to understand basic concepts in database theory
 and the basic operations in relational algebra.
 
 \subsection{Relational algebra}
@@ -154,13 +154,13 @@ column, or attribute, is assumed to have a unique name.
 \paragraph{Projection}  The projection of a relation is the operation that returns a
 relation with only the columns specified in the projection.  For example, if we have a
 relation $X[A, B, C]$ and we perform the projection $\pi_{A, C}(X)$, we get a
-relation with only the columns $A$ and $C$, i.e. $X[A, C]$.  The number of rows
+relation with only the columns $A$ and $C$, i.e., $X[A, C]$.  The number of rows
 in the resulting relation might be less than the number of rows in the original relation
 because of repeated rows.
 
 \paragraph{Join}  The (natural) join of two relations is the operation that returns a
 relation with the columns of both relations.  For example, if we have two relations $S[U
-\cup V]$ and $T[U \cup W]$, where $U$ is the common set of attributes, join $S \bowtie T$
+\cup V]$ and $T[U \cup W]$, where $U$ is the common set of attributes, the join $S \bowtie T$
 of $S$ and $T$ is the relation with tuples $(u, v, w)$ such that $(u, v) \in S$ and $(u,
 w) \in T$.  The generalized join is built up out of binary joins:  $\bowtie \left\{ R_1,
 R_2, \dots, R_n \right\} = R_1 \bowtie R_2 \bowtie \dots \bowtie R_n$. Since the join
@@ -189,7 +189,7 @@ R[X_n] \right\}}$.
 \subsection{Normal forms}
 
 The normal forms are a series of progressive conditions that a relation must satisfy to
-be considered normalized.  The normal forms are cumulative, i.e. a relation that is in
+be considered normalized.  The normal forms are cumulative, i.e., a relation that is in
 $n$-th normal form is also in $(n-1)$-th normal form.  The normal forms are a way to
 reduce redundancy and improve data integrity.
 
@@ -225,20 +225,20 @@ in 4NF if and only if every multi-valued dependency is the result of keys.
 
 \paragraph{Projection join normal form (PJNF)} A relation $R$ with attributes $X$ is in
 PJNF\footnote{Also known as fifth normal form (5NF).  The authors themselves prefer
-the term PJNF because it emphasizes to which operations the normal form applies.}
+the term PJNF because it emphasizes the operations to which the normal form applies.}
 if and only if it is in 2NF and
 the set of key dependencies\footnote{Key dependency is a functional dependency in the form
-$K \to X$, where $X$ emcompasses all attributes of the relation.} of $R$ implies each join
+$K \to X$, where $X$ encompasses all attributes of the relation.} of $R$ implies each join
 dependency of $R$.  The PJNF guarantees that the
 table cannot be decomposed without losing information (except by decompositions based on
 keys).
 
-The idea behind the definition of BCNF and 4NF are slightly different from the
+The idea behind the definition of BCNF and 4NF is slightly different from the
 PJNF.  In fact, if we consider that for each key dependency implies a join dependency, the
 relation is in the so-called overstrong projection-join normal
 form\footfullcite{Fagin1979}.  Such a level of normalization does not improve data storage
 or eliminate inconsistencies.  In practice, it means that if a relation is in PJNF,
-careless joins --- i.e. those that violate a join dependency --- produce
+careless joins --- i.e., those that violate a join dependency --- produce
 inconsistent results.
 
 \paragraph{Simple example}  Consider the 2NF relation $R[A, B, C, D]$ with functional
@@ -273,7 +273,7 @@ The functional dependencies are ``student'' and ``course'' determine ``grade'', 
 
 \Cref{tab:student-grade-illustration} shows an example of possible values of the relation.
 If we decide to change the course credits of the course ``Math'' to 5, we must update the
-two rows, otherwise the relation will be inconsistent.  A 3NF relation (see
+two rows; otherwise, the relation will be inconsistent.  A 3NF relation (see
 \cref{tab:student-grade-illustration2}) would have the attributes ``course'' and ``course
 credits'' in a separate relation, avoiding the possibility of data inconsistency.  If
 needed, the relation would be reconstructed by a join operation.
@@ -305,7 +305,7 @@ needed, the relation would be reconstructed by a join operation.
   An example of a relation of students and their grades in 3NF.
 \end{tablebox}
 
-\paragraph{Invalid join example} Consider the 2NF relation $R[ABC]$\footnote{Here we abreviate ${A,
+\paragraph{Invalid join example} Consider the 2NF relation $R[ABC]$\footnote{Here we abbreviate ${A,
 B, C}$ as $ABC$.} such that the primary key is the composite of $A$, $B$, and $C$.  The
 relation is thus in the 4NF, as no column is a determinant of another column.  Suppose,
 however, the following constraint: if $(a, b, c')$, $(a, b', c)$, and $(a', b, c)$ are in
@@ -343,18 +343,18 @@ reduced\footnote{I am investigating a formal proof based on \fullcite{Vincent199
 \section{Tidy data}
 
 It is estimated that 80\% of the time spent on data analysis is spent on data preparation.
-Usually, the same process is repeated many times in different datasets. The ideia is that
+Usually, the same process is repeated many times in different datasets. The idea is that
 organized data carries the meaning of the data, reducing the time spent on handling
 the data to get it into the right format for analysis.
 
 Tidy data, proposed by \textcite{Wickham2014}\footfullcite{Wickham2014},
 is a data format that provides a standardized way to organize data values within
-a dataset.  The main advantage of tidy data is that it provides clear semantics with focus
+a dataset.  The main advantage of tidy data is that it provides clear semantics with a focus
 on only one view of the data.
 
 Many data formats might be ideal for particular tasks, such as raw data, dense tensors, or
-normalized databases.  However, most of the statistical and machine learning methods
-require a particular data format.  Tidy data is a data format that is appropriate to those
+normalized databases.  However, most statistical and machine learning methods
+require a particular data format.  Tidy data is a data format that is suitable for those
 tasks.
 
 % \begin{hlbox}{Wickham's thoughts on tidy data}
@@ -363,8 +363,8 @@ tasks.
 %   way.
 % \end{hlbox}
 
-In an unrestricted table, the meaning of rows and columns are not fixed.  In a tidy table,
-the meaning of rows and columns are fixed.  The semantics is more restrictive than usually
+In an unrestricted table, the meaning of rows and columns is not fixed.  In a tidy table,
+the meaning of rows and columns is fixed.  The semantics are more restrictive than usually
 required for general tabular data.
 
 \begin{tablebox}[label=tab:simple-messy]{Example of same data in different formats.}
@@ -394,7 +394,7 @@ required for general tabular data.
 \Cref{tab:simple-messy} shows an example of the same data in different formats.  Although
 they emphasize different aspects (especially for visualization) of the data, both contain
 the same amount of information.  They are considered messy by Wickham because the meaning
-of the rows and columns are not fixed.
+of the rows and columns is not fixed.
 
 It is based on the idea that a dataset is a collection of values, where:
 \begin{itemize}
@@ -404,7 +404,7 @@ It is based on the idea that a dataset is a collection of values, where:
     the same attribute across (observational) units.
   \item Each \emph{observation}, represented by a row, contains all values measured on the
     same unit across attributes.
-  \item \emph{Attributes} are the characteristics of the units, e.g. height, temperature,
+  \item \emph{Attributes} are the characteristics of the units, e.g., height, temperature,
     duration.
   \item \emph{Observational units} are the individual entities being measured, for
     instance, a person, a day, an experiment.
@@ -441,22 +441,22 @@ Table \ref{tab:tidy} summarizes the main concepts.
   An example of tidy data from the data in \cref{tab:simple-messy}.
 \end{tablebox}
 
-If we follow this structure, the meaning of data is implicit in the table itself.
+If we follow this structure, the meaning of the data is implicit in the table.
 \Cref{tab:simple-tidy} shows the same data in a tidy format.  The table is now longer, but
 the variables and observations are clear from the table itself.
 
 However, it is not always trivial to organize data in a tidy format.  Usually, we have
 more than one level of observational units, each one represented by a table.  Moreover,
-there might exist more than one way to define what are the observational units in a
-dataset\footnote{Although, Wickham himself implies that there is only one possible way to
+there might exist more than one way to define what the observational units in a dataset
+are\footnote{Although Wickham himself implies that there is only one possible way to
 define the observational units of the dataset.}.
 
 To organize data in a tidy format, one can consider that:
 \begin{itemize}
   \itemsep0em
-  \item Attributes are functionally related among themselves --- e.g. Z is a linear
+  \item Attributes are functionally related among themselves --- e.g., Z is a linear
     combination of X and Y, or X and Y are correlated, or $P(X, Y)$ follows some joint distribution.
-  \item Units can be grouped or compared --- e.g. person A is taller than person B, or
+  \item Units can be grouped or compared --- e.g., person A is taller than person B, or
     the temperature in day 1 is higher than in day 2.
 \end{itemize}
 
@@ -468,10 +468,10 @@ that was used to measure the temperature.  This is a common problem in databases
 must be addressed for machine learning and statistical methods to work properly.
 
 Note that the order of the rows and columns is not important.  However, it might be
-convenient to sort data in a particular way to facilitate the understanding.  For
+convenient to sort data in a particular way to facilitate understanding.  For
 instance, one usually expects that the first columns are \emph{fixed
 variables}\footnote{Closely related (and potentially the same as) key in database
-theory.} --- i.e. variables that are not the result of a measurement but that describe the
+theory.} --- i.e., variables that are not the result of a measurement but that describe the
 experimental design ---, and the last columns
 are \emph{measured variables}.  Also, arranging rows by some variable might highlight some
 pattern in the data.
@@ -484,11 +484,11 @@ header, while rows are usually numerically indexed.
 
 \textcite{Wickham2014}\footfullcite{Wickham2014} lists some common problems with messy
 datasets and how to tidy them.  In this subsection, we focus on the problems and the
-tidy solutions.  The data handling operations that enables us to tidy the data are
-presented in \cref{chap:handling}.  Readers interested in a step by step guide for data
+tidy solutions.  The data handling operations that enable us to tidy the data are
+presented in \cref{chap:handling}.  Readers interested in a step-by-step guide for data
 tidying are encouraged to read \textcite{Wickham2023}\footfullcite{Wickham2023}.
 
-The problems are summarized below.
+The problems are summarized in the following.
 
 \clearpage
 \subsubsection{Headers are values, not variable names}  For example, consider
@@ -539,8 +539,8 @@ names, not values.
 
 \clearpage
 \subsubsection{Multiple variables are stored in one column}  For example, consider the
-\cref{tab:messy2}.  This table is not tidy because the column --- interestly called
-\emph{column} ---, contains multiple variables.  This format is frequent, and sometimes the
+\cref{tab:messy2}.  This table is not tidy because the column --- interestingly called
+\emph{column} --- contains multiple variables.  This format is frequent, and sometimes the
 column name contains the names of the variables.  Sometimes it is very hard to separate
 the variables.
 
@@ -666,7 +666,7 @@ many observational units are registered in the same table.
   \end{tabular}
 \end{tablebox}
 
-To fix this issue, we must each observation unit must be moved to a different table.
+To fix this issue, we must ensure that each observation unit is moved to a different table.
 Sometimes, it is useful to create unique identifiers for each observation.
 The separation avoids several types of potential inconsistencies.  However, take into
 account that during data analysis, it is possible that we have to denormalize them.  The
@@ -686,7 +686,7 @@ two resulting tables are shown in \cref{tab:tidy4a} and \cref{tab:tidy4b}.
   \end{tabular}
 \end{tablebox}
 
-\begin{tablebox}[label=tab:tidy4b]{Tidy version of \cref{tab:messy4} containing the observational unit \emph{rank of the track in certain week}.}
+\begin{tablebox}[label=tab:tidy4b]{Tidy version of \cref{tab:messy4} containing the observational unit \emph{rank of the track in a certain week}.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lll}
@@ -779,7 +779,7 @@ shown in \cref{tab:tidy5}.
 
 First and foremost, both concepts, normalization and tidy data, are not in conflict.
 
-In data normalization, given a set of functional, multivalued and join dependencies, there
+In data normalization, given a set of functional, multivalued, and join dependencies, there
 exists a normal form that is free of redundancy.  In tidy data,
 \textcite{Wickham2023}\footfullcite{Wickham2023} also state that there is only one way to organize the given data.
 
@@ -791,12 +791,12 @@ depends on what you define as the observational unit.
 Moreover, both of them are related to the philosophical concept of substance (οὐσία) ---
 see \cref{sub:phenomena}.
 Entities and observational units are substances while attributes are predicates.
-Each tuple or observation are primary substances, i.e. substances that contrasts with
+Each tuple or observation is a primary substance, i.e., a substance that contrasts with
 everything else, particular, individual.
 
 We can also understand primary keys and fixed variables as the same concept.  They both
 describe the sample uniquely.  They connect the entities/observational
-units to the remaining of the attributes.  They also should never be fed into a learning
+units to the remaining attributes.  They also should never be fed into a learning
 machine (more details in \cref{chap:slt}), since they are individual and thus not
 appropriate to generalize.
 
@@ -825,7 +825,7 @@ contexts.
 \subsection{Tidy or not tidy?}
 \label{sub:tidy-not-tidy}
 
-Consider the following example.  We want to study the \emph{phenomenon} temperature in a
+Consider the following example.  We want to study the \emph{phenomenon} of temperature in a
 certain city.  We fix three sensors in different locations to measure the temperature.  We
 collect data three times a day.  If we consider as the observational unit the
 event of measuring the temperature, we can organize the data in a tidy format as shown in
@@ -872,12 +872,12 @@ primary key is the composite of the columns \emph{date}, \emph{time}, and \emph{
 In the second case, the primary key is the composite of the columns \emph{date} and
 \emph{time}.
 
-One can state that the first form is more appropriate, since it is flexible to add more
+One can state that the first form is more appropriate, since it is flexible enough to add more
 sensors or sensor-specific attributes (using an extra table).  However, the second form is very natural for machine learning and statistical
 methods.  Given the definition of tidy data, I believe both forms are correct.  It is
 just a matter of what ontological view you have of the data.
 
-\begin{tablebox}[label=tab:body1]{Tidy data for measuments of a person body.}
+\begin{tablebox}[label=tab:body1]{Tidy data for measurements of a person's body.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{lccc}
@@ -891,12 +891,12 @@ just a matter of what ontological view you have of the data.
   \end{tabular}
 \end{tablebox}
 
-Still, one can still argue that the sensors share the same nature and thus only the first
+Still, one can argue that the sensors share the same nature and thus only the first
 form is correct (or can even insist that the more flexible form is the correct one).
 Consider however the data in \cref{tab:body1}.  The observational unit is the person, and
 the attributes are the body measurements.
 
-\begin{tablebox}[label=tab:body2]{Another tidy data for measurements of a person body.}
+\begin{tablebox}[label=tab:body2]{Another tidy data for measurements of a person's body.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{llc}
@@ -918,14 +918,14 @@ If we apply the same logic of \cref{tab:temp1}, data in \cref{tab:body1} becomes
 \cref{tab:body2}.  Now, the observational unit is the measurement of a body part of a
 given person.  Now, we can easily include more body parts.  Let us say that we want to add
 the head circumference.  We just need to include rows such as ``Alice, head, 50'' and
-``Bob, head, 55''.  Moreoer, what if we want to add the height of the person? Should we
-create another table (with ``name'' and ``height'') or should we consider ``height'' seen
+``Bob, head, 55''.  Moreover, what if we want to add the height of the person? Should we
+create another table (with ``name'' and ``height'') or should we consider ``height''
 as another body part (even though it seems weird to consider the full body a part of the
 body)?
 
 In the first version of the data (\cref{tab:temp1}), it would be trivial to include head
 circumference and height.  In the second version, the choice becomes inconvenient.  This
-table seems ``overtidy''.  If the first fits well for the analysis, it should be
+table seems ``overly tidy''.  If the first fits well for the analysis, it should be
 preferred.
 
 In summary, tidiness is a matter of perspective.
@@ -940,7 +940,7 @@ performed.
 Consider the following example: the relation $R[A, B, C, D, E]$ and the functional
 dependencies $A \to D$, $B \to E$, and $AB \to C$.  The relation can be normalized up to
 3NF by following one of the decomposition trees shown in \cref{fig:decomp}.
-Every decomposition tree must take into account that the join of the projections are
+Every decomposition tree must take into account that the join of the projections is
 lossless and dependency preserving.
 
 \begin{figurebox}[label=fig:decomp]{Decomposition trees for the relation $R[ABCDE]$ and
@@ -961,7 +961,7 @@ lossless and dependency preserving.
 \end{figurebox}
 
 Note that the decomposition that splits first $R[ABC]$ is not valid, since the resulting
-relation $R[AB]$ is not a consequences of a functional dependency, see
+relation $R[AB]$ is not a consequence of a functional dependency; see
 \cref{fig:wrongdecomp}.
 
 \begin{figurebox}[label=fig:wrongdecomp]{Invalid decomposition trees for the relation $R[ABCDE]$.}
@@ -989,7 +989,7 @@ relation $R[AB]$ is not a consequences of a functional dependency, see
 
 In this kind of relation schema, we have a set of key attributes, here $\mathcal{K} = AB$,
 and a set of non-prime attributes, here $\mathcal{N} = CDE$.  Note that the case
-$\mathcal{K} \cap \mathcal{N} = \emptyset$ is the simplest we can have.
+$\mathcal{K} \cap \mathcal{N} = \emptyset$ is the simplest one we can have.
 
 Observe, however, that transitive dependencies\footnote{Actually, when an attribute is
 both key and non-prime, some joins may generate invalid tables.} and complex join
@@ -1034,10 +1034,10 @@ kind of normalization.  This happens in many cases where privacy is a concern.
 But we can also consider that the observational unit is the student.  In this case, we
 must perform joins traversing the leftmost decomposition tree in \cref{fig:decomp} from
 bottom to top.  After each join, a summarization operation is performed on the relation
-considering the student as the observational unit, i.e. over attribute $A$.  The first
+considering the student as the observational unit, i.e., over attribute $A$.  The first
 join results in relation $R[ABCE]$ and the summarization operation results in a new
 relation $R[AFG]$ where $F$ is the average grade and $G$ is the total course load taken by
-the student (see \cref{tab:student}).  They all calculated based on the rows that are grouped in function of $A$.
+the student (see \cref{tab:student}).  They are all calculated based on the rows that are grouped in function of $A$.
 It is important to notice that, after the summarization operation, all observations must
 contain a different value of $A$.  The second join results in relation $R[ADFG] = R[AD]
 \bowtie R[AFG]$.  This relation has functional dependency $A \to DFG$, and it is in 3NF
@@ -1052,10 +1052,10 @@ crucial to the final result.
 \section{Data semantics and interpretation}
 
 In the rest of the book, we focus on a statistical view of the data.  Besides the
-functional dependencies, we also consider the statistical dependencies of data.  For
-instance, attributes $A$ and $B$ might not be functionally dependent, but they might exits
-unknown $P(A, B)$ that we can estimate from the data.  Each observed value of a key can
-represent a instance of a random variable, and the other attributes can represent
+functional dependencies, we also consider the statistical dependencies of the data.  For
+instance, attributes $A$ and $B$ might not be functionally dependent, but they might exist
+in an unknown $P(A, B)$ that we can estimate from the data.  Each observed value of a key can
+represent an instance of a random variable, and the other attributes can represent
 measured attributes or calculated properties.
 
 For data analysis, it is very important to understand the relationships between the
@@ -1070,7 +1070,7 @@ the estimators.
 
 Although we do not focus on time series, we must consider the temporal dependence of the
 observations.  For example, we might want to know how the observation $x_t$ is affected by
-$x_{t-1}$, $x_{t-2}$, and so on.  We might also want to know if Markov property holds,
+$x_{t-1}$, $x_{t-2}$, and so on.  We might also want to know if the Markov property holds,
 and if there is periodicity and seasonality in the data.
 
 For the sake of the scope of this book, we suggest that any prediction on temporal data
@@ -1090,7 +1090,7 @@ in a predefined manner.  For example, text, images, and videos are unstructured 
 Every unstructured dataset can be converted into a structured one.  However, the
 conversion process is not always straightforward nor lossless.  For example, we can
 convert a text into a structured dataset by counting the number of occurrences of each
-word\footnote{This is called bag of words.}.
+word\footnote{This is called a bag-of-words approach.}.
 However, we lose the order of the words in the text.
 
 The study of unstructured data is, for the moment, out of the scope of this book.
