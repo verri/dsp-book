@@ -2,20 +2,20 @@
 \label{chap:project}
 \glsresetall
 
-% TODO: talk about documentation and deployment in the future
+% TODO(v0.2): talk about documentation and more about deployment in the future
 
 \chapterprecishere{\raggedleft\textup{with contributions from} \textsc{Johnny C. Marques}~\orcidlink{0000-0002-1551-435X}
   \\[5mm] Figured I could throw myself a pity party or go back to school and learn the computers.
   \par\raggedleft--- \textup{Don Carlton}, Monsters University (2013)}
 
-Once we established what data science is, we can now discuss how to conduct a data science
+Once we have established what data science is, we can now discuss how to conduct a data science
 project.
 First of all, \emph{a data science project is a software project}.  The difference between a data
 science software and a traditional software is that some components of the former are
 constructed from data.  This means that part of the solution is not designed from the
 knowledge of the domain expert.
 
-One example of project is a spam filter that
+One example of a project is a spam filter that
 classifies emails into two categories: spam and non-spam.  A traditional approach is
 to design a set of rules that are known to be effective.  However, the effectiveness of
 the filters is limited by the knowledge of the designer and is cumbersome to maintain.  A
@@ -23,7 +23,7 @@ data science approach automatically learns the filters from a set of
 emails that are already classified as spam or non-spam.
 
 Another important difference in data science projects is that traditional testing methods,
-such as unit tests, are not enough.  The solution inferred from the data must be validated
+such as unit tests, are not sufficient. The solution inferred from the data must be validated
 considering the stochastic nature of the data.
 
 In this chapter, we discuss common methodologies for data science projects.  We also
@@ -42,17 +42,17 @@ extension to Scrum adapted for data science projects.
 
   \begin{itemize}
     \itemsep0em
-    \item Data science project is a software project.
+    \item A data science project is a software project.
     \item Data science methodologies focus on the data analysis process.
-    \item Industry demands not only data analysis but also software development.
+    \item The industry demands not only data analysis but also software development.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
     \itemsep0em
-    \item Explore the common methodologies for data science projects.
-    \item Understand the agile methodologies and the Scrum framework.
+    \item Explore common methodologies for data science projects.
+    \item Understand agile methodologies and the Scrum framework.
     \item Propose an extension to Scrum adapted for data science projects.
   \end{itemize}
 
@@ -101,10 +101,10 @@ CRISP-DM is a cyclic process.  The process is composed of six phases:
     monitoring requirements.
 \end{enumerate}
 
-CRISP-DM is cyclic and completly focused on the data.  However, it does not address the
+CRISP-DM is cyclic and completely focused on the data.  However, it does not address the
 software development aspects of the project.  The ``product'' of the project is both
 models and findings, not the full software solution.  As a result, aspects such as user
-interface, communication and integration are not addressed by the methodology.
+interface, communication, and integration are not addressed by the methodology.
 
 \clearpage
 
@@ -149,16 +149,15 @@ interface, communication and integration are not addressed by the methodology.
 
 \Cref{fig:cripdm} shows a diagram of the CRISP-DM process.  The double arrow between the
 business understanding and the data understanding phases represents the iterative nature
-of these steps.  Once we are satisfied with the data understanding, we can go further to
+of these steps.  Once we are satisfied with the data understanding, we can proceed to
 the data preparation phase.  The same iteration is possible between the data preparation
 and the modeling phases, since modeling methods can require different data preparation
-methods. Finally, an evaluation is performed.  If the model is satisfactory, we go to the
-deployment phase.  Otherwise, we go back to the business understanding phase.  The idea
-to go back to the business understanding phase is to rethink the project objectives.% and
-% the project plan.
+methods. Finally, an evaluation is performed.  If the model is satisfactory, we proceed to the
+deployment phase.  Otherwise, we return to the business understanding phase.  The idea
+is to revisit the project objectives and, if necessary, the project plan.
 
 The CRISP-DM methodology is a good starting point for data science projects.  However, it
-does not mean that should be followed strictly.  The process is flexible, and
+does not mean that it should be followed strictly.  The process is flexible, and
 adaptations are possible at any stage.
 
 \section{ZM approach}
@@ -170,8 +169,8 @@ individual involved in the project.  They state that data science projects are a
 collaborative, as they require domain expertise, data expertise, and software expertise.
 
 Requirements of a data science project are dynamic, and we need to perform many
-exploratory phases.  Unlike traditional software projects, we should expect the
-great changes in the initial requirements and goals of the project.
+exploratory phases.  Unlike traditional software projects, we should expect significant
+changes in the initial requirements and goals of the project.
 
 Usually,
 projects based on data are urgent, and they must be completed in a short time --- not
@@ -186,7 +185,7 @@ In their approach, they define five roles.  The roles are:
 \paragraph{Project sponsor}  It is the main stakeholder of the project, the one that needs the
 results of the project.  He represents the business interests and champions the project.
 The project is considered successful if the sponsor is satisfied.  Note that, ideally, the
-sponsor can not be the data scientist, but someone that is not involved in the development
+sponsor cannot be the data scientist, but someone who is not involved in the development
 of the project.  However, he needs to be able to express \emph{quantitatively} the business
 goals and participate actively in the project.
 
@@ -200,15 +199,15 @@ effectively connecting all the roles.  In small projects, he can also act as the
 of the software.  However, in large projects, he is usually the project manager.
 Although it is not required to be a domain expert, the data scientist must be able to
 understand the domain of the problem.  He must be able to understand the business goals and
-the client's requirements.  Most importantly, he must be able to define and to solve the
+the client's requirements.  Most importantly, he must be able to define and solve the
 right tasks.
 
 \paragraph{Data architect}  The data architect is the one that manages data and data storage.
-He usually is involved in more than one project, so it is not an active participant.  He
-that receives instructions to adapt the data storage and means to collect data.
+He usually is involved in more than one project, so he is not an active participant.  He
+is the one who receives instructions to adapt the data storage and means to collect data.
 
 \paragraph{Operations}  The operations role is the one that manages infrastructure and
-deploys final project results.  He is responsible to define requirements such as response
+deploys final project results.  He is responsible for defining requirements such as response
 time, programming language, and the infrastructure to run the software.
 
 \subsection{Processes of the ZM approach}
@@ -220,14 +219,14 @@ The phases and the answers we are looking for in each phase are:
   \itemsep0em
   \item Define the goal: what problem are we trying to solve?
   \item Collect and manage data: what information do we need?
-  \item Build the model: what patterns in the data that may solve the problem?
+  \item Build the model: what patterns in the data may solve the problem?
   \item Evaluate the model: is the model good enough to solve the problem?
   \item Present results and document: how did we solve the problem?
   \item Deploy the model: how to use the solution?
 \end{itemize}
 
-The step ``Present results and document'' is a differentiator from the other approaches, like
-CRISP-DM.  In ZM approach, result presentation is essential; data scientists must be able
+The step ``Present results and document'' is a differentiator from other approaches, like
+CRISP-DM.  In the ZM approach, result presentation is essential; data scientists must be able
 to communicate their results effectively to the client/sponsor.  This phase is also
 emphasized in the view of \textcite{Wickham2023}.
 
@@ -260,15 +259,15 @@ emphasized in the view of \textcite{Wickham2023}.
 
   \tcblower
   Each block represents a phase of the data science process.  The emphasis is on the
-  cyclic nature of the process.  Arrows represent the transitions between the phases, that
+  cyclic nature of the process.  Arrows represent the transitions between the phases, which
   can be back-and-forth.
 \end{figurebox}
 
 \subsection{Limitations of the ZM approach}
 
-ZM approach is particularly interesting in consulting projects, where the data scientist
-is not part of the organization.  Note that tasks beyond deployment, like maintenance and
-monitoring, are not directly addressed by the methodology but delegated to the operations
+The ZM approach is particularly interesting in consulting projects, where the data scientist
+is not part of the organization.  Note that tasks beyond deployment, such as maintenance and
+monitoring, are not directly addressed by the methodology but are delegated to the operations
 role.  Like CRISP-DM, the ZM approach does not address the software development aspects of
 the project.
 
@@ -278,7 +277,7 @@ Agile is a methodology for software development.  It is an alternative to the wa
 methodology.  The waterfall methodology is a sequential design where each phase
 must be completed before the next phase can begin.
 
-The methodology is based on the four values of agile manifesto\footnote{\url{https://agilemanifesto.org/}}:
+The methodology is based on the four values of the Agile Manifesto\footnote{\url{https://agilemanifesto.org/}}:
 \begin{itemize}
   \itemsep0em
   \item Individuals and interactions over processes and tools;
@@ -287,7 +286,7 @@ The methodology is based on the four values of agile manifesto\footnote{\url{htt
   \item Responding to change over following a plan.
 \end{itemize}
 
-Note that the manifesto does not discard the items on the right, but values the items on
+Note that the manifesto does not discard the items on the right, but rather values the items on
 the left more.  For example, comprehensive documentation is important, but working software
 is more important.
 
@@ -433,7 +432,7 @@ over time.
 
 Some consider that Scrum is not adequate for data science projects.  The main reason is
 that Scrum is designed for projects where the requirements are known in advance.  Also,
-that data science projects have exploratory phases, which are not well supported by Scrum.
+data science projects have exploratory phases, which are not well supported by Scrum.
 
 I argue that this view is wrong.  Scrum is a framework, and it is designed to be adapted to
 the needs of the project;  Scrum is not a rigid process.  In the following, I propose an
@@ -442,23 +441,23 @@ many other adaptations to Scrum have been described in literature.  For example,
 \fullcite{Saltz2019,Baijens2020,Kraut2022}.}.
 
 One of my major concerns in the proposal of the extension is that data science projects
-usually involve ``data scientists'' that are not primarily developers, but statisticians or
-domain-experts.  They usually do not ``hacking-level'' skills, and they often do not know
+usually involve ``data scientists'' who are not primarily developers, but statisticians or
+domain experts.  They usually do not possess ``hacking-level'' skills, and they often do not know
 good practices of software development.
 
 Scrum is a good starting point for a compromise between the need for autonomy (required in
 dynamic and exploratory projects) and the need for a detailed plan to guide the project
-(required to avoid bad practices and low quality software). A good project methodology is
-needed to ensure that the project is completed in time and within budget.
+(required to avoid bad practices and low-quality software). A good project methodology is
+needed to ensure that the project is completed on time and within budget.
 
 \section{Our approach}
 \label{sec:our-approach}
 
-The previously mentioned methodologies lack the focus on the software development aspects of
+The previously mentioned methodologies lack focus on the software development aspects of
 the data science project.  For instance, CRISP-DM defines the stages only of the data
-mining process, i.e. it does not explicitly address user interface or data collection.
+mining process, i.e., it does not explicitly address user interface or data collection.
 \citeauthor{Zumel2019}'s approach addresses data collection and presentation of results, but
-delegates the software development to the operations role, barely mentioning it.  Scrum is
+delegates software development to the operations role, barely mentioning it.  Scrum is
 a good framework for software development, but it is not designed for data science
 projects.  For instance, it lacks the exploratory phases of data science projects.
 
@@ -466,7 +465,7 @@ For the sake of this book, we focus on the inductive approach to data science pr
 Inductive reasoning is the process of making generalizations based on individual
 observations.  In our case, it means that we develop components (generalization) of the
 software based on the data (individual observations).  Such a component is the
-\gls{model}. For deeper discussion on the inductive approach, refer to
+\gls{model}. For a deeper discussion on the inductive approach, refer to
 \cref{sub:knowledge,chap:slt}.
 
 Thus, we propose an extension to Scrum that makes it suitable for data science projects.
@@ -475,15 +474,15 @@ The extension is based on the following observations:
   \itemsep0em
   \item Data science projects have exploratory phases;
   \item Data itself is a component of the solution;
-  \item The solution is usually modularized, parts of it are constructed from data while the
-    other parts are constructed like traditional software;
-  \item The solution is usually deployed as a service, that must be maintained and
+  \item The solution is usually modularized, with parts constructed from data and other parts
+    constructed like traditional software;
+  \item The solution is usually deployed as a service that must be maintained and
     monitored;
   \item Team members not familiar with software development practices must be guided to
     produce high-quality software.
 \end{itemize}
 
-Moreover, we add two other values besides the agile manifesto values.  They are:
+Moreover, we add two other values besides the Agile Manifesto values.  They are:
 \begin{itemize}
   \itemsep0em
   \item Confidence and understanding of the model over performance;
@@ -491,19 +490,19 @@ Moreover, we add two other values besides the agile manifesto values.  They are:
 \end{itemize}
 
 The first value is based on the observation that the model performance is not the most
-important aspect of the model.  The most important aspect is the being sure that the model
+important aspect of the model.  The most important aspect is being sure that the model
 behaves as expected (and sometimes why it behaves as expected).  It is not uncommon to find
-models that seems to perform well during evaluation steps\footnote{Of course, when
+models that seem to perform well during evaluation steps\footnote{Of course, when
 evaluation is not performed correctly.}, but that are not suitable for production.
 
 The second value is based on the observation that interactive environments are not suitable
 for the development of consistent and reproducible software solutions.  Interactive environments
 help in the exploratory phases, but the final version of the code must be version
 controlled.  Often, we hear stories that models cannot be reproduced because the code that
-generated them are not runnable anymore.  This is a serious problem, and it is not
+generated them is not runnable anymore.  This is a serious problem, and it is not
 acceptable for maintaining a software solution.
 
-As in the agile manifesto, the values on the right are not discarded, but the values on the
+As in the Agile manifesto, the values on the right are not discarded, but the values on the
 left are more important.  We do not discard the importance of model performance or the
 convenience of interactive environments, but they are not the most important aspects of the
 project.
@@ -548,24 +547,24 @@ scientist, the Scrum master, and the data science team.  An association between 
 our proposal, Scrum, and the ZM approach is shown in \cref{tab:roles}.
 
 \paragraph{Business spokesman}  It is the main stakeholder of the project.
-He is the one that needs the results of the project and that understands the domain of the
-problem.  Like the ``client'' in ZM approach, he must be able to translate the business
+He is the one who needs the results of the project and understands the domain of the
+problem.  Like the ``client'' in the ZM approach, he must be able to translate the business
 goals into technical requirements.  In a sense, the business spokesman evaluates the main
-functionalities and usability of the software.  Like the ``sponsor'' in ZM approach, he
+functionalities and usability of the software.  Like the ``sponsor'' in the ZM approach, he
 must be able to express quantitatively the business goals.  If possible, his participation
 in sprint reviews provides valuable feedback and direction to the project.
 
 \paragraph{Lead data scientist}  The lead data scientist, like the product owner, is the
-one that represents the interests of the stakeholder.  She must be able to understand the
+one who represents the interests of the stakeholder.  She must be able to understand the
 application domain and the business goals.  We decide to call her ``lead data scientist''
-to make it clear that she also has the data science expertise.  The reason is that the
-mathematical and statistical expertise is essential to understand the data and the models.
+to make it clear that she also has data science expertise.  The reason is that mathematical
+and statistical expertise is essential to understand the data and the models.
 Correctly interpreting the results and communicating them to the business spokesman are
 essential tasks of the lead data scientist.  All other responsibilities of the traditional
 product owner are also delegated to her.
 
 \paragraph{Scrum master} No extra responsibilities are added to the Scrum master role,
-however some data science expertise may be helpful.  For example, the Scrum master must
+however, some data science expertise may be helpful.  For example, the Scrum master must
 ensure that the data science team is following not only good practices of software
 development but also data science.
 
@@ -587,7 +586,7 @@ data handling operations that make the necessary adjustments to the data before 
 fed to the model.  For more details, consult \cref{chap:preprocess}.} and the model.
 The dataset is the curated data that is used to train the
 model.  Sometimes, the dataset is not static, but actually scripts and queries that
-produces a dynamic dataset.  The solution search system is the software that employs data
+produce a dynamic dataset.  The solution search system is the software that employs data
 preprocessing and machine learning techniques, usually in a
 hyper-parameter\footnote{Hyper-parameters are parameters that are not fitted or learned
 from the data, but rather set by the user.} optimization loop,
@@ -605,8 +604,8 @@ Notebooks or R Markdown, are not suitable for this purpose.  They can be used to
 the final version must be version controlled.
 
 Note that the preprocessors and the models themselves\footnote{The learned
-solution that is the result of the application a learning algorithm to the dataset.} are
-artefacts that result from a particular version of the dataset and the solution search
+solution that is the result of the application of a learning algorithm to the dataset.} are
+artifacts that result from a particular version of the dataset and the solution search
 code.  The same occurs with reports generated from exploratory analysis and validation
 steps.  They must be cached for important versions of the dataset and the solution search
 code.
@@ -630,7 +629,7 @@ easily runnable.  This means that the code must be well documented, and that the
 required infrastructure must be well documented.  Also aggregate commands using a
 Makefile\footnote{\url{https://www.gnu.org/software/make/manual/make.html}} or a similar tool.
 
-Pay attention on the dependences between dataset and the
+Pay attention to the dependencies between the dataset and
 model training.  If the dataset changes significantly, not only the deployed preprocessor
 and model must be retrained, but the whole model search algorithm may need to be rethought.
 
@@ -644,11 +643,11 @@ During sprints, the deliverables of phases like exploratory analysis and solutio
 not only the source code, but also the reports generated.  That is probably the reason why
 interactive environments are so popular in data science projects.  However, the data
 scientist must guarantee that the reports are version controlled and reproducible.  The
-reports must be generated in a way that is understandable by the business spokesman.
+reports must be generated in a way that is understandable by the business spokesperson.
 
 \subsubsection{Setup quantitative goals}
 
-Do not fall on the trap of forever improving the model. Instead, setup quantitative goals
+Do not fall into the trap of forever improving the model. Instead, set up quantitative goals
 for the model performance or behavior in general.  For example, the model must have a
 precision of at least 90\% and recall of at least 80\%.  Once you reach the goal,
 prioritize other tasks.
@@ -659,13 +658,13 @@ During model validation, if needed, use custom metrics based on the project goal
 Usually, more than one metric is needed, and they might be conflicting.  Use strategies to
 balance the metrics, such as Pareto optimization.
 
-Beware of the metrics that are most used in the literature.  It is important to know their
-meanings, properties and limitations.  For example, the accuracy metric is not suitable
+Beware of the metrics that are most commonly used in the literature.  It is important to know
+their meanings, properties, and limitations.  For example, the accuracy metric is not suitable
 for imbalanced datasets.  They might not be suitable for your project.
 
 Notice that during model training, some methods are limited to the loss functions that
 they can optimize.  However, if possible, choose a method that can optimize the loss
-function that you want.  Otherwise, even if you are not explicitly optimizing the wanted
+function that you want.  Otherwise, even if you are not explicitly optimizing the desired
 metric in the solution search metric, you might find a model that performs well on that
 metric.  This is why a good experimental design is important; so you can identify which
 strategies are more likely to find a good solution (preprocessor and model).
@@ -673,13 +672,13 @@ strategies are more likely to find a good solution (preprocessor and model).
 \subsubsection{Report model stability and performance variance}
 
 Understanding the limitations and properties of the generated model is more important
-than the model performance.  For example, if the model's expected performance is high, but
+than the model's performance.  For example, if the model's expected performance is high, but
 the validation results showed instability, it is not suitable for production.  Also, in
 some scenarios, interpretability is more important than performance.
 
 It does not mean that performance is not important.  But we only consider optimizing the
 expected performance once we trust the solution search method.  If increasing the average
-performance of the models generated by the solution search method results other goals not
+performance of the models generated by the solution search method results in other goals not
 being met, it is not worth it.
 
 \subsubsection{In user interface, mask data-science-specific terminology}
@@ -690,17 +689,17 @@ different classifiers depending on a threshold.  In this scenario, the user must
 to choose the threshold in terms of expected performance of (usually conflicting) metrics
 of interest.
 
-In order to avoid confusion, the user interface must mask the data-science-specific
+In order to avoid confusion, the user interface must mask data-science-specific
 terminology, preferring domain-specific terms that are more understandable by the client.
-This helps non experts to use the software consciously.
+This helps non-experts to use the software consciously.
 
 \subsubsection{Monitor model performance in production}
 
 Good data science products do not finish with the deployment of the model.  There should
-exist means to monitor the model behavior in production.  If possible, setup feedback from
+exist means to monitor the model behavior in production.  If possible, set up feedback from
 the user interface.  A history of usage is usually kept in a database.
 
-In most of the cases, the model loses performance over time, usually caused by changes in
+In most cases, the model loses performance over time, usually caused by changes in
 the data distribution.  This is called concept drift.
 If that happens with considerable effect on the model performance, the model must be
 retrained.  The retraining can be automated, but it must be monitored by robust validation
@@ -709,44 +708,44 @@ beginning.
 
 \subsubsection{Use the appropriate infrastructure}
 
-Many data science projects require a lot of computational resources during development.
+Many data science projects require a significant amount of computational resources during development.
 The solution search method is usually computationally intensive.  The dataset can be
 large, and the model can be complex.  The infrastructure must be able to handle the
 computational requirements of the project.
 
-Unless the application is known to be very hard, projects should start with simple methods
+Unless the application is known to be very challenging, projects should start with simple methods
 and small datasets.  Then, as the project evolves, the complexity of the methods and the
 size of the dataset can be increased.  Nowadays, cloud services are a good option for
 scalability.
 
-Finally, during the development, the requirements of the deployment infrastructure must be
+Finally, during development, the requirements of the deployment infrastructure must be
 considered.  The deployment infrastructure must be able to handle the expected usage
 of the system.  For instance, in the back-end, one may need to consider the response time
 of the system, the programming language, and the infrastructure to run the software.
-The choice in the communication between the front-end and the back-end is also important.
-For instance, one may choose between a REST API or a WebSocket.  REST API is more suitable
-for stateless requests, while WebSocket is more suitable for stateful requests.  For
-example, if the user interface must be updated in real-time, WebSocket is more suitable.
-If the user interface is used to submit batch requests, REST API is more suitable.
+The choice of communication between the front-end and the back-end is also important.
+For instance, one may choose between a REST API or a WebSocket.  A REST API is more suitable
+for stateless requests, while a WebSocket is more suitable for stateful requests.  For
+example, if the user interface must be updated in real-time, a WebSocket is more suitable.
+If the user interface is used to submit batch requests, a REST API is more suitable.
 
 \subsection{Proposed workflow}
 \label{sub:workflow}
 
 The proposed workflow is based on the principles described above.  Our approach adapts
 the Scrum framework by establishing three kinds of sprints: data sprints, solution sprints, and
-application sprints.  We also describe where exploratory and reporting phases fit in the
+application sprints.  We also describe where exploratory and reporting phases fit into the
 workflow.
 
 \subsubsection{Product backlog}
 
 In the data science methodologies described in this chapter, the problem definition is the first step
-in a data science project.  In our methodology, this task is dealt with the product
+in a data science project.  In our methodology, this task is dealt with in the product
 backlog.  The product backlog is a list of all desired work on the project. The product
 backlog is dynamic, and it is continuously updated by the
 lead data scientist.
 
 Each item in the product backlog reflects a requirement or a feature the business
-spokesman wants to be implemented.  Like in the traditional Scrum, the items are ordered
+spokesperson wants to be implemented.  Like in traditional Scrum, the items are ordered
 by priority.  Here, however, they are classified into three types: data tasks, solution
 search tasks, and application tasks.
 
@@ -761,7 +760,7 @@ solution search tasks, and so on.
 \paragraph{Data sprint}
 The \emph{data sprint} is focused on the database-related tasks: collection, integration, tidying, and
 exploration.  \Cref{chap:data} covers the subjects of collection, integration (database
-normalization and joins) and tidying.  Part of data exploration is semantically describe
+normalization and joins) and tidying.  Part of data exploration is to semantically describe
 the variables, especially in terms of data types and their properties; which is also
 discussed in that chapter.  All these tasks aim to prepare a dataset that represents
 the data that the solution will see in production.
@@ -769,7 +768,7 @@ the data that the solution will see in production.
 Exploration also refers to \emph{exploratory
 data analysis}, which is not covered in this book. % TODO yet (could be the next chapter)
 For a good introduction to exploratory data analysis, which includes both understanding
-and identifying issues in the data though descriptive statistics and visualization, consult chapter 3 of
+and identifying issues in the data through descriptive statistics and visualization, consult chapter 3 of
 \textcite{Zumel2019}\footfullcite{Zumel2019}.
 
 The products (deliverables) of the data sprint are the exploratory analysis report and the
@@ -801,7 +800,7 @@ learning, and validation.  \Cref{chap:preprocess} covers the subjects of data
 preprocessing ---
 adjustments to the data to be used by specific machine learning models ---, \cref{chap:slt}
 covers the subjects of learning machines --- methods that can estimate an unknown function
-based on input and output examples  ---, and \cref{chap:planning} cover
+based on input and output examples  ---, and \cref{chap:planning} covers
 the subjects of validation --- through evaluation we estimate the expected performance for unseen
 data, i.e. the probability distribution of the performance in production.
 
@@ -879,7 +878,7 @@ Sprints are sequential.  Ordinarily, a data sprint is followed by a solution spr
 solution sprint is followed by an application sprint.  However, it is possible to have
 multiple sprints of the same type in sequence.  Moreover, like the back-and-forth property of the CRISP-DM
 and ZM approach, it is possible to go back to a previous sprint type, especially
-when new requirement or problems are identified.
+when new requirements or problems are identified.
 
 % A figure that shows sprints sequentially
 \begin{figurebox}[label=fig:sprints]{Example of sprints of a data science project.}
@@ -919,8 +918,8 @@ when new requirement or problems are identified.
 The figure shows that the sprints are sequential and their types can appear in
 any order.
 
-We do not advise to have mixed sprints.  For instance, a sprint that contains both data
-and solution tasks.  This may lead to a split focus, which may result the team acting
+We do not advise having mixed sprints.  For instance, a sprint that contains both data
+and solution tasks.  This may lead to a split focus, which may result in the team acting
 as multiple teams.  We argue that, independently of the skill set of the team members,
 all members must be aware of all parts of the project.  This is important to guarantee
 that the solution is coherent and that the team members can help each other.
@@ -928,10 +927,10 @@ that the solution is coherent and that the team members can help each other.
 \subsubsection{Sprint reviews}
 
 A proper \gls{cicd} pipeline guarantees that by the end of the sprint,
-exploratory analysis, performance reports and the working software are ready for review.
+exploratory analysis, performance reports, and the working software are ready for review.
 The sprint review is a meeting where the team presents the results of the sprint to the
 business spokesman.  The business spokesman must approve the results of the sprint.
-(The lead data scientist approve the results in the absence of the business spokesman.)
+(The lead data scientist approves the results in the absence of the business spokesman.)
 It is important that the reports use the terminology of the client, and that the
 software is easy to use for the domain expert.
 
@@ -940,7 +939,7 @@ software is easy to use for the domain expert.
 \subsubsection{Relationship with other methodologies}
 
 Our approach covers all the phases of the CRISP-DM and the ZM approach.  Moreover, it
-includes aspects of the software development that are not covered by the other
+includes aspects of software development that are not covered by the other
 methodologies. \Cref{tab:phases} relates the phases of the CRISP-DM and the ZM approach
 with the sprint types and other artifacts and ceremonies of our approach.
 
@@ -973,8 +972,8 @@ parametrized by the data values themselves are performed in the data sprint.  On
 operations that use statistics/information of a sampling of the data are performed
 together with modeling --- consult \cref{chap:handling}.
 
-This approach not only improves reliability of the solution validation, but also improves
-maintenance of the solution.  (Not surprisingly, frameworks like \textit{scikit-learn} and
+This approach not only improves the reliability of the solution validation, but also improves
+the maintenance of the solution.  (Not surprisingly, frameworks like \textit{scikit-learn} and
 tidymodels have an object that allows the user to combine data preprocessing and
 model training.)
 
