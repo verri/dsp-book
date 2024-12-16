@@ -12,9 +12,7 @@ The book is a work in progress, and the current version is v0.1.0.
 ```bibtex
 @misc{verri2024datascienceproject,
   author       = {Verri, Filipe Alves Neto},
-  title        = {Data Science Project},
-  subtitle     = {An Inductive Learning Approach},
-  month        = dec,
+  title        = {Data Science Project: An Inductive Learning Approach},
   year         = 2024,
   publisher    = {Leanpub},
   version      = {v0.1.0},
