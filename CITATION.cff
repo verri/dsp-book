@@ -1,6 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this book, please cite it as below."
-preferred-citation: generic
+preferred-citation: 
+  type: generic
 authors:
 - family-names: "Verri"
   given-names: "Filipe Alves Neto"
