@@ -162,11 +162,13 @@ disjoint:
   $$\rowcard[r; c_1] > 0 \Rightarrow \rowcard[r; c_0] = 0$$ for any $r$.
 \end{defbox}
 
-The binding operation is the inverse of the split operation.  Given two disjoint tables
-$T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, the binding operation creates a new table $T$
-that contains all the rows of $T_0$ and $T_1$.
+The binding operation is the inverse of the split operation.
 
 \begin{defbox}{Bind operation}{bind}
+  Given two disjoint tables
+  $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$, the binding operation creates a new table $T$
+  that contains all the rows of $T_0$ and $T_1$.
+
   Mathematically, the binding operation is defined as \[
     \operatorname{bind}(T_0, T_1) = (K, H, c)\text{,}
   \] where $T_i = (K, H, c_i)$ and \[ c(r, h) = c_0(r, h) + c_1(r, h)\text{.} \]
