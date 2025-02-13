@@ -1,7 +1,10 @@
-\documentclass[twoside,a5paper,10pt,openright]{memoir}
-% \setstocksize{230mm}{160mm}
-\setlrmarginsandblock{23mm}{20mm}{*}
-\setulmarginsandblock{20mm}{20mm}{*}
+\documentclass[twoside,10pt,openright]{memoir}
+
+\setstocksize{215mm}{145mm}
+\settrimmedsize{210mm}{140mm}{*}
+\settrims{2.5mm}{2.5mm}
+\setlrmarginsandblock{20mm}{15mm}{*}
+\setulmarginsandblock{20mm}{15mm}{*}
 \checkandfixthelayout
 
 \usepackage[T1]{fontenc}
@@ -177,14 +180,15 @@
 
 \newtcolorbox{mainbox}[1]{
   float=ht,
-  spread outwards=-2mm,
-  spread inwards=-2mm,
+  spread outwards,
+  spread inwards=5mm,
   %spread downwards,
   colframe=black!20!white,
   fonttitle=\bfseries,
   base={#1},
   left=16mm,
-  right=19mm,
+  right=21mm,
+  leftrule=0mm,
 }
 
 \newtcolorbox{hlbox}[1]{
@@ -225,21 +229,6 @@
   linkcolor=black,
   citecolor=black,}
 
-\begin{titlingpage}
-  \begin{tikzpicture}[remember picture, overlay]
-    \fill[black!80] (current page.south west) rectangle (current page.north east);
-    \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
-      \reflectbox{\includegraphics[width=\paperwidth]{images/bard2.jpg}}%
-    };
-    \node[white,anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
-    \node[white,anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
-    \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
-  \end{tikzpicture}
-\end{titlingpage}
-
-\newpage
-\clearpage
-\newpage
 \frontmatter
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture, overlay]
@@ -277,9 +266,10 @@
 \vfill
 
 {
-  \footnotesize\noindent\color{red}
-  \textbf{Disclaimer:} This version is a work in progress.  Proofreading and professional editing are
-  still pending.
+  \footnotesize\noindent
+  \textbf{Disclaimer:} This book is a work in progress.  The print version may not be up
+  to date with the latest changes.  The latest version is always available at
+  \url{https://leanpub.com/dsp}.
 }
 
 \vspace{0.5cm}
