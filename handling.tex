@@ -158,7 +158,8 @@ disjoint:
 
 \begin{defbox}{Disjoint tables}{disjoint-tables}
   Two tables $T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$ are said to be disjoint if
-  $\rowcard[r; c_0] = 0$ whenever $\rowcard[r; c_1] > 0$ for any row $r$, and vice-versa.
+  $$\rowcard[r; c_0] > 0 \Rightarrow \rowcard[r; c_1] = 0\text{ and}$$
+  $$\rowcard[r; c_1] > 0 \Rightarrow \rowcard[r; c_0] = 0$$ for any $r$.
 \end{defbox}
 
 The binding operation is the inverse of the split operation.  Given two disjoint tables
