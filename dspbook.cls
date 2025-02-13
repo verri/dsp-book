@@ -5,17 +5,29 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{dspbook}[2025/01/01 Data Science Project Book Class]
 
-% Pass all options to memoir class
+% Declare print option
+\newif\ifdspbook@print
+\DeclareOption{print}{\dspbook@printtrue}
+
+% Pass all other options to memoir class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
 \ProcessOptions\relax
 
-% Load base class with default options
-\LoadClass[twoside,a5paper,10pt,openright]{memoir}
-
-%% Page layout
-\setlrmarginsandblock{23mm}{20mm}{*}
-\setulmarginsandblock{20mm}{20mm}{*}
-\checkandfixthelayout
+% If print option is present, set paper size and font size
+\ifdspbook@print
+  \LoadClass[twoside,10pt,openright]{memoir}
+  \setstocksize{215mm}{145mm}
+  \settrimmedsize{210mm}{140mm}{*}
+  \settrims{2.5mm}{2.5mm}
+  \setlrmarginsandblock{20mm}{15mm}{*}
+  \setulmarginsandblock{20mm}{15mm}{*}
+  \checkandfixthelayout
+\else
+  \LoadClass[twoside,a5paper,10pt,openright]{memoir}
+  \setlrmarginsandblock{23mm}{20mm}{*}
+  \setulmarginsandblock{20mm}{20mm}{*}
+  \checkandfixthelayout
+\fi
 
 %% Font and encoding setup
 \RequirePackage[T1]{fontenc}
