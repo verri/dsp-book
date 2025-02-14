@@ -1,4 +1,4 @@
-\documentclass[print]{dspbook}
+\documentclass[print,gray]{dspbook}
 
 \addbibresource{references.bib}
 \input{glossary}
@@ -10,10 +10,6 @@
 
 \setupfonts
 \setuphyperref
-
-\makebooktitle
-
-\cleardoublepage
 
 \frontmatter
 
@@ -29,6 +25,22 @@
   \node[anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
   \node[anchor=north, inner sep=5mm](subtitle) at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
   \node[anchor=north, inner sep=5mm] at (subtitle.south) {\Large\sffamily\uppercase{Filipe A. N. Verri}};
+\end{tikzpicture}
+
+\newpage
+\thispagestyle{empty}
+\phantom{foo}
+\clearpage
+
+\newpage
+
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \node[anchor=center] (logo) at (current page.center) {%
+    \includegraphics[height=0.3\paperheight]{images/zippi_bw.pdf}%
+  };
+  \node[anchor=south] (title) at (logo.north) {\large\sffamily This physical copy is offered to you by};
+  \node[anchor=north] (subtitle) at (logo.south) {\large\sffamily\href{https://zippi.com.br/}{zippi.com.br}};
 \end{tikzpicture}
 
 \newpage
