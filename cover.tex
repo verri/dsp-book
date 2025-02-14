@@ -27,7 +27,7 @@
   % a rectangle with width (2 * 14 + 0.5 + 1.4 + 1.33) cm and height (21 + 0.5) cm
   \fill[white] (0,0) rectangle (31.23, 21.5);
 
-  \node[anchor=south east, inner sep=0mm] (image) at (31.23, 0) {%
+  \node[anchor=south east, inner sep=0mm, line width=0mm] (image) at (31.23, 0) {%
     \reflectbox{\includegraphics[width=31.23cm]{images/cover.jpg}}%
   };
   \fill[black!80] (image.north east) rectangle (0, 21.5);
