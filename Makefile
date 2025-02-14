@@ -4,6 +4,7 @@ watch:
 	latexmk -pdfxe -synctex=1 -pvc main.tex -output-directory=build
 
 ready:
+	latexmk -pdfxe cover.tex -output-directory=build
 	latexmk -pdfxe main.tex -output-directory=build
 	pdfjam --keepinfo --paper a5paper --outfile build/main-fixed.pdf build/main.pdf "2-"
 	a5toa4 build/main-fixed.pdf
@@ -11,6 +12,7 @@ ready:
 log:
 	texloganalyser -wourt build/main.log
 
+<<<<<<< HEAD
 # Slides targets
 slides-ch1:
 	mkdir -p build/slides
@@ -27,4 +29,7 @@ slides-watch: slides-ch1-watch
 slides-clean:
 	rm -rf build/slides
 
-.PHONY: watch ready log slides-ch1 slides-ch1-watch slides slides-watch slides-clean
+cover:
+	latexmk -pdfxe -synctex=1 -pvc cover.tex -output-directory=build
+
+.PHONY: watch ready log cover slides-ch1 slides-ch1-watch slides slides-watch slides-clean
