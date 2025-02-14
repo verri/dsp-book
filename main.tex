@@ -1,9 +1,9 @@
-\documentclass[twoside,10pt,openright,gray]{memoir}
+\documentclass[twoside,10pt,openright,showtrims]{memoir}
 
 \setstocksize{215mm}{145mm}
 \settrimmedsize{210mm}{140mm}{*}
 \settrims{2.5mm}{2.5mm}
-\setlrmarginsandblock{20mm}{15mm}{*}
+\setlrmarginsandblock{18mm}{13mm}{*}
 \setulmarginsandblock{20mm}{15mm}{*}
 \checkandfixthelayout
 
@@ -27,7 +27,7 @@
 \usepackage{booktabs}
 \usepackage{csquotes}
 \usepackage{multirow}
-\usepackage[table, monochrome]{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{titletoc}
 \usepackage[noend,noline,linesnumbered]{algorithm2e}
 \usepackage[automake]{glossaries-extra}
@@ -231,13 +231,13 @@
 \frontmatter
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=south east, inner sep=8mm] at (current page.south east) {%
+  \node[anchor=south east, inner sep=10mm, yshift=2cm] at (current page.south east) {%
     \reflectbox{\includegraphics[height=0.3\paperheight]{images/toucan_bw.png}}%
   };
-  \node[anchor=south west, inner sep=10mm] at (current page.south west)
+  \node[anchor=south west, inner sep=20mm] at (current page.south west)
     {\large\sffamily Version 0.1 ``\textit{Audacious Hatchling}''};
     % {\large\sffamily Version 1.0 ``\textit{Tropical Toucan}''};
-  \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\today};
+  \node[anchor=south east, inner sep=20mm] at (current page.south east) {\large\sffamily\today};
   \node[anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
   \node[anchor=north, inner sep=5mm](subtitle) at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
   \node[anchor=north, inner sep=5mm] at (subtitle.south) {\Large\sffamily\uppercase{Filipe A. N. Verri}};
@@ -252,14 +252,16 @@
 
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=center] (logo) at (current page.center) {%
-    \includegraphics[height=0.3\paperheight]{images/zippi_bw.pdf}%
+  \node[anchor=center] (subtitle) at (current page.center) {\large\sffamily\href{https://zippi.com.br/}{zippi.com.br}};
+  \node[anchor=south] (logo) at (subtitle.north) {%
+    \includegraphics[width=0.5\paperwidth]{images/zippi_bw.pdf}%
   };
   \node[anchor=south] (title) at (logo.north) {\large\sffamily This physical copy is offered to you by};
-  \node[anchor=north] (subtitle) at (logo.south) {\large\sffamily\href{https://zippi.com.br/}{zippi.com.br}};
+  \node[anchor=north] (qr) at (subtitle.south) {\qrcode[height=3cm]{https://zippi.com.br/}};
 \end{tikzpicture}
 
 \newpage
+\emergencystretch=1em % XXX: lazy fix for overfull hbox
 
 {
   \footnotesize\noindent Cite this book as:
@@ -361,7 +363,6 @@ visit
 \input{machines}
 
 \backmatter
-\emergencystretch=1em
 \printbibliography
 \printglossary
 
