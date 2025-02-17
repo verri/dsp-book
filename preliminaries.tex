@@ -75,7 +75,9 @@ solved recursively.  The solutions to the subproblems are then combined to give 
 to the original problem.  Some example algorithms are merge sort, quick sort, and binary
 search.
 
-\begin{algobox}[label=alg:bsearch]{Binary search algorithm.}
+\begin{algorithm}
+  \caption{Binary search algorithm.  An iterative algorithm that searches for a key in a sorted array.}
+  \label{alg:bsearch}
   \KwData{A sorted array $\vec{a} = \left[a_1, a_2, \dots, a_n\right]$ and a key $x$}
   \KwResult{True if $x$ is in $\vec{a}$, false otherwise}
   $l \gets 1$\;
@@ -92,9 +94,7 @@ search.
     }
   }
   \Return{\emph{false}}
-  \tcblower
-  An iterative algorithm that searches for a key in a sorted array.
-\end{algobox}
+\end{algorithm}
 
 Consider as an example the \cref{alg:bsearch} that solves the binary search problem.  Given an
 $n$-element sorted array $\vec{a} = \left[a_1, a_2, \dots, a_n\right]$, $a_1 \leq a_2 \leq
@@ -103,7 +103,14 @@ otherwise.  The algorithm works by dividing the array in half at each step and c
 the key with the middle element.  Each time the key is not found, the search space is
 reduced by half.
 
-\begin{algobox}[label=alg:bsearch2]{Recursive binary search algorithm.}
+\begin{algorithm}
+  \caption{
+    Recursive binary search algorithm.
+    A recursive algorithm that searches for a key in a sorted array.  Note that trivial
+    conditions --- $n = 0$ and key found --- are handled first, so the recursion stops
+    when the problem is small enough.
+  }
+  \label{alg:bsearch2}
   \SetKwProg{Fn}{function}{ is}{end}
   \Fn{$\operatorname{bsearch}(\left[a_1, a_2, \dots, a_n\right], x)$}{
     \If{$n = 0$}{
@@ -119,11 +126,7 @@ reduced by half.
       \Return{$\operatorname{bsearch}(\left[a_{m+1}, \dots, a_{n}\right], x)$}
     }
   }
-  \tcblower
-  A recursive algorithm that searches for a key in a sorted array.  Note that trivial
-  conditions --- $n = 0$ and key found --- are handled first, so the recursion stops
-  when the problem is small enough.
-\end{algobox}
+\end{algorithm}
 
 Divide and conquer algorithms can be implemented using recursion.  \emph{Recursion}
 is also an algorithmic paradigm where a function calls itself to solve smaller instances of the
@@ -172,7 +175,13 @@ where $v_i$ is the value of item $i$, $w_i$ is the weight of item $i$, $x_i$ is 
 variable that indicates if item $i$ is in the knapsack, and $W$ is the capacity of the
 knapsack.
 
-\begin{algobox}[label=alg:knapsack]{Heuristic solution for the knapsack problem.}
+\begin{algorithm}
+  \caption{
+    Heuristic solution for the knapsack problem.
+    A greedy algorithm that solves the knapsack problem suboptimally.  The algorithm iterates over
+    the items in decreasing order of value and puts the item in the knapsack if it fits.
+  }
+  \label{alg:knapsack}
   \KwData{A list of $n$ items, each with a value $v_i$ and a weight $w_i$, and a capacity $W$}
   \KwResult{The binary variable $x_i$ for each item $i$ that maximizes the total value}
   Sort the items in decreasing order of value\;
@@ -186,10 +195,7 @@ knapsack.
     }
   }
   \Return{$x_i,~\forall i$}
-  \tcblower
-  A greedy algorithm that solves the knapsack problem suboptimally.  The algorithm iterates over
-  the items in decreasing order of value and puts the item in the knapsack if it fits.
-\end{algobox}
+\end{algorithm}
 
 An algorithm that finds a suboptimal solution for the knapsack problem is shown in
 \cref{alg:knapsack}.
@@ -234,7 +240,7 @@ $\sqrt{n} \times \sqrt{n}$.  The goal is to fill the grid with numbers from $1$ 
 such that each row, each column, and each subgrid contains all numbers from $1$ to $n$ but
 no repetitions.  The most common grid size is $9 \times 9$.
 
-\begin{figurebox}[label=fig:sudoku]{Backtracking to solve a Sudoku puzzle.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     % a tree like structure with the Sudoku puzzle at the root, and tries to fill each cell
@@ -253,7 +259,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with first cell filled with 1
-    \node (n1) at (-3.6, -3) {$\begin{array} {|c|c|c|c|}
+    \node (n1) at (-4.8, -3) {$\begin{array} {|c|c|c|c|}
       \hline
       \color{gray} 1 &   &   & \color{gray} 1 \\
       \hline
@@ -265,7 +271,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with first cell filled with 2
-    \node (n2) at (-1.2, -3) {$\begin{array} {|c|c|c|c|}
+    \node (n2) at (-2.4, -3) {$\begin{array} {|c|c|c|c|}
       \hline
       \color{gray} 2  &   &   & 1 \\
       \hline
@@ -277,7 +283,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with first cell filled with 3
-    \node (n3) at (1.2, -5) {$\begin{array} {|c|c|c|c|}
+    \node (n3) at (1, -6) {$\begin{array} {|c|c|c|c|}
       \hline
       3  & ? &   & 1 \\
       \hline
@@ -301,7 +307,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with the second cell filled with 1
-    \node (n5) at (-3.6, -8) {$\begin{array} {|c|c|c|c|}
+    \node (n5) at (-3.6, -9) {$\begin{array} {|c|c|c|c|}
       \hline
       3 & \color{gray} 1 &   & \color{gray} 1 \\
       \hline
@@ -313,7 +319,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with the second cell filled with 2
-    \node (n6) at (-1.2, -8) {$\begin{array} {|c|c|c|c|}
+    \node (n6) at (-1.2, -9) {$\begin{array} {|c|c|c|c|}
       \hline
       3 & \color{gray} 2 &   & 1 \\
       \hline
@@ -325,7 +331,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with the second cell filled with 3
-    \node (n7) at (1.2, -8) {$\begin{array} {|c|c|c|c|}
+    \node (n7) at (1.2, -9) {$\begin{array} {|c|c|c|c|}
       \hline
       \color{gray} 3 & \color{gray} 3 &   & 1 \\
       \hline
@@ -337,7 +343,7 @@ no repetitions.  The most common grid size is $9 \times 9$.
       \hline
       \end{array}$};
     % node with the second cell filled with 4
-    \node (n8) at (3.6, -8) {$\begin{array} {|c|c|c|c|}
+    \node (n8) at (3.6, -9) {$\begin{array} {|c|c|c|c|}
       \hline
       3 & \color{gray} 4 &   & 1 \\
       \hline
@@ -371,13 +377,16 @@ no repetitions.  The most common grid size is $9 \times 9$.
 
     \draw[-Stealth] (n4.south) -- (dots);
   \end{tikzpicture}
-  \tcblower
-  A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
-  numbers in each cell and backtracking when a number does not fit.  The solution is found
-  when all cells are filled and the constraints are satisfied.  Arrows indicate the
-  backtracking steps.  The question mark indicates an empty cell that needs to be filled
-  at that step.  Constraints violation are shown in gray.
-\end{figurebox}
+  \caption{
+    Backtracking to solve a Sudoku puzzle.
+    A Sudoku puzzle --- in this case, $4 \times 4$ --- is solved by trying all possible
+    numbers in each cell and backtracking when a number does not fit.  The solution is found
+    when all cells are filled and the constraints are satisfied.  Arrows indicate the
+    backtracking steps.  The question mark indicates an empty cell that needs to be filled
+    at that step.  Constraints violation are shown in gray.
+  }
+  \label{fig:sudoku}
+\end{figure}
 
 An illustration of backtracking to solve a $4 \times 4$ Sudoku puzzle\footnote{%
 Smaller puzzles are more didactic, but the same principles apply to larger puzzles.}
@@ -456,7 +465,7 @@ Not only can each node hold a value, but also each edge can have a weight.  A we
 graph is a graph where there exists a function $w : E \rightarrow \mathbb{R}$ that assigns
 a real number to each edge.
 
-\begin{figurebox}[label=fig:graph]{A graph with four vertices and five edges.}
+\begin{figure}
   \centering
   \begin{tikzpicture}
     % a graph with four vertices and five edges
@@ -470,10 +479,12 @@ a real number to each edge.
     \draw[->] (v4) -- (v1);
     \draw[->] (v1) -- (v3);
   \end{tikzpicture}
-  \tcblower
-  A graph with four vertices and five edges.  Vertices are numbered from $1$ to $4$, and
-  edges are represented by arrows.  The graph is directed, as the edges have a direction.
-\end{figurebox}
+  \caption{
+    A graph with four vertices and five edges.  Vertices are numbered from $1$ to $4$, and
+    edges are represented by arrows.  The graph is directed, as the edges have a direction.
+  }
+  \label{fig:graph}
+\end{figure}
 
 A graphical representation of a directed graph with four vertices and five edges is shown
 in \cref{fig:graph}.  The vertices are numbered from $1$ to $4$, and the edges are
