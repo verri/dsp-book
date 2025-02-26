@@ -1,4 +1,4 @@
-\documentclass[twoside,10pt,openright,showtrims]{memoir}
+\documentclass[twoside,10pt,openright]{memoir}
 
 \setstocksize{215mm}{145mm}
 \settrimmedsize{210mm}{140mm}{*}
@@ -34,6 +34,7 @@
 \usepackage{fontawesome5}
 \usepackage{nicefrac}
 \usepackage{cancel}
+\usepackage{pdfpages}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -248,17 +249,7 @@
 \phantom{foo}
 \clearpage
 
-\newpage
-
-\thispagestyle{empty}
-\begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=center] (subtitle) at (current page.center) {\large\sffamily\href{https://zippi.com.br/}{zippi.com.br}};
-  \node[anchor=south] (logo) at (subtitle.north) {%
-    \includegraphics[width=0.5\paperwidth]{images/zippi_bw.pdf}%
-  };
-  \node[anchor=south] (title) at (logo.north) {\large\sffamily This physical copy is offered to you by};
-  \node[anchor=north] (qr) at (subtitle.south) {\qrcode[height=3cm]{https://zippi.com.br/}};
-\end{tikzpicture}
+\includepdf[pages=-]{images/zippi_page.pdf}
 
 \newpage
 \emergencystretch=1em % XXX: lazy fix for overfull hbox
