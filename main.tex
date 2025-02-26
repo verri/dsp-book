@@ -1,5 +1,7 @@
 \documentclass[print,gray]{dspbook}
 
+\usepackage{pdfpages}
+
 \addbibresource{references.bib}
 \input{glossary}
 
@@ -32,17 +34,7 @@
 \phantom{foo}
 \clearpage
 
-\newpage
-
-\thispagestyle{empty}
-\begin{tikzpicture}[remember picture, overlay]
-  \node[anchor=center] (subtitle) at (current page.center) {\large\sffamily\href{https://zippi.com.br/}{zippi.com.br}};
-  \node[anchor=south] (logo) at (subtitle.north) {%
-    \includegraphics[width=0.5\paperwidth]{images/zippi_bw.pdf}%
-  };
-  \node[anchor=south] (title) at (logo.north) {\large\sffamily This physical copy is offered to you by};
-  \node[anchor=north] (qr) at (subtitle.south) {\qrcode[height=3cm]{https://zippi.com.br/}};
-\end{tikzpicture}
+\includepdf[pages=-]{images/zippi_page.pdf}
 
 \newpage
 \emergencystretch=1em % XXX: lazy fix for overfull hbox
