@@ -25,15 +25,18 @@
 \begin{document}
 \begin{tikzpicture}
   % a rectangle with width (2 * 14 + 0.5 + 1.4 + 1.33) cm and height (21 + 0.5) cm
-  \fill[white] (0,0) rectangle (31.23, 21.5);
+  \fill[white] (0,0) rectangle (31.23, 22.5);
 
   \node[anchor=south east, inner sep=0mm, line width=0mm] (image) at (31.23, 0) {%
     \reflectbox{\includegraphics[width=31.23cm]{images/cover.jpg}}%
   };
-  \fill[black!80] (image.north east) rectangle (0, 21.5);
-  \node[white, anchor=center] (title) at (23.98, 18) {\Huge\sffamily\uppercase{Data Science Project}};
+  \fill[black!80] (image.north east) rectangle (0, 22.5);
+  \node[white, anchor=center] (title) at (23.98, 17.75) {\Huge\sffamily\uppercase{Data Science Project}};
   \node[white,anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
   \node[anchor=south west] at (18, 1) {\Huge\sffamily\uppercase{F.A.N. Verri}};
+
+  % a white line with 1mm from image.north west to image.north east
+  \draw[white, line width=1mm, yshift=0.5mm] ($(image.north west) + (0.05, 0)$) -- ($(image.north east) - (0.05, 0)$);
 
   \node[anchor=center, text width=12cm, align=center] at (7.25, 7.5) {%
     Filipe Verri is a Christian, happily married to Nayara Verri, and father of two boys.
