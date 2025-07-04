@@ -33,9 +33,9 @@ make ready
 
 It has been tested in:
 
-- Ubuntu 22.04
-- TeX Live 2021
-- Latexmk 4.76
+- Arch Linux (kernel 6.14.6-arch1-1)
+- TeX Live 2026/dev
+- Latexmk 4.86a
 
 ## Abstract
 
