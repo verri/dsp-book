@@ -337,8 +337,8 @@ visit
 \tableofcontents
 \thispagestyle{empty}
 
-\input{foreword}
-\input{about}
+\input{frontmatter/foreword}
+\input{frontmatter/preface}
 
 \mainmatter
 \input{chapters/history}
@@ -352,8 +352,8 @@ visit
 
 \renewcommand{\theHchapter}{A\arabic{chapter}} % workaround for hyperref
 \appendix
-\input{preliminaries}
-\input{machines}
+\input{backmatter/mathematical-foundations}
+\input{backmatter/learning-machines}
 
 \backmatter
 \emergencystretch=1em
