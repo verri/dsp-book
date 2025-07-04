@@ -214,7 +214,7 @@
     Extension={.otf},
     Path={./fonts/},
     Scale=1]
-  
+
   \setmainfont{STIXTwoText}[
     Extension={.otf},
     Path={./fonts/},
@@ -222,7 +222,7 @@
     BoldFont={*-Bold},
     ItalicFont={*-Italic},
     BoldItalicFont={*-BoldItalic}]
-  
+
   \setmonofont{CourierPrime}[
     Extension={.ttf},
     Path={./fonts/},
@@ -231,7 +231,7 @@
     ItalicFont={*-Italic},
     BoldItalicFont={*-BoldItalic},
     Scale=0.9]
-  
+
   \urlstyle{rm}
 }
 
