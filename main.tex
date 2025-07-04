@@ -1,246 +1,22 @@
-\documentclass[twoside,a5paper,10pt,openright]{memoir}
-% \setstocksize{230mm}{160mm}
-\setlrmarginsandblock{23mm}{20mm}{*}
-\setulmarginsandblock{20mm}{20mm}{*}
-\checkandfixthelayout
+\documentclass{dspbook}
 
-\usepackage[T1]{fontenc}
-\usepackage[final]{microtype}
-
-\usepackage[english]{babel}
-\usepackage[style=authoryear,maxbibnames=99,giveninits=true,uniquename=init,backref=true]{biblatex}
 \addbibresource{references.bib}
-
-\usepackage{amsmath}
-\usepackage{mathtools}
-\usepackage{blkarray}
-\usepackage[colorlinks]{hyperref}
-\usepackage{fontspec}
-\usepackage{xltxtra}
-\usepackage{sourcesanspro}
-\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
-\usepackage{graphicx}
-\usepackage[super]{nth}
-\usepackage{booktabs}
-\usepackage{csquotes}
-\usepackage{multirow}
-\usepackage[table]{xcolor}
-\usepackage{titletoc}
-\usepackage[noend,noline,linesnumbered]{algorithm2e}
-\usepackage[automake]{glossaries-extra}
-\usepackage{orcidlink}
-\usepackage{fontawesome5}
-\usepackage{nicefrac}
-\usepackage{cancel}
-
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator{\Prob}{P}
-\DeclareMathOperator{\E}{E}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\sign}{sign}
-\DeclareMathOperator{\clamp}{clamp}
-
-\usepackage[Bjornstrup]{fncychap} % must come before cleveref to avoid break appendix name
-\usepackage{cleveref}
-
-\usepackage{tikz}
-\usetikzlibrary{shapes, arrows.meta, positioning, shapes.geometric}
-\usetikzlibrary{fit}
-\usetikzlibrary{datavisualization.formats.functions}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
-
-\tikzset{%
-  decision/.style={draw, diamond, text centered, minimum height=0.5cm, minimum width=1cm},
-  block/.style={rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em},
-  mediumblock/.style={rectangle, draw, text width=3em, text centered, rounded corners, minimum height=2em},
-  darkblock/.style={block, fill=gray, text=white},
-  smallblock/.style={rectangle, rounded corners, draw, font=\tiny, minimum height=1em, inner sep=2pt},
-  smalldarkblock/.style={smallblock, fill=gray, text=white},
-  darkcircle/.style={draw, circle, fill=gray, text centered, text=white},
-  smallcircle/.style={draw, circle, text centered, font=\tiny},
-  smalldarkcircle/.style={smallcircle, fill=gray, text=white},
-  line/.style={draw, -latex},
-  dline/.style={draw, latex-latex},
-  bigarrow/.style={draw, -latex, line width=3pt, gray},
-}
-
-\usepackage{titling}
-\usepackage[most]{tcolorbox}
-\usepackage{xhfill}
-
-\usepackage{qrcode}
-\newcommand{\linkwithqr}[1]{%
-  \begin{minipage}{0.8\textwidth}
-    \url{#1}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.15\textwidth}
-    \qrcode[height=\textwidth]{#1}
-  \end{minipage}
-}
-
-\newcommand{\aurl}{google.com}
-\newenvironment{parwithqr}[1]{%
-  \renewcommand\aurl{#1}%
-  \noindent%
-  \begin{minipage}{0.75\textwidth}%
-}{%
-  \end{minipage}%
-  \hfill%
-  \begin{minipage}{0.20\textwidth}%
-    \qrcode[height=\textwidth]{\aurl}%
-  \end{minipage}%
-}
-\newenvironment{lparwithqr}[1]{%
-  \renewcommand\aurl{#1}%
-  \noindent%
-  \begin{minipage}{0.20\textwidth}%
-    \qrcode[height=\textwidth]{\aurl}%
-  \end{minipage}%
-  \hfill%
-  \begin{minipage}{0.75\textwidth}%
-}{%
-  \end{minipage}%
-}
-
-\nonfrenchspacing
-
-\setsecnumdepth{subsection}
-\maxtocdepth{subsection}
-
-\babelhyphenation[english]{par-a-digm pipe-line pa-ram-e-ter-ize ro-bot-ics pen-al-ty
-  quan-ti-fi-ca-tion}
-
-\newtcolorbox[auto counter, number within=chapter, crefname={algorithm}{algorithms}]{algobox}[2][]{%
-  float=thbp, base={Algorithm \thetcbcounter: #2},
-  colframe=black!20!white, #1,
-  before upper={\begin{algorithm}[H]},
-  after upper={\end{algorithm}}}
-
 \input{glossary}
-
-\begin{document}
-
-\setmathfont{STIXTwoMath}[
-  Extension={.otf},
-  Path={./fonts/},
-  Scale=1]
-
-\setmainfont{STIXTwoText}[
-  Extension={.otf},
-  Path={./fonts/},
-  UprightFont={*-Regular},
-  BoldFont={*-Bold},
-  ItalicFont={*-Italic},
-  BoldItalicFont={*-BoldItalic}]
-
-\setmonofont{CourierPrime}[
-  Extension={.ttf},
-  Path={./fonts/},
-  UprightFont={*-Regular},
-  BoldFont={*-Bold},
-  ItalicFont={*-Italic},
-  BoldItalicFont={*-BoldItalic},
-  Scale=0.9]
-
-\newcommand{\code}[1]{\colorbox{black!10!white}{\texttt{#1}}}
-
-%\setsansfont{SourceSansPro}
-
-\urlstyle{rm}
-
-\tcbset {
-  base/.style={
-    arc=0mm,
-    bottomtitle=0.5mm,
-    boxrule=0mm,
-    colbacktitle=black!20!white,
-    coltitle=black,
-    left=2.5mm,
-    leftrule=1mm,
-    right=3.5mm,
-    title={#1},
-    toptitle=0.75mm,
-    lower separated=false,
-  }
-}
-
-\newtcbtheorem[auto counter, number within=chapter]{defbox}{Definition}{
-  float=h!,
-  colframe=black!20!white,
-  description delimiters parenthesis,
-  label type=definition,
-  base
-}{def}
-
-\newtcolorbox{mainbox}[1]{
-  float=ht,
-  spread outwards=-2mm,
-  spread inwards=-2mm,
-  %spread downwards,
-  colframe=black!20!white,
-  fonttitle=\bfseries,
-  base={#1},
-  left=16mm,
-  right=19mm,
-}
-
-\newtcolorbox{hlbox}[1]{
-  float=h,
-  colframe=black!20!white,
-  fonttitle=\bfseries,
-  base={#1},
-}
-
-\newtcolorbox[blend into=figures]{figurebox}[2][]{%
-  float=thbp,
-  base={#2},
-  colframe=black!20!white,
-  every float=\centering, #1}
-
-\newtcolorbox[blend into=tables]{tablebox}[2][]{%
-  float=thbp, base={#2},
-  colframe=black!20!white,
-  every float=\centering, #1}
-
-\newcommand\boxsubtitle[1]{%
-  \vspace{0.5em}
-  \noindent\xrfill[0.5ex]{1pt}[black!20]\phantom{x}\textbf{#1}\phantom{x}\xrfill[0.5ex]{1pt}[black!20]%
-  \vspace{0.5em}
-}
-
-\renewcommand{\vec}[1]{\mathbf{#1}}
 
 \title{Data Science Project: An Inductive Learning Approach}
 \author{Filipe A. N. Verri}
 
-\hypersetup{%
-  pdftitle={\thetitle},
-  pdfsubject={Data Science},
-  pdfauthor={\theauthor},
-  pdfkeywords={data science, statistics, machine learning, databases},
-  urlcolor=black!60,
-  linkcolor=black,
-  citecolor=black,}
+\begin{document}
 
-\begin{titlingpage}
-  \begin{tikzpicture}[remember picture, overlay]
-    \fill[black!80] (current page.south west) rectangle (current page.north east);
-    \node[anchor=south east, inner sep=0mm] at (current page.south east) {%
-      \reflectbox{\includegraphics[width=\paperwidth]{images/bard2.jpg}}%
-    };
-    \node[white,anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
-    \node[white,anchor=north, inner sep=5mm] at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
-    \node[anchor=south west, inner sep=11mm] at (current page.south west) {\HUGE\sffamily\uppercase{F.A.N. Verri}};
-  \end{tikzpicture}
-\end{titlingpage}
+\setupfonts
+\setuphyperref
 
-\newpage
-\clearpage
-\newpage
+\makebooktitle
+
+\cleardoublepage
+
 \frontmatter
+
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture, overlay]
   \node[anchor=south east, inner sep=8mm] at (current page.south east) {%
@@ -288,7 +64,8 @@
 The book is typeset with \XeTeX{} using the Memoir class.  All figures are
 original and created with Ti\textit{k}Z.  Proudly written in
 \href{https://neovim.io/}{Neovim}.  \LaTeX{} code written with the assistance of
-\href{https://github.com/features/copilot}{GitHub Copilot}.
+\href{https://github.com/features/copilot}{GitHub Copilot} and
+\href{https://www.anthropic.com/claude-code}{Claude Code}.
 All the text is original and not AI-generated.
 The book cover image was created with the assistance of
 \href{https://gemini.google.com}{Gemini} and \href{https://openai.com/dall-e-2}{DALL·E 2}.
@@ -313,34 +90,22 @@ visit
 \href{http://creativecommons.org/licenses/by-nc-nd/4.0/}{creativecommons.org/licenses/by-nc-nd/4.0}.
 }
 
-\thispagestyle{empty}
-\newpage
-
-\thispagestyle{empty}
-
-% Dedication page
-\begin{center}
-  \vspace{0.2\textheight}
-  \itshape
-  To my wife, for inspiring and supporting me in writing this book.
-
-  \vfill
-  \raggedleft Above all, God be praised.
-\end{center}
-
-\newpage
-
-\thispagestyle{empty}
-\phantom{foo}
-\newpage
-
-\tableofcontents
-\thispagestyle{empty}
+\cleardoublepage
 
 \input{frontmatter/foreword}
+
+\cleardoublepage
+
 \input{frontmatter/preface}
 
+\cleardoublepage
+
+\tableofcontents
+
+\cleardoublepage
+
 \mainmatter
+
 \input{chapters/history}
 \input{chapters/fundamental}
 \input{chapters/project}
@@ -350,16 +115,16 @@ visit
 \input{chapters/preprocessing}
 \input{chapters/validation}
 
-\renewcommand{\theHchapter}{A\arabic{chapter}} % workaround for hyperref
-\appendix
+\backmatter
+
+\startappendices
+
 \input{backmatter/mathematical-foundations}
 \input{backmatter/learning-machines}
 
-\backmatter
-\emergencystretch=1em
-\printbibliography
-\printglossary
+\printglossary[type=\acronymtype,title=Acronyms,toctitle=Acronyms]
+\printglossary[title=Glossary,toctitle=Glossary]
+
+\printbibliography[heading=bibintoc]
 
 \end{document}
-
-% vim: spell spelllang=en

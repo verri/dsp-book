@@ -38,12 +38,15 @@ Tested on:
 
 ## Document Format
 
-- Document class: memoir (twoside, a5paper, 10pt, openright)
+- Document class: Custom `dspbook.cls` (based on memoir)
+- Page format: A5 paper, twoside, 10pt, openright
 - Uses XeLaTeX for Unicode and font support
 - Bibliography: BibLaTeX with authoryear style
 - Mathematical notation: amsmath, mathtools, unicode-math
 - Algorithms: algorithm2e package
 - Graphics: TikZ for diagrams
+- Custom environments: mainbox, hlbox, figurebox, tablebox, defbox, algobox
+- Fonts: STIXTwo (text/math), Courier Prime (mono)
 
 ## License
 
