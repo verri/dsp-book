@@ -11,4 +11,20 @@ ready:
 log:
 	texloganalyser -wourt build/main.log
 
-.PHONY: watch ready log
+# Slides targets
+slides-ch1:
+	mkdir -p build/slides
+	xelatex -output-directory=build/slides slides-chapter1-history.tex
+
+slides-ch1-watch:
+	mkdir -p build/slides
+	latexmk -pdfxe -synctex=1 -pvc slides-chapter1-history.tex -output-directory=build/slides
+
+slides: slides-ch1
+
+slides-watch: slides-ch1-watch
+
+slides-clean:
+	rm -rf build/slides
+
+.PHONY: watch ready log slides-ch1 slides-ch1-watch slides slides-watch slides-clean

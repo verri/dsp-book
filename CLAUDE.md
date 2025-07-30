@@ -47,6 +47,43 @@ Tested on:
 - Custom environments: mainbox, hlbox, figurebox, tablebox, defbox, algobox
 - Fonts: STIXTwo (text/math), Courier Prime (mono)
 
+## Slides System
+
+The project includes a complete slide system for teaching purposes:
+
+### TODO: Slides Creation
+- [x] Create slides template using beamer with book's style (fonts, colors, layout)
+- [x] Create slides for Chapter 1 (History) - structure, takeaways, figures
+- [ ] Create slides for Chapter 2 (Fundamental) - structure, takeaways, figures
+- [ ] Create slides for Chapter 3 (Project) - structure, takeaways, figures
+- [ ] Create slides for Chapter 4 (Structured Data) - structure, takeaways, figures
+- [ ] Create slides for Chapter 5 (Data Handling) - structure, takeaways, figures
+- [ ] Create slides for Chapter 6 (Learning) - structure, takeaways, figures
+- [ ] Create slides for Chapter 7 (Preprocessing) - structure, takeaways, figures
+- [ ] Create slides for Chapter 8 (Validation) - structure, takeaways, figures
+- [ ] Update Makefile to include slides build targets
+
+### Slides Architecture
+
+- **Template**: `slides-template.tex` (beamer template matching book style)
+- **Chapter slides**: `slides-chapter[X]-[name].tex` for each chapter
+- **Style**: Grayscale color scheme, STIX fonts, TikZ diagrams
+- **Format**: 16:9 aspect ratio, clean minimal design
+- **Content**: Chapter structure, main takeaways, figures, tables, examples
+
+### Slides Build System
+
+To build individual chapter slides:
+```bash
+xelatex slides-chapter1-history.tex
+```
+
+To build all slides (when Makefile is updated):
+```bash
+make slides        # Build all slide sets
+make slides-watch  # Watch and rebuild slides
+```
+
 ## License
 
 Creative Commons Attribution-NonCommercial NoDerivatives 4.0 International License
