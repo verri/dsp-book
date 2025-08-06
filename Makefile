@@ -12,7 +12,6 @@ ready:
 log:
 	texloganalyser -wourt build/main.log
 
-<<<<<<< HEAD
 # Slides targets
 slides-ch1:
 	mkdir -p build/slides
