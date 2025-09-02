@@ -235,7 +235,10 @@ data, we should take effort to use split-invariant operations.
 
 The reason is that split invariance ensures that the operation does not depend on the
 split performed (usually unknown to us) to create the table we have in hand.  This
-property is important to avoid \gls{leakage} or to bias the results of the analysis.
+property is important to avoid \gls{leakage} or to bias the results of the
+analysis\footnote{Note that split invariance is a sufficient but not necessary condition
+for preventing leakage.  Split invariance provides not only a ``safe by default''
+guarantee, but also a way to pinpoint possible sources of leakage.}.
 
 \subsection{Illustrative example}
 
