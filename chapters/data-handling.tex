@@ -642,7 +642,7 @@ right-hand-side table is in the wide format.  Using the pivot long-to-wide opera
 right-hand-side table.  The reverse operation will give us the left-hand-side table.
 
 To show that the pivot operation is split-invariant, one can see that, given
-$T_0 = (K, H, c_0)$ and $T_1 = (K, H, c_1)$ disjoint tables,
+$T_0 = (K \cup \{\text{name}\}, H, c_0)$ and $T_1 = (K \cup \{\text{name}\}, H, c_1)$ disjoint tables,
 \[
   \operatorname{pivot}_\text{name}\!\left(T_0\right) + \operatorname{pivot}_\text{name}\!\left(T_1\right) = \\
     (K, \domainof{\text{name}}, c_0') + (K, \domainof{\text{name}}, c_1')\text{,}
