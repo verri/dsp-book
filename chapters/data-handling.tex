@@ -746,10 +746,10 @@ It is straightforward to see that rows in $T_0'$ and $T_1'$ are disjoint, since 
 part of the indices in $K \cup K'$ are different between them.
 
 Moreover, \[
-  \operatorname{join}_{T'}(T_0 + T_1) = (K \cup K', H \cup H', c')
-\] with $c'(r, h) = ()$ only if both $\rowcard[{r[K]; c_0}] = 0$ and $\rowcard[{r[K];
-c_1}] = 0$.  Otherwise, $c'(r, h) = c_0(r[K], h) + c_1(r[K], h)$ if $h \in H$ and $c'(r,
-h) = c_0(r[K], h)$ if $h \in H'$.
+  \operatorname{join}_{T'}(T_0 + T_1) = (K \cup K', H \cup H', c)
+\] with $c(r, h) = ()$ only if both $\rowcard[{r[K]; c_0}] = 0$ and $\rowcard[{r[K];
+c_1}] = 0$.  Otherwise, $c(r, h) = c_0(r[K], h) + c_1(r[K], h)$ if $h \in H$ and $c(r,
+h) = c'(r[K], h)$ if $h \in H'$.
 
 Thus, \[
   \operatorname{join}_{T'}(T_0 + T_1) = \operatorname{join}_{T'}(T_0) + \operatorname{join}_{T'}(T_1)\text{.}
@@ -947,7 +947,7 @@ Note that the operation requires that the column $h'$ has no missing values.
 \begin{tablebox}[label=tab:ungroup]{Ungrouping example.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccc}
+  \begin{tabular}{c|cc}
     \toprule
     \textbf{city} & \textbf{year} & \textbf{qty.} \\
     \midrule
@@ -958,7 +958,7 @@ Note that the operation requires that the column $h'$ has no missing values.
 
   \vspace{1em}
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccc}
+  \begin{tabular}{cc|c}
     \toprule
     \textbf{city} & \textbf{year} & \textbf{qty.} \\
     \midrule
@@ -1034,7 +1034,7 @@ Adapting the definitions of projection to our context, we can define it as follo
   \] where $T' = (K', H \cup (K \setminus K'), c')$ and \[
     c'(r, h) = \begin{dcases}
       \sum_{r'} c(r + r', h) & \text{if } h \in H \\
-      \sum_{k' \in \domainof{h}} k' & \text{if } h \in K \setminus K'\text{,}
+      \sum_{k' \in \domainof{h}} (k') & \text{if } h \in K \setminus K'\text{,}
     \end{dcases}
   \] for all valid row $r$ considering the indices $K'$ and for all tuples $r' = (k_i :
   i)$ such that $k_i \in \domainof{K_i}$ for all $K_i \in K \setminus K'$.
@@ -1048,7 +1048,7 @@ projection in relational algebra.  Consider the example we discussed in
 \begin{tablebox}[label=tab:student-grade-handling]{Student grade table.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{cccc}
+  \begin{tabular}{cc|cc}
     \toprule
     \textbf{student} & \textbf{course} & \textbf{course credits} & \textbf{grade} \\
     \midrule
@@ -1062,7 +1062,7 @@ projection in relational algebra.  Consider the example we discussed in
 
   \vspace{1em}
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{cccc}
+  \begin{tabular}{c|ccc}
     \toprule
     \textbf{course} & \textbf{student} & \textbf{course credits} & \textbf{grade} \\
     \midrule
