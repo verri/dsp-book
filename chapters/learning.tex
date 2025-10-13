@@ -1096,10 +1096,10 @@ the dataset correctly; see \cref{tab:and-perceptron}.
         ymin=-0.5, ymax=1.5,
       ]
       \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
-        (0, 0) (0, 1) (1, 0)
+        (0, 0) (1, 1)
       };
       \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
-        (1, 1)
+        (0, 1) (1, 0)
       };
       \addplot+[domain=0:1.5, mark=none, black, thick] {-0.5 + x};
     \end{axis}
@@ -1329,6 +1329,9 @@ trick, which allows the maximal margin classifier to deal with nonlinear problem
 Consult \textcite{Vapnik1999b}\footfullcite{Vapnik1999b} for more details.
 
 \section{Closing remarks}
+
+% TODO: more parameters do not mean higher VC dimension. We measure the complexity of the
+% learning process, not the model itself.
 
 The \gls{srm} principle is a powerful tool to understand the generalization ability of
 learning machines.  The principle not only explains many of the empirical results in
