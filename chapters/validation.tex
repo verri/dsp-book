@@ -444,7 +444,7 @@ in a MAPE of 90\%.
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{r r r r r}
     \toprule
-    $\hat{y}$ & $y$ & $\epsilon$ & MAPE & $\exp(\text{MALE})$ \\
+    $\hat{y}$ & $y$ & $|\epsilon|$ & MAPE & $\exp(\text{MALE})$ \\
     \midrule
     100 & 10 & 90 & 9.0 & 10 \\
       1 & 10 &  9 & 0.9 & 10 \\
@@ -902,7 +902,7 @@ A summary of the experimental plan for estimating expected performance is shown 
     \draw [dashed] (-3, -6) rectangle (3, -8);
     \node [anchor=south] at (0, -6.1) {Solution search algorithm};
 
-    \node [block] (handling) at (-1.5, -7) {Data handling pipeline};
+    \node [block] (handling) at (-1.5, -7) {Preprocessing};
     \node [block] (learning) at (1.5, -7) {Machine learning};
     \node (model) at (4, -7) {%
       % bracket array with \theta and \phi
