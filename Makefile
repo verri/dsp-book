@@ -38,11 +38,19 @@ slides-ch3-watch:
 	mkdir -p $(SLIDES_DIR)
 	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/project.tex
 
-slides: slides-ch1 slides-ch2 slides-ch3
+slides-ch4:
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -output-directory=$(SLIDES_DIR) slides/structured-data.tex
+
+slides-ch4-watch:
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/structured-data.tex
+
+slides: slides-ch1 slides-ch2 slides-ch3 slides-ch4
 
 slides-watch: slides-ch1-watch
 
 slides-clean:
 	rm -rf $(SLIDES_DIR)
 
-.PHONY: watch ready log slides-ch1 slides-ch1-watch slides-ch2 slides-ch2-watch slides-ch3 slides-ch3-watch slides slides-watch slides-clean
+.PHONY: watch ready log slides-ch1 slides-ch1-watch slides-ch2 slides-ch2-watch slides-ch3 slides-ch3-watch slides-ch4 slides-ch4-watch slides slides-watch slides-clean

@@ -1,0 +1,530 @@
+% slides/structured-data.tex - Chapter 4: Structured Data
+
+\input{slides/preamble}
+
+\title{Structured Data}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    Like families, tidy datasets are all alike, but every messy dataset is
+    messy in its own way.
+    \begin{flushright}
+      --- Hadley Wickham, \textit{Tidy Data}
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Data types
+        \item Database normalization
+        \item Tidy data
+        \item Bridging normalization and tidiness
+        \item Data semantics and interpretation
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Understand common data types and formats
+        \item Associate data format and semantics
+        \item Enable the reader to perform data tasks well
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Data types}
+% ===========================================================================
+
+\begin{frame}{Stevens' types}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Data type} & \textbf{Allowed operations} \\
+    \midrule
+    Nominal  & $=$ \\
+    Ordinal  & $=, <$ \\
+    Interval & $=, <, +, -$ \\
+    Ratio    & $=, <, +, -, \times, \div$ \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \small
+  \begin{tabular}{ll}
+    Nominal:  & colors \\
+    Ordinal:  & small $<$ medium $<$ large \\
+    Interval: & temperature in Celsius \\
+    Ratio:    & weight in kilograms \\
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Limitations of Stevens' types}
+  \begin{itemize}
+    \item Do not exhaust all possibilities (e.g., probabilities)
+    \item Data types are not always evident from the data alone
+    \item Same data can be interpreted differently depending on context
+    \item Data scientists must be aware of types and their consequences
+    \item Good assumptions and hypotheses are a key part of the methodology
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Database normalization}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Relational algebra}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Relational algebra --- Concepts}
+  \begin{itemize}
+    \item \textbf{Relation} --- table with rows (tuples) and columns (attributes)
+    \item \textbf{Projection} $\pi_{A,C}(X)$ --- select only specified columns
+    \item \textbf{Join} $S \bowtie T$ --- combine relations on common attributes
+    \item \textbf{Functional dependency} $U \to V$ --- if tuples agree on $U$,
+      they agree on $V$
+    \item \textbf{Multi-valued dependency} $U \twoheadrightarrow V$ ---
+      $R = R[UV] \bowtie R[UW]$
+    \item \textbf{Join dependency} $*\{X_1, \ldots, X_n\}$ ---
+      $R = \bowtie\{R[X_1], \ldots, R[X_n]\}$
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Normal forms}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Normal forms}
+  Progressive conditions to reduce redundancy:
+  \begin{itemize}
+    \item \textbf{1NF} --- all attributes are atomic
+    \item \textbf{2NF} --- 1NF + non-prime attributes fully depend on primary key
+    \item \textbf{3NF} --- 2NF + no transitive dependencies
+    \item \textbf{BCNF} --- every functional dependency is a result of keys
+    \item \textbf{4NF} --- every multi-valued dependency is a result of keys
+    \item \textbf{PJNF} --- key dependencies imply all join dependencies
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: 2NF vs 3NF}
+  2NF (redundant ``course credits''):
+
+  \centering
+  \small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{Student} & \textbf{Course} & \textbf{Credits} & \textbf{Grade} \\
+    \midrule
+    Alice & Math & 4 & A \\
+    Alice & Physics & 3 & B \\
+    Bob & Math & 4 & B \\
+    Bob & Physics & 3 & A \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.4cm}
+  \raggedright
+  3NF (separate tables):
+
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cc}
+    \toprule
+    \textbf{Course} & \textbf{Credits} \\
+    \midrule
+    Math & 4 \\
+    Physics & 3 \\
+    \bottomrule
+  \end{tabular}
+  \quad
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Student} & \textbf{Course} & \textbf{Grade} \\
+    \midrule
+    Alice & Math & A \\
+    Alice & Physics & B \\
+    Bob & Math & B \\
+    Bob & Physics & A \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{PJNF and invalid joins}
+  \begin{itemize}
+    \item Relation $R[ABC]$ with primary key $ABC$ (no non-trivial FDs)
+    \item Constraint: if $(a,b,c')$, $(a,b',c)$, $(a',b,c) \in R$
+      then $(a,b,c) \in R$
+    \item Join dependency $*\{AB, AC, BC\}$ not implied by key
+    \item Must split into $R_1[AB]$, $R_2[AC]$, $R_3[BC]$
+    \item Careless joins may produce invalid tuples
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Tidy data}
+% ===========================================================================
+
+\begin{frame}{Tidy data}
+  A standardized way to organize data values (Wickham, 2014):
+  \begin{itemize}
+    \item Each \textbf{value} belongs to a variable and an observation
+    \item Each \textbf{variable} (column) = same attribute across units
+    \item Each \textbf{observation} (row) = same unit across attributes
+    \item \textbf{Observational unit} = individual entity being measured
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \centering
+  \small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{Concept} & \textbf{Structure} & \textbf{Contains} & \textbf{Across} \\
+    \midrule
+    Variable & Column & Same attribute & Units \\
+    Observation & Row & Same unit & Attributes \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Messy vs tidy}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Messy}\\[0.2cm]
+      \centering\small
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lcc}
+        \toprule
+         & \textbf{2019} & \textbf{2020} \\
+        \midrule
+        Brazil & 100 & 200 \\
+        USA &  & 400 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Tidy}\\[0.2cm]
+      \centering\small
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lcc}
+        \toprule
+        \textbf{Country} & \textbf{Year} & \textbf{Cases} \\
+        \midrule
+        Brazil & 2019 & 100 \\
+        Brazil & 2020 & 200 \\
+        USA & 2019 & \\
+        USA & 2020 & 400 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.5cm}
+  Tidy data: variables and observations are clear from the table itself.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Common messy datasets}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Problem: headers are values}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Messy} (Pew Forum)\\[0.2cm]
+      \centering\scriptsize
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Religion} & \textbf{<\$10k} & \textbf{\$10-20k} & \textbf{\dots} \\
+        \midrule
+        Agnostic & 27 & 34 & \dots \\
+        Atheist & 12 & 27 & \dots \\
+        Buddhist & 27 & 21 & \dots \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Tidy}\\[0.2cm]
+      \centering\scriptsize
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{llr}
+        \toprule
+        \textbf{Religion} & \textbf{Income} & \textbf{Freq.} \\
+        \midrule
+        Agnostic & <\$10k & 27 \\
+        Agnostic & \$10-20k & 34 \\
+        \dots & \dots & \dots \\
+        Atheist & <\$10k & 12 \\
+        Atheist & \$10-20k & 27 \\
+        \dots & \dots & \dots \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  Table becomes longer but narrower.
+\end{frame}
+
+\begin{frame}{Problem: multiple variables in one column}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Messy} (TB dataset)\\[0.2cm]
+      \centering\scriptsize
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lllr}
+        \toprule
+        \textbf{country} & \textbf{year} & \textbf{column} & \textbf{cases} \\
+        \midrule
+        AD & 2000 & m014 & 0 \\
+        AD & 2000 & m1524 & 0 \\
+        AD & 2000 & m2534 & 1 \\
+        \dots & \dots & \dots & \dots \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Tidy}\\[0.2cm]
+      \centering\scriptsize
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lllllr}
+        \toprule
+        \textbf{country} & \textbf{year} & \textbf{sex} & \textbf{age} & \textbf{cases} \\
+        \midrule
+        AD & 2000 & m & 0--14 & 0 \\
+        AD & 2000 & m & 15--24 & 0 \\
+        AD & 2000 & m & 25--34 & 1 \\
+        \dots & \dots & \dots & \dots & \dots \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  Same number of rows, but wider.
+\end{frame}
+
+\begin{frame}{Problem: variables in both rows and columns}
+  \begin{itemize}
+    \item Most complicated case of messy data
+    \item One column contains variable names (e.g., ``element'' = tmax/tmin)
+    \item Day columns (d1, d2, \ldots) are values, not variable names
+    \item Fix: lengthen first, then widen by variable names
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Problem: multiple observational units in one table}
+  \begin{itemize}
+    \item Common during data collection
+    \item Example: billboard data with track info repeated for each week
+    \item Fix: separate into one table per observational unit
+    \item Create unique identifiers to link the tables
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Problem: single unit in multiple tables}
+  \begin{itemize}
+    \item Data split across files (e.g., one file per year)
+    \item Table/file itself represents a variable value
+    \item Fix: make columns compatible, combine, add origin column
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Bridging normalization, tidiness, and data theory}
+% ===========================================================================
+
+\begin{frame}{Bridge between concepts}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Relations} & \textbf{Tidy data} & \textbf{Philosophy} \\
+    \midrule
+    Entities & Observational units & Substance \\
+    Tuple & Observation & Primary substance \\
+    Primary key & Fixed variables & Univocal name \\
+    Non-prime attr. & Measured variable & Predicate \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \raggedright
+  The ontological understanding of data influences how it is organized.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Tidy or not tidy?}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Tidy or not tidy?}
+  Temperature measured by 3 sensors, 3 times a day:
+
+  \vspace{0.3cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Unit = measurement event}\\[0.2cm]
+      \centering\scriptsize
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{llcc}
+        \toprule
+        \textbf{date} & \textbf{time} & \textbf{sensor} & \textbf{temp} \\
+        \midrule
+        01-01 & 00:00 & 1 & 20 \\
+        01-01 & 00:00 & 2 & 21 \\
+        01-01 & 00:00 & 3 & 22 \\
+        \dots & \dots & \dots & \dots \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Unit = time instant}\\[0.2cm]
+      \centering\scriptsize
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{llccc}
+        \toprule
+        \textbf{date} & \textbf{time} & \textbf{t1} & \textbf{t2} & \textbf{t3} \\
+        \midrule
+        01-01 & 00:00 & 20 & 21 & 22 \\
+        01-01 & 08:00 & 21 & 22 & 23 \\
+        \dots & \dots & \dots & \dots & \dots \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  Both are tidy. Tidiness is a matter of \textbf{perspective}.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Change of observational unit}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Decomposition trees}
+  $R[ABCDE]$ with $A \to D$, $B \to E$, $AB \to C$
+
+  \vspace{0.3cm}
+  \centering
+  Valid decompositions to 3NF:
+
+  \vspace{0.3cm}
+  \begin{tikzpicture}
+    \node (root1) at (0, 0) {ABCDE}
+      child {node {AD}}
+      child {node {ABCE}
+        child {node {BE}}
+        child {node {ABC}}};
+    \node (root2) at (5, 0) {ABCDE}
+      child {node {BE}}
+      child {node {ABCD}
+        child {node {AD}}
+        child {node {ABC}}};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Invalid decomposition trees}
+  \centering
+  \begin{tikzpicture}
+    \node (root1) at (0, 0) {ABCDE}
+      child {node {ABC}}
+      child {node {ABDE}
+        child {node {AD}}
+        child {node {ABE}
+          child {node {BE}}
+          child {node[gray] {AB}}}};
+    \node (root2) at (5, 0) {ABCDE}
+      child {node {ABC}}
+      child {node {ABDE}
+        child {node {BE}}
+        child {node {ABD}
+          child {node {AD}}
+          child {node[gray] {AB}}}};
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small $R[AB]$ is not a consequence of a functional dependency.
+\end{frame}
+
+\begin{frame}{Change of observational unit}
+  \begin{itemize}
+    \item Traverse decomposition tree from bottom to top with joins
+    \item After each join, perform summarization on new observational unit
+    \item Example: student enrollment $\to$ student summary (avg.\ grade, total load)
+    \item Order of joins and summarization is crucial
+    \item Not trivial to calculate all possible decomposition trees
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Data semantics and interpretation}
+% ===========================================================================
+
+\begin{frame}{Data semantics and interpretation}
+  \begin{itemize}
+    \item Beyond functional dependencies: \textbf{statistical dependencies}
+    \item Attributes may exist in an unknown $P(A, B)$
+    \item Important to understand relationships between observations:
+      \begin{itemize}
+        \item Independent? Identically distributed? Selection bias?
+        \item Temporal dependence? Hidden variables?
+      \end{itemize}
+    \item Wrong assumptions $\to$ wrong conclusions
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Unstructured data}
+% ===========================================================================
+
+\begin{frame}{Unstructured data}
+  \begin{itemize}
+    \item No predefined data model (text, images, videos)
+    \item Can be converted to structured data (e.g., bag-of-words)
+    \item Conversion is not always straightforward or lossless
+    \item Out of scope of this book
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item The choice of observational unit is not always straightforward
+    \item Format and types must reflect what the solution will ``see'' in
+      production
+    \item Normalization (storage) and tidy data (analysis) are complementary
+    \item Tidiness is a matter of perspective
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
