@@ -761,9 +761,17 @@ the variables, especially in terms of data types and their properties; which is 
 discussed in that chapter.  All these tasks aim to prepare a dataset that represents
 the data that the solution will see in production.
 
-Exploration also refers to \emph{exploratory
-data analysis}, which is not covered in this book. % TODO yet (could be the next chapter)
-For a good introduction to exploratory data analysis, which includes both understanding
+Exploration also refers to \gls{eda}, a term coined by
+\textcite{Tukey1977}\footfullcite{Tukey1977} to describe an informal study of data through graphical and summary
+techniques.  His original proposal, however, was rooted in statistical modeling, not in
+machine learning\footnote{This does not mean that all problems should be solved using
+machine learning.  Statistical modeling is still a powerful tool for data analysis, with
+advantages and disadvantages compared to machine learning.  The scope of this book covers
+only the application of machine learning.}.  In fact, the two main goals of EDA are data
+description and model formulation\footfullcite{Chatfield1986} --- the latter being delegated to
+the learning algorithm in our context.  As a result, the data scientist should be careful
+not to let excessive exploration bias the solution during the data sprint.
+For a good introduction to \gls{eda}, which includes both understanding
 and identifying issues in the data through descriptive statistics and visualization, consult chapter 3 of
 \textcite{Zumel2019}\footfullcite{Zumel2019}.
 
