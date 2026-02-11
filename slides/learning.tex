@@ -1,0 +1,913 @@
+% slides/learning.tex - Chapter 6: Learning from data
+
+\input{slides/preamble}
+
+\title{Learning from Data}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    To understand God's thoughts we must study statistics, for these are
+    the measures of His purpose.
+    \begin{flushright}
+      --- Florence Nightingale, her diary
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Introduction
+        \item The learning problem
+        \item Optimal solutions
+        \item ERM inductive principle
+        \item SRM inductive principle
+        \item Linear problems
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Define the learning problem and the common predictive tasks
+        \item Understand the main principles that guide the learning process
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Introduction}
+% ===========================================================================
+
+\begin{frame}{From AI to inductive learning}
+  \begin{itemize}
+    \item \textbf{Artificial intelligence} --- algorithms that exhibit intelligent behavior
+    \item \textbf{Machine learning} --- algorithms that learn from experience/data
+    \item \textbf{Predictive learning} --- making predictions about outcomes
+    \item \textbf{Inductive learning} --- deriving general rules from specific observations
+  \end{itemize}
+
+  \vspace{0.3cm}
+  The inferred general rule can make predictions about \emph{any} new instance.
+\end{frame}
+
+% ---- Figure: Learning field hierarchy ----
+
+\begin{frame}{Learning field hierarchy}
+  \centering
+  \begin{tikzpicture}
+    \draw[outline] (0,0) circle (30mm);
+    \node[below] at (0, 2.6) {artificial intelligence};
+    \draw[outline] (0,-0.5) circle (25mm);
+    \node[below] at (0, 1.6) {machine learning};
+    \draw[outline] (0,-1) circle (20mm);
+    \node[below] at (0, 0.5) {predictive learning};
+    \draw[outline] (0,-1.5) circle (15mm);
+    \node[below] at (0, -1.0) {inductive learning};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Statistical Learning Theory}
+  \begin{itemize}
+    \item General framework for predictive learning
+    \item Formalizes the learning problem
+    \item Provides bounds on generalization ability
+    \item Guides the design of learning machines
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{The learning problem}
+% ===========================================================================
+
+\begin{frame}{Setup}
+  Training set:
+  \[
+    \big\{(\vec{x}_i, y_i) : i = 1, \dots, n \big\}
+  \]
+
+  \begin{itemize}
+    \item $\vec{x}_i \in \mathcal{X}$ --- feature vector
+    \item $y_i \in \mathcal{Y}$ --- target variable
+    \item Samples are i.i.d.\ drawn from $\Prob(x, y) = \Prob(y \mid x)\, \Prob(x)$
+    \item Both $\Prob(x)$ and $\Prob(y \mid x)$ are \textbf{fixed but unknown}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Learning machine and risk}
+  A \textbf{learning machine} generates models $f_\theta : \mathcal{X} \to \mathcal{Y}$
+  for $\theta \in \Theta$.
+
+  \vspace{0.3cm}
+  Given a \textbf{loss} $\mathcal{L}(y, f_\theta(x))$, the \textbf{risk} is
+  \[
+    R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, d\!\Prob(x, y)
+  \]
+
+  \vspace{0.3cm}
+  Goal: find $f_\theta$ that minimizes $R(\theta)$ using only the training set.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Learning tasks}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Binary data classification}
+  \begin{itemize}
+    \item Output $y \in \{0, 1\}$ (negative and positive class)
+    \item Loss: indicator function
+      \[
+        \mathcal{L}(y, f_\theta(x)) = \begin{cases}
+          0 & \text{if } y = f_\theta(x) \\
+          1 & \text{if } y \neq f_\theta(x)
+        \end{cases}
+      \]
+    \item Risk $=$ probability of classification error
+    \item $f_\theta$ is called a \textbf{classifier}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Regression estimation}
+  \begin{itemize}
+    \item Output $y \in \mathbb{R}$
+    \item Loss: squared error
+      \[
+        \mathcal{L}(y, f_\theta(x)) = \big(y - f_\theta(x)\big)^2
+      \]
+    \item $f_\theta$ is called a \textbf{regressor}
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{A few remarks}
+  \textbf{Supervised vs.\ semisupervised:}
+  \begin{itemize}
+    \item Supervised: target known for all training samples
+    \item Semisupervised: only a small subset labeled
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Generative vs.\ discriminative:}
+  \begin{itemize}
+    \item Generative: models joint $\Prob(x, y)$ (more complex, more information)
+    \item Discriminative: models $\Prob(y \mid x)$ directly (prefer if only predicting)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{More remarks}
+  \textbf{Multiclass classification:}
+  \begin{itemize}
+    \item $y$ takes more than two values
+    \item One-versus-all: $l$ binary classifiers
+    \item One-versus-one: $l(l-1)/2$ binary classifiers
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Number of inputs and outputs:}
+  \begin{itemize}
+    \item Input/output can be scalar, vector, matrix, or tensor
+    \item The learning machine must handle the structure of the data
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Optimal solutions}
+% ===========================================================================
+
+\begin{frame}{Why study optimal solutions?}
+  \begin{itemize}
+    \item Optimal solutions assume $\Prob(y \mid x)$ is known
+    \item Unrealistic but useful to understand how good a solution can be
+    \item They depend only on $\Prob(y \mid x)$ (discriminative)
+    \item Establish the \textbf{irreducible error} for each task
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Bayes classifier}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Bayes classifier}
+  Optimal solution for binary classification:
+  \[
+    f_\text{Bayes}(x) = \argmax_{y \in \mathcal{Y}} \Prob(y \mid x)
+  \]
+
+  \vspace{0.3cm}
+  \textbf{Bayes error rate} (irreducible error):
+  \[
+    R_\text{Bayes} = \int \min\!\big\{ b(x),\; 1 - b(x) \big\}\, d\!\Prob(x)
+  \]
+  where $b(x) = \Prob(y = 1 \mid x)$.
+\end{frame}
+
+% ---- Figure: Bayes classifier ----
+
+\begin{frame}{Bayes classifier --- illustration}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        ticks=none,
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x$},
+        ymax=0.42,
+        xmin=-2.2, xmax=1.4,
+        width=0.75\textwidth,
+        height=0.6\textheight,
+      ]
+      \addplot+[fill=gray, draw=black, opacity=0.2, smooth, mark=none] coordinates {
+        (-2, 0.1) (-1.5, 0.2) (-1, 0.35) (-0.5, 0.2) (0, 0.1)
+      };
+      \node at (axis cs:-1, 0.2) {$\Prob(x \mid y = 0)$};
+      \addplot+[fill=gray, draw=black, opacity=0.4, smooth, mark=none] coordinates {
+        (-0.8, 0.1) (-0.3, 0.2) (0.2, 0.35) (0.7, 0.2) (1.2, 0.1)
+      };
+      \node at (axis cs:0.2, 0.2) {$\Prob(x \mid y = 1)$};
+      \draw[dashed, gray] (axis cs:-0.4, 0) -- (axis cs:-0.4, 0.4);
+    \end{axis}
+  \end{tikzpicture}
+
+  \small
+  The dashed line is the Bayes decision boundary.\\
+  The darker intersection area causes the irreducible error.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Regression function}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Regression function}
+  Optimal solution for regression estimation:
+  \[
+    r(x) = \int y\, d\!\Prob(y \mid x) = \E[y \mid x]
+  \]
+
+  \vspace{0.3cm}
+  Irreducible error (law of total variance):
+  \[
+    R(r) = \E\!\big[ \Var(y \mid x) \big]
+    \quad \text{(unexplained variance)}
+  \]
+\end{frame}
+
+% ---- Figure: Explained vs unexplained variance ----
+
+\begin{frame}{Explained vs.\ unexplained variance}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$x$},
+        ylabel={$y$},
+        xmin=-0.2, xmax=1.5,
+        ymin=-0.5, ymax=1.8,
+        xtick={0, 0.5, 1},
+        ytick={0, 0.5, 1},
+        domain=0:1,
+        width=0.6\textwidth,
+        height=0.55\textheight,
+      ]
+
+      \addplot[thick] {x} node[right] {$r(x) = x$};
+
+      \addplot [draw=none, fill=gray, opacity=0.2] {x + 1} \closedcycle;
+      \addplot [draw=none, fill=gray, opacity=0.2] {x - 1} \closedcycle;
+      \draw[Stealth-Stealth, gray] (axis cs:0.5,0.5) -- (axis cs:0.5, 1.5)
+        node[midway, right] {$\sigma = 1$};
+      \node at (axis cs:0.5,1.3) [anchor=west] {\small Unexplained};
+
+      \addplot[samples=2, style={dashed}] {0.5}
+        node[midway, below, anchor=north west] {\small Explained};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small $\Prob(y \mid x) = \mathcal{N}(x, 1)$, \quad $\Prob(x) = \mathcal{U}(0, 1)$
+\end{frame}
+
+% ===========================================================================
+\section{ERM inductive principle}
+% ===========================================================================
+
+\begin{frame}{Empirical Risk Minimization}
+  Since $\Prob(z)$ is unknown, replace the risk by the \textbf{empirical risk}:
+  \[
+    R_n(\theta) = \frac{1}{n} \sum_{i=1}^n L(z_i, \theta)
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $z_i = (x_i, y_i)$ --- training samples
+    \item Traditional methods (least squares, maximum likelihood) are realizations of ERM
+    \item Question: does $R_n(\theta) \to R(\theta)$?
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Consistency}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Consistency of the learning process}
+  ERM is consistent if the empirical risk converges \textbf{uniformly}:
+  \[
+    \lim_{n \to \infty} \Prob\!\left(
+      \sup_{\theta \in \Theta} \Big| R_n(\theta) - R(\theta) \Big| > \epsilon
+    \right) = 0
+  \]
+
+  \vspace{0.3cm}
+  \textbf{Fast rate of convergence} if, for $n > n_0$:
+  \[
+    \Prob\!\big(R(\theta_n) - R(\theta) > \epsilon\big) < \exp\!\left( - c\, n\, \epsilon^2 \right)
+  \]
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{VC entropy}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{VC entropy}
+  For bounded loss functions $|L(z, \theta)| < M$:
+  \begin{itemize}
+    \item $N(z_1, \ldots, z_n; \Theta, \epsilon)$ --- size of minimal $\epsilon$-net
+    \item \textbf{VC entropy:}
+      \[
+        H(n; \Theta, \epsilon) = \E\!\left[ \ln N(z_1, \ldots, z_n; \Theta, \epsilon) \right]
+      \]
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Necessary and sufficient condition for uniform convergence:
+  \[
+    \lim_{n \to \infty} \frac{H(n; \Theta, \epsilon)}{n} = 0
+  \]
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{VC dimension}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Growth function and VC dimension}
+  \textbf{Growth function} (distribution-independent):
+  \[
+    G(n; \Theta) = \ln \sup_{z_1, \ldots, z_n} N(z_1, \ldots, z_n; \Theta)
+  \]
+
+  \vspace{0.3cm}
+  Vapnik \& Chervonenkis (1968): $G(n; \Theta)$ is either
+  \begin{itemize}
+    \item $n \ln 2$ (VC dimension is \textbf{infinite}), or
+    \item bounded by $h\!\left(\ln \frac{n}{h} + 1\right)$, where $h$ is the
+      \textbf{VC dimension}
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Finite VC dimension $\Rightarrow$ consistency + fast convergence.
+\end{frame}
+
+\begin{frame}{Shattering}
+  \begin{itemize}
+    \item VC dimension $=$ max number of points that can be \textbf{shattered}
+    \item $h$ points are shattered if they can be separated into two classes in
+      all $2^h$ possible ways
+    \item VC dimension measures \textbf{complexity of the hypothesis space},
+      not the number of parameters
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: VC dimension of lines in the plane ----
+
+\begin{frame}{VC dimension --- lines in the plane}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xmin=-1, xmax=1,
+        ymin=-1, ymax=1,
+        xtick={0},
+        ytick={0},
+        domain=-1:1,
+        width=0.55\textwidth,
+        height=0.6\textheight,
+      ]
+
+      \addplot[only marks, mark=*, mark size=2pt] coordinates {
+        (-0.5, 0.3) (-0.3, -0.5) (0.7, -0.5)
+      };
+
+      \addplot[dashed] {x} node[right] {$\theta_1$};
+      \addplot[dashed] {-x} node[right] {$\theta_2$};
+      \addplot[dashed] {-0.3} node[right] {$\theta_3$};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small
+  VC dimension of lines in the plane $= 3$.\\
+  A line can shatter 3 points in all $2^3 = 8$ ways, but not 4 points.
+\end{frame}
+
+% ---- Figure: VC dimension of sine waves ----
+
+\begin{frame}{Infinite VC dimension --- sine functions}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$x$},
+        ylabel={$y$},
+        xmin=-1.2, xmax=1.2,
+        ymin=-1.2, ymax=1.2,
+        xtick={0},
+        ytick={0},
+        domain=-1:1,
+        samples=100,
+        width=0.55\textwidth,
+        height=0.6\textheight,
+      ]
+
+      \addplot[smooth] {sin(deg(24 * x))};
+      \addplot[dashed, smooth] {sin(deg(4 * x))};
+
+      \addplot[only marks, mark=*, mark size=2pt] coordinates {
+        (-0.942, 0.586) (-0.562, -0.780) (-0.337, -0.976)
+        (0.313, 0.950) (0.562, 0.780) (0.942, -0.586)
+      };
+    \end{axis}
+  \end{tikzpicture}
+
+  \small
+  $f(z; \theta) = \mathbb{1}_{\sin \theta x > 0}$ has infinite VC dimension\\
+  with only \textbf{one} parameter $\theta$.
+\end{frame}
+
+% ===========================================================================
+\section{SRM inductive principle}
+% ===========================================================================
+
+\begin{frame}{Generalization bound}
+  \[
+    R(\theta_n) \leq R_n(\theta_n) + \frac{B \mathcal{E}}{2} \left(
+      1 + \sqrt{1 + \frac{4 R_n(\theta_n)}{B \mathcal{E}}}
+    \right)
+  \]
+  with
+  \[
+    \mathcal{E} = 4 \frac{
+      h \left( \ln \frac{2 n}{h} + 1 \right) - \ln \frac{\eta}{4}
+    }{n}
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $B$ --- upper bound of the loss, $h$ --- VC dimension
+    \item Small $\nicefrac{n}{h}$ $\Rightarrow$ small empirical risk
+      does \textbf{not} guarantee small true risk
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Overfitting and underfitting}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Overfitting and underfitting}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Problem} & \textbf{Empirical risk} & \textbf{Confidence interval} \\
+    \midrule
+    Underfitting & High & Low \\
+    Overfitting & Low & High \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \raggedright
+  \begin{itemize}
+    \item \textbf{Underfitting}: model too simple (low VC dim.)
+    \item \textbf{Overfitting}: model too complex (high VC dim.)
+    \item Must balance both terms to generalize well
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{SRM principle}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Structural Risk Minimization}
+  \begin{itemize}
+    \item Build an \textbf{admissible structure}:
+      \[
+        S_1 \subset S_2 \subset \cdots \subset S_n \subset \cdots
+        \quad \text{with} \quad h_1 \leq h_2 \leq \cdots
+      \]
+    \item Choose the subset $S_k$ that minimizes the \textbf{guaranteed risk}
+      (empirical risk + confidence interval)
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: SRM trade-off ----
+
+\begin{frame}{SRM trade-off}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$k$},
+        ylabel={Risk},
+        ytick={0},
+        yticklabels={},
+        xtick={0.1, 0.5, 1},
+        xticklabels={$h_1$, $h^*$, $h_n$},
+        grid=both,
+        xmin=0, xmax=1.5,
+        ymin=0, ymax=1.5,
+        domain=0.1:1,
+        width=0.65\textwidth,
+        height=0.55\textheight,
+      ]
+
+      \addplot[smooth] {(x - 1)^2 + 0.1}
+        node[right, text width=2.5cm, font=\small] {Empirical risk};
+      \addplot[smooth] {x^2 + 0.1}
+        node[right, text width=2.5cm, font=\small] {Confidence interval};
+      \addplot[smooth, thick] {x^2 + (x - 1)^2 + 0.2}
+        node[left, text width=2.5cm, font=\small] {Risk upper bound};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small
+  The smallest guaranteed risk is found at $h^*$ in the admissible structure.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Bias-variance trade-off}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Bias-variance decomposition}
+  For regression with noise $\epsilon$ ($\E[\epsilon] = 0$, $\Var(\epsilon) = \sigma^2$):
+
+  \vspace{0.3cm}
+  \[
+    \E_D\!\left[ \big( y - \hat{f}(x; D) \big)^2 \right]
+    = \underbrace{\sigma^2}_{\text{irreducible}}
+    + \underbrace{\big( f(x) - \E[\hat{f}] \big)^2}_{\text{bias}^2}
+    + \underbrace{\Var_D\!\big( \hat{f}(x; D) \big)}_{\text{variance}}
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item \textbf{Bias}: failure to capture relevant relationships
+    \item \textbf{Variance}: modeling the noise in training data
+    \item This is the general case of the SRM trade-off
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Regularization}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Regularization}
+  Modify the loss to penalize model complexity:
+  \[
+    R_n(\theta) + \lambda\, \Omega(\theta)
+  \]
+
+  \begin{itemize}
+    \item $\Omega(\theta)$ --- complexity penalty (e.g., $\|\theta\|^2$)
+    \item $\lambda$ --- hyperparameter controlling the trade-off
+    \item Acts as a proxy for the confidence interval in SRM
+    \item Implicit regularization: early stopping, dropout, ensembles, pruning
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Linear problems}
+% ===========================================================================
+
+\begin{frame}{Linear classification}
+  \begin{itemize}
+    \item Realize SRM concepts in practice
+    \item Two learning machines:
+      \begin{enumerate}
+        \item \textbf{Perceptron} --- fix complexity, minimize empirical risk
+        \item \textbf{Maximal margin classifier} --- fix empirical risk (zero),
+          minimize confidence interval
+      \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{AND and XOR datasets}
+  \centering
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \centering
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{ccc}
+        \toprule
+        $x_1$ & $x_2$ & $y = x_1 \land x_2$ \\
+        \midrule
+        0 & 0 & 0 \\
+        0 & 1 & 0 \\
+        1 & 0 & 0 \\
+        1 & 1 & 1 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{ccc}
+        \toprule
+        $x_1$ & $x_2$ & $y = x_1 \oplus x_2$ \\
+        \midrule
+        0 & 0 & 0 \\
+        0 & 1 & 1 \\
+        1 & 0 & 1 \\
+        1 & 1 & 0 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  AND is linearly separable. XOR is not.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Perceptron}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Perceptron}
+  Linear classifier with model:
+  \[
+    f(x_1, x_2; \vec{w}) = u(w_0 + w_1 x_1 + w_2 x_2)
+  \]
+  where $u$ is the Heaviside step function:
+  \[
+    u(x) = \begin{cases}
+      1 & \text{if } x > 0 \\
+      0 & \text{otherwise}
+    \end{cases}
+  \]
+
+  \vspace{0.3cm}
+  The equation $\vec{w} \cdot \vec{x} = 0$ defines a \textbf{hyperplane}
+  ($\vec{x} = [1, x_1, x_2]$).
+\end{frame}
+
+% ---- Figure: Perceptron AND ----
+
+\begin{frame}{Perceptron --- AND dataset}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.5\textwidth,
+        height=0.5\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
+        (1, 1)
+      };
+      \addplot+[domain=0:1.5, mark=none, black, thick] {1.1 - 0.6 * x};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small $\vec{w} = [-1.1,\; 0.6,\; 1]$
+  \quad --- correctly classifies all samples.
+\end{frame}
+
+\begin{frame}{Perceptron AND --- truth table}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc|cc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ & $-1.1 + 0.6\,x_1 + x_2$ & $\hat{y}$ \\
+    \midrule
+    0 & 0 & 0 & $-1.1$ & 0 \\
+    0 & 1 & 0 & $-0.1$ & 0 \\
+    1 & 0 & 0 & $-0.5$ & 0 \\
+    1 & 1 & 1 & $0.5$ & 1 \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+% ---- Figure: Perceptron XOR ----
+
+\begin{frame}{Perceptron --- XOR dataset}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.5\textwidth,
+        height=0.5\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+      ]
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
+        (0, 0) (1, 1)
+      };
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
+        (0, 1) (1, 0)
+      };
+      \addplot+[domain=0:1.5, mark=none, black, thick] {-0.5 + x};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small $\vec{w} = [-0.5,\; 1,\; -1]$
+  \quad --- no perceptron can solve XOR.
+\end{frame}
+
+\begin{frame}{Perceptron XOR --- truth table}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ccc|cc}
+    \toprule
+    $x_1$ & $x_2$ & $y$ & $-0.5 + x_1 - x_2$ & $\hat{y}$ \\
+    \midrule
+    0 & 0 & 0 & $-0.5$ & 0 \\
+    0 & 1 & 1 & $-1.5$ & 0 \\
+    1 & 0 & 1 & $0.5$ & 1 \\
+    1 & 1 & 0 & $-0.5$ & 0 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \small The perceptron fails to classify $(0, 1)$ correctly.
+\end{frame}
+
+% ---- Perceptron training ----
+
+\begin{frame}{Perceptron training}
+  For a misclassified sample, update the weights:
+  \[
+    \vec{w}' = \vec{w} + \eta\, e\, \vec{x}
+  \]
+  where $e = y - u(\vec{w} \cdot \vec{x})$ and $\eta > 0$ (step size).
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Converges if $\eta$ is small enough and data is linearly separable
+    \item Makes no effort to reduce the confidence interval
+    \item Simplest artificial neural network
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Weight update (positive output) ----
+
+\begin{frame}{Weight update --- positive output error}
+  \centering
+  \begin{tikzpicture}[scale=1.3]
+    \draw[-Stealth] (0, 0) -- (2, 0) node[right] {$\vec{x}$};
+    \draw[-Stealth] (0, 0) -- (1, 1.8) node[right] {$\vec{w}$};
+    \draw[-Stealth, dashed] (1, 1.8) -- (-0.4, 1.8) node[above] {$-\eta\vec{x}$};
+    \draw[-Stealth, thick, gray] (0, 0) -- (-0.4, 1.8) node[left] {$\vec{w}'$};
+    \draw (0.4, 0) arc (0:59:0.4) node[right] {$\alpha$};
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small
+  $\vec{w} \cdot \vec{x} > 0 \implies \alpha < 90^\circ$.\\
+  Subtract $\eta\vec{x}$ to increase the angle.
+\end{frame}
+
+% ---- Figure: Weight update (negative output) ----
+
+\begin{frame}{Weight update --- negative output error}
+  \centering
+  \begin{tikzpicture}[scale=1.3]
+    \draw[-Stealth] (0, 0) -- (2, 0) node[right] {$\vec{x}$};
+    \draw[-Stealth, thick, gray] (0, 0) -- (1, 1.8) node[right] {$\vec{w}'$};
+    \draw[-Stealth, dashed] (-0.4, 1.8) -- (1, 1.8) node[above] {$\eta\vec{x}$};
+    \draw[-Stealth] (0, 0) -- (-0.4, 1.8) node[left] {$\vec{w}$};
+    \draw (0.4, 0) arc (0:101:0.4) node[above] {\phantom{a }$\alpha$};
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small
+  $\vec{w} \cdot \vec{x} < 0 \implies \alpha > 90^\circ$.\\
+  Add $\eta\vec{x}$ to decrease the angle.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Maximal margin classifier}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Maximal margin classifier}
+  \begin{itemize}
+    \item Fix empirical risk to \textbf{zero} (assume linearly separable)
+    \item Minimize the \textbf{confidence interval} by maximizing the margin
+    \item $\Delta$-margin hyperplane: $(\vec{w} \cdot \vec{x}) - b = 0$,
+      $\|\vec{w}\| = 1$
+    \item VC dimension:
+      \[
+        h \leq \min\!\left(\left\lfloor \frac{R^2}{\Delta^2} \right\rfloor, d\right) + 1
+      \]
+    \item Larger margin $\Delta$ $\Rightarrow$ lower VC dimension $\Rightarrow$
+      better generalization
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Maximal margin AND ----
+
+\begin{frame}{Maximal margin --- AND dataset}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis x line=bottom,
+        axis y line=left,
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        width=0.5\textwidth,
+        height=0.5\textwidth,
+        xtick={0, 1},
+        ytick={0, 1},
+        xmin=-0.5, xmax=1.5,
+        ymin=-0.5, ymax=1.5,
+        domain=-0.5:1.5,
+      ]
+      \addplot+[only marks, mark=-, color=black, mark size=3pt] coordinates {
+        (0, 0) (0, 1) (1, 0)
+      };
+      \addplot+[only marks, mark=+, color=black, mark size=3pt] coordinates {
+        (1, 1)
+      };
+      \addplot+[mark=none, black, thick] {1.5 - x}
+        node[above, pos=0.6, rotate=-45, font=\small] {optimal};
+      \addplot+[mark=none, black, dashed] {1 - x}
+        node[above, pos=0.6, rotate=-45, font=\small] {margin};
+      \addplot+[mark=none, black, dashed] {2 - x};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small Support vectors: $(1, 0)$, $(0, 1)$, and $(1, 1)$.
+\end{frame}
+
+\begin{frame}{Maximal margin classifier --- properties}
+  The classifier is built from \textbf{support vectors} only:
+  \[
+    f(x) = \sign\!\left(\sum_{i=1}^{n} y_i\, a_i\, (\vec{x}_i \cdot x) - b\right)
+  \]
+  where $a_i > 0$ for support vectors, $a_i = 0$ otherwise.
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Number of parameters depends on data $\Rightarrow$ \textbf{nonparametric}
+    \item Soft margin: allows $R_\text{emp} > 0$ for non-separable data
+    \item Kernel trick: handle nonlinear problems
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Optimal solutions establish how good a solution can possibly be
+    \item Reducing error is not enough to guarantee a good solution
+    \item Controlling model complexity is crucial for generalization
+    \item The perceptron minimizes empirical risk (fixed complexity)
+    \item The maximal margin classifier minimizes complexity (fixed risk)
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
