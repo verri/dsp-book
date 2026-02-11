@@ -1,0 +1,787 @@
+% slides/mathematical-foundations.tex - Appendix: Mathematical Foundations
+
+\input{slides/preamble}
+
+\title{Mathematical Foundations}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    Maar ik maak steeds wat ik nog niet kan om het te leeren kunnen.
+    \begin{flushright}
+      --- Vincent van Gogh, The Complete Letters, Volume Three
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Algorithms and data structures
+        \item Set theory
+        \item Linear algebra
+        \item Probability
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Consolidate notations and definitions used throughout the book
+        \item Remind the reader of the main computational, mathematical, and
+          statistical concepts
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Algorithms and data structures}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Computational complexity}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Computational complexity}
+  \begin{itemize}
+    \item Total amount of resources (time, space) as a function of input size
+    \item We focus on \textbf{asymptotic} complexity --- behavior as input grows
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Big-O notation:} $f$ is $O(g)$ if $\exists\, c > 0$ such that
+  $f(n) \leq c\, g(n)$ for all $n \geq n_0$.
+
+  \vspace{0.3cm}
+  Common complexity classes:
+  \[
+    O(1) < O(\log n) < O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!)
+  \]
+\end{frame}
+
+\begin{frame}{Big-O properties}
+  \begin{itemize}
+    \item Worst-case analysis: upper bound on resources for any input of
+      size $n$
+    \item An $O(n)$ algorithm is not always faster than an $O(n^2)$ algorithm
+      --- only for large enough $n$
+    \item Sequential composition:
+      \[
+        O(f) + O(g) = O(\max(f, g))
+      \]
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Algorithmic paradigms}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Divide and conquer}
+  \begin{enumerate}
+    \item Divide the problem into smaller subproblems
+    \item Solve each subproblem recursively
+    \item Combine the solutions
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  Examples: merge sort, quick sort, binary search.
+\end{frame}
+
+\begin{frame}{Binary search}
+  Given a sorted array $\vec{a} = [a_1, a_2, \ldots, a_n]$ and key $x$:
+
+  \vspace{0.2cm}
+  \begin{enumerate}
+    \item Set $l \gets 1$, $r \gets n$
+    \item While $l \leq r$:
+      \begin{itemize}
+        \item $m \gets \lfloor (l + r) / 2 \rfloor$
+        \item If $x = a_m$: return \textit{true}
+        \item If $x < a_m$: $r \gets m - 1$; else $l \gets m + 1$
+      \end{itemize}
+    \item Return \textit{false}
+  \end{enumerate}
+
+  \vspace{0.2cm}
+  Search space halved at each step:
+  $\displaystyle\frac{n}{2^{i-1}} = 1 \implies i = 1 + \log n$
+
+  \vspace{0.2cm}
+  Time complexity: $O(\log n)$.
+\end{frame}
+
+\begin{frame}{Greedy algorithms}
+  \begin{itemize}
+    \item Solved with incremental, locally optimal steps
+    \item Overall solution is \textbf{not} guaranteed to be optimal
+    \item Examples: Dijkstra's algorithm, Prim's algorithm
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Knapsack problem:}
+  \[
+    \text{maximize } \sum_{i=1}^n v_i x_i \quad
+    \text{subject to } \sum_{i=1}^n w_i x_i \leq W
+  \]
+  Greedy heuristic: sort by value, add if it fits.\\
+  Time complexity: $O(n \log n)$ (dominated by sorting).
+\end{frame}
+
+\begin{frame}{Brute force and backtracking}
+  \textbf{Brute force:}
+  \begin{itemize}
+    \item Try all possible solutions
+    \item Guaranteed optimal but usually exponential: $O(2^n)$ for knapsack
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Backtracking:}
+  \begin{itemize}
+    \item Solve incrementally; undo when a constraint is violated
+    \item Special case of brute force, often exponential
+    \item Example: Sudoku --- $n^m$ possible fillings for $m$ empty cells
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Sudoku backtracking ----
+
+\begin{frame}{Backtracking --- Sudoku example}
+  \centering
+  \resizebox{0.65\textwidth}{!}{
+  \begin{tikzpicture}
+    \node (root) at (1, 0) {$\begin{array}{|c|c|c|c|}
+      \hline
+      ? &   &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    \node (n1) at (-3.6, -3) {$\begin{array}{|c|c|c|c|}
+      \hline
+      \color{gray} 1 &   &   & \color{gray} 1 \\
+      \hline
+      \color{gray} 1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    \node (n2) at (-1.2, -3) {$\begin{array}{|c|c|c|c|}
+      \hline
+      \color{gray} 2 &   &   & 1 \\
+      \hline
+      1 & \color{gray} 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      \color{gray} 2 &   &   &   \\
+      \hline
+      \end{array}$};
+    \node (n3) at (1.2, -5) {$\begin{array}{|c|c|c|c|}
+      \hline
+      3 & ? &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    \node (n4) at (3.6, -3) {$\begin{array}{|c|c|c|c|}
+      \hline
+      4 & ? &   & 1 \\
+      \hline
+      1 & 2 & 4 &   \\
+      \hline
+        & 4 & 1 & 2 \\
+      \hline
+      2 &   &   &   \\
+      \hline
+      \end{array}$};
+    \node (dots) at (3.6, -5) {\dots};
+    \draw[-Stealth] (root.west) -- (n1.north);
+    \draw[-Stealth] (n1.north) -- (root.south west);
+    \draw[-Stealth] (root.south west) -- (n2.north);
+    \draw[-Stealth] (n2.north) -- (root.south);
+    \draw[-Stealth] (root.south) -- (n3.north west);
+    \draw[-Stealth] (n3.north east) -- (root.south east);
+    \draw[-Stealth] (root.south east) -- (n4.north);
+    \draw[-Stealth] (n4.south) -- (dots);
+  \end{tikzpicture}
+  }
+
+  \small
+  Constraint violations shown in gray cause backtracking.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Data structures}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Data structures}
+  \begin{itemize}
+    \item \textbf{Array}: homogeneous collection accessed by index;
+      $\vec{a} = [a_1, a_2, \ldots, a_n]$
+    \item \textbf{Stack}: LIFO; push and pop from top only
+    \item \textbf{Queue}: FIFO; enqueue at back, dequeue from front
+    \item \textbf{Tree}: nodes with children, no cycles; root, leaves
+    \item \textbf{Graph}: nodes with edges; directed or undirected
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Binary tree}
+  Recursive definition:
+  \[
+    T = \begin{cases}
+      \emptyset & \text{if empty} \\
+      (v, T_l, T_r) & \text{value } v \text{ with left } T_l \text{ and right } T_r
+    \end{cases}
+  \]
+
+  \vspace{0.3cm}
+  Parentheses notation:
+  $(1, (2, \emptyset, \emptyset), (3, \emptyset, \emptyset))$\\
+  is a tree with root $1$, left child $2$, right child $3$.
+\end{frame}
+
+\begin{frame}{Graphs}
+  A graph $G = (V, E)$ where $V$ = vertices, $E \subseteq V \times V$ = edges.
+
+  \begin{columns}[T]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[draw, circle] (v1) at (0, 0) {1};
+        \node[draw, circle] (v2) at (2, 0) {2};
+        \node[draw, circle] (v3) at (2, 2) {3};
+        \node[draw, circle] (v4) at (0, 2) {4};
+        \draw[->] (v1) -- (v2);
+        \draw[->] (v2) -- (v3);
+        \draw[->] (v3) -- (v4);
+        \draw[->] (v4) -- (v1);
+        \draw[->] (v1) -- (v3);
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      Adjacency matrix:
+      \[
+        A = \begin{pmatrix}
+          0 & 1 & 1 & 0 \\
+          0 & 0 & 1 & 0 \\
+          0 & 0 & 0 & 1 \\
+          1 & 0 & 0 & 0
+        \end{pmatrix}
+      \]
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  \small
+  Weighted graphs: $w : E \to \mathbb{R}$ assigns a weight to each edge.
+\end{frame}
+
+% ===========================================================================
+\section{Set theory}
+% ===========================================================================
+
+\begin{frame}{Sets}
+  A set is an unordered collection of unique elements: $\{1, 2, 3\}$.
+
+  \vspace{0.3cm}
+  Special sets:
+  \begin{itemize}
+    \item \textbf{Universe set} $\Omega$: all elements in a given context
+    \item \textbf{Empty set} $\emptyset$: no elements
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Set operations}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Set operations}
+  \begin{itemize}
+    \item \textbf{Union}: $A \cup B$ --- elements in $A$ or $B$
+    \item \textbf{Intersection}: $A \cap B$ --- elements in both $A$ and $B$
+    \item \textbf{Difference}: $A \setminus B$ --- elements in $A$ but not $B$
+    \item \textbf{Complement}: $A^c = \Omega \setminus A$
+    \item \textbf{Inclusion}: $A \subseteq B$ --- all elements of $A$ are in $B$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Set operations properties}
+  Given sets $A$, $B$, $C$:
+  \begin{itemize}
+    \item \textit{Commutativity:} $A \cup B = B \cup A$,\quad $A \cap B = B \cap A$
+    \item \textit{Associativity:}
+      $(A \cup B) \cup C = A \cup (B \cup C)$
+    \item \textit{Distributivity:}
+      $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{De Morgan's laws:}
+  \[
+    (A \cup B)^c = A^c \cap B^c
+    \qquad
+    (A \cap B)^c = A^c \cup B^c
+  \]
+
+  \vspace{0.2cm}
+  Difference in terms of complement:
+  $A \setminus B = A \cap B^c$
+\end{frame}
+
+\begin{frame}{Inclusion properties}
+  \begin{itemize}
+    \item \textit{Reflexivity:} $A \subseteq A$
+    \item \textit{Antisymmetry:} $A \subseteq B$ and $B \subseteq A$ iff $A = B$
+    \item \textit{Transitivity:} $A \subseteq B$ and $B \subseteq C$ implies
+      $A \subseteq C$
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Boolean algebra}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Relation to Boolean algebra}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Operation} & \textbf{Set} & \textbf{Boolean} \\
+    \midrule
+    Union / OR & $A \cup B$ & $A \lor B$ \\
+    Intersection / AND & $A \cap B$ & $A \land B$ \\
+    Complement / NOT & $A^c$ & $\lnot A$ \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \raggedright
+  De Morgan's laws also hold:
+  $\lnot(A \lor B) = \lnot A \land \lnot B$
+
+  \vspace{0.2cm}
+  Boolean algebra is the foundation of digital electronics and
+  programming control flow.
+\end{frame}
+
+% ===========================================================================
+\section{Linear algebra}
+% ===========================================================================
+
+\begin{frame}{Basic objects}
+  \begin{itemize}
+    \item \textbf{Vector}: ordered collection of numbers;
+      $\vec{v} = [v_i]_{i=1,\ldots,n}$
+    \item \textbf{Matrix}: rectangular array;
+      $A = (a_{ij})_{i=1,\ldots,n;\; j=1,\ldots,m}$
+    \item \textbf{Tensor}: generalization to $k$ indices (rank $k$)
+      \begin{itemize}
+        \item Scalar: rank 0; Vector: rank 1; Matrix: rank 2
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Operations}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Addition and scalar multiplication}
+  \textbf{Addition:}
+  \begin{itemize}
+    \item Vectors: $(\vec{v} + \vec{w})_i = v_i + w_i$
+    \item Matrices: $(A + B)_{ij} = a_{ij} + b_{ij}$
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Scalar multiplication:}
+  \begin{itemize}
+    \item $(\alpha\vec{v})_i = \alpha v_i$
+    \item $(\alpha A)_{ij} = \alpha a_{ij}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Dot product and matrix multiplication}
+  \textbf{Dot product} (inner product):
+  \[
+    \vec{v} \cdot \vec{w} = \sum_{i=1}^n v_i w_i
+  \]
+
+  \vspace{0.3cm}
+  \textbf{Matrix multiplication}: $C = AB$, where
+  \[
+    c_{ij} = \sum_{k=1}^n a_{ik}\, b_{kj}
+  \]
+  Columns of $A$ must equal rows of $B$.\\
+  Vectors are column matrices unless stated otherwise.
+\end{frame}
+
+\begin{frame}{Transpose, determinant, inverse}
+  \textbf{Transpose}: $(A^T)_{ij} = a_{ji}$
+
+  \vspace{0.3cm}
+  \textbf{Determinant}: $\det(A)$ --- measure of signed volume.
+  \[
+    \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc
+  \]
+  $\det(A) \neq 0$ iff $A$ is invertible. $\det(AB) = \det(A)\det(B)$.
+
+  \vspace{0.3cm}
+  \textbf{Inverse}: $A A^{-1} = A^{-1} A = I_n$
+  \[
+    \begin{pmatrix} a & b \\ c & d \end{pmatrix}^{-1}
+    = \frac{1}{ad - bc}
+    \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}
+  \]
+\end{frame}
+
+\begin{frame}{Inverse --- general formula}
+  \[
+    A^{-1} = \frac{1}{\det(A)} \operatorname{adj}(A)
+  \]
+  where $\operatorname{adj}(A)$ is the transpose of the cofactor matrix.
+
+  \vspace{0.3cm}
+  Cofactor of entry $a_{ij}$: determinant of $A$ with row $i$ and
+  column $j$ removed, times $(-1)^{i+j}$.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Systems and eigenvalues}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Systems of linear equations}
+  \[
+    A\vec{x} = \vec{b}
+  \]
+  \begin{itemize}
+    \item $A$: matrix of constants
+    \item $\vec{x}$: vector of unknowns
+    \item $\vec{b}$: vector of constants
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Unique solution iff $A$ is invertible: $\vec{x} = A^{-1}\vec{b}$.
+\end{frame}
+
+\begin{frame}{Eigenvalues and eigenvectors}
+  An eigenvalue $\lambda$ of $A$ satisfies:
+  \[
+    A\vec{v} = \lambda\vec{v}
+  \]
+  for some non-zero eigenvector $\vec{v}$.
+
+  \vspace{0.3cm}
+  Eigenvalues are roots of the \textbf{characteristic polynomial}:
+  \[
+    \det(A - \lambda I_n) = 0
+  \]
+\end{frame}
+
+% ===========================================================================
+\section{Probability}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Axioms and main concepts}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Kolmogorov axioms}
+  \begin{enumerate}
+    \item $\Prob(A) \geq 0$ for any event $A$
+    \item $\Prob(\Omega) = 1$ where $\Omega$ is the sample space
+    \item If $A \cap B = \emptyset$:
+      $\Prob(A \cup B) = \Prob(A) + \Prob(B)$
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  \textbf{Sum rule} (non-disjoint):
+  \[
+    \Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)
+  \]
+\end{frame}
+
+\begin{frame}{Joint, conditional, independence}
+  \textbf{Joint probability}:
+  $\Prob(A, B) = \Prob(A \cap B)$
+
+  \vspace{0.3cm}
+  \textbf{Law of total probability}: if $B_1, \ldots, B_n$ partition
+  $\Omega$:
+  \[
+    \Prob(A) = \sum_{i=1}^n \Prob(A, B_i)
+  \]
+
+  \vspace{0.3cm}
+  \textbf{Conditional probability}: $\Prob(A \mid B)$
+
+  \vspace{0.3cm}
+  \textbf{Independence}: $\Prob(A \mid B) = \Prob(A)$, equivalently
+  $\Prob(A, B) = \Prob(A) \cdot \Prob(B)$
+\end{frame}
+
+\begin{frame}{Bayes' rule}
+  \[
+    \Prob(A \mid B) = \frac{\Prob(B \mid A) \cdot \Prob(A)}{\Prob(B)}
+  \]
+
+  \vspace{0.3cm}
+  One of the most important formulas in probability theory.\\
+  Foundation of Bayesian statistics and machine learning.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Random variables}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Random variables}
+  A random variable $X : \Omega \to E$ maps outcomes to values.
+  \[
+    \Prob(X \in A) = \Prob(\{\omega \in \Omega : X(\omega) \in A\})
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $E = \mathbb{R}$: continuous random variable
+    \item $E = \mathbb{Z}$: discrete random variable
+    \item $X \sim P$: $X$ follows distribution $P$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{PMF, PDF, CDF}
+  \textbf{Probability mass function} (discrete):
+  \[
+    p_X(x) = \Prob(X = x)
+  \]
+
+  \vspace{0.2cm}
+  \textbf{Probability density function} (continuous):
+  \[
+    \Prob(a \leq X \leq b) = \int_a^b f_X(x)\, dx
+  \]
+
+  \vspace{0.2cm}
+  \textbf{Cumulative distribution function}:
+  \[
+    F_X(x) = \Prob(X \leq x)
+  \]
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Expectation and moments}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Expectation}
+  \[
+    \E[X] = \sum_x x \cdot p_X(x)
+    \qquad \text{or} \qquad
+    \E[X] = \int_{-\infty}^{\infty} x \cdot f_X(x)\, dx
+  \]
+
+  \vspace{0.3cm}
+  \textbf{Properties} (linearity):
+  \begin{align*}
+    \E[cX] &= c\,\E[X] \\
+    \E[X + c] &= \E[X] + c \\
+    \E[X + Y] &= \E[X] + \E[Y]
+  \end{align*}
+
+  \vspace{0.2cm}
+  General: $\E[g(X)] = \sum_x g(x) \cdot p_X(x)$
+  or $\int g(x) \cdot f_X(x)\, dx$.
+\end{frame}
+
+\begin{frame}{Variance}
+  \[
+    \Var(X) = \E\!\left[(X - \E[X])^2\right]
+  \]
+
+  \vspace{0.3cm}
+  Equivalent form:
+  \[
+    \Var(X) = \E[X^2] - \E[X]^2
+  \]
+
+  \vspace{0.2cm}
+  Proof:
+  \begin{align*}
+    \Var(X) &= \E\!\left[X^2 - 2X\E[X] + \E[X]^2\right] \\
+            &= \E[X^2] - 2\E[X]\E[X] + \E[X]^2 \\
+            &= \E[X^2] - \E[X]^2
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Sample statistics}
+  \textbf{Sample mean}: $\displaystyle\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$
+
+  \vspace{0.3cm}
+  \textbf{Law of large numbers}:
+  $\displaystyle\lim_{n \to \infty} \frac{1}{n}\sum_{i=1}^n X_i = \E[X]$
+  \quad (for i.i.d.\ $X_i \sim X$)
+
+  \vspace{0.3cm}
+  \textbf{Sample variance}:
+  $\displaystyle S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$
+
+  \vspace{0.2cm}
+  \small Denominator $n-1$ corrects for bias (Bessel's correction).
+\end{frame}
+
+\begin{frame}{Higher moments}
+  \textbf{$k$-th moment}: $\E[X^k]$
+
+  \vspace{0.3cm}
+  \textbf{Sample skewness} (3rd moment):
+  \[
+    \text{Skewness} = \frac{\frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^3}{S^3}
+  \]
+  Zero for symmetric; positive = right-skewed; negative = left-skewed.
+
+  \vspace{0.3cm}
+  \textbf{Sample kurtosis} (4th moment):
+  \[
+    \text{Kurtosis} = \frac{\frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^4}{S^4} - 3
+  \]
+  Positive = heavier tails than normal; negative = lighter tails.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Common distributions}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Bernoulli distribution}
+  $X \sim \text{Bern}(p)$, two outcomes (success/failure).
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $\E[X] = p$
+    \item $\Var(X) = p(1 - p)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Poisson distribution}
+  $X \sim \text{Poisson}(\lambda)$, number of events in a fixed interval.
+
+  \vspace{0.3cm}
+  PMF:
+  \[
+    p_X(x) = \frac{e^{-\lambda}\, \lambda^x}{x!}
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $\E[X] = \lambda$
+    \item $\Var(X) = \lambda$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Normal distribution}
+  $X \sim \mathcal{N}(\mu, \sigma^2)$, bell-shaped density.
+
+  \vspace{0.3cm}
+  PDF:
+  \[
+    f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}}
+      \exp\!\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $\E[X] = \mu$,\quad $\Var(X) = \sigma^2$
+    \item Standard normal: $\mathcal{N}(0, 1)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Central limit theorem}
+  Given $X_1, \ldots, X_n$ i.i.d.\ with mean $\mu$ and finite variance
+  $\sigma^2$:
+  \[
+    \sqrt{n}\,(\bar{X} - \mu) \;\sim\; \mathcal{N}(0, \sigma^2)
+    \quad \text{as } n \to \infty
+  \]
+
+  \vspace{0.3cm}
+  The sample mean is approximately normal for large $n$,
+  with mean $\mu$ and variance $\sigma^2 / n$.
+
+  \vspace{0.3cm}
+  One of the most important results in probability and statistics.
+\end{frame}
+
+\begin{frame}{T distribution}
+  $X \sim \mathcal{T}(\nu)$, bell-shaped, heavier tails than normal.
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item $\nu > 0$: degrees of freedom
+    \item Location-scale generalization:
+      $\mu + \sigma X \sim \mathcal{T}(\mu, \sigma^2, \nu)$
+    \item Converges to normal:
+      $\displaystyle\lim_{\nu \to \infty} \mathcal{T}(\nu) = \mathcal{N}(0, 1)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Gamma distribution}
+  $X \sim \text{Gamma}(\alpha, \beta)$, right-skewed density.
+
+  \vspace{0.3cm}
+  PDF:
+  \[
+    f_X(x) = \frac{\beta^\alpha\, x^{\alpha - 1}\, e^{-\beta x}}
+      {\Gamma(\alpha)}
+  \]
+  where $\displaystyle\Gamma(\alpha) = \int_0^\infty t^{\alpha-1}\, e^{-t}\, dt$.
+
+  \vspace{0.3cm}
+  Commonly used as a \textbf{conjugate prior} in Bayesian analysis.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Combinatorics}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Permutations and combinations}
+  \textbf{Factorial}:
+  $n! = n \cdot (n-1) \cdots 2 \cdot 1$,\quad $0! = 1$
+
+  \vspace{0.3cm}
+  \textbf{Permutation}: number of arrangements of $n$ elements $= n!$
+
+  \vspace{0.3cm}
+  \textbf{Combination}: number of ways to choose $k$ from $n$:
+  \[
+    \binom{n}{k} = \frac{n!}{k!\,(n - k)!}
+  \]
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
