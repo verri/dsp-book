@@ -1,0 +1,514 @@
+% slides/project.tex - Chapter 3: Data Science Project
+
+\input{slides/preamble}
+
+\title{Data Science Project}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri\\{\small with contributions from Prof.~Dr.~Johnny C. Marques}}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    Figured I could throw myself a pity party or go back to school and learn
+    the computers.
+    \begin{flushright}
+      --- Don Carlton, \textit{Monsters University} (2013)
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item CRISP-DM
+        \item ZM approach
+        \item Agile methodology
+        \item Scrum framework
+        \item Our approach
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Explore common methodologies
+        \item Understand agile and Scrum
+        \item Propose a Scrum extension for data science
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{A data science project is a software project}
+  \begin{itemize}
+    \item Some components are constructed \textbf{from data}
+    \item Part of the solution is not designed by a domain expert
+    \item Example: spam filter --- learned from labeled emails
+    \item Traditional testing (unit tests) is not sufficient
+    \item Stochastic nature of data requires proper validation
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{CRISP-DM}
+% ===========================================================================
+
+\begin{frame}{CRISP-DM}
+  Cross Industry Standard Process for Data Mining (IBM, 1990s)
+
+  \vspace{0.3cm}
+  Cyclic process with six phases:
+  \begin{enumerate}
+    \item Business understanding
+    \item Data understanding
+    \item Data preparation
+    \item Modeling
+    \item Evaluation
+    \item Deployment
+  \end{enumerate}
+\end{frame}
+
+% ---- Figure: CRISP-DM ----
+
+\begin{frame}{Diagram of the CRISP-DM process}
+  \centering
+  \begin{tikzpicture}[scale=0.85, transform shape]
+    \node (1) at (0, 0) {};
+    \node (2) at (4, -4) {};
+    \node (3) at (0, -8) {};
+    \node (4) at (-4, -4) {};
+
+    \node [block] (bu) at (-1.5, -2) {Business understanding};
+    \node [block] (du) at (1.5, -2) {Data understanding};
+    \path [line] (bu) -- (du);
+    \path [line] (du) -- (bu);
+
+    \node [block] (dp) at (2.5, -3.5) {Data preparation};
+    \node [block] (m) at (2.5, -5) {Modeling};
+    \path [line] (dp) -- (m);
+    \path [line] (m) -- (dp);
+
+    \path [line] (du) -- (dp);
+
+    \node [block] (e) at (0, -6.5) {Evaluation};
+    \node [block] (d) at (-2.5, -4.25) {Deployment};
+
+    \path [line] (m) -- (e);
+    \path [line] (e) -- (d);
+    \path [line] (e) -- (bu);
+
+    \node [draw, circle, fill=gray, text centered, text=white] at (0, -4.25) {Data};
+
+    \path [bigarrow] (1.east) to[out=0, in=90] (2.60);
+    \path [bigarrow] (2.-60) to[out=-90, in=0] (3.east);
+    \path [bigarrow] (3.west) to[out=180, in=-90] (4.-120);
+    \path [bigarrow] (4.120) to[out=90, in=180] (1.west);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{CRISP-DM limitations}
+  \begin{itemize}
+    \item Completely focused on data
+    \item Does not address software development aspects
+    \item Product = models and findings, not the full software solution
+    \item User interface, communication, integration are not addressed
+    \item Good starting point, but should not be followed strictly
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{ZM approach}
+% ===========================================================================
+
+\begin{frame}{ZM approach --- Roles}
+  \begin{itemize}
+    \item \textbf{Project sponsor} --- main stakeholder, business interests
+    \item \textbf{Client} --- domain expert, represents end users
+    \item \textbf{Data scientist} --- sets analytic strategy, connects all roles
+    \item \textbf{Data architect} --- manages data and data storage
+    \item \textbf{Operations} --- manages infrastructure, deploys results
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Data science projects are always \textbf{collaborative}.
+\end{frame}
+
+\begin{frame}{ZM approach --- Processes}
+  \begin{itemize}
+    \item Define the goal --- what problem are we solving?
+    \item Collect and manage data --- what information do we need?
+    \item Build the model --- what patterns may solve the problem?
+    \item Evaluate the model --- is it good enough?
+    \item Present results and document --- how did we solve it?
+    \item Deploy the model --- how to use the solution?
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Back-and-forth is possible at any stage.
+\end{frame}
+
+% ---- Figure: ZM approach ----
+
+\begin{frame}{Diagram of the ZM data science process}
+  \centering
+  \begin{tikzpicture}[scale=0.85, transform shape]
+    \node (1) at (0, 0) {};
+    \node (2) at (1, -1) {};
+    \node (3) at (0, -2) {};
+    \node (4) at (-1, -1) {};
+    \path [bigarrow] (1.east) to[out=0, in=90] (2.60);
+    \path [bigarrow] (2.-60) to[out=-90, in=0] (3.east);
+    \path [bigarrow] (3.west) to[out=180, in=-90] (4.-120);
+    \path [bigarrow] (4.120) to[out=90, in=180] (1.west);
+
+    \node [block] (dg) at (0, 1) {Define the goal};
+    \node [block] (cm) at (3, -0.25) {Collect and manage data};
+    \node [block] (bm) at (3, -1.75) {Build the model};
+    \node [block] (em) at (0, -3) {Evaluate the model};
+    \node [block] (pd) at (-3, -1.75) {Present results};
+    \node [block] (dm) at (-3, -0.25) {Deploy the model};
+
+    \path [dline] (dg) to[out=0, in=90] (cm.north);
+    \path [dline] (cm) -- (bm);
+    \path [dline] (bm.south) to[out=-90, in=0] (em.east);
+    \path [dline] (em.west) to[out=180, in=-90] (pd.south);
+    \path [dline] (pd) -- (dm);
+    \path [dline] (dm.north) to[in=180, out=90] (dg.west);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{ZM approach --- Limitations}
+  \begin{itemize}
+    \item Particularly suited for consulting projects
+    \item Maintenance and monitoring delegated to operations
+    \item Does not address software development aspects
+    \item Result presentation is a differentiator from CRISP-DM
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Agile methodology}
+% ===========================================================================
+
+\begin{frame}{Agile methodology}
+  Alternative to the waterfall (sequential) methodology.
+
+  \vspace{0.3cm}
+  \textbf{Four values of the Agile Manifesto:}
+  \begin{itemize}
+    \item Individuals and interactions over processes and tools
+    \item Working software over comprehensive documentation
+    \item Customer collaboration over contract negotiation
+    \item Responding to change over following a plan
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Items on the right are not discarded, but items on the left are valued more.
+\end{frame}
+
+% ===========================================================================
+\section{Scrum framework}
+% ===========================================================================
+
+\begin{frame}{Scrum framework}
+  \begin{itemize}
+    \item Iterative, incremental process
+    \item Three pillars: \textbf{transparency}, \textbf{inspection}, \textbf{adaptation}
+    \item Organized in cycles called \textbf{sprints}
+    \item Defined roles, ceremonies, and artifacts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Scrum roles}
+  \begin{itemize}
+    \item \textbf{Product owner}
+      \begin{itemize}
+        \item Defines product vision, manages product backlog
+        \item Balances business requirements and technical capabilities
+      \end{itemize}
+    \item \textbf{Scrum master}
+      \begin{itemize}
+        \item Facilitator and coach, not a project manager
+        \item Removes impediments, fosters self-organization
+      \end{itemize}
+    \item \textbf{Development team}
+      \begin{itemize}
+        \item Cross-functional, self-managing
+        \item Delivers shippable increments each sprint
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Scrum framework ----
+
+\begin{frame}{Scrum framework overview}
+  \centering
+  \begin{tikzpicture}[%
+      font=\LARGE,
+      every label/.style={font=\footnotesize},
+      scale=0.88, transform shape,
+    ]
+    \node[align=center, label=below:product owner] (po) at (0.9, 0) {\faUserTie};
+    \node[align=center, label=below:product backlog] (backlog) at (0.9, -1.5) {\faListOl};
+
+    \node[align=center, label=below:dev team] (dev) at (3.2, 0) {\faUsers};
+    \node[align=center, label=below:sprint backlog] (sbacklog) at (3.2, -1.5) {\faClipboardList};
+
+    \draw[-Stealth] (backlog) -- (sbacklog) node[midway, above, font=\footnotesize, yshift=2mm] {sprint planning};
+
+    \draw[-Stealth, very thick] (sbacklog.east)
+      to[out=0, in=180] (5.6, -1.5)
+      to[out=0, in=0] (5.6, 0.5)
+      to[out=0, in=0] (5, 0.5)
+      to[out=180, in=130] (4.7, -1.4);
+
+    \node[font=\footnotesize] at (5.2, -0.5) {sprint};
+
+    \node[align=center, label=above:Scrum master] (sm) at (4.2, 0.8) {\faUser};
+
+    \draw[-Stealth, very thick] (6, -1.5) -- (7, -1.5);
+
+    \draw[-Stealth] (5.7, 0.6)
+      to[out=120, in=200] (5.8, 1)
+      to[out=20, in=160] (6.2, 1)
+      to[out=-20, in=20] (6, 0.3);
+
+    \node[draw, rectangle, dashed, align=center, label=below:daily scrum] (daily) at (7, 2) {\faUser \faUsers};
+    \draw[-] (daily.south west) -- (6, 0.8);
+
+    \node[draw, rectangle, dashed, align=center, label=above:sprint review] (review) at (7.8, 0) {\faUser~\faUsers};
+    \node[draw, rectangle, dashed, align=center, label=above:incremental version] (version) at (7.8, -1.3) {\faBox~\faUserTie};
+    \node[draw, rectangle, dashed, align=center, label=above:sprint retrospective] (retrospective) at (7.8, -2.6) {\faUserTie~\faUser~\faUsers};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Sprints and backlog}
+  \begin{itemize}
+    \item \textbf{Sprint} --- time-boxed iteration (1--4 weeks)
+    \item \textbf{Product backlog} --- prioritized list of all desired work
+    \item \textbf{Sprint backlog} --- subset committed for the sprint
+    \item \textbf{Daily scrum} --- brief daily progress meeting
+    \item \textbf{Burn down chart} --- visual progress tracking
+    \item \textbf{Sprint review} --- demonstrate work, gather feedback
+    \item \textbf{Sprint retrospective} --- reflect and improve
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Scrum for data science?}
+  \begin{itemize}
+    \item Some consider Scrum inadequate for data science
+    \item Argument: Scrum assumes known requirements
+    \item Exploratory phases are not well supported
+    \item Counter: Scrum is a \textbf{framework}, designed to be adapted
+    \item Need a compromise between autonomy and a detailed plan
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Our approach}
+% ===========================================================================
+
+\begin{frame}{Limitations of existing methodologies}
+  \begin{itemize}
+    \item \textbf{CRISP-DM} --- only data mining stages, no UI or data collection
+    \item \textbf{ZM approach} --- addresses presentation but delegates software dev
+    \item \textbf{Scrum} --- good for software dev, lacks exploratory phases
+    \item None fully addresses a data science \textit{software} project
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Two additional values}
+  Beyond the Agile Manifesto:
+
+  \vspace{0.5cm}
+  \begin{itemize}
+    \item \textbf{Confidence and understanding} of the model over performance
+    \item \textbf{Code version control} over interactive environments
+  \end{itemize}
+
+  \vspace{0.5cm}
+  Items on the right are not discarded, but items on the left are more important.
+\end{frame}
+
+\begin{frame}{Roles}
+  \centering
+  \small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Our approach} & \textbf{Scrum} & \textbf{ZM approach} \\
+    \midrule
+    Business spokesman  & Stakeholders  & Sponsor and client \\
+    Lead data scientist & Product owner & Data scientist \\
+    Scrum master        & Scrum master  & -- \\
+    Data science team   & Dev team      & Data architect \& operations \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Principles (1/2)}
+  \begin{itemize}
+    \item \textbf{Modularize the solution} --- front-end, back-end, dataset,
+      solution search
+    \item \textbf{Version control everything} --- code, data, documentation
+    \item \textbf{CI/CD} --- automated testing and deployment
+    \item \textbf{Reports as deliverables} --- version controlled, reproducible
+    \item \textbf{Setup quantitative goals} --- avoid forever improving the model
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Principles (2/2)}
+  \begin{itemize}
+    \item \textbf{Measure exactly what you want} --- custom metrics, beware of
+      common pitfalls
+    \item \textbf{Report model stability} --- understanding $>$ performance
+    \item \textbf{Mask DS terminology in UI} --- use domain-specific terms
+    \item \textbf{Monitor in production} --- concept drift, retraining
+    \item \textbf{Use appropriate infrastructure} --- start simple, scale as needed
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Three types of sprints}
+  \begin{itemize}
+    \item \textbf{Data sprint} --- collection, integration, tidying, exploration
+    \item \textbf{Solution sprint} --- preprocessing, machine learning, validation
+    \item \textbf{Application sprint} --- UI, communication, monitoring
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Sprints are sequential; no mixed sprints.\\
+  Back-and-forth between sprint types is possible.
+\end{frame}
+
+% ---- Figure: Sprint tasks and results (horizontal layout) ----
+
+\begin{frame}{Tasks and results for each sprint type}
+  \centering
+  \begin{tikzpicture}[
+      every node/.style={font=\footnotesize, inner sep=3pt},
+      taskbox/.style={rectangle, rounded corners, minimum height=1.4em,
+        minimum width=1.4cm, align=center},
+      resultbox/.style={rectangle, draw, rounded corners, text width=2.8cm,
+        align=center, minimum height=1.4em},
+      darkresultbox/.style={resultbox, fill=gray, text=white},
+      sprintlabel/.style={font=\scriptsize\bfseries, anchor=north west},
+    ]
+    % === Data sprint ===
+    \node[sprintlabel] at (0, 1.8) {Data sprint};
+    \node[taskbox] (collect) at (0, 0.8) {Collect};
+    \node[taskbox] (integrate) at (0, 0) {Integrate};
+    \node[taskbox] (tidy) at (0, -0.8) {Tidy};
+    \node[taskbox] (explore) at (0, -1.6) {Explore};
+    \draw[dotted] (-0.95, 1.3) rectangle (0.95, -2.1);
+    \node[resultbox] (dreport) at (0, -2.9) {Exploratory analysis};
+    \node[darkresultbox] (data) at (0, -3.7) {Data};
+    \draw[dashed, rounded corners] (-1.7, 1.7) rectangle (1.7, -4.3);
+
+    % === Solution sprint ===
+    \node[sprintlabel] at (3.8, 1.8) {Solution sprint};
+    \node[taskbox] (preprocess) at (4.3, 0.4) {Preprocess};
+    \node[taskbox] (ml) at (4.3, -0.4) {ML};
+    \node[taskbox] (validation) at (4.3, -1.2) {Validation};
+    \draw[dotted] (3.35, 0.9) rectangle (5.25, -1.7);
+    \node[resultbox] (vreport) at (4.3, -2.9) {Validation report};
+    \node[darkresultbox] (solution) at (4.3, -3.7) {Preprocessor \& model};
+    \draw[dashed, rounded corners] (2.6, 1.7) rectangle (6, -4.3);
+
+    % === Application sprint ===
+    \node[sprintlabel] at (7.7, 1.8) {Application sprint};
+    \node[taskbox] (ui) at (8.5, 0.4) {UI};
+    \node[taskbox] (comm) at (8.5, -0.4) {Communication};
+    \node[taskbox] (monitor) at (8.5, -1.2) {Monitoring};
+    \draw[dotted] (7.35, 0.9) rectangle (9.65, -1.7);
+    \node[darkresultbox] (app) at (8.5, -3.3) {Application};
+    \draw[dashed, rounded corners] (6.7, 1.7) rectangle (10.3, -4.3);
+
+    % === Legend ===
+    \node[font=\scriptsize, anchor=west, text width=10cm] at (-1.7, -5)
+      {\textbf{Dark nodes} are products fed into the next sprint.
+       \textbf{Light nodes} are presented in the sprint review.};
+  \end{tikzpicture}
+\end{frame}
+
+% ---- Figure: Sprint sequence ----
+
+\begin{frame}{Example of sprints of a data science project}
+  \centering
+  \begin{tikzpicture}
+    \node [anchor=west] at (0, 0) (s1) {data};
+    \path [line] (s1.west) arc (-160:160:1);
+    \path [line] (1.5, -0.5) -- (2.5, -0.5);
+
+    \node [anchor=west] at (2.5, 0) (s2) {data};
+    \path [line] (s2.west) arc (-160:160:1);
+    \path [line] (4, -0.5) -- (5, -0.5);
+
+    \node [anchor=west] at (5, 0) (s3) {solution};
+    \path [line] (s3.west) arc (-160:160:1);
+    \path [line] (6.5, -0.5) -- (7.5, -0.5) node [anchor=west] {\dots};
+
+    \path [line] (0.5, -3.5) node [anchor=east] {\dots} -- (1, -3.5);
+    \node [anchor=west] at (1, -3) (s5) {data};
+    \path [line] (s5.west) arc (-160:160:1);
+    \path [line] (2.5, -3.5) -- (3.5, -3.5);
+
+    \node [anchor=west] at (3.5, -3) (s6) {solution};
+    \path [line] (s6.west) arc (-160:160:1);
+    \path [line] (5, -3.5) -- (6, -3.5);
+
+    \node [anchor=west] at (6, -3) (s7) {application};
+    \path [line] (s7.west) arc (-160:160:1);
+    \path [line] (7.5, -3.5) -- (8.5, -3.5) node [anchor=west] {\dots};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Relationship with other methodologies}
+  \centering
+  \small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{CRISP-DM} & \textbf{ZM approach} & \textbf{Our approach} \\
+    \midrule
+    Bus.\ understanding & Define the goal & Product backlog \\
+    Data understanding & Collect/manage data & Data sprint \\
+    Data preparation & Collect/manage data & Data/solution sprint \\
+    Modeling & Build the model & Solution sprint \\
+    Evaluation & Evaluate the model & Solution sprint \\
+    & Present results & Sprint reviews \\
+    Deployment & Deploy the model & Application sprint \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item A data science project is a software project
+    \item Modern methodologies should address software development
+    \item Scrum can be adapted for data science with three sprint types:
+      data, solution, and application
+    \item Confidence and version control are key values
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
