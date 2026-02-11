@@ -547,7 +547,7 @@ It is denoted by $\Omega$.
 \paragraph{Empty set}  The empty set is the set with no elements.  It is denoted by
 the symbol $\emptyset$.  Depending on the context, it can also be denoted by $\{\}$.
 
-\subsection{Set operations}
+\subsection{Set operations and relations}
 
 The basic operations on sets are union, intersection, difference, and complement.
 
@@ -566,10 +566,21 @@ difference of $\{1, 2, 3\}$ and $\{3, 4, 5\}$ is $\{1, 2\}$.
 \paragraph{Complement}  The complement of a set $A$ is the set of elements that are not
 in $A$.  It is denoted by $A^c = \Omega \setminus A$.
 
+\paragraph{}
+Besides operations, sets can also be compared through relations.
+
 \paragraph{Inclusion}  Inclusion is a relation between sets.  A set $A$ is included in a
 set $B$ if all elements of $A$ are also elements of $B$.  It is denoted by $A \subseteq B$.
+If $A \subseteq B$ and $A \neq B$, then $A$ is \emph{properly included} in $B$, denoted by
+$A \subset B$.
 
-\subsection{Set operations properties}
+\paragraph{Equality}  Two sets $A$ and $B$ are equal if and only if $A \subseteq B$ and
+$B \subseteq A$.  It is denoted by $A = B$.
+
+\paragraph{Disjointness}  Two sets $A$ and $B$ are disjoint if they have no elements in
+common, i.e., $A \cap B = \emptyset$.
+
+\subsection{Properties of set operations and relations}
 
 Union and intersection are commutative, associative, and distributive.  Thus, given sets
 $A$, $B$, and $C$, the following statements hold:
@@ -597,7 +608,6 @@ This property is known as De Morgan's laws.
 In terms of inclusion, given sets $A$, $B$, and $C$, the following statements hold:
 \begin{itemize}
   \item \emph{Reflexivity:} $A \subseteq A$;
-  \item \emph{Antisymmetry:} $A \subseteq B$ and $B \subseteq A$ if and only if $A = B$;
   \item \emph{Transitivity:} $A \subseteq B$ and $B \subseteq C$ implies $A \subseteq C$.
 \end{itemize}
 
