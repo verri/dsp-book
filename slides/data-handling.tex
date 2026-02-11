@@ -1,0 +1,501 @@
+% slides/data-handling.tex - Chapter 5: Data Handling
+
+\input{slides/preamble}
+
+\title{Data Handling}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    $\dagger$ It's dangerous to go alone! Take this.
+    \begin{flushright}
+      --- Unnamed Old Man, \textit{The Legend of Zelda}
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Formal structured data
+        \item Data handling pipelines
+        \item Split-invariant operations
+        \item Other operations
+        \item An algebra for data handling
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Define a formal structure for tables
+        \item Define operations on tables
+        \item Understand split invariance
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Formal structured data}
+% ===========================================================================
+
+\begin{frame}{Indexed table}
+  \begin{block}{Definition}
+    An indexed table $T = (K, H, c)$:
+    \begin{itemize}
+      \item $K = \{K_1, \ldots, K_k\}$ --- set of index columns
+      \item $H$ --- set of non-index columns
+      \item $c$ --- cell function mapping (row, column) to values
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Rows indexed by tuples $r = (k_1, \ldots, k_k)$
+    \item Each row has a cardinality (repetitions of the entity)
+    \item Values may be \textbf{missing} (?)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Nested rows and value matrices}
+  \begin{itemize}
+    \item \textbf{Nested row}: associates different columns with the same
+      repetition of the entity
+    \item \textbf{Value matrix} $V(r)$: stacking nested rows into a
+      $\operatorname{card}(r) \times |H|$ matrix
+    \item Value matrices are assumed minimal (no all-missing nested rows)
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Splitting and binding}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Split and bind}
+  \begin{block}{Split}
+    Given indicator $s(r) \in \{0, 1\}$, creates two disjoint tables:
+    \[
+      \operatorname{split}(T, s) = (T_0, T_1)
+    \]
+    A split \textbf{never breaks a row} --- indices define indivisible entities.
+  \end{block}
+
+  \begin{block}{Bind}
+    Inverse of split --- combines two \textbf{disjoint} tables:
+    \[
+      \operatorname{bind}(T_0, T_1) = T
+    \]
+  \end{block}
+\end{frame}
+
+\begin{frame}{Premises in real-world applications}
+  \begin{itemize}
+    \item Entities represented by rows are indivisible
+    \item Binding only for tables that do not share entities
+    \item Data collection $\approx$ split from the universe of entities
+    \item Fewer index columns $\to$ more information per entity required
+    \item More index columns $\to$ restrictions on allowed operations
+    \item Neglecting these issues leads to statistical biases
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Split invariance}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Split invariance}
+  \begin{block}{Definition}
+    Operation $f$ is \textbf{split-invariant} if for any table $T$ and split $s$:
+    \[
+      f(T_0 + T_1) = f(T_0) + f(T_1)
+    \]
+    where $T_0, T_1 = \operatorname{split}(T, s)$.
+  \end{block}
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Ensures the operation does not depend on how data was collected
+    \item Avoids \textbf{data leakage} and sampling bias
+    \item Sufficient (not necessary) condition for preventing leakage
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Illustrative example}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Illustrative example --- Student grades}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{llcc}
+    \toprule
+    \textbf{student} & \textbf{subject} & \textbf{year} & \textbf{grade} \\
+    \midrule
+    Alice & Chemistry & 2020 & 6 \\
+    Alice & Math & 2019 & 8 \\
+    Alice & Physics & 2019 & 7 \\
+    Bob & Chemistry & 2018 & ? \\
+    Bob & Chemistry & 2019 & 7 \\
+    Bob & Math & 2019 & 9 \\
+    Bob & Physics & 2019 & 4 \\
+    Bob & Physics & 2020 & 8 \\
+    Carol & Biology & 2020 & 8 \\
+    Carol & Chemistry & 2020 & 3 \\
+    Carol & Math & 2020 & 10 \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Impact of index choice}
+  \textbf{Index = (student, subject):}
+  \begin{itemize}
+    \item Cannot know if Alice took Biology
+    \item Can confirm Bob passed Physics (second attempt)
+    \item Cannot guarantee Carol only took classes in 2020
+  \end{itemize}
+
+  \vspace{0.5cm}
+  \textbf{Index = (student):}
+  \begin{itemize}
+    \item Can confirm Alice never took Biology
+    \item No information about Bob (not in our split)
+    \item Can confirm Carol only took classes in 2020
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Fewer indices $\to$ more information about present entities.
+\end{frame}
+
+% ===========================================================================
+\section{Data handling pipelines}
+% ===========================================================================
+
+% ---- Figure: Pipeline ----
+
+\begin{frame}{Data handling pipeline}
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small, inner sep=4pt}]
+    \node (s1) [darkcircle] at (0, 0) {Source 1};
+    \node (s2) [darkcircle] at (0, -2) {Source 2};
+    \node (f1) [mediumblock] at (2, 0) {$f_1$};
+    \node (f2) [mediumblock] at (4, 0) {$f_2$};
+    \node (f3) [mediumblock] at (2, -2) {$f_3$};
+    \node (f4) [mediumblock] at (4, -2) {$f_4$};
+    \node (f5) [mediumblock] at (6, -1) {$f_5$};
+    \node (data) [darkcircle, minimum width=15mm] (data) at (8, -1) {Data};
+
+    \path [line] (s1) -- (f1);
+    \path [line] (f1) -- (f2);
+    \path [line] (f1.east) -- (f4);
+    \path [line] (s2) -- (f3);
+    \path [line] (f3) -- (f4);
+    \path [line] (f2) -- (f5);
+    \path [line] (f4) -- (f5);
+    \path [line] (f5) -- (data);
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small
+  Forks and merges allow complex processing.\\
+  Declarative approach enables optimization and parallel processing.
+\end{frame}
+
+% ===========================================================================
+\section{Split-invariant operations}
+% ===========================================================================
+
+\begin{frame}{Split-invariant operations}
+  Operations safe to use during data integration and tidying:
+  \begin{itemize}
+    \item Tagged splitting and binding
+    \item Pivoting (long-to-wide and wide-to-long)
+    \item Joining (left join with fixed table)
+    \item Selecting columns
+    \item Filtering rows
+    \item Mutating (creating new columns)
+    \item Aggregating (reducing row cardinality)
+    \item Ungrouping (increasing index columns)
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Tagged splitting and binding}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Tagged bind and split}
+  \begin{itemize}
+    \item \textbf{Tagged bind}: combine disjoint tables + add source column $s$
+    \item Solves: single observational unit in multiple tables
+    \item Pay attention to hidden semantics (e.g., units of measurement)
+    \item \textbf{Tagged split}: reverse --- split by values of column $s$
+    \item Split-invariant by definition (each row has unique $s$ value)
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Pivoting}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Pivoting}
+  \begin{columns}[T]
+    \begin{column}{0.42\textwidth}
+      \textbf{Long format}\\[0.2cm]
+      \centering\small
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lcc}
+        \toprule
+        \textbf{city} & \textbf{year} & \textbf{qty.} \\
+        \midrule
+        A & 2019 & 1 \\
+        A & 2020 & 2 \\
+        A & 2021 & 3 \\
+        B & 2019 & 4 \\
+        B & 2020 & 5 \\
+        B & 2021 & 6 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.05\textwidth}
+      \centering\vspace{1.5cm}$\leftrightarrow$
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Wide format}\\[0.2cm]
+      \centering\small
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{lccc}
+        \toprule
+        \textbf{city} & \textbf{2019} & \textbf{2020} & \textbf{2021} \\
+        \midrule
+        A & 1 & 2 & 3 \\
+        B & 4 & 5 & 6 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.5cm}
+  \begin{itemize}
+    \item \textbf{Long-to-wide}: name column values become new columns
+    \item \textbf{Wide-to-long}: column names become values
+    \item Both operations are split-invariant
+    \item Solves: headers as values, variables in rows and columns
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Joining}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Joining}
+  \begin{itemize}
+    \item Combines two tables based on common index columns
+    \item \textbf{Inner join}: only matching rows kept
+      \begin{itemize}
+        \item Can ``erase'' rows --- potential source of bias
+      \end{itemize}
+    \item \textbf{Left join} (with fixed table): all rows from first table kept
+      \begin{itemize}
+        \item Missing matches $\to$ missing values for second table columns
+        \item \textbf{Split-invariant} when second table is fixed
+      \end{itemize}
+    \item Cardinality of joined rows must be constant (aggregate first if needed)
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Selecting and filtering}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Selecting and filtering}
+  \textbf{Selecting} (columns):
+  \begin{itemize}
+    \item Choose a subset of non-index columns; rows unchanged
+    \item Split-invariant if predicate does not depend on values
+  \end{itemize}
+
+  \vspace{0.5cm}
+  \textbf{Filtering} (rows):
+  \begin{itemize}
+    \item Choose rows satisfying a predicate; columns unchanged
+    \item Predicates combined with logical disjunction (or)
+    \item Split-invariant because rows are treated independently
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Mutating and aggregating}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Mutating and aggregating}
+  \textbf{Mutating}:
+  \begin{itemize}
+    \item Create new columns from a function of existing values
+    \item Example: \code{y = x + 1}, \code{y = ifelse(x > 0, 1, 0)}
+    \item Split-invariant (rows treated independently)
+    \item Solves: multiple variables stored in one column
+  \end{itemize}
+
+  \vspace{0.5cm}
+  \textbf{Aggregating}:
+  \begin{itemize}
+    \item Ensure all rows have cardinality 1
+    \item Function maps value matrix to a single tuple
+    \item Split-invariant (rows treated independently)
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Ungrouping}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Ungrouping}
+  Transforms a non-index column into an index column.
+
+  \vspace{0.3cm}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l|cc}
+    \toprule
+    \textbf{city} & \textbf{year} & \textbf{qty.} \\
+    \midrule
+    A & (2019, 2020, 2020, 2021) & (1, 2, 3, 4) \\
+    B & (2019, 2020, 2021) & (5, 6, 7) \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  $\downarrow$ ungroup by \emph{year} $\downarrow$
+
+  \vspace{0.3cm}
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ll|c}
+    \toprule
+    \textbf{city} & \textbf{year} & \textbf{qty.} \\
+    \midrule
+    A & 2019 & 1 \\
+    A & 2020 & (2, 3) \\
+    A & 2021 & 4 \\
+    B & 2019 & 5 \\
+    B & 2020 & 6 \\
+    B & 2021 & 7 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright Split-invariant.
+\end{frame}
+
+% ===========================================================================
+\section{Other operations}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Projecting or grouping}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Projection (grouping)}
+  \begin{itemize}
+    \item Reduces the number of index columns
+    \item Changes the observational unit
+    \item Rows are grouped by the remaining indices
+    \item \textbf{Not split-invariant}
+      \begin{itemize}
+        \item Splitting may place parts of a group in different tables
+        \item Binding after projection violates the disjoint property
+      \end{itemize}
+    \item Poor data schema + projection $\to$ incorrect conclusions
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Grouped and arranged operations}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Grouped and arranged operations}
+  When more flexibility is needed (e.g., preprocessing):
+  \begin{itemize}
+    \item \textbf{Aggregation function}: returns single value from tuple
+      (sum, mean, count, first)
+    \item \textbf{Window function}: returns tuple of same size
+      (cumsum, lag, rank)
+    \item Require specifying \textbf{groups} and/or \textbf{order}
+    \item \textbf{Not split-invariant} (grouping is always required)
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Mutating with groups and order ----
+
+\begin{frame}{Mutating with groups and order}
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small, inner sep=4pt}]
+    \node (source) [darkcircle] at (0, -2) {Source};
+    \node (group) [mediumblock] at (0, 0) {Group};
+    \node (mutate) [mediumblock] at (2, 0) {Mutate};
+    \node (ungroup) [mediumblock, text width=3.5em] at (4, 0) {Ungroup};
+    \node (select) [mediumblock] at (6, 0) {Select};
+    \node (temp) [darkcircle] at (6, -2) {};
+    \node (join) [mediumblock] at (3, -2) {Join};
+    \node (result) [darkcircle] at (3, -4) {Result};
+
+    \path [line] (source) -- (group);
+    \path [line] (group) -- (mutate);
+    \path [line] (mutate) -- (ungroup);
+    \path [line] (ungroup) -- (select);
+    \path [line] (select) -- (temp);
+    \path [line] (temp) -- (join);
+    \path [line] (source) -- (join);
+    \path [line] (join) -- (result);
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small Example: \code{y = cumsum(x) group by category sort by date}
+\end{frame}
+
+% ===========================================================================
+\section{An algebra for data handling}
+% ===========================================================================
+
+\begin{frame}{Towards an algebra for data handling}
+  \begin{itemize}
+    \item Formal algebra for data transformations is an open problem
+    \item Statistical data handling $\neq$ relational algebra
+      (transformation vs retrieval)
+    \item Desirable properties: completeness, composability
+    \item Split invariance is a novel concept proposed in this book
+    \item Future: a ``Turing complete'' data handling language
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Split-invariant operations avoid sampling bias
+    \item One must understand the properties and premises of the operations
+    \item Index choice determines what conclusions are safe
+    \item Projection/grouping is \textbf{not} split-invariant --- use carefully
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
