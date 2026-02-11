@@ -1220,7 +1220,15 @@ transformation.  They present a data model, an algebra, and a formal language.  
 is to create a standard for statistical data transformation that can be used by different
 statistical software.
 
-However, in my opinion, the major deficiency of their work is that they mostly try to
+Other notable efforts are the works of
+\textcite{hutchison2017laradb}\footfullcite{hutchison2017laradb}, who proposes a
+minimalist algebra of just three operators (extension, join, and union) that unifies
+relational algebra and linear algebra computation, and
+\textcite{petersohn2020towards}\footfullcite{petersohn2020towards}, who formalizes a
+compact dataframe algebra of 14 operators reverse-engineered from pandas and demonstrates
+its use in a scalable, parallel implementation.
+
+However, in my opinion, the major deficiency of these works is that they mostly try to
 ``reverse engineer'' the operations that are commonly used in statistical software.  This
 is useful for the translation of code between different software, but it is not productive
 to advance the theoretical understanding of statistical transformations.
