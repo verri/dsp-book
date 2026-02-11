@@ -296,7 +296,7 @@ Knowing that the data is complete, we can safely assume that:
 \begin{tablebox}[label=tab:grades2]{Data table of student grades assuming student and subject as indices.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccccc}
+  \begin{tabular}{ccc|cc}
     \toprule
     \textbf{s} & \textbf{student} & \textbf{subject} & \textbf{year} & \textbf{grade} \\
     \midrule
@@ -335,7 +335,7 @@ Now, about the statements we made before:
 \begin{tablebox}[label=tab:grades3]{Data table of student grades assuming student as the index.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccp{2.6cm}p{1.8cm}>{\raggedright\arraybackslash}p{1.2cm}}
+  \begin{tabular}{cc|p{2.6cm}p{1.8cm}>{\raggedright\arraybackslash}p{1.2cm}}
     \toprule
     \textbf{s} & \textbf{student} & \textbf{subject} & \textbf{year} & \textbf{grade} \\
     \midrule
@@ -502,7 +502,7 @@ also contain extra information.
 \begin{tablebox}[label=tab:gas-usage]{Gas usage datasets.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccc}
+  \begin{tabular}{c|cc}
     \toprule
     \textbf{month} & \textbf{gas} & \textbf{distance} \\
     \midrule
@@ -514,7 +514,7 @@ also contain extra information.
   \end{tabular}
   ~
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccc}
+  \begin{tabular}{c|cc}
     \toprule
     \textbf{month} & \textbf{gas} & \textbf{distance} \\
     \midrule
@@ -608,7 +608,7 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
 \begin{tablebox}[label=tab:pivot]{Pivoting example.}
     \centering
     \rowcolors{2}{black!10!white}{}
-    \begin{tabular}{ccc}
+    \begin{tabular}{cc|c}
       \toprule
       \textbf{city} & \textbf{year} & \textbf{qty.} \\
       \midrule
@@ -622,7 +622,7 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
     \end{tabular}
     ~
     \rowcolors{2}{black!10!white}{}
-    \begin{tabular}{cccc}
+    \begin{tabular}{c|ccc}
       \toprule
       \textbf{city} & \textbf{2019} & \textbf{2020} & \textbf{2021} \\
       \midrule
@@ -1152,7 +1152,6 @@ will create a new column \code{y} with the cumulative sum of the \code{x} column
     \node (mutate) [mediumblock] at (2, 0) {Mutate};
     \node (ungroup) [mediumblock, text width=3.5em] at (4, 0) {Ungroup};
     \node (select) [mediumblock] at (6, 0) {Select};
-    \node (temp) [darkcircle] at (6, -2) {};
     \node (join) [mediumblock] at (3, -2) {Join};
     \node (result) [darkcircle] at (3, -4) {Result};
 
@@ -1160,8 +1159,7 @@ will create a new column \code{y} with the cumulative sum of the \code{x} column
     \path [line] (group) -- (mutate);
     \path [line] (mutate) -- (ungroup);
     \path [line] (ungroup) -- (select);
-    \path [line] (select) -- (temp);
-    \path [line] (temp) -- (join);
+    \path [line] (select) |- (join);
     \path [line] (source) -- (join);
     \path [line] (join) -- (result);
   \end{tikzpicture}
