@@ -1,0 +1,665 @@
+% slides/validation.tex - Chapter 8: Solution Validation
+
+\input{slides/preamble}
+
+\title{Solution Validation}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    All models are wrong, but some are useful.
+    \begin{flushright}
+      --- George E. P. Box, \textit{Robustness in Statistics}
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Evaluation
+        \item An experimental plan for data science
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Understand the importance of experimental planning
+        \item Learn the main evaluation metrics
+        \item Learn how to design an experimental plan
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Evaluation}
+% ===========================================================================
+
+\begin{frame}{Evaluation setup}
+  \begin{enumerate}
+    \item \textbf{Preprocessing}: apply $F$ to training set $\to$ fitted
+      preprocessor $f_\phi$
+    \item \textbf{Learning}: train machine $M$ on adjusted training data $\to$
+      model $f_\theta$
+    \item \textbf{Transformation}: apply $f_\phi$ to test set (no access to
+      target $y$)
+    \item \textbf{Prediction}: $\hat{y}_i = f_\theta(f_\phi(\vec{x}_i))$
+    \item \textbf{Evaluation}: compare $\hat{y}_i$ with $y_i$ on test set
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  Training and test sets must be \textbf{disjoint}:
+  $\mathcal{I}_\text{train} \cap \mathcal{I}_\text{test} = \emptyset$
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Binary classification evaluation}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Confusion matrix}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{ll|cc}
+    \toprule
+    & & \multicolumn{2}{c}{\textbf{Predicted}} \\
+    & & 1 & 0 \\
+    \midrule
+    \multirow{2}{*}{\textbf{Expected}} & 1 & TP & FN \\
+    & 0 & FP & TN \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \raggedright
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{TP}: true positives
+        \item \textbf{TN}: true negatives
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item \textbf{FP}: false positives
+        \item \textbf{FN}: false negatives
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Accuracy and balanced accuracy}
+  \textbf{Accuracy} --- proportion of correct predictions:
+  \[
+    \text{Accuracy} = \frac{\text{TP} + \text{TN}}
+      {\text{TP} + \text{TN} + \text{FP} + \text{FN}}
+  \]
+
+  \vspace{0.2cm}
+  \textbf{Balanced accuracy} --- average of per-class rates:
+  \[
+    \text{Balanced Accuracy} = \frac{\text{TPR} + \text{TNR}}{2}
+  \]
+  where $\text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}$ and
+  $\text{TNR} = \frac{\text{TN}}{\text{TN} + \text{FP}}$.
+
+  \vspace{0.2cm}
+  \small
+  Accuracy can be misleading with imbalanced classes; balanced accuracy
+  gives equal weight to each class.
+\end{frame}
+
+\begin{frame}{Precision and recall}
+  Both focus on the \textbf{positive class}:
+
+  \vspace{0.3cm}
+  \textbf{Precision} --- confidence in positive predictions:
+  \[
+    \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+  \]
+
+  \vspace{0.2cm}
+  \textbf{Recall} (TPR) --- completeness of positive retrieval:
+  \[
+    \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+  \]
+
+  \vspace{0.2cm}
+  \small
+  Precision: avoid false alarms. Recall: avoid missing positives.
+\end{frame}
+
+\begin{frame}{F-score and specificity}
+  \textbf{F-score} --- weighted harmonic mean of precision and recall:
+  \[
+    \text{F}_\beta\text{-score} =
+      \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}
+        {\beta^2 \cdot \text{Precision} + \text{Recall}}
+  \]
+  $\beta = 1$: equal weight. $\beta > 1$: favor precision.
+  $0 < \beta < 1$: favor recall.
+
+  \vspace{0.3cm}
+  \textbf{Specificity} (TNR) --- focuses on the negative class:
+  \[
+    \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}}
+  \]
+\end{frame}
+
+\begin{frame}{Summary of classification metrics}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l c c}
+    \toprule
+    \textbf{Metric} & \textbf{Focus} & \textbf{Interpretation} \\
+    \midrule
+    Accuracy           & Symmetrical & Penalizes all \\
+    Balanced Accuracy  & Symmetrical & Penalizes all (weighted) \\
+    Recall (TPR)       & Positive & Penalizes FN \\
+    Precision          & Positive & Penalizes FP \\
+    F-score            & Positive & Penalizes all (weighted) \\
+    Specificity (TNR)  & Negative & Penalizes FP \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Metrics for trivial classifiers}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{l c c c}
+    \toprule
+    \textbf{Metric} & \textbf{Guess 1} & \textbf{Guess 0} & \textbf{Random} \\
+    \midrule
+    Accuracy$^\dagger$  & $\pi$ & $1 - \pi$ & $0.5$ \\
+    Balanced Accuracy   & $0.5$ & $0.5$ & $0.5$ \\
+    Recall (TPR)        & $1$ & $0$ & $0.5$ \\
+    Precision$^\dagger$ & $\pi$ & --- & $\pi$ \\
+    F$_1$-score$^\dagger$ & $\frac{2\pi}{1+\pi}$ & $0$ & $\frac{2\pi}{1+2\pi}$ \\
+    Specificity (TNR)   & $0$ & $1$ & $0.5$ \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small
+  $\pi$ = ratio of positive samples. $^\dagger$ = affected by class imbalance.\\
+  Prefer asymmetric metrics when the positive class is the \textbf{minority}.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Regression estimation evaluation}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Regression metrics --- absolute errors}
+  Residual: $\epsilon_i = \hat{y}_i - y_i$
+
+  \vspace{0.3cm}
+  \textbf{Mean Absolute Error}:
+  $\displaystyle\text{MAE} = \frac{1}{n} \sum_{i=1}^n |\epsilon_i|$
+
+  \vspace{0.3cm}
+  \textbf{Mean Squared Error}:
+  $\displaystyle\text{MSE} = \frac{1}{n} \sum_{i=1}^n \epsilon_i^2$
+
+  \vspace{0.3cm}
+  \textbf{Root Mean Squared Error}:
+  $\text{RMSE} = \sqrt{\text{MSE}}$
+
+  \vspace{0.3cm}
+  \small MAE and RMSE are in the same unit as the target variable.
+  MSE/RMSE penalize large errors more.
+\end{frame}
+
+\begin{frame}{Regression metrics --- relative errors}
+  For strictly positive targets ($y_i > 0$, $\hat{y}_i > 0$):
+
+  \vspace{0.3cm}
+  \textbf{Mean Absolute Percentage Error}:
+  $\displaystyle\text{MAPE} = \frac{1}{n} \sum_{i=1}^n \frac{|\epsilon_i|}{y_i}$
+
+  \vspace{0.3cm}
+  \textbf{Mean Absolute Logarithmic Error}:
+  $\displaystyle\text{MALE} = \frac{1}{n} \sum_{i=1}^n
+    |\ln\hat{y}_i - \ln y_i|$
+
+  \vspace{0.3cm}
+  \small
+  Useful when target has large range. MAPE punishes overestimation more.
+  MALE is symmetric in multiplicative terms:
+  $|\ln\frac{\hat{y}}{y}| = \ln\max\!\left(\frac{\hat{y}}{y},
+  \frac{y}{\hat{y}}\right)$.
+\end{frame}
+
+\begin{frame}{MAPE vs.\ MALE}
+  \centering
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{rrrrl}
+    \toprule
+    $\hat{y}$ & $y$ & $|\epsilon|$ & MAPE & $\exp(\text{MALE})$ \\
+    \midrule
+    100 & 10 & 90 & 9.0 & 10 \\
+      1 & 10 &  9 & 0.9 & 10 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \raggedright
+  MAPE gives 9.0 for overestimation and 0.9 for underestimation.\\
+  MALE treats both as a factor of 10.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Probabilistic classification}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Probabilistic classification}
+  Regressor output $f_R(\vec{x}) \in [0, 1]$ converted to classifier:
+  \[
+    f_C(\vec{x}; \tau) = \begin{cases}
+      1 & \text{if } f_R(\vec{x}) \geq \tau \\
+      0 & \text{otherwise}
+    \end{cases}
+  \]
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Low $\tau \approx 0$: high recall, low specificity
+    \item High $\tau \approx 1$: high specificity, low recall
+    \item Default: $\tau = 0.5$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: probability regressor output}
+  \begin{columns}[T]
+    \begin{column}{0.35\textwidth}
+      \centering\small
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{rr}
+        \toprule
+        Expected & Predicted \\
+        \midrule
+        0 & 0.1 \\
+        0 & 0.5 \\
+        0 & 0.2 \\
+        0 & 0.6 \\
+        1 & 0.4 \\
+        1 & 0.9 \\
+        1 & 0.7 \\
+        1 & 0.8 \\
+        1 & 0.9 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+      \centering\small
+      Sort by predicted value, then compute TPR and FPR for each threshold:
+
+      \vspace{0.2cm}
+      \rowcolors{2}{black!10!white}{}
+      \begin{tabular}{rrrr}
+        \toprule
+        Exp. & Threshold & TPR & FPR \\
+        \midrule
+        ---  & $\infty$ & $0/5$ & $0/4$ \\
+        1 & $0.9$  & $2/5$ & $0/4$ \\
+        1 & $0.8$  & $3/5$ & $0/4$ \\
+        1 & $0.7$  & $4/5$ & $0/4$ \\
+        0 & $0.6$  & $4/5$ & $1/4$ \\
+        0 & $0.5$  & $4/5$ & $2/4$ \\
+        1 & $0.4$  & $5/5$ & $2/4$ \\
+        0 & $0.2$  & $5/5$ & $3/4$ \\
+        0 & $0.1$  & $5/5$ & $4/4$ \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ---- Figure: ROC curve ----
+
+\begin{frame}{ROC curve}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=left,
+        xlabel={FPR},
+        ylabel={TPR},
+        xmin=0, xmax=1.05,
+        ymin=0, ymax=1.05,
+        xtick={0, 0.25, 0.5, 0.75, 1.0},
+        ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
+        grid=both,
+        width=0.55\textwidth,
+        height=0.55\textwidth,
+      ]
+
+      % ROC curve
+      \addplot[thick, mark=*, mark size=1.5pt] coordinates {
+        (0.0, 0.0) (0.0, 0.2) (0.0, 0.4)
+        (0.0, 0.6) (0.0, 0.8) (0.25, 0.8)
+        (0.50, 0.8) (0.50, 1.0) (0.75, 1.0) (1.0, 1.0)
+      };
+
+      % Diagonal (random classifier)
+      \addplot[dashed, gray] coordinates {(0, 0) (1, 1)};
+    \end{axis}
+  \end{tikzpicture}
+
+  \small
+  Points above diagonal $=$ better than random.
+  \quad AUC $= 0.9$ in this example.
+\end{frame}
+
+\begin{frame}{Area under the ROC curve (AUC)}
+  \begin{itemize}
+    \item Summarizes the performance of all possible thresholds
+    \item Ranges from 0 to 1 (1 = perfect)
+    \item \textbf{Scale invariant}: measures how well predictions are ranked
+    \item \textbf{Robust to class imbalance}: considers both recall and
+      specificity
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{An experimental plan for data science}
+% ===========================================================================
+
+\begin{frame}{Why experimental planning?}
+  \begin{itemize}
+    \item Data science is \textbf{experimental} --- we lack theoretical models
+      predicting algorithm performance
+    \item Data and learning are \textbf{stochastic}
+    \item Robust planning ensures reliable, decision-worthy results
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Key elements:
+  \begin{itemize}
+    \item \textbf{Hypothesis}: what do we want to validate?
+    \item \textbf{Data}: representative dataset
+    \item \textbf{Solution search}: preprocessing + learning
+    \item \textbf{Performance metric}: how do we measure success?
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Sampling strategy}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Performance as a random variable}
+  \begin{itemize}
+    \item Training and testing on the same data $\Rightarrow$ \textbf{optimistic}
+    \item Single hold-out $\Rightarrow$ depends on the random split
+    \item Solution: treat performance as a \textbf{random variable}
+    \item Generate multiple training/test splits to study the distribution
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Cross-validation ----
+
+\begin{frame}{Cross-validation}
+  \centering
+  \begin{tikzpicture}[scale=0.9, transform shape]
+    \foreach \i in {1, 2, 3, 4} {
+      \node at (2.2 * \i, 0) {\small Fold \i};
+      \foreach \j in {1, 2, 3, 4} {
+        \ifnum\i=\j
+          \node [smallblock, minimum width=16mm, minimum height=6mm]
+            (fold\i\j) at (2.2 * \i, -\j) {\small Test};
+        \else
+          \node [smalldarkblock, minimum width=16mm, minimum height=6mm]
+            (fold\i\j) at (2.2 * \i, -\j) {\small Training};
+        \fi
+      }
+    }
+    \foreach \j in {1, 2, 3, 4} {
+      \node [draw, dashed, fit={(fold1\j) (fold4\j)}] {};
+    }
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small
+  $r$ folds; each fold is the test set once, training set $r{-}1$ times.\\
+  Prefer: \textbf{repeated} and \textbf{stratified} cross-validation.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Collecting evidence}
+% ---------------------------------------------------------------------------
+
+% ---- Figure: Experimental plan ----
+
+\begin{frame}{Experimental plan}
+  \centering
+  \resizebox{0.4\textwidth}{!}{
+  \begin{tikzpicture}
+    \node [darkcircle] (data) at (0, 0) {Data};
+    \node [block] (sampling) at (0, -2) {Sampling strategy};
+    \path [line] (data) -- (sampling);
+
+    \foreach \i in {1, 2, 4, 5} {
+      \draw [dashed] (-7 + 2 * \i, -4.5) rectangle (-5.1 + 2 * \i, -3.5);
+      \path [line] (sampling) -- (-6.1 + 2 * \i, -3.5);
+
+      \node [smalldarkblock] (train\i) at (-6.4 + 2 * \i, -4) {Training};
+      \node [smallblock] (test\i) at (-5.6 + 2 * \i, -4) {Test};
+
+      \path [line] (-6.1 + 2 * \i, -4.5) -- (-6.1 + 2 * \i, -5.5);
+    }
+    \node [anchor=center] at (0, -4) {\dots};
+
+    \draw [dashed] (-5, -5.5) rectangle (4.9, -10.5);
+
+    \node [smalldarkblock, font=\small, inner sep=4pt] (train) at (-4, -7) {Training};
+    \node [smallblock, inner sep=4pt] (test) at (-4, -9) {Test (no target)};
+
+    \draw [dashed] (-3, -6) rectangle (3, -8);
+    \node [anchor=south] at (0, -6.1) {Solution search algorithm};
+
+    \node [block] (handling) at (-1.5, -7) {Preprocessing};
+    \node [block] (learning) at (1.5, -7) {Machine learning};
+    \node (model) at (4, -7) {%
+      $\left[
+      \begin{array}{c}
+        \phi \\
+        \theta \\
+      \end{array}
+      \right]$
+    };
+
+    \path [line] (train) -- (handling);
+    \path [line] (handling) -- (learning);
+    \path [line, dashed] (3, -7) -- (model);
+
+    \node [block] (preprocess) at (-1.5, -9) {Preprocessor};
+    \node [block] (prediction) at (1.5, -9) {Model};
+
+    \path [line, dashed] (handling) -- (preprocess);
+    \path [line, dashed] (learning) -- (prediction);
+
+    \path [line] (test) -- (preprocess);
+    \path [line] (preprocess) -- (prediction);
+
+    \node [smallblock, inner sep=4pt] (predicted) at (4, -9) {predictions};
+    \node (performance) at (4, -10) {$p$};
+    \path [line] (prediction) -- (predicted);
+
+    \node [smallblock, inner sep=4pt] (labels) at (-4, -10) {Test (target)};
+    \path [line] (labels) -- (performance);
+    \path [line] (predicted) -- (performance);
+
+    \node (perfs) at (-4.2, -12) {%
+      $\left[
+        \begin{array}{c}
+          p_1 \\
+          p_2 \\
+          \vdots \\
+        \end{array}
+      \right]$
+    };
+
+    \node [block] (hypothesis) at (-1, -12) {Hypothesis test};
+
+    \path [line, dashed] (-4.2, -10.5) -- (perfs);
+    \path [line] (perfs) -- (hypothesis);
+  \end{tikzpicture}
+  }
+\end{frame}
+
+\begin{frame}{Collecting evidence --- summary}
+  For each sampling $D_k$:
+  \begin{enumerate}
+    \item Fit preprocessor $\phi_k$ and model $\theta_k$ on $D_{k,\text{train}}$
+    \item Predict $\hat{y}_i = f_{\phi_k, \theta_k}(x_i)$ on $D_{k,\text{test}}$
+    \item Compute performance $p_k = R(\vec{y}, \hat{\vec{y}})$
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  By definition, $p_k$ is free of \textbf{leakage}: parameters found without
+  test data, predictions use only $x_i$ (no target $y_i$).
+\end{frame}
+
+\begin{frame}{Evaluation vs.\ validation}
+  \begin{itemize}
+    \item \textbf{Evaluation}: assessing performance using a test set
+    \item \textbf{Validation}: interpreting the evaluation results to determine
+      how well the solution generalizes to unseen data
+  \end{itemize}
+
+  \vspace{0.3cm}
+  The sampled performance values $p_1, p_2, \ldots$ can be analyzed
+  statistically to prove (or disprove) the hypothesis.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Estimating expected performance}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Estimating expected performance}
+  Goal: reach performance threshold $p^*$.
+
+  \vspace{0.3cm}
+  Simple approach:
+  \begin{itemize}
+    \item Run $10 \times 10$-fold cross-validation
+    \item Compute $\bar{p}$ and $\sigma$
+    \item If $\bar{p} - \sigma \gg p^*$, the solution is likely good enough
+  \end{itemize}
+
+  \vspace{0.3cm}
+  More sophisticated: \textbf{Bayesian analysis} to estimate the
+  probability distribution of performance.
+\end{frame}
+
+\begin{frame}{Bayesian correlated $t$-test}
+  Let $z_k = p_k - p^*$ (performance gain over goal).
+
+  \vspace{0.2cm}
+  Generative model (Benavoli et al., 2017):
+  \[
+    \vec{z} = \vec{1}\mu + \vec{v}, \quad
+    \vec{v} \sim \operatorname{MVN}(0, \Sigma)
+  \]
+  with $\Sigma_{ii} = \sigma^2$ and $\Sigma_{ij} = \sigma^2 \rho$ for $i \neq j$.
+
+  \vspace{0.2cm}
+  Posterior of $\mu$ is a Student distribution:
+  \[
+    \mu \mid \vec{z} \;\sim\; \operatorname{St}\!\left(n{-}1,\; \bar{z},\;
+      \left(\tfrac{1}{n} + \tfrac{\rho}{1-\rho}\right) s^2 \right)
+  \]
+
+  \vspace{0.2cm}
+  Validate: $\Prob(\mu > 0 \mid \vec{z}) > \gamma$ (confidence level).
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Comparing strategies}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Comparing strategies}
+  Baseline $A(\lambda_0)$ vs.\ candidate $A(\lambda)$:
+  \begin{itemize}
+    \item Use the \textbf{same samplings} (paired performance samples)
+    \item Let $\vec{z} = \vec{p}(\lambda) - \vec{p}(\lambda_0)$
+    \item Validate: $\Prob(\mu > 0 \mid \vec{z}) > \gamma$
+    \item $\mu > 0$: candidate is better
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Iterate: compare $A(\lambda_1)$ vs.\ best so far, keep the winner.
+
+  \vspace{0.2cm}
+  \small
+  If confidence is not reached but $\mu > 0$: consider interpretability,
+  computational cost, or ease of implementation. Always check if
+  $\Prob(\mu < 0 \mid \vec{z})$ is acceptable.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Nesting experiments}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Nesting experiments}
+  \begin{itemize}
+    \item Hyperparameters $\lambda$ can be optimized with a \textbf{nested}
+      experimental plan (e.g., grid search)
+    \item Inner loop finds best $\lambda$; outer loop estimates performance
+    \item Never use inner choices for production decisions
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Trade-offs:
+  \begin{itemize}
+    \item Computationally expensive (combinations multiply)
+    \item Inner dataset is smaller $\Rightarrow$ less reliable estimates
+    \item Alternative: unnest by comparing options two by two
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Final remarks}
+  \begin{itemize}
+    \item Framework assumes data is \textbf{i.i.d.}
+    \item Time-series, spatial data $\Rightarrow$ different sampling strategies
+    \item Changing the sampling strategy also changes the validation method
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Evaluation metrics should be chosen according to project goals
+    \item The experimental plan gathers performance data systematically
+    \item A hypothesis test validates the results
+    \item Performance is a \textbf{random variable} --- study its distribution,
+      not a single value
+    \item Same samplings must be used when comparing algorithms
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
