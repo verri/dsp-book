@@ -22,11 +22,19 @@ slides-ch1-watch:
 	mkdir -p $(SLIDES_DIR)
 	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/history.tex
 
-slides: slides-ch1
+slides-ch2:
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -output-directory=$(SLIDES_DIR) slides/fundamental.tex
+
+slides-ch2-watch:
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/fundamental.tex
+
+slides: slides-ch1 slides-ch2
 
 slides-watch: slides-ch1-watch
 
 slides-clean:
 	rm -rf $(SLIDES_DIR)
 
-.PHONY: watch ready log slides-ch1 slides-ch1-watch slides slides-watch slides-clean
+.PHONY: watch ready log slides-ch1 slides-ch1-watch slides-ch2 slides-ch2-watch slides slides-watch slides-clean

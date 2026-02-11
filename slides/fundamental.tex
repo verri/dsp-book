@@ -1,0 +1,293 @@
+% slides/fundamental.tex - Chapter 2: Fundamental Concepts
+
+\input{slides/preamble}
+
+\title{Fundamental Concepts}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    The simple believes everything,\\
+    but the prudent gives thought to his steps.
+    \begin{flushright}
+      --- Proverbs 14:15 (ESV)
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Data science definition
+        \item The data science continuum
+        \item Fundamental data theory
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Define data science
+        \item Present the main concepts about data theory
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Data science definition}
+% ===========================================================================
+
+\begin{frame}{Definitions in the literature}
+  \begin{itemize}
+    \item \textbf{Zumel \& Mount:} cross-disciplinary practice drawing on data
+      engineering, statistics, data mining, ML, and predictive analytics
+    \item \textbf{Wickham \& Grolemund:} discipline that transforms raw data into
+      understanding, insight, and knowledge
+    \item \textbf{Hayashi:} not only unifies statistics and data analysis, but
+      intends to analyze and understand actual phenomena with data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Our definition}
+  \begin{block}{Definition: Data science}
+    Data science is the study of knowledge extraction from measurable phenomena
+    using computational methods.
+  \end{block}
+
+  \vspace{0.5cm}
+  Key terms:
+  \begin{itemize}
+    \item \textbf{Computational methods} --- use computers to handle data
+    \item \textbf{Knowledge} --- information humans can understand and apply
+    \item \textbf{Measurable phenomena} --- events we can quantify
+    \item \textbf{Raw data} --- collected directly, not yet transformed
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Data science vs conventional sciences}
+  \begin{itemize}
+    \item Conventional: named after object of study (biology $\to$ life)
+    \item Data science: studies \textit{how} to extract knowledge from data
+    \item Similar to ``computer science'' --- not the study of computers
+    \item Conventional paradigm: model-driven (observe, hypothesize, validate)
+    \item Data science paradigm: data-driven (extract knowledge from data)
+    \item We give data the opportunity to \textbf{surprise us}
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: My view of data science ----
+
+\def\verrids{(0,0) circle (20mm)}
+\def\verrist{(-2.5,0) circle (15mm)}
+\def\verride{(2.5,0) circle (15mm)}
+\def\verrics{(0,-2.5) circle (15mm)}
+
+\begin{frame}{My view of data science}
+  \centering
+  \begin{tikzpicture}
+    \begin{scope}
+      \clip \verrids;
+      \fill[filled] \verrist;
+      \fill[filled] \verride;
+      \fill[filled] \verrics;
+    \end{scope}
+    \draw[outline] \verrids node(ds) {};
+    \draw[outline] \verrist node {Statistics};
+    \draw[outline, text width=27mm, text centered] \verride node {Philosophy / domain expertise};
+    \draw[outline] \verrics node {Computer science};
+    \node[anchor=north,above] at (0, 1) {Data science};
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small An entirely new science --- its basis comes from other sciences,\\
+  but its object of study is particular enough to raise new questions.
+\end{frame}
+
+% ===========================================================================
+\section{The data science continuum}
+% ===========================================================================
+
+\begin{frame}{From borrowed methods to a new science}
+  \begin{itemize}
+    \item Object of study in data science is not new
+    \item Key factor: social demand and importance of data
+    \item ``Data is the new oil''
+    \item Methods develop $\to$ experiments validate $\to$ credibility grows
+    \item Academic recognition: new courses and programs
+    \item Unique questions emerge, distinct from parent disciplines
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: The data science continuum ----
+
+\begin{frame}{The data science continuum}
+  \centering
+  \begin{tikzpicture}[node distance=4mm and 5mm, scale=0.88, transform shape]
+    % Left: Established Sciences
+    \node (stats) [mediumblock, text width=1.8cm] {Statistics};
+    \node (cs) [mediumblock, text width=1.8cm, below=of stats] {Computer science};
+    \node (ds) [mediumblock, text width=1.8cm, below=of cs] {Philosophy and others};
+    \node (basebox) [draw, dashed, inner sep=0.3cm, fit={(stats) (ds)},
+      label=above:{\small Established sciences}] {};
+    % Flow to the right
+    \node (principles) [darkblock, right=of basebox, text width=2cm,
+      minimum height=2em] {Emergence of principles};
+    \node (methods) [block, right=of principles, text width=2cm,
+      minimum height=2em] {Unique methods};
+    \node (validation) [darkblock, right=of methods, text width=2cm,
+      minimum height=2em] {Validation and new challenges};
+    \node (science) [block, right=of validation, text width=2cm,
+      minimum height=2em] {Data science};
+    % Arrows
+    \draw[-{Stealth}] (basebox) -- (principles);
+    \draw[-{Stealth}] (principles) -- (methods);
+    \draw[-{Stealth}] (methods) -- (validation);
+    \draw[-{Stealth}] (validation) -- (science);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{New questions in data science}
+  \begin{itemize}
+    \item How can we guarantee that the data is reliable?
+    \item How can we collect data without biasing conclusions?
+    \item How can we guarantee that data usage is ethical?
+    \item How can we present results to non-experts?
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Fundamental data theory}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Phenomena}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Phenomena and philosophy}
+  \begin{itemize}
+    \item Phenomenon: any observable event or process
+    \item \textbf{Ontology} --- study of being, existence, categories
+    \item \textbf{Epistemology} --- study of knowledge and justification
+    \item \textbf{Logic} --- study of reasoning and inference
+  \end{itemize}
+
+  \vspace{0.5cm}
+  Understanding phenomena requires both general philosophical
+  knowledge and domain expertise.
+\end{frame}
+
+\begin{frame}{Aristotle's categories}
+  \begin{itemize}
+    \item Aristotle (384--322 BC) --- first systematic classification
+    \item Ten categories: substance, quantity, quality, relation, place, time, \ldots
+    \item Practical view: focus on the world we can perceive
+    \item Foundation of logical reasoning and scientific classification
+    \item Still used in computer and data systems
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Why ontology matters for data science}
+  \begin{itemize}
+    \item Describing = reducing complexity to simple pieces
+    \item Phenomena $\approx$ substance; data $\approx$ properties, relations, states
+    \item Identifying entities and their properties $\to$ better data collection
+    \item Understanding logical limitations avoids errors
+    \item Common mistake: assuming columns with the same name have the same meaning
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Measurements}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Measurements}
+  \begin{itemize}
+    \item Data science focuses on \textbf{measurable phenomena}
+    \item Data collection: systematic gathering of data on a phenomenon
+    \item Systematic $=$ planned, with understood consequences
+    \item \textbf{Sampling bias} --- influence of the collection method on conclusions
+    \item Data storage: digitally storing collected data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Data types}
+  \begin{itemize}
+    \item Data types must correctly reflect the source phenomenon
+    \item Data types restrict the operations we can perform
+    \item Foundations from computer science:
+      \begin{itemize}
+        \item Algorithms and data structures
+        \item Databases
+      \end{itemize}
+    \item Concepts are independent of programming language or RDBMS
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Knowledge extraction}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Reasoning}
+  \begin{itemize}
+    \item \textbf{Deductive reasoning} --- from general rules to specific conclusions
+    \item \textbf{Inductive reasoning} --- from specific observations to general rules
+    \item Data science relies on \textbf{inductive reasoning}
+    \item Descartes: algebra to mechanize reasoning
+    \item Leibniz: universal algebraic language for logical methods
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Knowledge extraction methods}
+  \begin{itemize}
+    \item \textbf{Statistics} --- collection, organization, analysis, interpretation
+    \item \textbf{Machine learning} --- algorithms that learn from data automatically
+    \item \textbf{Operations research} --- computational methods to optimize decisions
+    \item Domain-specific methods: bioinformatics, geoinformatics, \ldots
+    \item Each method has its own assumptions and limitations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Data preprocessing}
+  \begin{itemize}
+    \item When data do not match the method's requirements
+    \item \textbf{Data cleaning} --- detecting and correcting corrupt data
+    \item \textbf{Data transformation} --- converting formats or types
+    \item \textbf{Data enhancement} --- integrating data from different sources
+    \item Methods are usually robust to imperfections, but preprocessing helps
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Data science is a new science that studies knowledge extraction
+      from measurable phenomena using computational methods
+    \item The data science continuum: from borrowed methods to a distinct discipline
+    \item Understanding phenomena, measurements, and knowledge extraction
+      is fundamental
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
