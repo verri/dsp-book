@@ -317,7 +317,7 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------
-\subsection{Set operations}
+\subsection{Set operations and relations}
 % ---------------------------------------------------------------------------
 
 \begin{frame}{Set operations}
@@ -326,11 +326,19 @@
     \item \textbf{Intersection}: $A \cap B$ --- elements in both $A$ and $B$
     \item \textbf{Difference}: $A \setminus B$ --- elements in $A$ but not $B$
     \item \textbf{Complement}: $A^c = \Omega \setminus A$
-    \item \textbf{Inclusion}: $A \subseteq B$ --- all elements of $A$ are in $B$
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Set operations properties}
+\begin{frame}{Set relations}
+  \begin{itemize}
+    \item \textbf{Inclusion}: $A \subseteq B$ --- all elements of $A$ are in $B$
+    \item \textbf{Proper inclusion}: $A \subset B$ --- $A \subseteq B$ and $A \neq B$
+    \item \textbf{Equality}: $A = B$ iff $A \subseteq B$ and $B \subseteq A$
+    \item \textbf{Disjointness}: $A \cap B = \emptyset$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Properties of set operations and relations}
   Given sets $A$, $B$, $C$:
   \begin{itemize}
     \item \textit{Commutativity:} $A \cup B = B \cup A$,\quad $A \cap B = B \cap A$
@@ -356,7 +364,6 @@
 \begin{frame}{Inclusion properties}
   \begin{itemize}
     \item \textit{Reflexivity:} $A \subseteq A$
-    \item \textit{Antisymmetry:} $A \subseteq B$ and $B \subseteq A$ iff $A = B$
     \item \textit{Transitivity:} $A \subseteq B$ and $B \subseteq C$ implies
       $A \subseteq C$
   \end{itemize}
