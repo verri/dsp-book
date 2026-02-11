@@ -62,11 +62,19 @@ slides-ch6-watch:
 	mkdir -p $(SLIDES_DIR)
 	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/learning.tex
 
-slides: slides-ch1 slides-ch2 slides-ch3 slides-ch4 slides-ch5 slides-ch6
+slides-ch7:
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -output-directory=$(SLIDES_DIR) slides/preprocessing.tex
+
+slides-ch7-watch:
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/preprocessing.tex
+
+slides: slides-ch1 slides-ch2 slides-ch3 slides-ch4 slides-ch5 slides-ch6 slides-ch7
 
 slides-watch: slides-ch1-watch
 
 slides-clean:
 	rm -rf $(SLIDES_DIR)
 
-.PHONY: watch ready log slides-ch1 slides-ch1-watch slides-ch2 slides-ch2-watch slides-ch3 slides-ch3-watch slides-ch4 slides-ch4-watch slides-ch5 slides-ch5-watch slides-ch6 slides-ch6-watch slides slides-watch slides-clean
+.PHONY: watch ready log slides-ch1 slides-ch1-watch slides-ch2 slides-ch2-watch slides-ch3 slides-ch3-watch slides-ch4 slides-ch4-watch slides-ch5 slides-ch5-watch slides-ch6 slides-ch6-watch slides-ch7 slides-ch7-watch slides slides-watch slides-clean

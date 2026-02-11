@@ -1,0 +1,645 @@
+% slides/preprocessing.tex - Chapter 7: Data Preprocessing
+
+\input{slides/preamble}
+
+\title{Data Preprocessing}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    I find your lack of faith disturbing.
+    \begin{flushright}
+      --- Darth Vader, \textit{Star Wars: Episode IV} (1977)
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Introduction
+        \item Data cleaning
+        \item Data sampling
+        \item Data transformation
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Understand the main data preprocessing tasks and techniques
+        \item Learn the behavior of the preprocessing chain (fitting, adjustment,
+          application)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Introduction}
+% ===========================================================================
+
+\begin{frame}{Why preprocess?}
+  \begin{itemize}
+    \item Tidy data is not necessarily suitable for modeling
+    \item Example: perceptron requires \textbf{numerical} inputs
+    \item Preprocessing adjusts data for the chosen learning machine
+    \item Operations are \textbf{dependent on the learning method}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Three steps of a preprocessing technique}
+  \begin{enumerate}
+    \item \textbf{Fitting}: parameters adjusted to the training data
+    \item \textbf{Adjustment}: training data transformed according to
+      fitted parameters (may change sample size/distribution)
+    \item \textbf{Applying}: operation applied to new data, sample by sample
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  Understanding these steps is crucial to avoid \textbf{data leakage}.
+\end{frame}
+
+\begin{frame}{Formal definition}
+  Strategy $F$ takes a table $T = (K, H, c)$ and returns:
+  \begin{itemize}
+    \item Adjusted table $T' = (K', H', c')$
+    \item Fitted preprocessor $f_\phi(z)$
+  \end{itemize}
+
+  \vspace{0.3cm}
+  A chain of operations $F_1, \ldots, F_m$:
+  \[
+    f(z; \phi) = \left(f_{\phi_1} \circ \cdots \circ f_{\phi_m}\right)(z)
+  \]
+  Each operation depends on the result of the previous ones.
+\end{frame}
+
+\begin{frame}{Degeneration}
+  The preprocessor \textbf{degenerates} over tuple $z$ if $f_\phi(z) = (?, \ldots, ?)$.
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Unexpected values, incomplete information, \ldots
+    \item If any step $f_{\phi_i}$ degenerates, the whole chain degenerates
+    \item Developer must define a \textbf{default behavior}:
+      \begin{itemize}
+        \item Return a default value
+        \item Redirect to a different model
+        \item Raise an error/warning
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Preprocessing task categories}
+  \begin{enumerate}
+    \item \textbf{Data cleaning} --- remove errors and inconsistencies
+    \item \textbf{Data sampling} --- select or create variations of the training set
+    \item \textbf{Data transformation} --- adjust types and variables for modeling
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  Presented in typical application order (not fixed).
+\end{frame}
+
+% ===========================================================================
+\section{Data cleaning}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Treating inconsistent data}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Treating inconsistent data}
+  Three common tasks (parameters \textbf{not fitted} from data):
+  \begin{itemize}
+    \item \textbf{Unit conversion} --- ensure same units across columns
+    \item \textbf{Range check} --- validate values within expected bounds
+    \item \textbf{Category standardization} --- unify different representations
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Could be done in data handling, but having them in the preprocessor
+  ensures consistent treatment of new data in production.
+\end{frame}
+
+\begin{frame}{Unit conversion}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Unit conversion}} \\
+    \midrule
+    \textbf{Goal} &
+      Convert physical quantities into the same unit of measurement. \\
+    \textbf{Fitting} &
+      None. User declares units and conversion factors. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Converts values and drops the unit column. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Range check}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Range check}} \\
+    \midrule
+    \textbf{Goal} &
+      Check whether values are within the expected range. \\
+    \textbf{Fitting} &
+      None. User declares the valid range $[a, b]$. \\
+    \textbf{Adjustment} &
+      Sample by sample; degenerated samples may be removed. \\
+    \textbf{Applying} &
+      If $x \notin [a, b]$: replace with $?$, clamp to $[a, b]$, or degenerate. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Category standardization}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Category standardization}} \\
+    \midrule
+    \textbf{Goal} &
+      Map different names to a single canonical form. \\
+    \textbf{Fitting} &
+      None. User declares the mapping. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Case standardization, special character removal, dictionary/fuzzy matching. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Outlier detection}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Outlier detection}
+  \begin{itemize}
+    \item Observations significantly different from the rest
+    \item Caused by errors or mixed phenomena
+    \item Standard approach: remove outliers from the dataset
+    \item Per-variable: replace outlier values with missing data
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{IQR heuristic:} Given $Q_1$, $Q_3$, and $\text{IQR} = Q_3 - Q_1$,\\
+  a value is an outlier if $x < Q_1 - 1.5\,\text{IQR}$ or
+  $x > Q_3 + 1.5\,\text{IQR}$.
+\end{frame}
+
+\begin{frame}{Outlier detection --- IQR}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Outlier detection using the IQR}} \\
+    \midrule
+    \textbf{Goal} &
+      Detect outliers using the IQR. \\
+    \textbf{Fitting} &
+      Store $Q_1$ and $Q_3$ for each variable. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Replaces outlier values with missing data. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5cm}
+  \raggedright\small
+  More advanced: One-Class SVM for generalizable outlier classification.
+\end{frame}
+
+\begin{frame}{Outlier removal}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Outlier removal}} \\
+    \midrule
+    \textbf{Goal} &
+      Remove observations that are outliers. \\
+    \textbf{Fitting} &
+      Parameters of the outlier classifier. \\
+    \textbf{Adjustment} &
+      Sample by sample; degenerated samples removed. \\
+    \textbf{Applying} &
+      Degenerates if classified as outlier; pass-through otherwise. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Developer must specify default behavior when an outlier is detected in production.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Treating missing data}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Treating missing data}
+  Most models cannot handle missing data. Four strategies:
+  \begin{enumerate}
+    \item Remove \textbf{rows} with missing data
+    \item Remove \textbf{columns} with missing data
+    \item \textbf{Impute} the missing values
+    \item \textbf{Indicator variable} + imputation
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  Removing rows ``on demand'' can change the data distribution,
+  especially if data is not missing at random.
+\end{frame}
+
+\begin{frame}{Row removal (missing data)}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Row removal based on missing data}} \\
+    \midrule
+    \textbf{Goal} &
+      Remove observations with missing data in specified variables. \\
+    \textbf{Fitting} &
+      None. Variables to check are declared beforehand. \\
+    \textbf{Adjustment} &
+      Sample by sample; degenerated samples removed. \\
+    \textbf{Applying} &
+      Degenerates over rows with missing data in specified variables. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Column removal (missing data)}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Column removal based on missing data}} \\
+    \midrule
+    \textbf{Goal} &
+      Remove variables with missing data. \\
+    \textbf{Fitting} &
+      Mark all variables with missing data in the training set. \\
+    \textbf{Adjustment} &
+      Marked columns are dropped. \\
+    \textbf{Applying} &
+      Drops the same columns chosen during fitting. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Valuable information may be lost when removing columns for all samples.
+\end{frame}
+
+\begin{frame}{Imputation}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Imputation of missing data}} \\
+    \midrule
+    \textbf{Goal} &
+      Replace missing data with a statistic (mean, median, mode). \\
+    \textbf{Fitting} &
+      Statistic computed from available training data. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Replaces missing values; optionally creates an indicator variable. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Indicator variable: useful when missingness itself is informative\\
+  (e.g., ``days since last pregnancy'' is missing if male or zero children).
+\end{frame}
+
+% ===========================================================================
+\section{Data sampling}
+% ===========================================================================
+
+\begin{frame}{Data sampling}
+  After cleaning, select or create variations of the training set:
+  \begin{itemize}
+    \item \textbf{Random sampling} --- reduce dataset size
+    \item \textbf{Scope filtering} --- reduce the modeled phenomenon's scope
+    \item \textbf{Class balancing} --- equalize class representation
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Random sampling}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Random sampling}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Random sampling}} \\
+    \midrule
+    \textbf{Goal} &
+      Select a random subset of the training data. \\
+    \textbf{Fitting} &
+      None. User declares the sample size. \\
+    \textbf{Adjustment} &
+      Rows randomly chosen. \\
+    \textbf{Applying} &
+      \textbf{Pass-through}: does nothing with new data. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Scope filtering}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Scope filtering}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Scope filtering}} \\
+    \midrule
+    \textbf{Goal} &
+      Remove observations that do not satisfy a predefined rule. \\
+    \textbf{Fitting} &
+      None. User declares the rule. \\
+    \textbf{Adjustment} &
+      Sample by sample; degenerated samples removed. \\
+    \textbf{Applying} &
+      Degenerates over samples that violate the rule. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Variation: \textbf{model trees} --- shallow decision trees that branch into
+  different models at each leaf.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Class balancing}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Class balancing}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Class balancing}} \\
+    \midrule
+    \textbf{Goal} &
+      Balance the number of observations in each class. \\
+    \textbf{Fitting} &
+      User declares or calculates target class sizes. \\
+    \textbf{Adjustment} &
+      Undersample (random removal) or oversample (resampling). \\
+    \textbf{Applying} &
+      \textbf{Pass-through}: does nothing with new data. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Advanced: SMOTE creates synthetic minority samples without repetition.
+\end{frame}
+
+% ===========================================================================
+\section{Data transformation}
+% ===========================================================================
+
+\begin{frame}{Data transformation}
+  Data is now clean and well-sampled. Transform columns to suit the model:
+  \begin{itemize}
+    \item \textbf{Type conversion} --- categorical $\leftrightarrow$ numerical
+    \item \textbf{Normalization} --- scale values to expected ranges
+    \item \textbf{Dimensionality reduction} --- reduce number of variables
+    \item \textbf{Data enhancement} --- add external information
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Type conversion}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Categorical to numerical}
+  \textbf{Label encoding:}
+  \begin{itemize}
+    \item Replace $x \in \{a, b, c\}$ with $x' \in \{1, 2, 3\}$
+    \item Suitable when there is a natural order $a < b < c$
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{One-hot encoding:}
+  \begin{itemize}
+    \item Create a new column for each category
+    \item Column $= 1$ if present, $0$ otherwise
+    \item Group rare categories into an \emph{other} column
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{One-hot encoding}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{One-hot encoding}} \\
+    \midrule
+    \textbf{Goal} &
+      Create a new column for each category value. \\
+    \textbf{Fitting} &
+      Store the unique values; optionally mark an \emph{other} category. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      New columns filled with $1$ or $0$; unknown values assigned to \emph{other}. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Numerical to categorical (binning)}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Binning numerical values}} \\
+    \midrule
+    \textbf{Goal} &
+      Create a categorical column from a numerical one. \\
+    \textbf{Fitting} &
+      Store the range of each bin (by frequency or by range). \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Assigns each value to the corresponding bin. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Also common: converting dates/intervals to numerical differences
+  (e.g., birth date $\to$ age).
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Normalization}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Standardization}
+  \[
+    x' = \frac{x - \mu}{\sigma}
+  \]
+
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Standardization}} \\
+    \midrule
+    \textbf{Goal} &
+      Scale values in a column (zero mean, unit variance). \\
+    \textbf{Fitting} &
+      Store $\mu$ and $\sigma$ from the training set. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Scales values using the fitted $\mu$ and $\sigma$. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Rescaling}
+  \[
+    x' = a + (b - a) \, \frac{x - x_\text{min}}{x_\text{max} - x_\text{min}}
+  \]
+
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Rescaling}} \\
+    \midrule
+    \textbf{Goal} &
+      Rescale values to a target range $[a, b]$. \\
+    \textbf{Fitting} &
+      Store $x_\text{min}$ and $x_\text{max}$ from the training set. \\
+    \textbf{Adjustment} &
+      Sample by sample, independently. \\
+    \textbf{Applying} &
+      Rescales and clamps: $\max(a, \min(b, x'))$. \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Dimensionality reduction}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Dimensionality reduction}
+  \textbf{Feature selection:}
+  \begin{itemize}
+    \item Select a subset of existing variables
+    \item Example: rank by mutual information with target, keep top $k$
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Feature extraction:}
+  \begin{itemize}
+    \item Create new variables as combinations of original ones
+    \item Linear: PCA
+    \item Non-linear: autoencoders
+    \item Drawback: new variables are hard to interpret
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Data enhancement}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Data enhancement}
+  \centering\small
+  \rowcolors{2}{black!10!white}{}
+  \begin{tabular}{lp{8cm}}
+    \toprule
+    \multicolumn{2}{c}{\textbf{Data enhancement}} \\
+    \midrule
+    \textbf{Goal} &
+      Enrich the dataset with external information. \\
+    \textbf{Fitting} &
+      Store the external dataset and the join column. \\
+    \textbf{Adjustment} &
+      Left join with external dataset (same number of rows). \\
+    \textbf{Applying} &
+      Enhances each new observation with external information. \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3cm}
+  \raggedright\small
+  Example: join zip codes with socioeconomic data.
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Unstructured data}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Comments on unstructured data}
+  \begin{itemize}
+    \item Any unstructured data can be transformed into structured data
+    \item Bag of words, word embeddings, signal/image processing
+    \item Modern methods (CNNs) learn preprocessing and model jointly
+      \begin{itemize}
+        \item Convolutional layers $=$ learned feature extraction
+      \end{itemize}
+    \item Unstructured data is a vast field, out of scope of this book
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Each learning method requires specific preprocessing tasks
+    \item Fitting the preprocessor is crucial to avoid leakage
+    \item Default behavior when the chain degenerates must be specified
+    \item Three categories: cleaning, sampling, transformation
+    \item Preprocessing parameters are fitted, not fixed
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
