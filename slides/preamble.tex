@@ -1,0 +1,136 @@
+% slides/preamble.tex - Shared preamble for all slide decks
+% Metropolis theme with grayscale style matching the book
+
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{metropolis}
+
+% ---------- Colors (grayscale) ----------
+\definecolor{bookdark}{gray}{0.2}
+\definecolor{bookgray}{gray}{0.5}
+\definecolor{booklight}{gray}{0.92}
+
+\setbeamercolor{normal text}{fg=bookdark, bg=white}
+\setbeamercolor{alerted text}{fg=bookdark}
+\setbeamercolor{frametitle}{fg=white, bg=bookdark}
+\setbeamercolor{title separator}{fg=bookgray}
+\setbeamercolor{progress bar}{fg=bookgray, bg=booklight}
+\setbeamercolor{block title}{fg=white, bg=bookgray}
+\setbeamercolor{block body}{fg=bookdark, bg=booklight}
+\setbeamercolor{block title alerted}{fg=white, bg=bookdark}
+\setbeamercolor{block body alerted}{fg=bookdark, bg=booklight}
+\setbeamercolor{block title example}{fg=white, bg=bookgray}
+\setbeamercolor{block body example}{fg=bookdark, bg=booklight}
+
+\setbeamertemplate{frame numbering}[fraction]
+
+% ---------- Fonts (matching the book) ----------
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+
+\setmathfont{STIXTwoMath}[
+  Extension={.otf},
+  Path={./fonts/},
+  Scale=1]
+
+\setsansfont{STIXTwoText}[
+  Extension={.otf},
+  Path={./fonts/},
+  UprightFont={*-Regular},
+  BoldFont={*-Bold},
+  ItalicFont={*-Italic},
+  BoldItalicFont={*-BoldItalic}]
+
+\setmainfont{STIXTwoText}[
+  Extension={.otf},
+  Path={./fonts/},
+  UprightFont={*-Regular},
+  BoldFont={*-Bold},
+  ItalicFont={*-Italic},
+  BoldItalicFont={*-BoldItalic}]
+
+\setmonofont{CourierPrime}[
+  Extension={.ttf},
+  Path={./fonts/},
+  UprightFont={*-Regular},
+  BoldFont={*-Bold},
+  ItalicFont={*-Italic},
+  BoldItalicFont={*-BoldItalic},
+  Scale=0.9]
+
+% ---------- Packages ----------
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% ---------- TikZ ----------
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, positioning, shapes.geometric, fit}
+
+\tikzset{%
+  decision/.style={draw, diamond, text centered, minimum height=0.5cm, minimum width=1cm},
+  block/.style={rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em},
+  mediumblock/.style={rectangle, draw, text width=3em, text centered, rounded corners, minimum height=2em},
+  darkblock/.style={block, fill=gray, text=white},
+  smallblock/.style={rectangle, rounded corners, draw, font=\tiny, minimum height=1em, inner sep=2pt},
+  smalldarkblock/.style={smallblock, fill=gray, text=white},
+  darkcircle/.style={draw, circle, fill=gray, text centered, text=white},
+  smallcircle/.style={draw, circle, text centered, font=\tiny},
+  smalldarkcircle/.style={smallcircle, fill=gray, text=white},
+  line/.style={draw, -latex},
+  dline/.style={draw, latex-latex},
+  bigarrow/.style={draw, -latex, line width=3pt, gray},
+}
+
+% ---------- Math operators ----------
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\Prob}{P}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\clamp}{clamp}
+
+% ---------- Hyperref ----------
+\usepackage{hyperref}
+\hypersetup{colorlinks, urlcolor=bookgray, linkcolor=bookdark}
+
+% ---------- Commands ----------
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\code}[1]{\colorbox{black!10!white}{\texttt{#1}}}
+
+% ---------- Book info, license, and disclaimer ----------
+\newcommand{\bookframe}{%
+  \begin{frame}{About these slides}
+    These slides are companion material for the book
+
+    \vspace{0.3cm}
+    \begin{center}
+      \textbf{Data Science Project: An Inductive Learning Approach}\\[2pt]
+      Prof.~Dr.~Filipe A. N. Verri\\[4pt]
+      \url{https://leanpub.com/dsp}
+    \end{center}
+
+    \vspace{0.3cm}
+    All intellectual content comes from the book and is not AI-generated.
+    Slides were produced with the assistance of
+    \href{https://claude.ai/code}{Claude Code}.
+
+    \vspace{0.3cm}
+    {\small
+    Licensed under
+    \href{https://creativecommons.org/licenses/by-nc/4.0/}{CC BY-NC 4.0}.
+    You are free to modify and redistribute this work as long as you give
+    proper credit and do not use it for commercial purposes.}
+  \end{frame}%
+}
+
+% ---------- TikZ color presets (used by book figures) ----------
+\colorlet{circle edge}{black!50}
+\colorlet{circle area}{black!20}
+\tikzset{
+  filled/.style={fill=circle area, draw=circle edge, thick},
+  outline/.style={draw=circle edge, thick},
+}

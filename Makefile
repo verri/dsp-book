@@ -12,19 +12,21 @@ log:
 	texloganalyser -wourt build/main.log
 
 # Slides targets
+SLIDES_DIR = build/slides
+
 slides-ch1:
-	mkdir -p build/slides
-	xelatex -output-directory=build/slides slides-chapter1-history.tex
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -output-directory=$(SLIDES_DIR) slides/history.tex
 
 slides-ch1-watch:
-	mkdir -p build/slides
-	latexmk -pdfxe -synctex=1 -pvc slides-chapter1-history.tex -output-directory=build/slides
+	mkdir -p $(SLIDES_DIR)
+	latexmk -pdfxe -synctex=1 -pvc -output-directory=$(SLIDES_DIR) slides/history.tex
 
 slides: slides-ch1
 
 slides-watch: slides-ch1-watch
 
 slides-clean:
-	rm -rf build/slides
+	rm -rf $(SLIDES_DIR)
 
 .PHONY: watch ready log slides-ch1 slides-ch1-watch slides slides-watch slides-clean

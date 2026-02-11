@@ -1,0 +1,471 @@
+% slides/history.tex - Chapter 1: A Brief History of Data Science
+
+\input{slides/preamble}
+
+\title{A Brief History of Data Science}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    ``Begin at the beginning,'' the King said gravely, ``and go on till you
+    come to the end: then stop.''
+    \begin{flushright}
+      --- Lewis Carroll, \textit{Alice in Wonderland}
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item The term ``data science''
+        \item Timeline and historical markers
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Understand the history of the term
+        \item Recognize major milestones
+        \item Identify important figures
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{The term ``data science''}
+% ===========================================================================
+
+% ---- Peter Naur ----
+
+\begin{frame}{Peter Naur (1928--2016)}
+  \begin{itemize}
+    \item Danish computer scientist and mathematician
+    \item Coined ``data science'' in the 1960s
+    \item Suggested replacing ``computer science'' with \textbf{datalogy}
+    \item Emphasis on data as a fundamental component
+    \item Data science deals with data; meaning is delegated to other fields
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Naur's view ----
+
+\def\naurds{(0,0) circle (20mm)}
+\def\naurcs{(0:5mm) circle (15mm)}
+\def\naurde{(0:40mm) circle (15mm)}
+
+\begin{frame}{Naur's view of data science}
+  \centering
+  \begin{tikzpicture}
+    \begin{scope}
+      \clip \naurds;
+      \fill[filled] \naurcs;
+    \end{scope}
+    \draw[outline] \naurds node(ds) {};
+    \draw[outline] \naurcs node {Computer science};
+    \draw[outline] \naurde node {Domain expertise};
+    \node[anchor=north,above] at (0,2) {Data science};
+  \end{tikzpicture}
+
+  \vspace{0.5cm}
+  \small Data science studies techniques to deal with data,\\
+  but delegates the meaning of data to other fields.
+\end{frame}
+
+% ---- William Cleveland ----
+
+\begin{frame}{William Cleveland (born 1943)}
+  \begin{itemize}
+    \item American statistician
+    \item Used ``data science'' in 2001 to name a new discipline
+    \item Plan to enlarge the major areas of statistics
+    \item Data science = ``modern'' statistics + computing + domain expertise
+    \item Credited with defining data science as used today
+  \end{itemize}
+\end{frame}
+
+% ---- Figure: Cleveland's view ----
+
+\def\clevelandds{(0,0) circle (20mm)}
+\def\clevelandst{(0:-5mm) circle (15mm)}
+\def\clevelandde {(2,1) circle (15mm)}
+\def\clevelandcs {(2,-1) circle (15mm)}
+
+\begin{frame}{Cleveland's view of data science}
+  \centering
+  \begin{tikzpicture}
+    \begin{scope}
+      \clip \clevelandds;
+      \fill[filled] \clevelandst;
+      \fill[filled] \clevelandde;
+      \fill[filled] \clevelandcs;
+    \end{scope}
+    \draw[outline] \clevelandds node(ds) {};
+    \draw[outline] \clevelandst node {Statistics};
+    \draw[outline] \clevelandde node {Domain expertise};
+    \draw[outline] \clevelandcs node {Computer science};
+    \node[anchor=north,above] at (0,2) {Data science};
+  \end{tikzpicture}
+
+  \vspace{0.5cm}
+  \small Statistics enlarged by computer science and domain expertise.
+\end{frame}
+
+% ---- Buzzword or a new science? ----
+
+\begin{frame}{Buzzword or a new science?}
+  \begin{itemize}
+    \item No consensus on the definition of data science
+    \item Most usages: rough reference to data-driven techniques or marketing
+    \item Naur and Cleveland: enlarged scope of an existing science
+    \item Counter-argument: social and economic demand supports a distinct science
+    \item Many ``data scientist'' roles and degree programs emerging
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Timeline and historical markers}
+% ===========================================================================
+
+\begin{frame}{Two timelines}
+  \begin{itemize}
+    \item \textbf{Data handling} --- sources, collection, organization, storage, transformation
+    \item \textbf{Data analysis} --- knowledge extraction and learning from data
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Timeline of data handling}
+% ---------------------------------------------------------------------------
+
+% ---- Figure: Timeline of data handling ----
+
+\begin{frame}{Timeline of the ages of data handling}
+  \centering
+  \begin{tikzpicture}[scale=1.3]
+    \draw (0,0) -- (8,0);
+    \foreach \x in {0,1,...,8} {
+      \draw (0.9 * \x,-0.1) -- (0.9 * \x,0.1);
+    }
+    \foreach \x/\y/\z in {%
+        0/Pre-digital/{3,800 BC -- 18th c.},
+        2/Digital/{1890 -- 1960},
+        4/Formal/{1970s},
+        6/Integrated/{1980 -- 1990},
+        8/Ubiquitous/{2000 --}} {
+      \node[anchor=north] at (0.9 * \x,-0.1) {\footnotesize\y};
+      \node[anchor=south] at (0.9 * \x,0.1) {\footnotesize\z};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+% ---- Pre-digital age ----
+
+\begin{frame}{Pre-digital age}
+  \begin{itemize}
+    \item Lebombo bone ($\sim$40,000 years old) --- earliest tally stick
+    \item First known census: 3,800 BC, Babylonian Empire
+    \item Sumerian archaic writing ($\sim$3,500 BC) --- recording transactions
+    \item Storage evolution: clay tablets, papyrus, codex, paper, printing press
+    \item \textbf{Florence Nightingale} (1820--1910)
+      \begin{itemize}
+        \item Used statistics to influence public opinion
+        \item Developed the polar area diagram
+        \item Standardized healthcare data collection
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ---- Digital age ----
+
+\begin{frame}{Digital age}
+  \begin{itemize}
+    \item Punched cards --- earliest famous usage by Bouchon (1725)
+    \item 1890 US Census --- first machine-readable punched cards
+    \item \textbf{Herman Hollerith} (1860--1929) --- tabulating machine, later IBM
+    \item ENIAC (1945) --- first electronic general-purpose computer
+    \item UNIVAC I --- used for the 1950 US Census
+    \item Digital computers: exponential growth in capture and storage
+  \end{itemize}
+\end{frame}
+
+% ---- Formal age ----
+
+\begin{frame}{Formal age}
+  \begin{itemize}
+    \item \textbf{Edgar F. Codd} (1923--2003) --- relational model (1970)
+    \item Data organized in tables (relations); rows = records, columns = attributes
+    \item Minimizes redundancy, improves integrity (normalization)
+    \item Led to SQL (1974) --- standard language for relational databases
+    \item New challenge: aggregating data from different sources
+  \end{itemize}
+\end{frame}
+
+% ---- Integrated age ----
+
+\begin{frame}{Integrated age}
+  \begin{itemize}
+    \item ETL (Extract, Transform, Load) process
+    \item Data warehousing concept (late 1980s, IBM)
+    \item \textbf{Ralph Kimball} vs \textbf{Bill Inmon} --- bottom-up vs top-down
+    \item Both agree: data warehouses are the foundation for BI and analytics
+    \item Walmart case study (early 1990s) --- single source of truth
+  \end{itemize}
+\end{frame}
+
+% ---- Ubiquitous age ----
+
+\begin{frame}{Ubiquitous age --- Key figures}
+  \begin{itemize}
+    \item \textbf{Cerf \& Kahn} --- TCP/IP protocols
+    \item \textbf{Tim Berners-Lee} --- World Wide Web
+    \item \textbf{Jobs, Wozniak, Gates} --- personal computers
+    \item \textbf{Page \& Brin} --- Google
+    \item \textbf{Zuckerberg} --- Facebook and social media
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ubiquitous age --- Technologies}
+  \begin{itemize}
+    \item NoSQL databases --- unstructured, semi-structured, structured data
+    \item Five V's of big data: Volume, Velocity, Variety, Veracity, Value
+    \item \textbf{Cutting \& Cafarella} --- Apache Hadoop (2006), HDFS, MapReduce
+    \item Distributed computing frameworks (Hadoop, Spark)
+    \item IoT --- proliferation of data sources
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Timeline of data analysis}
+% ---------------------------------------------------------------------------
+
+% ---- Figure: Timeline of data analysis ----
+
+\begin{frame}{Timeline of the ages of data analysis}
+  \centering
+  \begin{tikzpicture}[scale=1.3]
+    \draw (0,0) -- (8,0);
+    \foreach \x in {0,1,...,8} {
+      \draw (\x,-0.1) -- (\x,0.1);
+    }
+    \foreach \x/\y/\z in {%
+        0/Summary statistics/{3,800 BC -- 16th c.},
+        4/Probability advent/{17th c. -- 19th c.},
+        7/Learning from data/{20th c. -- present}} {
+      \node[anchor=north] at (\x,-0.1) {\footnotesize\y};
+      \node[anchor=south] at (\x,0.1) {\footnotesize\z};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+% ---- Summary statistics ----
+
+\begin{frame}{Summary statistics}
+  \begin{itemize}
+    \item Earliest form of statistical analysis
+    \item Term ``statistics'' refers to analysis of data \textit{about the state}
+    \item Central tendencies (e.g., arithmetic mean)
+    \item Variability (e.g., range)
+  \end{itemize}
+\end{frame}
+
+% ---- Probability advent ----
+
+\begin{frame}{Probability advent}
+  Foundations of modern probability theory (17th century):
+  \begin{itemize}
+    \item Blaise Pascal (1623--1662)
+    \item Pierre de Fermat (1601--1665)
+    \item Christiaan Huygens (1629--1695)
+    \item Jacob Bernoulli (1655--1705)
+  \end{itemize}
+
+  \vspace{0.5cm}
+  Led to the field of \textbf{statistical inference}.
+\end{frame}
+
+\begin{frame}{Bayes' rule}
+  \begin{itemize}
+    \item \textbf{Thomas Bayes} (1701--1761)
+    \item Calculates conditional probabilities from evidence
+    \item Foundation of \textbf{learning from evidence}
+    \item Na\"ive Bayes classifiers likely used since the 18th century
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Gauss' method of least squares}
+  \begin{itemize}
+    \item \textbf{Carl Friedrich Gauss} (1777--1855)
+    \item Developed circa 1794 for calculating the orbit of Ceres
+    \item Beginning of \textbf{regression analysis}
+    \item Shift: solving overdetermined systems using data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Playfair's data visualization}
+  \begin{itemize}
+    \item \textbf{William Playfair} (1759--1823)
+    \item Invented line, area, bar chart, pie chart, circle graph
+    \item Graphical representation of economic data
+    \item Changed how we communicate data insights
+  \end{itemize}
+\end{frame}
+
+% ---- Learning from data ----
+
+\begin{frame}{Learning from data}
+  \begin{itemize}
+    \item 20th century onward
+    \item Development of \textbf{learning machines}
+    \item Shift from fitting theoretical models to extracting knowledge from data
+    \item Algorithms that learn with minimal human intervention
+    \item Fueled by advances in computation and data storage
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Fisher's discriminant analysis (1930s)}
+  \begin{itemize}
+    \item \textbf{Sir Ronald A. Fisher} (1890--1962)
+    \item Linear functions to separate classes of objects
+    \item Foundation of classification and dimensionality reduction
+    \item Highlighted the importance of \textbf{feature selection}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Shannon's information theory (1940s)}
+  \begin{itemize}
+    \item \textbf{Claude Shannon} (1916--2001)
+    \item Quantification, storage, and communication of information
+    \item Key concepts: entropy, mutual information, information gain
+    \item Data as a sequence of symbols that can be compressed
+    \item Foundation of several machine learning algorithms
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{K-Nearest Neighbors (1951)}
+  \begin{itemize}
+    \item \textbf{Evelyn Fix} (1904--1965) and \textbf{Joseph Hodges Jr.} (1922--2000)
+    \item Non-parametric method for classification and regression
+    \item Shift from parametric to \textbf{non-parametric methods}
+    \item Intuitive: similar objects likely belong to the same class
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rosenblatt's perceptron (1960s)}
+  \begin{itemize}
+    \item \textbf{Frank Rosenblatt} (1928--1971), psychologist
+    \item First model of a \textbf{learning machine}
+    \item Could learn simple tasks (AND, OR)
+    \item Foundation of artificial neural networks
+    \item Minsky \& Papert (1969): limited to linearly separable problems
+    \item Contributed to the first AI winter
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Hunt's inducing trees (1966)}
+  \begin{itemize}
+    \item \textbf{Earl Hunt} --- inducing decision trees from data
+    \item Based on information entropy
+    \item Precursor of Quinlan's ID3 algorithm
+    \item Intuitive, interpretable, symbolic rules
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Empirical risk minimization (1960s--1980s)}
+  \begin{itemize}
+    \item \textbf{Vladimir Vapnik} (born 1936) and \textbf{Alexey Chervonenkis} (1938--2014)
+    \item VC entropy and VC dimension (1968)
+    \item ERM principle --- foundation of statistical learning theory
+    \item Theoretical framework for understanding learning from data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Resurgence of neural networks (1986)}
+  \begin{itemize}
+    \item \textbf{Backpropagation} developed independently by several researchers
+    \item Training of multi-layer neural networks
+    \item Solves nonlinearly separable problems
+    \item Fueled by availability of data and computational power
+    \item Preference for simple algorithms and intuitive models
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ensembles (1990s)}
+  \begin{itemize}
+    \item Combine multiple learning machines to improve performance
+    \item \textbf{Boosting} --- sequential, correcting previous errors
+    \item \textbf{Bagging} --- parallel, trained with small data variations
+    \item Random forests (Ho, 1995) --- bagging
+    \item XGBoost (Friedman, 2001) --- gradient boosting
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Support vector machines (1995)}
+  \begin{itemize}
+    \item \textbf{Cortes \& Vapnik} --- based on VC theory and ERM principle
+    \item Finds optimal separating hyperplane with maximum margins
+    \item Uses Cover's theorem (high-dimensional mapping)
+    \item Practical and efficient learning machines
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Deep learning (late 2000s)}
+  \begin{itemize}
+    \item Neural networks with multiple layers
+    \item State-of-the-art in computer vision and NLP
+    \item \textbf{Bengio, Hinton, LeCun} --- 2018 Turing Award
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{LUSI learning theory (2010s)}
+  \begin{itemize}
+    \item \textbf{Vapnik} --- Learning Using Statistical Invariants
+    \item Extension of statistical learning theory
+    \item Based on properties preserved under transformations
+    \item ``Complete statistical theory of learning''
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Large Language Models (2017--)}
+  \begin{itemize}
+    \item \textbf{Vaswani et al.} (2017) --- transformer architecture
+    \item Attention mechanisms replace recurrence and convolution
+    \item Enabled development of LLMs
+    \item OpenAI's ChatGPT (2020) --- wide public availability
+    \item Capable of classification and reasoning without task-specific training
+  \end{itemize}
+\end{frame}
+
+% ---- Takeaways ----
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item We have evolved both in theory and application of data-driven sciences
+    \item No consensus on the definition of data science
+    \item Sufficient evidence to support data science as a distinct science
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}

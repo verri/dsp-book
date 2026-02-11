@@ -134,3 +134,9 @@ make slides-ch1       # Build a single chapter (e.g., chapter 1)
 ```
 
 Build output goes to `build/slides/`.
+
+## License
+
+The slides are licensed under [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0). This differs from the book itself (CC BY-NC-ND 4.0) to allow adaptations of the slides for teaching purposes.
+
+The slides were generated with the assistance of [Claude Code](https://claude.ai/code).
