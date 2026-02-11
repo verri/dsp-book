@@ -11,7 +11,7 @@ This repository contains the LaTeX source for "Data Science Project: An Inductiv
 The project uses a Makefile with the following commands:
 
 - `make watch` - Continuously builds the main book with live preview using latexmk
-- `make ready` - Builds the main boo , then creates A4 format for printing (two pages side by side to reduce printing costs for students)
+- `make ready` - Builds the main book, then creates A4 format for printing (two pages side by side to reduce printing costs for students)
 - `make log` - Analyzes build logs for warnings and errors using texloganalyser
 
 ### Build Process Details
@@ -24,7 +24,9 @@ The project uses a Makefile with the following commands:
 The book is structured as modular LaTeX files:
 
 - **Main files**: `main.tex` (full book)
-- **Content chapters**: Individual `.tex` files for each chapter (e.g., `history.tex`, `preliminaries.tex`, `data.tex`)
+- **Content chapters**: `chapters/` directory with individual `.tex` files (e.g., `chapters/history.tex`, `chapters/fundamental.tex`, `chapters/structured-data.tex`)
+- **Front matter**: `frontmatter/` (foreword, preface)
+- **Back matter**: `backmatter/` (appendices such as mathematical foundations, learning machines)
 - **Supporting files**: `references.bib` (bibliography), `glossary.tex` (glossary definitions)
 - **Assets**: `images/` (figures), `fonts/` (custom fonts)
 
@@ -49,39 +51,35 @@ Tested on:
 
 ## Slides System
 
-The project includes a complete slide system for teaching purposes:
-
-### TODO: Slides Creation
-- [x] Create slides template using beamer with book's style (fonts, colors, layout)
-- [x] Create slides for Chapter 1 (History) - structure, takeaways, figures
-- [ ] Create slides for Chapter 2 (Fundamental) - structure, takeaways, figures
-- [ ] Create slides for Chapter 3 (Project) - structure, takeaways, figures
-- [ ] Create slides for Chapter 4 (Structured Data) - structure, takeaways, figures
-- [ ] Create slides for Chapter 5 (Data Handling) - structure, takeaways, figures
-- [ ] Create slides for Chapter 6 (Learning) - structure, takeaways, figures
-- [ ] Create slides for Chapter 7 (Preprocessing) - structure, takeaways, figures
-- [ ] Create slides for Chapter 8 (Validation) - structure, takeaways, figures
-- [ ] Update Makefile to include slides build targets
+Companion slides for teaching. See `slides/README.md` for full guidelines.
 
 ### Slides Architecture
 
-- **Template**: `slides-template.tex` (beamer template matching book style)
-- **Chapter slides**: `slides-chapter[X]-[name].tex` for each chapter
-- **Style**: Grayscale color scheme, STIX fonts, TikZ diagrams
-- **Format**: 16:9 aspect ratio, clean minimal design
-- **Content**: Chapter structure, main takeaways, figures, tables, examples
+- **Preamble**: `slides/preamble.tex` (Metropolis theme, grayscale, book fonts)
+- **Chapter slides**: `slides/<name>.tex` mirroring `chapters/<name>.tex`
+- **Theme**: Metropolis, 16:9, grayscale, STIXTwo/CourierPrime fonts
+- **Content**: Minimal text, exact book order, all TikZ figures reproduced
+
+### TODO: Slides Creation
+- [ ] Create slides preamble with Metropolis theme
+- [ ] Create slides for Chapter 1 (History)
+- [ ] Create slides for Chapter 2 (Fundamental)
+- [ ] Create slides for Chapter 3 (Project)
+- [ ] Create slides for Chapter 4 (Structured Data)
+- [ ] Create slides for Chapter 5 (Data Handling)
+- [ ] Create slides for Chapter 6 (Learning)
+- [ ] Create slides for Chapter 7 (Preprocessing)
+- [ ] Create slides for Chapter 8 (Validation)
+- [ ] Update Makefile for new slides/ structure
 
 ### Slides Build System
 
-To build individual chapter slides:
+Build commands:
 ```bash
-xelatex slides-chapter1-history.tex
-```
-
-To build all slides (when Makefile is updated):
-```bash
-make slides        # Build all slide sets
-make slides-watch  # Watch and rebuild slides
+make slides            # Build all slide sets
+make slides-watch      # Watch and rebuild slides
+make slides-clean      # Remove built slides
+make slides-ch1        # Build Chapter 1 slides to build/slides/
 ```
 
 ## License
