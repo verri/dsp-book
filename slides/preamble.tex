@@ -101,6 +101,16 @@
 \DeclareMathOperator{\sign}{sign}
 \DeclareMathOperator{\clamp}{clamp}
 
+% ---------- Bibliography (biblatex + beamer fixes) ----------
+\usepackage[style=authoryear,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
+\addbibresource{references.bib}
+\renewcommand{\footnoterule}{}
+\setbeamerfont{footnote}{size=\tiny}
+\setbeamerfont{bibliography entry author}{size=\tiny}
+\setbeamerfont{bibliography entry title}{size=\tiny}
+\setbeamerfont{bibliography entry location}{size=\tiny}
+\setbeamerfont{bibliography entry note}{size=\tiny}
+
 % ---------- Hyperref ----------
 \usepackage{hyperref}
 \hypersetup{colorlinks, urlcolor=bookgray, linkcolor=bookdark}

@@ -57,7 +57,7 @@
 \begin{frame}{Peter Naur (1928--2016)}
   \begin{itemize}
     \item Danish computer scientist and mathematician
-    \item Coined ``data science'' in the 1960s
+    \item Coined ``data science'' in the 1960s\footfullcite{Naur1974}
     \item Suggested replacing ``computer science'' with \textbf{datalogy}
     \item Emphasis on data as a fundamental component
     \item Data science deals with data; meaning is delegated to other fields
@@ -93,7 +93,7 @@
 \begin{frame}{William Cleveland (born 1943)}
   \begin{itemize}
     \item American statistician
-    \item Used ``data science'' in 2001 to name a new discipline
+    \item Used ``data science'' in 2001 to name a new discipline\footfullcite{Cleveland2001}
     \item Plan to enlarge the major areas of statistics
     \item Data science = ``modern'' statistics + computing + domain expertise
     \item Credited with defining data science as used today
@@ -179,9 +179,9 @@
 
 \begin{frame}{Pre-digital age}
   \begin{itemize}
-    \item Lebombo bone ($\sim$40,000 years old) --- earliest tally stick
-    \item First known census: 3,800 BC, Babylonian Empire
-    \item Sumerian archaic writing ($\sim$3,500 BC) --- recording transactions
+    \item Lebombo bone ($\sim$40,000 years old) --- earliest tally stick\footfullcite{Beaumont2013}
+    \item First known census: 3,800 BC, Babylonian Empire\footfullcite{Grajalez2013}
+    \item Sumerian archaic writing ($\sim$3,500 BC) --- recording transactions\footfullcite{Ifrah1998}
     \item Storage evolution: clay tablets, papyrus, codex, paper, printing press
     \item \textbf{Florence Nightingale} (1820--1910)
       \begin{itemize}
@@ -210,7 +210,7 @@
 \begin{frame}{Formal age}
   \begin{itemize}
     \item \textbf{Edgar F. Codd} (1923--2003) --- relational model (1970)
-    \item Data organized in tables (relations); rows = records, columns = attributes
+    \item Data organized in tables (relations)\footfullcite{Codd1970}; rows = records, columns = attributes
     \item Minimizes redundancy, improves integrity (normalization)
     \item Led to SQL (1974) --- standard language for relational databases
     \item New challenge: aggregating data from different sources
@@ -245,7 +245,7 @@
   \begin{itemize}
     \item NoSQL databases --- unstructured, semi-structured, structured data
     \item Five V's of big data: Volume, Velocity, Variety, Veracity, Value
-    \item \textbf{Cutting \& Cafarella} --- Apache Hadoop (2006), HDFS, MapReduce
+    \item \textbf{Cutting \& Cafarella} --- Apache Hadoop (2006), HDFS, MapReduce\footfullcite{Dean2008}
     \item Distributed computing frameworks (Hadoop, Spark)
     \item IoT --- proliferation of data sources
   \end{itemize}
@@ -304,7 +304,7 @@
   \begin{itemize}
     \item \textbf{Thomas Bayes} (1701--1761)
     \item Calculates conditional probabilities from evidence
-    \item Foundation of \textbf{learning from evidence}
+    \item Foundation of \textbf{learning from evidence}\footfullcite{Bayes1763}
     \item Na\"ive Bayes classifiers likely used since the 18th century
   \end{itemize}
 \end{frame}
@@ -312,7 +312,7 @@
 \begin{frame}{Gauss' method of least squares}
   \begin{itemize}
     \item \textbf{Carl Friedrich Gauss} (1777--1855)
-    \item Developed circa 1794 for calculating the orbit of Ceres
+    \item Developed circa 1794 for calculating the orbit of Ceres\footfullcite{Gauss1809}
     \item Beginning of \textbf{regression analysis}
     \item Shift: solving overdetermined systems using data
   \end{itemize}
@@ -321,7 +321,7 @@
 \begin{frame}{Playfair's data visualization}
   \begin{itemize}
     \item \textbf{William Playfair} (1759--1823)
-    \item Invented line, area, bar chart, pie chart, circle graph
+    \item Invented line, area, bar chart, pie chart, circle graph\footfullcite{Playfair1786}
     \item Graphical representation of economic data
     \item Changed how we communicate data insights
   \end{itemize}
@@ -342,7 +342,7 @@
 \begin{frame}{Fisher's discriminant analysis (1930s)}
   \begin{itemize}
     \item \textbf{Sir Ronald A. Fisher} (1890--1962)
-    \item Linear functions to separate classes of objects
+    \item Linear functions to separate classes of objects\footfullcite{Fisher1936}
     \item Foundation of classification and dimensionality reduction
     \item Highlighted the importance of \textbf{feature selection}
   \end{itemize}
@@ -351,7 +351,7 @@
 \begin{frame}{Shannon's information theory (1940s)}
   \begin{itemize}
     \item \textbf{Claude Shannon} (1916--2001)
-    \item Quantification, storage, and communication of information
+    \item Quantification, storage, and communication of information\footfullcite{Shannon1948}
     \item Key concepts: entropy, mutual information, information gain
     \item Data as a sequence of symbols that can be compressed
     \item Foundation of several machine learning algorithms
@@ -361,7 +361,7 @@
 \begin{frame}{K-Nearest Neighbors (1951)}
   \begin{itemize}
     \item \textbf{Evelyn Fix} (1904--1965) and \textbf{Joseph Hodges Jr.} (1922--2000)
-    \item Non-parametric method for classification and regression
+    \item Non-parametric method for classification and regression\footfullcite{Fix1951}
     \item Shift from parametric to \textbf{non-parametric methods}
     \item Intuitive: similar objects likely belong to the same class
   \end{itemize}
@@ -370,7 +370,7 @@
 \begin{frame}{Rosenblatt's perceptron (1960s)}
   \begin{itemize}
     \item \textbf{Frank Rosenblatt} (1928--1971), psychologist
-    \item First model of a \textbf{learning machine}
+    \item First model of a \textbf{learning machine}\footfullcite{Rosenblatt1958}
     \item Could learn simple tasks (AND, OR)
     \item Foundation of artificial neural networks
     \item Minsky \& Papert (1969): limited to linearly separable problems
@@ -382,7 +382,7 @@
   \begin{itemize}
     \item \textbf{Earl Hunt} --- inducing decision trees from data
     \item Based on information entropy
-    \item Precursor of Quinlan's ID3 algorithm
+    \item Precursor of Quinlan's ID3 algorithm\footfullcite{Hunt1966,Quinlan1986}
     \item Intuitive, interpretable, symbolic rules
   \end{itemize}
 \end{frame}
@@ -393,14 +393,14 @@
     \item Countered dominance of confirmatory statistical methods
     \item Advocated informal study of data before formal modeling
     \item Introduced box plot, stem-and-leaf display
-    \item Philosophy: data analysis should include open-ended exploration
+    \item Philosophy: data analysis should include open-ended exploration\footfullcite{Tukey1977}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Empirical risk minimization (1960s--1980s)}
   \begin{itemize}
     \item \textbf{Vladimir Vapnik} (born 1936) and \textbf{Alexey Chervonenkis} (1938--2014)
-    \item VC entropy and VC dimension (1968)
+    \item VC entropy and VC dimension (1968)\footfullcite{Vapnik1968}
     \item ERM principle --- foundation of statistical learning theory
     \item Theoretical framework for understanding learning from data
   \end{itemize}
@@ -408,7 +408,7 @@
 
 \begin{frame}{Resurgence of neural networks (1986)}
   \begin{itemize}
-    \item \textbf{Backpropagation} developed independently by several researchers
+    \item \textbf{Backpropagation} developed independently by several researchers\footfullcite{LeCun1986,Rumelhart1986}
     \item Training of multi-layer neural networks
     \item Solves nonlinearly separable problems
     \item Fueled by availability of data and computational power
@@ -419,18 +419,18 @@
 \begin{frame}{Ensembles (1990s)}
   \begin{itemize}
     \item Combine multiple learning machines to improve performance
-    \item \textbf{Boosting} --- sequential, correcting previous errors
-    \item \textbf{Bagging} --- parallel, trained with small data variations
-    \item Random forests (Ho, 1995) --- bagging
-    \item XGBoost (Friedman, 2001) --- gradient boosting
+    \item \textbf{Boosting} --- sequential, correcting previous errors\footfullcite{Schapire1990}
+    \item \textbf{Bagging} --- parallel, trained with small data variations\footfullcite{Breiman1996}
+    \item Random forests (Ho, 1995) --- bagging\footfullcite{Ho1995}
+    \item XGBoost (Friedman, 2001) --- gradient boosting\footfullcite{Friedman2001}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Support vector machines (1995)}
   \begin{itemize}
-    \item \textbf{Cortes \& Vapnik} --- based on VC theory and ERM principle
+    \item \textbf{Cortes \& Vapnik}\footfullcite{Cortes1995} --- based on VC theory and ERM principle
     \item Finds optimal separating hyperplane with maximum margins
-    \item Uses Cover's theorem (high-dimensional mapping)
+    \item Uses Cover's theorem\footfullcite{Cover1965} (high-dimensional mapping)
     \item Practical and efficient learning machines
   \end{itemize}
 \end{frame}
@@ -439,13 +439,13 @@
   \begin{itemize}
     \item Neural networks with multiple layers
     \item State-of-the-art in computer vision and NLP
-    \item \textbf{Bengio, Hinton, LeCun} --- 2018 Turing Award
+    \item \textbf{Bengio, Hinton, LeCun} --- 2018 Turing Award\footfullcite{Goodfellow2016}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{LUSI learning theory (2010s)}
   \begin{itemize}
-    \item \textbf{Vapnik} --- Learning Using Statistical Invariants
+    \item \textbf{Vapnik}\footfullcite{Vapnik2015} --- Learning Using Statistical Invariants
     \item Extension of statistical learning theory
     \item Based on properties preserved under transformations
     \item ``Complete statistical theory of learning''
@@ -454,7 +454,7 @@
 
 \begin{frame}{Large Language Models (2017--)}
   \begin{itemize}
-    \item \textbf{Vaswani et al.} (2017) --- transformer architecture
+    \item \textbf{Vaswani et al.}\footfullcite{Vaswani2017} (2017) --- transformer architecture
     \item Attention mechanisms replace recurrence and convolution
     \item Enabled development of LLMs
     \item OpenAI's ChatGPT (2020) --- wide public availability
