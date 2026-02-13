@@ -1,23 +1,23 @@
 # Data Science Project: An Inductive Learning Approach
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14498011.svg)](https://doi.org/10.5281/zenodo.14498011)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14498010.svg)](https://doi.org/10.5281/zenodo.14498010)
 
 This repository contains the source of [Data Science Project: An inductive
 Learning Approach](https://leanpub.com/dsp).  The book is built using XeLaTeX.
 
-The book is a work in progress, and the current version is v0.1.0.
+The book is a work in progress, and the current version is v0.1.1.
 
 ## Citing the book
 
 ```bibtex
-@misc{verri2024datascienceproject,
+@misc{verri2026datascienceproject,
   author       = {Verri, Filipe Alves Neto},
   title        = {Data Science Project: An Inductive Learning Approach},
-  year         = 2024,
+  year         = 2026,
   publisher    = {Leanpub},
-  version      = {v0.1.0},
-  doi          = {10.5281/zenodo.14498011},
-  url          = {https://leanpub.com/dsp}
+  version      = {v0.1.1},
+  doi          = {10.5281/zenodo.14498010},
+  url          = {https://leanpub.com/dsp},
 }
 ```
 
@@ -33,7 +33,7 @@ make ready
 
 It has been tested in:
 
-- Arch Linux (kernel 6.14.6-arch1-1)
+- Arch Linux (kernel 6.18.9-arch1-2)
 - TeX Live 2026/dev
 - Latexmk 4.86a
 
