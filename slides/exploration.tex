@@ -1,0 +1,603 @@
+% slides/exploration.tex - Data Exploration
+
+\input{slides/preamble}
+
+\title{Data Exploration}
+\subtitle{Data Science Project: An Inductive Learning Approach}
+\author{Prof.~Dr.~Filipe A. N. Verri}
+\date{}
+
+\begin{document}
+
+\maketitle
+\bookframe
+
+% ---- Epigraph ----
+
+\begin{frame}{}
+  \vfill
+  \begin{quote}
+    The greatest value of a picture is when it forces us to notice what we
+    never expected to see.
+    \begin{flushright}
+      --- John W. Tukey, \textit{Exploratory Data Analysis}
+    \end{flushright}
+  \end{quote}
+  \vfill
+\end{frame}
+
+% ---- Overview ----
+
+\begin{frame}{Overview}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Contents}
+      \begin{itemize}
+        \item Introduction and goals
+        \item Descriptive statistics
+        \item Data visualization
+        \item Graphical integrity and data-ink ratio
+        \item Turning charts into stories
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Objectives}
+      \begin{itemize}
+        \item Understand what to explore and what not to
+        \item Use descriptive statistics effectively
+        \item Create honest, clear visualizations
+        \item Communicate findings as stories
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section{Introduction}
+% ===========================================================================
+
+\begin{frame}{When does exploration happen?}
+  Two main moments:
+  \begin{enumerate}
+    \item \textbf{Before data organization} --- understand the original
+      phenomena and data sources
+    \item \textbf{After data organization} --- validate that transformations
+      achieved expected results
+  \end{enumerate}
+
+  \vspace{0.5cm}
+  In practice, also during intermediate steps as a form of \textbf{debugging}.
+\end{frame}
+
+\begin{frame}{Exploratory Data Analysis (EDA)}
+  \begin{itemize}
+    \item Term coined by Tukey (1977)\footfullcite{Tukey1977}
+    \item Informal study of data: graphics and elaborate statistical summaries
+    \item Counterpoint to dominance of confirmatory statistical methods
+    \item Original context: statistical modeling, not machine learning
+    \item Two classical goals: data description and model formulation
+    \item In our approach: model formulation is delegated to the ML algorithm
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{The fine line}
+  \begin{alertblock}{Key tension}
+    Deepen understanding enough to know the data and the problem, but not so
+    much as to bias the final solution.
+  \end{alertblock}
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item ML principle: minimize human interference in the learning process
+    \item Excessive domain-knowledge influence can limit discovery
+    \item A variable that experts deem unimportant may contain valuable
+      information
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Goals of data exploration}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Goal: understand units and variables}
+  \textbf{Fixed (index) variables:}
+  \begin{itemize}
+    \item Identify each one's meaning, individually and combined
+    \item Possible observational units (e.g.\ enrollment, class)
+    \item Domain: categorical, ideally finite and known \emph{a priori}
+    \item Inspect unique values --- but beware: sample $\neq$ full domain
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Measured (non-index) variables:}
+  \begin{itemize}
+    \item Used directly in the ML problem
+    \item Analyze type, domain, and distribution
+    \item Descriptive statistics and visualizations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Goal: investigate inconsistencies}
+  \textbf{Fixed variables:}
+  \begin{itemize}
+    \item No duplicate rows (unique identification)
+    \item No missing keys
+    \item Missing observations vs.\ missing key parts
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Measured variables:}
+  \begin{itemize}
+    \item Extreme values --- measurement errors or irrelevant phenomena?
+    \item Missing values --- which preprocessing techniques are needed?
+    \item Compare observed characteristics with prior knowledge
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Goal: validate data manipulations}
+  \begin{itemize}
+    \item Data handling operations can produce counter-intuitive results
+    \item Explore both original and transformed data
+    \item Example: after pivoting, check unique values and distributions
+    \item Interactive environments (e.g.\ Jupyter) as debugging tools
+    \item Step-by-step inspection of intermediate transformations
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Non-goals of data exploration}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Non-goals of data exploration}
+  \begin{exampleblock}{Do not model or infer relationships}
+    \begin{itemize}
+      \item Correlation analysis to decide variable importance
+      \item Fitting regression models to understand relationships
+      \item These tasks belong to the solution search algorithm
+    \end{itemize}
+  \end{exampleblock}
+
+  \begin{exampleblock}{Do not test statistical hypotheses}
+    \begin{itemize}
+      \item Testing if a variable follows a specific distribution adds little
+      \item ML algorithms are robust to deviations
+      \item Prefer experimental validation of the solution
+    \end{itemize}
+  \end{exampleblock}
+
+  \begin{exampleblock}{Do not manipulate data}
+    \begin{itemize}
+      \item Exploration and manipulation are distinct tasks
+      \item Exploratory transformations must not persist
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Communication in the exploration report}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Communication in the exploration report}
+  Three-step approach:
+  \begin{enumerate}
+    \item Formulate a \textbf{question} about the data
+    \item Choose \textbf{tools and techniques} to answer it
+    \item \textbf{Communicate} the answer via statistics and visualizations
+  \end{enumerate}
+
+  \vspace{0.5cm}
+  Key principles:
+  \begin{itemize}
+    \item \textbf{Simplicity} --- avoid excess information and complex charts
+    \item \textbf{Relevance} --- the right answer to the wrong question is
+      useless
+    \item \textbf{Clarity} --- no ambiguity, no unnecessary jargon
+    \item \textbf{Objectivity} --- each piece answers one question only
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{Descriptive statistics}
+% ===========================================================================
+
+\begin{frame}{Descriptive statistics}
+  Numeric summaries of specific properties of the data distribution:
+  \begin{itemize}
+    \item \textbf{Location}: mean, median, mode, min, max
+    \item \textbf{Frequency}: counts per category
+    \item \textbf{Dispersion}: standard deviation, entropy, kurtosis
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Main uses in exploration:
+  \begin{itemize}
+    \item Validate the domain of variables against expectations
+    \item Detect class imbalance or underrepresented categories
+    \item Assess information content of each variable
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Dispersion and information content}
+  \textbf{Low dispersion} (std.\ dev.\ $\approx 0$, low entropy):
+  \begin{itemize}
+    \item Variable carries little discriminative information
+    \item Most observations share similar values
+    \item May need to collect more diverse data
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{High dispersion}:
+  \begin{itemize}
+    \item Too many unique or spread-out values
+    \item Model may struggle to generalize
+    \item Excess information can be as harmful as lack of it
+    \item Address during preprocessing
+  \end{itemize}
+
+  \vspace{0.3cm}
+  Always present statistics within a \textbf{storytelling} context --- never
+  as isolated tables without interpretation.
+\end{frame}
+
+% ===========================================================================
+\section{Data visualization}
+% ===========================================================================
+
+\begin{frame}{Why visualize?}
+  \begin{itemize}
+    \item The visual cortex absorbs large amounts of information quickly
+    \item Charts and diagrams make data more intuitive than raw numbers
+    \item Powerful for identifying patterns, anomalies, and relationships
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \begin{alertblock}{But beware}
+    Visualizations can be ambiguous, poorly chosen, or intentionally
+    misleading (``lying with statistics'').
+  \end{alertblock}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Graphical integrity}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Graphical integrity --- misleading scales}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      axis x line=bottom,
+      axis y line=left,
+      ybar,
+      ymin=8,
+      width=6cm,
+      height=5cm,
+      bar width=0.4cm,
+      enlarge x limits=0.2,
+      ylabel={Measure},
+      xlabel={Year},
+      xtick={1,2,3},
+      ]
+      \addplot[color=black, fill=gray] coordinates {(1, 9) (2, 10) (3, 12)};
+    \end{axis}
+  \end{tikzpicture}
+  \hfill
+  \begin{tikzpicture}
+    \begin{axis}[
+      axis x line=bottom,
+      axis y line=left,
+      ybar,
+      ymin=0,
+      width=6cm,
+      height=5cm,
+      bar width=0.4cm,
+      enlarge x limits=0.2,
+      ylabel={Measure},
+      xlabel={Year},
+      xtick={1,2,3},
+      ]
+      \addplot[color=black, fill=gray] coordinates {(1, 9) (2, 10) (3, 12)};
+    \end{axis}
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \small
+  Left: axis not starting at zero exaggerates differences.\\
+  Right: axis starting at zero gives an honest representation.
+\end{frame}
+
+\begin{frame}{Tufte's six principles of graphical integrity}
+  \begin{enumerate}
+    \item Physical representation must be proportional to values
+    \item Labels, explanations, and events must be clear and visible
+    \item Show variation in data, never in design or scale
+    \item For monetary values, adjust for inflation/deflation
+    \item Dimensions in chart $\leq$ dimensions in data
+    \item Charts must not omit context relevant for interpretation
+  \end{enumerate}
+  \vspace{0.3cm}
+  \hfill\small Tufte (2001)\footfullcite{Tufte2001}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Data-ink ratio}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Data-ink ratio}
+  Core principle: \textbf{above all, show the data.}
+
+  \begin{block}{Definition (Tufte, 2001)}
+    \[
+      \mathrm{DIR} = \frac{\mathrm{DI}}{\mathrm{DI} + \mathrm{RI} +
+      \mathrm{NDI}}
+    \]
+    \begin{itemize}
+      \item $\mathrm{DI}$: non-erasable data-ink
+      \item $\mathrm{RI}$: redundant data-ink
+      \item $\mathrm{NDI}$: non-data ink
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.3cm}
+  $1 - \mathrm{DIR}$ = proportion of the chart that can be removed without
+  losing information.
+\end{frame}
+
+\begin{frame}{Maximizing data-ink ratio}
+  \textbf{Erase non-data ink} (within reason):
+  \begin{itemize}
+    \item Remove unnecessary axis lines, grids, legends, labels
+    \item $\mathrm{DIR}$ increases as $\mathrm{NDI} \to 0$
+    \item But: grids can help reading without a ruler
+  \end{itemize}
+
+  \vspace{0.5cm}
+  \textbf{Erase redundant data-ink} (within reason):
+  \begin{itemize}
+    \item Labeled axes $\to$ no need to label each bar
+    \item Exception: periodic data may benefit from repetition
+    \item Highlighting specific data points can be useful
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Chart editing}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Chart editing --- iterative process}
+  \begin{enumerate}
+    \item Idealize the visualization and map variables to dimensions
+    \item Produce an initial chart
+    \item Iteratively remove ink and improve integrity
+    \item Adjust until the chart clearly communicates its intention
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Example: supercomputer performance (before editing)}
+  \centering
+  \begin{tikzpicture}
+    \pgfplotsset{
+      major grid style={color=black}, minor grid style={color=black},
+      tick style={color=black},
+      cycle list={{black, mark=x}, {black, mark=*}}}
+    \begin{axis}[
+      ymajorgrids,
+      yminorgrids,
+      minor tick num=1,
+      ylabel={$R_\text{max}$ (TFLOPS)},
+      xlabel={Year},
+      ymode=log,
+      width=0.85\textwidth,
+      height=0.65\textheight,
+      ]
+      \addplot table [
+        only marks, x=Year, y=Rmax, col sep=comma, color=black,
+      ] {data/supercomputer2a.csv};
+      \addplot table [
+        only marks, x=Year, y=Rmax, col sep=comma, color=black,
+      ] {data/supercomputer2b.csv};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Editing steps}
+  \begin{itemize}
+    \item Display performance as powers of two ($2^{12}, 2^{14}, \ldots$)
+      to emphasize doubling
+    \item Remove vertical grid --- log base-2 scale is self-explanatory
+    \item Use uniform markers (short horizontal lines) --- focus on trend,
+      not individual bests
+    \item Fix axis labels (years without thousands separator)
+    \item Replace bounding box with axis arrows for cleaner design
+    \item Add Moore's Law trend line and annotations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: supercomputer performance (after editing)}
+  \centering
+  \begin{tikzpicture}[
+      style={every pin/.style={font=\footnotesize, text width=2cm, align=center}},
+    ]
+    \pgfplotsset{cycle list={{black, mark=-}, {black, mark=o}}}
+    \begin{axis}[
+      axis lines=middle,
+      ylabel={$R_\text{max}$ (TFLOPS)},
+      xlabel={Year},
+      xtick={2015, 2017, 2019, 2021, 2023},
+      xmin=2014,
+      xmax=2025,
+      ymin=11,
+      ymax=22,
+      ytick={12, 14, 16, 18, 20},
+      yticklabels={$2^{12}$, $2^{14}$, $2^{16}$, $2^{18}$, $2^{20}$},
+      xticklabels={2015, 2017, 2019, 2021, 2023},
+      width=0.85\textwidth,
+      height=0.7\textheight,
+      ]
+      \addplot table [
+        only marks, x=Year, y=Rmax, col sep=comma, color=black,
+      ] {data/supercomputer.csv};
+      \addplot[domain=2015:2023, black!20] {(x-2015)/2+11.70959};
+      \node [draw,coordinate,pin=above:{Frontier}] at (axis cs:2021,20.187) {};
+      \node [draw,coordinate,pin=above:{Sunway TaihuLight}] at (axis cs:2016,16.5051) {};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Alternative version with discrete grid}
+  \centering
+  \begin{tikzpicture}[
+      style={every pin/.style={font=\footnotesize, text width=2cm, align=center}},
+    ]
+    \pgfplotsset{
+      major grid style={color=black!10}, minor grid style={color=black!10},
+      cycle list={{black, mark=-}, {black, mark=o}}}
+    \begin{axis}[
+      axis x line=bottom,
+      axis y line=left,
+      axis line style={draw=none},
+      grid=both,
+      ylabel={$R_\text{max}$ (TFLOPS)},
+      xlabel={Year},
+      xtick={2015, 2017, 2019, 2021, 2023},
+      xmin=2014,
+      xmax=2025,
+      ymin=11,
+      ymax=22,
+      ytick={12, 14, 16, 18, 20},
+      yticklabels={$2^{12}$, $2^{14}$, $2^{16}$, $2^{18}$, $2^{20}$},
+      xticklabels={2015, 2017, 2019, 2021, 2023},
+      width=0.85\textwidth,
+      height=0.7\textheight,
+      ]
+      \addplot table [
+        only marks, x=Year, y=Rmax, col sep=comma, color=black,
+      ] {data/supercomputer.csv};
+      \addplot[domain=2015:2023, black!60] {(x-2015)/2+11.70959};
+      \node [draw,coordinate,pin=above:{Frontier}] at (axis cs:2021,20.187) {};
+      \node [draw,coordinate,pin=above:{Fugaku}] at (axis cs:2020,18.7537) {};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Intentionality of graphical elements}
+  \begin{itemize}
+    \item Keep redundant/non-data elements when they help communicate
+      \textbf{intent}
+    \item Grids $\to$ ``compare values''
+    \item Annotations $\to$ ``highlight this point''
+    \item Trend lines $\to$ ``observe this relationship''
+    \item A chart becomes cluttered when it tries to communicate
+      \textbf{too many things at once}
+    \item Prefer simpler charts highlighting a single phenomenon
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Colors and contrast}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Colors and contrast}
+  \begin{itemize}
+    \item Color variation must be \textbf{perceptually
+      uniform}\footfullcite{Crameri2020}
+    \item Neighboring colors should have equal perceptual differences
+    \item Must remain legible for colorblind readers and in grayscale
+    \item Use palettes with monotonic lightness
+      gradient\footfullcite{Crameri2023}
+    \item Scientific color maps available for most programming
+      languages
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Practical aspects and digital reports}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Practical aspects (Wilke, 2019)}
+  Wilke's guide for digital data
+  visualization\footfullcite{Wilke2019}:
+  \begin{itemize}
+    \item Compares versions of the same chart
+    \item Labels problematic figures as:
+      \begin{itemize}
+        \item \textbf{Ugly} --- aesthetic problems, but clear and informative
+        \item \textbf{Bad} --- perception problems (confusing, misleading)
+        \item \textbf{Wrong} --- mathematical errors or misinterpretation
+      \end{itemize}
+    \item Some classifications are subjective
+    \item Focus: honest, clear, professional design
+  \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------------------------
+\subsection{Turning charts into stories}
+% ---------------------------------------------------------------------------
+
+\begin{frame}{Turning charts into stories}
+  A story creates an emotional reaction through ordered observations.
+
+  \vspace{0.3cm}
+  \textbf{Story arc}: tension of a question $\to$ resolution.
+
+  \vspace{0.3cm}
+  \textbf{OCAR format} (Opening--Challenge--Action--Resolution):
+  \begin{enumerate}
+    \item \textbf{Opening} --- introduce the topic
+    \item \textbf{Challenge} --- raise a question
+    \item \textbf{Action} --- present the chart
+    \item \textbf{Resolution} --- state the conclusion
+  \end{enumerate}
+
+  \vspace{0.3cm}
+  Other formats: LDR (Lead--Development--Resolution),\\
+  ABDCE (Action--Background--Development--Climax--Ending).
+\end{frame}
+
+\begin{frame}{OCAR example}
+  \begin{enumerate}
+    \item[\textbf{O}] Moore's Law states that the number of transistors in a
+      microprocessor doubles every two years, typically reflecting exponential
+      performance growth.
+    \item[\textbf{C}] Does supercomputer performance follow this trend?
+    \item[\textbf{A}] The chart shows $R_\text{max}$ of the top 10
+      supercomputers per year (2015--2023).
+    \item[\textbf{R}] Despite outliers (Sunway TaihuLight, Frontier), the
+      trend line confirms performance doubles roughly every two years.
+  \end{enumerate}
+\end{frame}
+
+% ===========================================================================
+\section{Final comments}
+% ===========================================================================
+
+\begin{frame}{Advanced methods}
+  \begin{itemize}
+    \item PCA, t-SNE, clustering, association rules
+    \item Valuable for EDA, but use with caution
+    \item When the goal is predictive, exploration can become an end in itself
+    \item May find \emph{interesting} but not \emph{important} features
+    \item Prefer simple, widely known methods
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Explore to \textbf{understand} and \textbf{validate}, not to model
+    \item Descriptive statistics and visualizations within a storytelling
+      context
+    \item Graphical integrity: proportional, labeled, contextual
+    \item Maximize data-ink ratio --- remove what does not inform
+    \item Choose colors that are perceptually uniform and accessible
+    \item Structure reports as stories (OCAR)
+    \item The exploration report must be concise and objective --- it
+      communicates progress to stakeholders
+  \end{itemize}
+\end{frame}
+
+% ---- End ----
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\end{document}
