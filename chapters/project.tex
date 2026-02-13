@@ -70,6 +70,32 @@ extension to Scrum adapted for data science projects.
 {}
 \clearpage
 
+\section{What is a project?}
+
+Before discussing specific data science project methodologies, it is important to understand
+what a project is.  According to the PMBOK\footnote{The PMBOK is a guide --- perhaps the
+most important one --- of best practices for project management,
+\fullcite{PMI2025}.}, a project is \emph{a temporary endeavor aimed at creating a unique result,
+such as a product or service}.
+
+The emphasis on the temporary nature of a project is important.  It means that a project
+has a well-defined beginning and end.  Therefore, in this chapter, we will not deeply
+discuss matters of operations, which include maintenance and monitoring.  These are the
+continuous execution of activities
+that occur after the product is built and delivered\footnote{This is where the terms
+\gls{devops}, \gls{mlops}, and \gls{dataops} come from.}.  However, in organizations, projects and
+operations coexist.  It is important that the project is conducted in a way that eases
+the operation of the product, just as it is important that routine operations are flexible
+enough to streamline project development.
+
+Projects must also have a well-defined expected result.  This means that the project must
+have a clear objective.  It must be measurable and achievable.  Unrealistic or poorly
+defined objectives are one of the main causes of project failure.
+
+Finally, projects usually require strong collaboration between teams, often within and
+outside the organization --- much more so than operations do.  This is because they
+typically involve specialized knowledge that is not available in a single team.
+
 \section{CRISP-DM}
 
 CRISP-DM\footnote{Official guide available at
@@ -263,13 +289,27 @@ emphasized in the view of \textcite{Wickham2023}.
   can be back-and-forth.
 \end{figurebox}
 
+Note that tasks beyond deployment, such as maintenance and monitoring, are not directly
+addressed by the methodology but are delegated to the operations role.  Nevertheless,
+\citeauthor{Zumel2019} emphasize the importance of interacting with operations personnel to
+guarantee the sustainability of the solution, as well as the importance of documenting the
+process and version controlling the code.
+
 \subsection{Limitations of the ZM approach}
 
-The ZM approach is particularly interesting in consulting projects, as the data scientist
-is not part of the organization.  Note that tasks beyond deployment, such as maintenance and
-monitoring, are not directly addressed by the methodology but are delegated to the operations
-role.  Like CRISP-DM, the ZM approach does not address the software development aspects of
-the project.
+The ZM approach is particularly interesting in consulting projects, where the data scientist
+is not part of the organization, or even in internal projects of organizations with a
+strongly hierarchical structure.  Like CRISP-DM, the ZM approach does not directly address the
+software development aspects of the project.
+
+Another criticism is the lack of a clear criterion for where the project ends and
+operations begin.  The approach suggests that a data science project always develops just
+a component, a pilot or demonstration, delegating the final version of the software to
+another group.  However, in many modern organizations and due to current market demands,
+data scientists are expected to build complete, production-ready software\footnote{With
+the rapid pace of advances in data science and artificial intelligence, the
+lifetime of software products is getting shorter.  However, this is not an excuse
+not to build high-quality software.}.
 
 \section{Agile methodology}
 
@@ -624,6 +664,9 @@ available to automate validation and deployment, at least make sure that the cod
 easily runnable.  This means that the code must be well documented, and that the
 required infrastructure must be well documented.  Also aggregate commands using a
 Makefile\footnote{\url{https://www.gnu.org/software/make/manual/make.html}} or a similar tool.
+If the execution instructions are simple, for example when
+Docker\footnote{\url{https://www.docker.com/}} is used, clear instructions in a readme file
+may suffice.
 
 Pay attention to the dependencies between the dataset and
 model training.  If the dataset changes significantly, not only the deployed preprocessor
@@ -640,6 +683,9 @@ not only the source code, but also the reports generated.  That is probably the 
 interactive environments are so popular in data science projects.  However, the data
 scientist must guarantee that the reports are version controlled and reproducible.  The
 reports must be generated in a way that is understandable by the business spokesperson.
+Although it may be worthwhile to manually enhance some important reports in terms of
+presentation, during fast-paced sprint cycles, prefer using tools that generate reports
+automatically, such as Quarto\footnote{\url{https://quarto.org/}}.
 
 \subsubsection{Setup quantitative goals}
 
@@ -761,7 +807,7 @@ the variables, especially in terms of data types and their properties; which is 
 discussed in that chapter.  All these tasks aim to prepare a dataset that represents
 the data that the solution will see in production.
 
-Exploration also refers to \gls{eda}, a term coined by
+Exploration also relates to \gls{eda}, a term coined by
 \textcite{Tukey1977}\footfullcite{Tukey1977} to describe an informal study of data through graphical and summary
 techniques.  His original proposal, however, was rooted in statistical modeling, not in
 machine learning\footnote{This does not mean that all problems should be solved using
@@ -771,7 +817,7 @@ only the application of machine learning.}.  In fact, the two main goals of EDA 
 description and model formulation\footfullcite{Chatfield1986} --- the latter being delegated to
 the learning algorithm in our context.  As a result, the data scientist should be careful
 not to let excessive exploration bias the solution during the data sprint.
-For a good introduction to \gls{eda}, which includes both understanding
+For a good introduction to a sensible \gls{eda}, which includes both understanding
 and identifying issues in the data through descriptive statistics and visualization, consult chapter 3 of
 \textcite{Zumel2019}\footfullcite{Zumel2019}.
 
@@ -818,8 +864,9 @@ run every time the dataset is updated.
 \paragraph{Application sprint}
 The \emph{application sprint} is focused on the application itself.  The tasks in this
 sprint focus on the development of the user interface, the communication between the
-front-end and the back-end, and the monitoring of the solution in production.  Software
-documentation and unit tests are also part of this sprint.
+modules (front-end, back-end, external tools), and infrastructure for the monitoring of
+the solution in production.  Software documentation and unit tests are also part of this
+sprint.
 
 \begin{figurebox}[label=fig:our-sprints]{Tasks and results for each sprint types and their relationships.}
   \centering
@@ -938,7 +985,10 @@ business spokesman.  The business spokesman must approve the results of the spri
 It is important that the reports use the terminology of the client, and that the
 software is easy to use for the domain expert.
 
-% TODO: \subsubsection{Monitoring and maintenance} \textcolor{red}{\dots}
+\subsubsection{Monitoring and maintenance} Although monitoring and maintenance are
+operations tasks, best efforts must be made to guarantee that the software is easy to
+monitor and maintain.  For instance, the monitoring infrastructure must be
+considered during development.
 
 \subsubsection{Relationship with other methodologies}
 
@@ -984,5 +1034,9 @@ model training.)
 % TODO: in the future, when we have a monitoring chapter or similar:
 % We also explicitly emphasize the monitoring and maintenance of the solution, which is not
 % covered by the other methodologies.
+
+Finally, our approach emphasizes that the end result of the project must be a complete
+software product, ready for deployment, ensuring the quality of both the code and the
+data-driven solution, as well as their future maintainability.
 
 % vim: set spell spelllang=en:

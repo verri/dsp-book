@@ -33,6 +33,7 @@
     \begin{column}{0.48\textwidth}
       \textbf{Contents}
       \begin{itemize}
+        \item What is a project?
         \item CRISP-DM
         \item ZM approach
         \item Agile methodology
@@ -58,6 +59,29 @@
     \item Example: spam filter --- learned from labeled emails
     \item Traditional testing (unit tests) is not sufficient
     \item Stochastic nature of data requires proper validation
+  \end{itemize}
+\end{frame}
+
+% ===========================================================================
+\section{What is a project?}
+% ===========================================================================
+
+\begin{frame}{What is a project?}
+  According to the PMBOK\footfullcite{PMI2025}:
+
+  \vspace{0.3cm}
+  \begin{block}{Definition}
+    A project is \textbf{a temporary endeavor} aimed at creating a \textbf{unique result},
+    such as a product or service.
+  \end{block}
+
+  \vspace{0.3cm}
+  Key characteristics:
+  \begin{itemize}
+    \item Well-defined \textbf{beginning and end} (temporary)
+    \item Clear, \textbf{measurable}, and achievable objectives
+    \item Requires strong \textbf{collaboration} between teams
+    \item Distinct from \textbf{operations} (DevOps, MLOps, DataOps)
   \end{itemize}
 \end{frame}
 
@@ -191,10 +215,12 @@
 
 \begin{frame}{ZM approach --- Limitations}
   \begin{itemize}
-    \item Particularly suited for consulting projects
+    \item Suited for consulting or strongly hierarchical organizations
     \item Maintenance and monitoring delegated to operations
     \item Does not address software development aspects
-    \item Result presentation is a differentiator from CRISP-DM
+    \item Unclear boundary between project end and operations
+    \item Assumes a pilot/demo --- delegates final software to another group
+    \item Modern orgs expect data scientists to build \textbf{production-ready} software
   \end{itemize}
 \end{frame}
 
@@ -502,6 +528,7 @@
     \item Scrum can be adapted for data science with three sprint types:
       data, solution, and application
     \item Confidence and version control are key values
+    \item The end result must be a \textbf{complete, production-ready} software product
   \end{itemize}
 \end{frame}
 

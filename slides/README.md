@@ -8,6 +8,7 @@ Companion slides for *Data Science Project: An Inductive Learning Approach*.
 - **Exact book order.** Each slide deck follows the corresponding chapter section by section, in the same sequence. No content is reordered or reorganized.
 - **All figures included.** Every `figurebox` (TikZ diagram) from the chapter must appear in the slides. Reproduce the TikZ code directly — do not use screenshots or external images.
 - **Grayscale only.** No color. All visual elements use shades of gray, matching the book's aesthetic.
+- **References included.** All claims, definitions, and methodologies that cite a source in the book must include the corresponding `\footfullcite{}` in the slides. The audience should be able to trace any statement back to its original reference.
 
 ## File Structure
 
