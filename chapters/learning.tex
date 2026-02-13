@@ -102,7 +102,7 @@ need for a target variable.}.
 
 Depending on the reasoning behind the learning algorithms, we can divide the learning
 field into two main approaches: \emph{inductive learning} and \emph{transductive
-learning}\footnote{Trasduction is the process of obtaining specific knowledge from specific
+learning}\footnote{Transduction is the process of obtaining specific knowledge from specific
 observations, and it is not the focus of this book.}.
 
 Inductive learning involves deriving general rules from specific observations.  The
@@ -202,7 +202,7 @@ believe are the most fundamental ones: \emph{binary data classification}\footnot
 \gls{slt}, Vapnik calls it \emph{pattern recognition}.} and \emph{regression
 estimation}\footnote{We are not talking about \emph{regression analysis}; regression
 estimation is closer to the \emph{scoring} task definition by \fullcite{Zumel2019}.}.  (I
-left aside the density estimation problem, once it is not addressed in the remainder of
+left aside the density estimation problem, since it is not addressed in the remainder of
 the book.)
 
 \subsubsection{Binary data classification task}
@@ -502,7 +502,6 @@ the \emph{empirical risk functional}
   \label{eq:empirical-risk}
   R_n(\theta) = \frac{1}{n} \sum_{i=1}^n L(z_i, \theta)\text{.}
 \end{equation}
-```
 
 Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so-called
 \gls{erm} inductive principle.  The ERM principle is the basis of the \gls{slt}.
@@ -706,7 +705,7 @@ it relies on the hypothesis that the number of samples tends to infinity.
 
 In fact, \textcite{Vapnik1999b}\footfullcite{Vapnik1999b} summarizes the bounds for the
 generalization ability of learning machines in the following way\footnote{ For the sake of
-the arguments, we consider only the expression for bounded losses and an hypothesis space
+the arguments, we consider only the expression for bounded losses and a hypothesis space
 with infinite number of functions.  Rigorously, the loss function may not be bounded;
 consult the original work for the complete expressions.}:
 \begin{equation}

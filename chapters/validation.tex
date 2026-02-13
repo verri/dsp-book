@@ -75,7 +75,7 @@ for inductive problems.
 
 One fundamental step in the validation of a data-driven solution for a task is the
 \emph{evaluation} of the pair preprocessor and model. This chapter presents strategies to
-measure performance of
+measure the performance of
 classifiers and regressors, and how to interpret the results.
 
 We consider the following setup.  Let $T = (K, H, c)$ be a table that represents the data
@@ -264,10 +264,15 @@ mean of precision and recall given by
       {(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}
       {\beta^2 \cdot \text{Precision} + \text{Recall}}\text{,}
 \end{equation*}
-where $\beta > 0$ is a parameter that controls the weight of precision in the metric.
+where $\beta > 0$ is a parameter that controls the weight of recall in the metric.
 The most common value for $\beta$ is 1, which gives the F$_1$-score.  Higher values of
-$\beta$ give more weight to precision ($\beta > 1$), while lower values give more weight
-to recall ($0 < \beta < 1$).
+$\beta$ give more weight to recall ($\beta > 1$), while lower values give more weight
+to precision ($0 < \beta < 1$).
+We can see the weighting effect clearly by looking at what happens as $\beta$ approaches
+extremes: as $\beta \to 0$, the $\beta^2$ terms vanish and the formula simplifies toward
+precision.  On the other hand, as $\beta \to \infty$, the $\beta^2$ terms dominate the
+fraction and, dividing numerator and denominator by $\beta^2$ and taking the limit, the
+formula simplifies toward recall.
 
 \paragraph{Specificity} goes in the opposite direction of recall, focusing on the negative
 class.  It is the proportion of true negative predictions over the total
@@ -1055,7 +1060,7 @@ where
 \end{equation*}
 and
 \begin{equation*}
-  s^2 = \frac{1}{n - 1} \sum_{i=1}^{n-1} (z_i - \bar{z})^2\text{.}
+  s^2 = \frac{1}{n - 1} \sum_{i=1}^{n} (z_i - \bar{z})^2\text{.}
 \end{equation*}
 
 Thus, validating that the solution obtained by the algorithm in production will surpass
