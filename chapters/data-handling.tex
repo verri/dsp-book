@@ -12,7 +12,7 @@ integration and tidying --- must adjust the available data to reflect the kind o
 input we expect in production.  Data handling consists of operating on this data.
 
 For those tasks, we must be careful with the operations we perform on the data. At the
-stage of data preparation, for example, we should never parametrize our data handling
+stage of data preparation, for example, we should never parameterize our data handling
 pipeline in terms of information retrieved\footnote{For instance, imputation by the mean
 of a column.} by the values of the data.  This is because such operations lead to \gls{leakage}
 during evaluation and other biases in our conclusions.
@@ -472,7 +472,7 @@ dealt with by database normalization.  More on this subject is discussed in
 
 We saw that one trivial, yet important, operation is to bind datasets.  This is the
 process of combining two or more datasets into a single dataset.  To make the
-operation reversible, we can parametrize it with a split column that indicates the source
+operation reversible, we can parameterize it with a split column that indicates the source
 of each row.
 
 \begin{defbox}{Tagged bind operation}{tagged-bind}
@@ -544,7 +544,7 @@ The reverse function consists of splitting the dataset using as a predicate the 
 \begin{defbox}{Tagged split operation}{tagged-split}
   Let $s$ be a non-index column of a table $T = (K, H \cup \{s\}, c)$ with $\domainof{s}$
   known and finite, and such that $c(r, s)$ contains only unique values. The tagged split
-  operation parametrized by $s$ creates disjoint tables $T_i = (K, H, c_i)$ that contain
+  operation parameterized by $s$ creates disjoint tables $T_i = (K, H, c_i)$ that contain
   only the rows $r$ for which $c(r, s) = i$.
 
   Mathematically, the tagged split operation is defined as \[
@@ -1104,7 +1104,7 @@ without fully denormalizing them is a bad practice that can lead to spurious inf
 In practice, when we need more flexibility in the kind of operations we can perform ---
 for instance, in data preprocessing ---, we use variations of some operations in
 \cref{sec:split-invariant-ops} that are not split-invariant.  These operations are
-parametrized by the groups and the order of the rows.
+parameterized by the groups and the order of the rows.
 
 We use the following terminology to refer to the data handling parameters:
 \begin{itemize}
