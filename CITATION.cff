@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this book, please cite it as below."
+type: book
+authors:
+  - family-names: Verri
+    given-names: Filipe Alves Neto
+    affiliation: Instituto Curvelo
+    orcid: "https://orcid.org/0000-0002-8240-5129"
+title: "Data Science Project: An Inductive Learning Approach"
+version: v0.1.1
+doi: 10.5281/zenodo.14498010
+url: "https://leanpub.com/dsp"
+license: CC-BY-NC-ND-4.0
+publisher:
+  name: Leanpub
+repository-code: "https://github.com/verri/dsp-book"
+keywords:
+  - data science
+  - machine learning
+  - inductive learning

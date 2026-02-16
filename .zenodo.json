@@ -1,0 +1,35 @@
+{
+  "title": "Data Science Project: An Inductive Learning Approach",
+  "version": "v0.1.1",
+  "license": "CC-BY-NC-ND-4.0",
+  "upload_type": "publication",
+  "publication_type": "book",
+  "language": "eng",
+  "creators": [
+    {
+      "name": "Verri, Filipe Alves Neto",
+      "orcid": "0000-0002-8240-5129",
+      "affiliation": "Instituto Curvelo"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Marques, Johnny Cardoso",
+      "orcid": "0000-0002-1551-435X",
+      "affiliation": "Instituto Tecnológico de Aeronáutica",
+      "type": "Researcher"
+    }
+  ],
+  "keywords": [
+    "data science",
+    "machine learning",
+    "inductive learning"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://leanpub.com/dsp",
+      "relation": "isIdenticalTo",
+      "resource_type": "publication-book"
+    }
+  ]
+}
