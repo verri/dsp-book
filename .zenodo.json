@@ -1,7 +1,10 @@
 {
   "title": "Data Science Project: An Inductive Learning Approach",
+  "description": "<p>\"Data Science Project: An Inductive Learning Approach\" provides a comprehensive methodology for data science project development, emphasizing software engineering principles essential for reliable solutions.</p>\n<p>Prof. Dr. Filipe Verri, a senior data science project manager, Scientific Director of Instituto Curvelo, and Affiliate Professor at the Aeronautics Institute of Technology (ITA) and the Federal University of São Paulo (Unifesp), guides readers through the origins, scope, and key concepts of data science.</p>\n<p>This book covers machine learning, data handling, and rigorous validation techniques, all essential for preparing readers to tackle complex, real-world projects.</p>\n<p>Contributions from Prof. Dr. Johnny Marques, also professor at ITA and an expert in critical software development, bring an industry-tested perspective to the software aspects, making this an essential guide for aspiring data scientists, researchers and seasoned professionals alike.</p>\n<p>Available at <a href=\"https://leanpub.com/dsp\">leanpub.com/dsp</a>.</p>",
   "version": "v0.1.1",
+  "publication_date": "2026-02-12",
   "license": "CC-BY-NC-ND-4.0",
+  "access_right": "open",
   "upload_type": "publication",
   "publication_type": "book",
   "language": "eng",
@@ -14,6 +17,11 @@
   ],
   "contributors": [
     {
+      "name": "Lorena, Ana Carolina",
+      "orcid": "0000-0002-6140-571X",
+      "type": "Other"
+    },
+    {
       "name": "Marques, Johnny Cardoso",
       "orcid": "0000-0002-1551-435X",
       "affiliation": "Instituto Tecnológico de Aeronáutica",
@@ -25,6 +33,9 @@
     "machine learning",
     "inductive learning"
   ],
+  "imprint": {
+    "publisher": "Leanpub"
+  },
   "related_identifiers": [
     {
       "identifier": "https://leanpub.com/dsp",

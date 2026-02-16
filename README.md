@@ -10,14 +10,14 @@ The book is a work in progress, and the current version is v0.1.1.
 ## Citing the book
 
 ```bibtex
-@misc{verri2026datascienceproject,
+@book{verri2026datascienceproject,
   author       = {Verri, Filipe Alves Neto},
   title        = {Data Science Project: An Inductive Learning Approach},
   year         = 2026,
   publisher    = {Leanpub},
-  version      = {v0.1.1},
   doi          = {10.5281/zenodo.14498010},
   url          = {https://leanpub.com/dsp},
+  note         = {Version v0.1.1},
 }
 ```
 
@@ -43,9 +43,10 @@ It has been tested in:
 methodology for data science project development, emphasizing software
 engineering principles essential for reliable solutions.
 
-Prof. Dr. Filipe Verri, a senior data science project manager and professor at
-the Aeronautics Institute of Technology (ITA), guides readers through the
-origins, scope, and key concepts of data science.
+Prof. Dr. Filipe Verri, a senior data science project manager, Scientific
+Director of Instituto Curvelo, and Affiliate Professor at the Aeronautics
+Institute of Technology (ITA) and the Federal University of São Paulo (Unifesp),
+guides readers through the origins, scope, and key concepts of data science.
 
 This book covers machine learning, data handling, and rigorous validation
 techniques, all essential for preparing readers to tackle complex, real-world
@@ -72,10 +73,15 @@ data science, including algorithms, set theory, linear algebra, and probability.
 
 ## About the author
 
-Prof. Dr. Filipe Verri is a senior data science project manager and affiliate professor at
-the Aeronautics Institute of Technology (ITA) and Federal University of São
-Paulo (UNIFESP). He has a Ph.D. in computer
-science and computational mathematics from the University of São Paulo (USP).
+Prof. Dr. Filipe Verri received his BSc and PhD in Computer Science from the
+University of São Paulo, São Carlos, Brazil. He was a visiting scholar in the
+School of Electrical, Computer and Energy Engineering at Arizona State
+University, Tempe, USA, in 2016. His research interests are data science,
+machine learning, complex networks, and complex systems. Currently, he is the
+Scientific Director of Instituto Curvelo, where he leads Research & Development
+initiatives in computer systems, embedded systems, and manufacturing and
+automation. He also serves as an Affiliate Professor at the Aeronautics
+Institute of Technology (ITA) and the Federal University of São Paulo (Unifesp).
 
 ## License
 
