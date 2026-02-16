@@ -1,5 +1,36 @@
 # Changelog
 
+## v1.0.0 "Skyward Vector"
+
+First edition release.
+
+### Typography and layout
+
+- Added widow/orphan penalties to prevent isolated lines.
+- Added emergency stretch for bibliography entries to fix overfull hbox warnings.
+- Fixed overfull hbox warnings in history, project, and structured-data chapters.
+- Wrapped copyright page paragraphs in sloppypar to prevent overflow.
+- Enabled font ligatures (Common, TeX) for main font.
+- Enabled optical margin protrusion (microtype).
+
+### Content
+
+- Commented out incomplete Appendix B (learning machines) and its references.
+
+### Glossary
+
+- Added abbreviations: CRISP-DM, TPR, FPR, TNR, ROC, AUC, MAE, MSE, RMSE.
+- Added glossary references for VC and preprocessor at first use.
+
+### Metadata and branding
+
+- Bumped version to v1.0.0 across all metadata files.
+- Updated title page to Version 1.0 "Skyward Vector".
+- Removed work-in-progress disclaimer from copyright page.
+- Added "First Edition: February 2026" to copyright page.
+- Added preferred citation to Zenodo metadata.
+- Aligned publication date to 2026-02-28.
+
 ## v0.1.1
 
 ### Project restructuring

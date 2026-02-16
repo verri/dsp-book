@@ -23,8 +23,8 @@
     \reflectbox{\includegraphics[height=0.3\paperheight]{images/toucan_bw.png}}%
   };
   \node[anchor=south west, inner sep=10mm] at (current page.south west)
-    {\large\sffamily Version 0.1 ``\textit{Audacious Hatchling}''};
-    % {\large\sffamily Version 1.0 ``\textit{Tropical Toucan}''};
+    % {\large\sffamily Version 0.1 ``\textit{Audacious Hatchling}''};
+    {\large\sffamily Version 1.0 ``\textit{Skyward Vector}''};
   \node[anchor=south east, inner sep=10mm] at (current page.south east) {\large\sffamily\today};
   \node[anchor=north, yshift=-25mm](title) at (current page.north) {\HUGE\sffamily\uppercase{Data Science Project}};
   \node[anchor=north, inner sep=5mm](subtitle) at (title.south) {\LARGE\sffamily\uppercase{An Inductive Learning Approach}};
@@ -41,9 +41,10 @@
     title = {Data Science Project: An Inductive Learning Approach},
     year = 2026,
     publisher = {Leanpub},
+    address = {Victoria, British Columbia, Canada},
     doi = {10.5281/zenodo.14498010},
     url = {https://leanpub.com/dsp},
-    note = {Version v0.1.1}
+    note = {Version v1.0.0}
   }
   \end{verbatim}
 
@@ -53,9 +54,8 @@
 \vfill
 
 {
-  \footnotesize\noindent\color{red}
-  \textbf{Disclaimer:} This version is a work in progress.  Proofreading and professional editing are
-  still pending.
+\footnotesize\noindent
+First Edition: February 2026.
 }
 
 \vspace{0.5cm}
@@ -76,18 +76,22 @@ Some icons are from \href{https://fontawesome.com/}{Font Awesome 5} by Dave Gand
 \vspace{0.5cm}
 {
 \footnotesize\noindent
+\begin{sloppypar}\noindent
 Scripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®),
 copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by
 permission. All rights reserved.
+\end{sloppypar}
 }
 
 \vspace{0.5cm}
 {
 \footnotesize\noindent
+\begin{sloppypar}\noindent
 \thetitle{} © 2023--\the\year{} by \theauthor{}~\orcidlink{0000-0002-8240-5129} is licensed under
 Attribution-NonCommercial-NoDerivatives 4.0 International. To view a copy of this license,
 visit
 \href{http://creativecommons.org/licenses/by-nc-nd/4.0/}{creativecommons.org/licenses/by-nc-nd/4.0}.
+\end{sloppypar}
 }
 
 \cleardoublepage
@@ -127,7 +131,7 @@ visit
 \startappendices
 
 \input{backmatter/mathematical-foundations}
-\input{backmatter/learning-machines}
+% \input{backmatter/learning-machines}
 
 \backmatter
 

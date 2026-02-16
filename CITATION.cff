@@ -6,9 +6,9 @@ authors:
     affiliation: Instituto Curvelo
     orcid: "https://orcid.org/0000-0002-8240-5129"
 title: "Data Science Project: An Inductive Learning Approach"
-version: v0.1.1
+version: v1.0.0
 doi: 10.5281/zenodo.14498010
-date-released: "2026-02-12"
+date-released: "2026-02-28"
 url: "https://leanpub.com/dsp"
 license: CC-BY-NC-ND-4.0
 repository-code: "https://github.com/verri/dsp-book"
@@ -24,8 +24,11 @@ preferred-citation:
       orcid: "https://orcid.org/0000-0002-8240-5129"
   title: "Data Science Project: An Inductive Learning Approach"
   year: 2026
-  notes: "Version v0.1.1"
+  notes: "Version v1.0.0"
   doi: 10.5281/zenodo.14498010
   url: "https://leanpub.com/dsp"
   publisher:
     name: Leanpub
+    city: Victoria
+    region: British Columbia
+    country: CA

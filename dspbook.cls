@@ -3,7 +3,7 @@
 % Based on memoir class with custom styling and environments
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{dspbook}[2025/01/01 Data Science Project Book Class]
+\ProvidesClass{dspbook}[2026/02/28 Data Science Project Book Class v1.0.0]
 
 % Pass all options to memoir class
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
@@ -19,7 +19,7 @@
 
 %% Font and encoding setup
 \RequirePackage[T1]{fontenc}
-\RequirePackage[final]{microtype}
+\RequirePackage[final,protrusion=true]{microtype}
 \RequirePackage{fontspec}
 \RequirePackage{xltxtra}
 \RequirePackage{sourcesanspro}
@@ -28,6 +28,7 @@
 %% Language and bibliography
 \RequirePackage[english]{babel}
 \RequirePackage[style=authoryear,maxbibnames=99,giveninits=true,uniquename=init,backref=true]{biblatex}
+\AtBeginBibliography{\emergencystretch=3em}
 
 %% Math packages
 \RequirePackage{amsmath}
@@ -131,6 +132,8 @@
 
 %% Layout settings
 \nonfrenchspacing
+\widowpenalty=10000
+\clubpenalty=10000
 \setsecnumdepth{subsection}
 \maxtocdepth{subsection}
 
@@ -221,7 +224,8 @@
     UprightFont={*-Regular},
     BoldFont={*-Bold},
     ItalicFont={*-Italic},
-    BoldItalicFont={*-BoldItalic}]
+    BoldItalicFont={*-BoldItalic},
+    Ligatures={Common,TeX}]
 
   \setmonofont{CourierPrime}[
     Extension={.ttf},

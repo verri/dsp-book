@@ -158,8 +158,7 @@ changing statistics.  Thus, it warranted a new name.
 
 As a result, William Swain Cleveland II is credited with defining data science as it is most
 used today. He is a highly influential figure in the fields of statistics, machine
-learning, data visualization, data analysis for multidisciplinary studies, and high
-performance computing for deep data analysis.
+learning, data visualization and data analysis for multidisciplinary studies.
 
 \begin{figurebox}[label=fig:cleveland]{Cleveland's view of data science.}
   \centering
@@ -288,11 +287,10 @@ papyrus (3,000 BC), the Roman wax tablets (100 BC), the codex
 
 Besides those improvements in unstructured data storage, at least in the Western and
 Middle Eastern world, there are no significant advances in \gls{structureddata} collection
-until the \nth{19} century.  (Research on Eastern timelines appears much more challenging.
-Unfortunately, I left it out in this book.)
+until the \nth{19} century\footnote{Research on Eastern timelines is left for future works.}.
 
-I consider a major influential figure in the history of data
-collection to be Florence Nightingale (1820 -- 1910).  She was a passionate statistician
+Florence Nightingale (1820 -- 1910) is another major influential figure in the history of
+data collection.  She was a passionate statistician
 and probably the first person to use statistics to influence public and official
 opinion.  The meticulous records she kept during the Crimean War
 (1853 -- 1856) were the evidence that saved lives --- part of the mortality came from lack
@@ -508,7 +506,6 @@ However, after the \nth{17} century, the foundations of modern probability theor
 laid out.  Important figures for developing that theory are Blaise Pascal (1623
 -- 1662), Pierre de Fermat (1601 -- 1665), Christiaan Huygens (1629 -- 1695), and Jacob
 Bernoulli (1655 -- 1705).
-
 The foundation methods brought to life the field of statistical inference. In the
 following years, important results were achieved.
 
@@ -543,7 +540,6 @@ systems --- using data instead of theoretical models.
 
 Another change in the way we analyze data was the development of data visualization.  Data
 visualization is the graphical representation of information and data.
-
 William Playfair (1759 -- 1823) was a secret agent on behalf of Great Britain during its
 war with France in the 1790s.  He invented several types of diagrams\footfullcite{Playfair1786}
 between the 1780s and 1800s, such as the line, area, and bar chart of economic data, and
@@ -555,12 +551,12 @@ In the twentieth century and beyond, new advances were made in the field of stat
 The development of \glspl{learningmachine} enabled the development of new techniques for data
 analysis.
 
-The recent advances in computation and data storage are crucial for the large-scale
-application of these techniques.
-
 This era is characterized by a change of focus from trying to fit data to a theoretical
 model to trying to extract knowledge from data.  The main goal is to develop algorithms
 that can learn from data with minimal human intervention.
+The recent advances in computation and data storage are crucial for the large-scale
+application of these techniques.
+
 
 \paragraph{Fisher's discriminant analysis}
 
@@ -670,9 +666,8 @@ data analysis was basically stagnant.  The main reason for that was the lack of 
 theoretical framework to support the development of new \glspl{learningmachine}.
 
 However, these years were not completely unfruitful.  As early as 1968, Vladimir Vapnik
-(born 1936)
-and Alexey Chervonenkis (1938 -- 2014) developed the fundamental concepts of VC entropy
-and VC dimension for data classification problems.  As a result, a novel inductive
+(born 1936) and Alexey Chervonenkis (1938 -- 2014) developed the fundamental concepts of
+\glsunset{vc}\gls{vc} entropy and \gls{vc} dimension for data classification problems.  As a result, a novel inductive
 principle was proposed: the \gls{erm} principle.
 This principle is the foundation of statistical learning theory.
 
@@ -752,20 +747,29 @@ learning from intelligent teachers paradigm.  They regard the \gls{lusi} theory 
 next step in the evolution of learning theory, calling it the ``complete statistical
 theory of learning.''
 
-\paragraph{Large Language Models and Attention Mechanisms}
+\paragraph{Large language models}
 
 In 2017, \citeauthor{Vaswani2017}\footfullcite{Vaswani2017} proposed the
 \gls{transformer} model, a deep learning architecture based on attention mechanisms, in
-contrast to recurrent or convolutional neural networks. These architectural
+contrast to recurrent or convolutional neural networks. These
 advances --- despite limited theoretical progress --- enabled the development of \glspl{llm},
 which gained significant public attention when made widely available by OpenAI in 2022.
-That year, OpenAI released a free preview of ChatGPT, a new chatbot capable of generating
-human-like text using the \gls{transformer} architecture.
 
 Although generative in nature --- and actually trained as autoregressive models ---
 \glspl{llm} proved capable of performing a wide range of tasks, including classification
-and reasoning\footnote{Although with some questioning about whether they are actually
-reasoning or it is just a mirage: \fullcite{Zhao2025}.}, without the need for
-task-specific training.
+and reasoning,\footnote{Although with some questioning about whether they are actually
+reasoning or it is just a mirage: \fullcite{Zhao2025}.} without the need for
+training in specific tasks.
+
+\section{Closing remarks}
+
+Data science is a term that has been used in different ways by different people.
+Independently of the definition, it is clear that data science is a field that has evolved
+significantly over the years, and it is likely to continue evolving in the future.
+
+Once we have a broad understanding of the history of data science, we can better
+understand the current state of the field and its future directions.  In the next chapter,
+I will provide a definition of data science and set up a framework for the rest of the
+book.
 
 % vim: set spell spelllang=en:

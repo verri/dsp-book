@@ -5,7 +5,7 @@
 This repository contains the source of [Data Science Project: An inductive
 Learning Approach](https://leanpub.com/dsp).  The book is built using XeLaTeX.
 
-The book is a work in progress, and the current version is v0.1.1.
+The current version is v1.0.0 "Skyward Vector".
 
 ## Citing the book
 
@@ -15,9 +15,10 @@ The book is a work in progress, and the current version is v0.1.1.
   title        = {Data Science Project: An Inductive Learning Approach},
   year         = 2026,
   publisher    = {Leanpub},
+  address      = {Victoria, British Columbia, Canada},
   doi          = {10.5281/zenodo.14498010},
   url          = {https://leanpub.com/dsp},
-  note         = {Version v0.1.1},
+  note         = {Version v1.0.0},
 }
 ```
 
