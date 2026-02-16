@@ -10,7 +10,7 @@ As we discussed before, in this book, I focus on the problem of inferring a solu
 predictive task from data.  In this chapter, we introduce the basic concepts of the
 \gls{slt}, a general framework for predictive learning tasks.
 
-More specifically, we discuss the \emph{inductive learning} approach, which involves
+More specifically, we discuss the \gls{inductivelearning} approach, which involves
 deriving general rules from specific observations.
 
 We also formally establish the learning problem, and we define the two most common
@@ -66,7 +66,7 @@ algorithms for the learning process: the perceptron and the maximal margin class
 \section{Introduction} % TODO: I don't like this title
 
 Several problems can be addressed by techniques that utilize data in some way.  Once we focus on
-one particular problem --- inductive learning ---, we need to define the scope of the
+one particular problem --- \gls{inductivelearning} ---, we need to define the scope of the
 tasks we are interested in.  Let us start from the broader fields to the more specific
 ones.
 
@@ -101,11 +101,10 @@ focuses on describing the relationships between variables in the data without th
 need for a target variable.}.
 
 Depending on the reasoning behind the learning algorithms, we can divide the learning
-field into two main approaches: \emph{inductive learning} and \emph{transductive
-learning}\footnote{Transduction is the process of obtaining specific knowledge from specific
+field into two main approaches: \gls{inductivelearning} and \gls{transductivelearning}\footnote{Transduction is the process of obtaining specific knowledge from specific
 observations, and it is not the focus of this book.}.
 
-Inductive learning involves deriving general rules from specific observations.  The
+\Gls{inductivelearning} involves deriving general rules from specific observations.  The
 general rules can make predictions about \emph{any} new instances.  Such an approach
 is exactly what we want to apply in the project methodology we described in
 \cref{sec:our-approach}:  the solution is the general rule inferred from the data.
@@ -120,20 +119,20 @@ is exactly what we want to apply in the project methodology we described in
     \draw[outline] (0,-1) circle (20mm) node {};
     \node[below] at (0, 0.5) {predictive learning};
     \draw[outline] (0,-1.5) circle (15mm) node {};
-    \node[below] at (0, -1.0) {inductive learning};
+    \node[below] at (0, -1.0) {\gls{inductivelearning}};
   \end{tikzpicture}
   \tcblower
   Artificial intelligence studies algorithms that exhibit intelligent behavior and the
   behavior of intelligent systems.  Machine learning is a subfield of artificial
   intelligence that studies algorithms that enable computers to automatically learn from
   data.  Predictive learning, which focuses on making predictions about outcomes given
-  known input data.  Inductive learning is a yet more specific type of learning that
+  known input data.  \Gls{inductivelearning} is a yet more specific type of learning that
   involves deriving general rules from specific observations.
 \end{figurebox}
 
 \Cref{fig:learning} gives us a hierarchical view of the learning field.  Alternatives ---
 such as descriptive learning in opposition to predictive learning, or transductive
-learning in opposition to inductive learning --- are out of the scope of this book.
+learning in opposition to \gls{inductivelearning} --- are out of the scope of this book.
 
 Maybe the most general (and useful) framework for predictive learning is \gls{slt}.
 In this chapter, we will introduce the basic concepts of this theory and discuss the
@@ -179,23 +178,23 @@ In terms of predictive learning, given the before-mentioned scenario, we can ref
 goals by tackling specific tasks\footnote{I consider tasks as well-defined subproblems of
 a higher-level problem.}.
 
-Consider a \emph{learning machine} capable of generating a set of functions, or
-\emph{models}, $f(x; \theta) \equiv f_\theta(x)$, for a set of parametrizations $\theta
+Consider a \gls{learningmachine} capable of generating a set of functions, or
+\glspl{model}, $f(x; \theta) \equiv f_\theta(x)$, for a set of parametrizations $\theta
 \in \Theta$ and such that $f_\theta : \mathcal{X} \rightarrow \mathcal{Y}$.  In a learning
 task, we must choose, among all possible $f_\theta$, the one that predicts the target
 variable in the best possible way.
 
-To learn, we must first define the \emph{loss} (or discrepancy) $\mathcal{L}$
+To learn, we must first define the \gls{loss} (or discrepancy) $\mathcal{L}$
 between the response $y$ to a given input $x$, drawn from $\Prob(x, y)$, and the
 response provided by the learned function.
 
-Then, given the \emph{risk function}
+Then, given the \gls{riskfunction}
 \begin{equation}
   \label{eq:risk}
   R(\theta) = \int \mathcal{L}(y, f_\theta(x))\, d\!\Prob(x, y)\text{,}
 \end{equation}
 the goal is to find the function $f_\theta$ that minimizes $R(\theta)$
-where the only available information is the \emph{training set} given by \eqref{eq:training-set}.
+where the only available information is the training set given by \eqref{eq:training-set}.
 
 This formulation encompasses many specific tasks. I focus on two of them, which I
 believe are the most fundamental ones: \emph{binary data classification}\footnote{In
@@ -211,7 +210,7 @@ In this task, the output $y$ takes on
 only two possible values, zero or one\footnote{Alternatively, negative class is
 represented by $-1$ and positive class by $1$.} --- called the negative and the positive
 class, respectively ---, and the functions $f_\theta$ are indicator
-functions. Choosing the loss
+functions. Choosing the \gls{loss}
 \begin{equation*}
   \mathcal{L}(y, f_\theta(x)) = \begin{cases}
     0 & \text{if } y = f_\theta(x) \\
@@ -219,24 +218,24 @@ functions. Choosing the loss
   \end{cases}
 \end{equation*}
 the risk $\eqref{eq:risk}$ becomes the probability of
-classification error.  The function $f_\theta$, in this case, is called a \emph{classifier}
-and $y$ is called the \emph{label} or \emph{class}.
+classification error.  The function $f_\theta$, in this case, is called a \gls{classifier}
+and $y$ is called the label or class.
 
 \subsubsection{Regression estimation task}
 
 In this task, the output $y$ is a real value and the functions $f_\theta$ are real-valued
-functions.  The loss function is the squared error
+functions.  The \gls{loss} function is the squared error
 \[
   \mathcal{L}(y, f_\theta(x)) = \big(y - f_\theta(x)\big)^2\text{.}
 \]
 In \cref{sec:optimal-solution}, we show that the function that minimizes the risk with such
-a loss function is the so-called \emph{regression}.
-The estimator $f_\theta$ of the regression, in this case, is called a \emph{regressor}.
+a \gls{loss} function is the so-called regression.
+The estimator $f_\theta$ of the regression, in this case, is called a \gls{regressor}.
 
 \subsection{A few remarks}
 
 These two tasks are quite general and can be applied to a wide range of problems.  The
-modeling of the task at hand and choice of the loss function are crucial to the success of
+modeling of the task at hand and choice of the \gls{loss} function are crucial to the success of
 the learning process.
 
 About these learning tasks, we can make a few remarks.
@@ -244,14 +243,14 @@ About these learning tasks, we can make a few remarks.
 \paragraph{Supervised and semisupervised learning}
 In both cases, classification and regression estimation, the learning task is to find the function
 that maps the input data to the output data in the best possible way.  Although the
-learning machine described generates models in a \emph{supervised} manner --- i.e., the target
+\gls{learningmachine} described generates models in a \emph{supervised} manner --- i.e., the target
 is known for all samples in the training set ---, there are
-alternative ways to solve the inductive learning problem, such as the \emph{semisupervised}
+alternative ways to solve the \gls{inductivelearning} problem, such as the \emph{semisupervised}
 approach, where the model can be trained with a small subset of labeled data and a large
 subset of unlabeled data --- that is, data whose outputs $y$ are unknown.
 
 \paragraph{Generative and discriminative models}
-Any learning machine produces a model that describes the relationship between the input
+Any \gls{learningmachine} produces a model that describes the relationship between the input
 and output data.  This model can be generative or discriminative.  Generative models
 describe the joint probability distribution $\Prob(x, y)$ and can also be used to generate new
 data.  Discriminative models, on the other hand, describe the conditional probability
@@ -267,9 +266,9 @@ a binary variable.  However, it is possible to have a multiclass classification 
 where  $y$ can take on more than two possible values.  Although some learning methods can
 address directly the multiclass classification task, it is possible to transform the
 problem into a binary classification task.  The most common method is
-\emph{one-versus-all}, where we train $l$ binary classifiers, one for each class,
+\emph{one-versus-all}, where we train $l$ binary \glspl{classifier}, one for each class,
 and the class with the highest score is the predicted class.  Another method is the
-\emph{one-versus-one} method, where we train $l(l-1)/2$ binary classifiers, one for each
+\emph{one-versus-one} method, where we train $l(l-1)/2$ binary \glspl{classifier}, one for each
 pair of classes, and the class with the most votes is the predicted class.
 As one should expect, dealing with more than two classes is more complex than dealing
 with only two classes.  If possible, prefer to deal with binary classification tasks first.
@@ -277,7 +276,7 @@ with only two classes.  If possible, prefer to deal with binary classification t
 \paragraph{Number of inputs and outputs}
 Note that the definition of the learning problem does not restrict the number of inputs
 and outputs.  The input data can be a scalar, a vector, a matrix, or a tensor, and the
-output as well.  The learning machine must be able to handle the input and output data
+output as well.  The \gls{learningmachine} must be able to handle the input and output data
 according to the problem.
 
 % TODO: when discussing bias
@@ -303,14 +302,14 @@ next sections.
 \subsection{Bayes classifier}
 
 The optimal solution for the binary data classification task is the \emph{Bayes
-classifier}, which minimizes the probability of classification error.  The Bayes
-classifier is defined as
+\gls{classifier}}, which minimizes the probability of classification error.  The Bayes
+\gls{classifier} is defined as
 \begin{equation*}
   f_\text{Bayes}(x) = \argmax_{y \in \mathcal{Y}} \Prob(y \mid x)\text{.}
 \end{equation*}
 
-We can easily see that the Bayes classifier is the optimal solution for the binary data
-classification task.  The probability of classification error for an arbitrary classifier
+We can easily see that the Bayes \gls{classifier} is the optimal solution for the binary data
+classification task.  The probability of classification error for an arbitrary \gls{classifier}
 $f$ is
 \begin{equation*}
   R(f) = \int \mathbb{1}_{f(x) \neq y}\, d\!\Prob(x, y) =
@@ -323,12 +322,12 @@ true and zero otherwise.  Let $b(x) = \Prob(y = 1 \mid x)$; we have that
     b(x) \mathbb{1}_{f(x) = 0} + (1 - b(x)) \mathbb{1}_{f(x) = 1}\text{,}
 \]
 which means only one of the terms is nonzero for each $x$.  Thus, the risk is minimized by choosing
-a classifier that $f(x) = 1$ if $b(x) > 1 - b(x)$ and $f(x) = 0$ otherwise.  This is the
-Bayes classifier.
+a \gls{classifier} that $f(x) = 1$ if $b(x) > 1 - b(x)$ and $f(x) = 0$ otherwise.  This is the
+Bayes \gls{classifier}.
 
-Consequently, the \emph{Bayes error rate}, or irreducible error, is the lowest possible loss for any
-classifier in a given problem.  The Bayes error rate sums the errors of the
-Bayes classifier for each class:
+Consequently, the \gls{bayeserrorrate}, or irreducible error, is the lowest possible \gls{loss} for any
+\gls{classifier} in a given problem.  The \gls{bayeserrorrate} sums the errors of the
+Bayes \gls{classifier} for each class:
 \begin{equation*}
   R_\text{Bayes} = \int \left[
     b(x) \mathbb{1}_{f_\text{Bayes}(x) = 0} +
@@ -337,12 +336,12 @@ Bayes classifier for each class:
 \end{equation*}
 
 We know that $f_\text{Bayes}(x) = 1$ if $b(x) > 0.5$ and $f_\text{Bayes}(x) = 0$ otherwise.
-Thus, the Bayes error rate can be rewritten as
+Thus, the \gls{bayeserrorrate} can be rewritten as
 \begin{equation*}
   R_\text{Bayes} = \int \min\left\{ b(x), 1 - b(x) \right\}\, d\!\Prob(x)\text{.}
 \end{equation*}
 
-\begin{figurebox}[label=fig:bayes-classifier]{Bayes classifier illustration.}
+\begin{figurebox}[label=fig:bayes-classifier]{Bayes \gls{classifier} illustration.}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -368,29 +367,29 @@ Thus, the Bayes error rate can be rewritten as
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  The Bayes classifier is the line that separates the two classes.  The Bayes error is a
+  The Bayes \gls{classifier} is the line that separates the two classes.  The Bayes error is a
   result of the darker area in which the distributions of the classes intersect.
 \end{figurebox}
 
-\Cref{fig:bayes-classifier} illustrates the Bayes classifier and its error rate.
-The vertical line represents the Bayes classifier that separates the classes the best way
+\Cref{fig:bayes-classifier} illustrates the Bayes \gls{classifier} and its error rate.
+The vertical line represents the Bayes \gls{classifier} that separates the classes the best way
 possible in the space of the feature vectors $x$.  Since the distributions $\Prob(x \mid y
 = 0)$ and $\Prob(x \mid y = 1)$ may intersect, there is a region where the Bayes
-classifier cannot always predict the class correctly.
+\gls{classifier} cannot always predict the class correctly.
 
 \subsection{Regression function}
 \label{sec:regression-function}
 
 In the regression estimation task, the goal is to approximate the optimal solution, called
-\emph{regression function},
+\gls{regressionfunction},
 \begin{equation}
   \label{eq:regression-function}
   r(x) = \int y\, d\!\Prob(y \mid x)\text{,}
 \end{equation}
 that is the expected value of the target variable $y$ given the input $x$.
 
-It is easy to show that the regression function minimizes the risk \eqref{eq:risk} with
-loss
+It is easy to show that the \gls{regressionfunction} minimizes the risk \eqref{eq:risk} with
+\gls{loss}
 \[
   \mathcal{L}(y, r(x)) = \big(y - r(x)\big)^2\text{.}
 \]
@@ -419,7 +418,7 @@ Deriving the last expression with respect to $f(x)$ and setting it to zero, we o
   f(x) = r(x)\text{.}
 \end{equation*}
 
-Like the Bayes classifier, the stochastic nature of the data leads to an irreducible
+Like the Bayes \gls{classifier}, the stochastic nature of the data leads to an irreducible
 error in the regression estimation task.  We have that
 \begin{equation*}
   R(r) = \int \big(y - r(x)\big)^2\, d\!\Prob(x, y) =
@@ -474,15 +473,15 @@ reduced.
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  Expected error of the regression function for data generated by
+  Expected error of the \gls{regressionfunction} for data generated by
   $\Prob(y \mid x) \Prob(x)$ such that $\Prob(y \mid x) = \mathcal{N}(x, 1)$ and
-  $\Prob(x) = \mathcal{U}(0, 1)$.  The regression function is $r(x) = x$.
+  $\Prob(x) = \mathcal{U}(0, 1)$.  The \gls{regressionfunction} is $r(x) = x$.
 \end{figurebox}
 
 \Cref{fig:explained-unexplained-variance} illustrates the irreducible error of the
-regression function for arbitrary distributions $\Prob(y \mid x)$ and $\Prob(x)$.
+\gls{regressionfunction} for arbitrary distributions $\Prob(y \mid x)$ and $\Prob(x)$.
 In this case, $\E\!\left[ \Var(y \mid x) \right] = 1$, which means that points drawn
-by $\Prob(x, y)$ are distributed around the regression function $r(x)$ with a standard
+by $\Prob(x, y)$ are distributed around the \gls{regressionfunction} $r(x)$ with a standard
 deviation of one.  The explained variance is the spread of the regression across the
 x-domain.
 
@@ -493,26 +492,26 @@ real-world, we do not have access to the distributions $\Prob(x)$ and $\Prob(y \
 We must rely on the training data $(x_1, y_1), \dots, (x_n, y_n)$ to infer a solution.
 
 In the following sections, for the sake of simplicity, let $z$ describe the pair $(x, y)$
-and $L(z, \theta)$ be a generic loss function for the model $f_\theta$.  Note that the
+and $L(z, \theta)$ be a generic \gls{loss} function for the model $f_\theta$.  Note that the
 training dataset is thus a set of $n$ i.i.d. samples $z_1, \dots, z_n$.
 
 Since the distribution $\Prob(z)$ is unknown, the risk functional $R(\theta)$ is replaced by
-the \emph{empirical risk functional}
+the \gls{empiricalrisk} functional
 \begin{equation}
   \label{eq:empirical-risk}
   R_n(\theta) = \frac{1}{n} \sum_{i=1}^n L(z_i, \theta)\text{.}
 \end{equation}
 
-Approximating $R(\theta)$ by the empirical risk functional $R_n(\theta)$ is the so-called
+Approximating $R(\theta)$ by the \gls{empiricalrisk} functional $R_n(\theta)$ is the so-called
 \gls{erm} inductive principle.  The ERM principle is the basis of the \gls{slt}.
 
 Traditional methods, such as least squares, maximum likelihood, and maximum a posteriori, are
-all realizations of the ERM principle for specific loss functions and hypothesis spaces.
+all realizations of the ERM principle for specific \gls{loss} functions and hypothesis spaces.
 
 \subsection{Consistency of the learning process}
 
 One important question about the ERM principle is the consistency of the learning process.
-Consistency means that, given a sufficient number of samples, the empirical risk
+Consistency means that, given a sufficient number of samples, the \gls{empiricalrisk}
 functional $R_n(\theta)$ converges to the true risk functional $R(\theta)$ over the
 hypothesis space $\Theta$.
 
@@ -520,7 +519,7 @@ The consistency of the ERM principle is guaranteed by the uniform (two-sided)
 convergence\footnote{Actually, only a weaker one-sided uniform convergence is needed; consult a
 detailed explanation in chapter 2 of \fullcite{Vapnik1999b}.  The equivalence is a
 consequence of the key theorem of learning proved by Vapnik and Chervonenkis in 1989 and
-later translated to English in \fullcite{Vapnik1991}.} of the empirical risk functional
+later translated to English in \fullcite{Vapnik1991}.} of the \gls{empiricalrisk} functional
 $R_n(\theta)$ to the true risk functional $R(\theta)$ over the hypothesis space $\Theta$.
 The uniform convergence is defined as
 \[
@@ -532,11 +531,11 @@ The uniform convergence is defined as
 \subsection{Rate of convergence}
 
 Beyond consistency, it is also useful to understand the rate at which $R_n(\theta)$
-converges to $R(\theta)$ as the sample size $n$ increases.  It is possible for a learning
-machine to be consistent but have a slow convergence rate, which means that a large number of
+converges to $R(\theta)$ as the sample size $n$ increases.  It is possible for a \gls{learningmachine}
+to be consistent but have a slow convergence rate, which means that a large number of
 samples is needed to achieve a good solution.
 
-The asymptotic rate of convergence of the empirical risk functional $R_n(\theta)$ is
+The asymptotic rate of convergence of the \gls{empiricalrisk} functional $R_n(\theta)$ is
 fast if, for any $n > n_0$, the exponential bound
 \[
   \Prob\!\big(R(\theta_n) - R(\theta) > \epsilon\big) < \exp\!\left( - c n \epsilon^2 \right)
@@ -545,7 +544,7 @@ holds true, where $c$ is a positive constant.
 
 \subsection{VC entropy}
 
-Let $L(z, \theta)$, $\theta \in \Theta$, be a set of bounded loss functions, i.e.
+Let $L(z, \theta)$, $\theta \in \Theta$, be a set of bounded \gls{loss} functions, i.e.
 \[
   \left| L(z, \theta) \right| < M\text{,}
 \]
@@ -553,7 +552,7 @@ for some constant $M$ and all $z$ and $\theta$.  One can construct $n$-dimension
 \[
   l(z_1, \dots, z_n; \theta) = \big[ L(z_1, \theta), \dots, L(z_n, \theta) \big]\text{.}
 \]
-Once the loss functions are bounded, this set of vectors belongs to a $n$-dimensional
+Once the \gls{loss} functions are bounded, this set of vectors belongs to a $n$-dimensional
 cube and has a finite minimal $\epsilon$-net\footnote{An $\epsilon$-net is a set of points
 that are $\epsilon$-close to any point in the set.}.
 
@@ -565,7 +564,7 @@ Once the quantity $N$ is a random variable, we can define the VC entropy as
 \]
 where $z_i$ are i.i.d. samples drawn from some $\Prob(z)$.
 
-If $L(z, \theta)$, $\theta \in \Theta$, is a set of indicator functions (i.e., the loss in a binary
+If $L(z, \theta)$, $\theta \in \Theta$, is a set of indicator functions (i.e., the \gls{loss} in a binary
 classification task),  we measure the diversity of this set using the quantity $N(z_1,
 \dots, z_n; \Theta)$ that counts the number of different separations of the given sample
 that can be made by the functions.  In this case, the minimal $\epsilon$-net for $\epsilon < 1$
@@ -580,10 +579,10 @@ for all $\epsilon > 0$.
 
 The VC entropy measures the complexity of the hypothesis space $\Theta$.  The intuition
 behind the need for a decreasing VC entropy with increasing numbers of observations is
-related to the nonfalsifiability of the learning machine.  For instance, the set of
+related to the nonfalsifiability of the \gls{learningmachine}.  For instance, the set of
 functions that can always separate the training data perfectly (contains all the vertices
 of the cube) is nonfalsifiable because
-it implies that the minimum of the empirical risk is zero independently of the value of
+it implies that the minimum of the \gls{empiricalrisk} is zero independently of the value of
 the true risk.
 
 \subsection{Growing function and VC dimension}
@@ -598,9 +597,9 @@ is the necessary and sufficient condition, where
 \[
   G(n; \Theta) = \ln \sup_{z_1, \dots, z_n} N(z_1, \dots, z_n; \Theta)\text{,}
 \]
-is the \emph{growth function} of the hypothesis space $\Theta$.
+is the \gls{growthfunction} of the hypothesis space $\Theta$.
 
-\textcite{Vapnik1968}\footfullcite{Vapnik1968} showed that the growth function either
+\textcite{Vapnik1968}\footfullcite{Vapnik1968} showed that the \gls{growthfunction} either
 satisfies
 \[
   G(n; \Theta) = n \ln 2
@@ -609,8 +608,8 @@ or is bounded by
 \[
   G(n; \Theta) \leq h \left( \ln \frac{n}{h} + 1 \right)\text{,}
 \]
-where $h$ is an integer.  Thus, the growth function is either linear or logarithmic in
-$n$.  In the first case, we say that the \emph{VC dimension} of the hypothesis space is
+where $h$ is an integer.  Thus, the \gls{growthfunction} is either linear or logarithmic in
+$n$.  In the first case, we say that the VC dimension of the hypothesis space is
 infinite, and in the second case, the VC dimension is $h$.
 
 A finite VC dimension is enough to imply both consistency and a fast rate of convergence.
@@ -699,14 +698,14 @@ dimension.  % TODO: discuss non-parametric here?
 \section{SRM inductive principle}
 
 The \gls{erm} principle is a powerful tool to study the generalization ability of the
-learning process.  By generalization ability, we mean the ability of the learning machine
+learning process.  By generalization ability, we mean the ability of the \gls{learningmachine}
 to predict the output of new data that was not seen during the training process.  However,
 it relies on the hypothesis that the number of samples tends to infinity.
 
 In fact, \textcite{Vapnik1999b}\footfullcite{Vapnik1999b} summarizes the bounds for the
-generalization ability of learning machines in the following way\footnote{ For the sake of
+generalization ability of \glspl{learningmachine} in the following way\footnote{ For the sake of
 the arguments, we consider only the expression for bounded losses and a hypothesis space
-with infinite number of functions.  Rigorously, the loss function may not be bounded;
+with infinite number of functions.  Rigorously, the \gls{loss} function may not be bounded;
 consult the original work for the complete expressions.}:
 \begin{equation}
   \label{eq:generalization-bound}
@@ -720,16 +719,16 @@ with
     h \left( \ln \frac{2 n}{h} + 1 \right) - \ln \frac{\eta}{4}
   }{n}\text{,}
 \]
-where $B$ is the upper bound of the loss function, $h$ is the VC dimension of the
+where $B$ is the upper bound of the \gls{loss} function, $h$ is the VC dimension of the
 hypothesis space, $n$ is the number of samples.  The term $\eta$ is the confidence level,
 i.e., the inequality holds with probability $1 - \eta$.
 
-It is easy to see that as the number of samples $n$ increases, the empirical risk
+It is easy to see that as the number of samples $n$ increases, the \gls{empiricalrisk}
 $R_n(\theta_n)$ approaches the true risk $R(\theta_n)$.  Also, the greater the VC
 dimension $h$, the greater the term $\mathcal{E}$, decreasing the generalization ability
-of the learning machine.
+of the \gls{learningmachine}.
 
-In other words, if $\nicefrac{n}{h}$ is small, a small empirical risk does not guarantee a small value
+In other words, if $\nicefrac{n}{h}$ is small, a small \gls{empiricalrisk} does not guarantee a small value
 for the actual risk.  A consequence is that we need to minimize both terms of the
 right-hand side of the inequality \cref{eq:generalization-bound} to achieve a good
 generalization ability.
@@ -739,7 +738,7 @@ generalization ability.
   \centering
   \begin{tabular}{lll}
     \toprule
-    \textbf{Problem} & \textbf{Empirical risk} & \textbf{Confidence interval} \\
+    \textbf{Problem} & \textbf{\Gls{empiricalrisk}} & \textbf{Confidence interval} \\
     \midrule
     Underfitting & High & Low \\
     Overfitting & Low & High \\
@@ -748,15 +747,15 @@ generalization ability.
   \tcblower
   Two problems that can arise in the learning process are underfitting and overfitting.
   Underfitting occurs when the model is too simple (low VC dimension) and cannot capture
-  the complexity of the training data (high empirical risk).  Overfitting occurs when the
+  the complexity of the training data (high \gls{empiricalrisk}).  Overfitting occurs when the
   model is too complex (high VC dimension increases the confidence interval) and fits the
-  training data almost perfectly (low empirical risk).
+  training data almost perfectly (low \gls{empiricalrisk}).
 \end{tablebox}
 
 Failure to balance the optimization of these terms leads to two problems: underfitting and
 overfitting.  \Cref{tab:overfit-underfit} summarizes the problems.
 
-The \gls{srm} principle consists of minimizing both the empirical risk (optimizing the
+The \gls{srm} principle consists of minimizing both the \gls{empiricalrisk} (optimizing the
 parameters of the model) and the confidence interval (controlling VC dimension).
 
 Let $\Theta_k \subset \Theta$ and
@@ -774,7 +773,7 @@ satisfying
 where $h_k$ is the finite VC dimension\footnote{Note that the VC dimension considering the
 whole set $\Theta$ might be infinite.  Moreover, in the original formulation, the sets
 $S_k$ also need to satisfy some bounds; read more in chapter 4 of \fullcite{Vapnik1999b}.}
-of each set $S_k$.  This is called an \emph{admissible structure}.
+of each set $S_k$.  This is called an \gls{admissiblestructure}.
 
 \begin{figurebox}[label=fig:srm-tradeoff]{SRM trade-off.}
   \centering
@@ -792,19 +791,19 @@ of each set $S_k$.  This is called an \emph{admissible structure}.
         ymin=0, ymax=1.5,
         domain=0.1:1]
 
-      \addplot[smooth] {(x - 1)^2 + 0.1} node[right, text width=2cm] {Empirical risk};
+      \addplot[smooth] {(x - 1)^2 + 0.1} node[right, text width=2cm] {\Gls{empiricalrisk}};
       \addplot[smooth] {x^2 + 0.1} node[right, text width=2cm] {Confidence interval};
       \addplot[smooth, thick] {x^2 + (x - 1)^2 + 0.2} node[left, text width=2cm] {Risk upper bound};
 
     \end{axis}
   \end{tikzpicture}
   \tcblower
-  The upper bound of the risk is the sum of the empirical risk and the confidence
-  interval.  The smallest bound is found for some $k^*$ in the admissible structure.
+  The upper bound of the risk is the sum of the \gls{empiricalrisk} and the confidence
+  interval.  The smallest bound is found for some $k^*$ in the \gls{admissiblestructure}.
 \end{figurebox}
 
 Given the observations $z_1, \dots, z_n$, the \gls{srm} principle chooses a function
-$L(z, \theta_n^k)$ that minimizes the empirical risk $R_n(\theta_n^k)$ in the subset
+$L(z, \theta_n^k)$ that minimizes the \gls{empiricalrisk} $R_n(\theta_n^k)$ in the subset
 $S_k$ for which the guaranteed risk --- upper bound considering the confidence interval
 --- is minimal.  This is a trade-off between the quality of the approximation and the
 complexity of the approximating function --- see \cref{fig:srm-tradeoff}.
@@ -812,7 +811,7 @@ complexity of the approximating function --- see \cref{fig:srm-tradeoff}.
 \subsection{Bias invariance trade-off}
 
 The trade-off that the \gls{srm} principle deals with is the general case of the so-called
-\emph{bias-variance trade-off}.  The bias-variance trade-off is a well-known concept in
+\gls{biasvariance}.  The \gls{biasvariance} is a well-known concept in
 machine learning that describes the relationship between different kinds of errors a model
 can have.
 
@@ -823,7 +822,7 @@ noise in the training data.
 The terms bias and variance (and the irreducible error) are clearly illustrated by
 studying the particular regression estimation task.
 
-Consider a learning machine that produces a function $\hat{f}(x; D)$ based on the
+Consider a \gls{learningmachine} that produces a function $\hat{f}(x; D)$ based on the
 training set $$D = \big\{(x_1, y_1), \dots, (x_n, y_n)\big\}$$ such that
 \[
   y_i = f(x_i) + \epsilon\text{,}
@@ -910,32 +909,32 @@ Finally, putting all together --- i.e.  \cref{eq:irreducible-error,eq:bias,eq:mo
 
 The irreducible error is the regression error that cannot be reduced by any model --- see
 \cref{sec:regression-function}.  The bias error is the error that one expects from the
-model acquired by the learning machine and that we observe in the training data --- i.e.
-the empirical risk.  The variance error, which does not depend on the real function $f$
-but on the models the learning machine can generate, is the error that comes from how
+model acquired by the \gls{learningmachine} and that we observe in the training data --- i.e.
+the \gls{empiricalrisk}.  The variance error, which does not depend on the real function $f$
+but on the models the \gls{learningmachine} can generate, is the error that comes from how
 different the models can be from each other --- i.e. the confidence interval that comes from
 the VC dimension.
 
 \subsection{Regularization}
 
-Also related to the \gls{srm} principle is the concept of \emph{regularization}.
-Regularization encourages models to learn robust patterns within the data rather than
+Also related to the \gls{srm} principle is the concept of \gls{regularization}.
+\Gls{regularization} encourages models to learn robust patterns within the data rather than
 memorizing it.
 
-Regularization techniques usually modify the loss by adding a penalty term that
-depends on the complexity of the model.  So, instead of minimizing the empirical risk
-$R_n(\theta)$, the learning machine minimizes the regularized empirical risk
+\Gls{regularization} techniques usually modify the \gls{loss} by adding a penalty term that
+depends on the complexity of the model.  So, instead of minimizing the \gls{empiricalrisk}
+$R_n(\theta)$, the \gls{learningmachine} minimizes the regularized \gls{empiricalrisk}
 \[
   R_n(\theta) + \lambda \Omega(\theta)\text{,}
 \]
 where $\Omega(\theta)$ is the complexity of the model and $\lambda$ is a hyperparameter
-that controls the trade-off between the empirical risk and the complexity.
-Note that the regularization term acts as a proxy for the confidence interval in the
-\gls{srm} principle.  However, regularization is often justified by common sense or
+that controls the trade-off between the \gls{empiricalrisk} and the complexity.
+Note that the \gls{regularization} term acts as a proxy for the confidence interval in the
+\gls{srm} principle.  However, \gls{regularization} is often justified by common sense or
 intuition, rather than by strong theoretical arguments.
 
 Other approaches that indirectly control the complexity of the model --- such as early
-stopping, dropout, ensembles, and pruning --- are often called implicit regularization.
+stopping, dropout, ensembles, and pruning --- are often called implicit \gls{regularization}.
 
 \section{Linear problems}
 
@@ -982,24 +981,24 @@ The AND problem is linearly separable, while the XOR problem is not.
   $y = x_1 \land x_2$ and $y = x_1 \oplus x_2$.
 \end{tablebox}
 
-We show two learning machines that implement the \gls{srm} principle in different ways:
+We show two \glspl{learningmachine} that implement the \gls{srm} principle in different ways:
 \begin{itemize}
   \itemsep0em
   \item The perceptron, which fixes the complexity of the model and tries to minimize the
-    empirical risk; and
-  \item The maximal margin classifier, which fixes the empirical risk --- in this case,
+    \gls{empiricalrisk}; and
+  \item The maximal margin classifier, which fixes the \gls{empiricalrisk} --- in this case,
     zero -- and tries to minimize the confidence interval.
 \end{itemize}
 
 \subsection{Perceptron}
 \label{sub:perceptron}
 
-The perceptron is a linear classifier that generates a hyperplane that separates the
-classes in the feature space.  It is a parametric model, and the learning process minimizes the empirical risk
+The perceptron is a linear \gls{classifier} that generates a hyperplane that separates the
+classes in the feature space.  It is a parametric model, and the learning process minimizes the \gls{empiricalrisk}
 by adjusting its fixed set of parameters.
 
 \begin{defbox}{Parametric model}{parametric}
-  If the learning machine generates a set of functions $f_\theta$ where the number of
+  If the \gls{learningmachine} generates a set of functions $f_\theta$ where the number of
   parameters $|\theta|$ is always fixed, the models are called \emph{parametric}.
 \end{defbox}
 
@@ -1135,7 +1134,7 @@ task since there is no single decision boundary that can classify this data.
 It is easy to see that there are an infinite number of hyperplanes that can separate the
 classes in the AND dataset.  The training procedure of the perceptron is a simple
 algorithm that adjusts the weights of the model to find one of these hyperplanes ---
-effectively minimizing the empirical risk.  The algorithm updates the weights iteratively
+effectively minimizing the \gls{empiricalrisk}.  The algorithm updates the weights iteratively
 for each sample that is misclassified, repeating the samples as many times as necessary.
 It stops when all samples are correctly classified.
 
@@ -1211,8 +1210,8 @@ interval.
 The perceptron is (possibly) the simplest artificial neural network.  More complex
 networks can be built by stacking perceptrons in layers and adding non-linear activation
 functions.  The training strategies for those networks are usually based on reducing the
-empirical risk using the gradient descent algorithm while controlling the complexity of
-the model with regularization techniques\footnote{To counterbalance the potential
+\gls{empiricalrisk} using the gradient descent algorithm while controlling the complexity of
+the model with \gls{regularization} techniques\footnote{To counterbalance the potential
 ``excess'' of neurons, techniques like $l_2$ regularization ``disable'' some neurons by
 pressuring their weights to zero.}.  Consult \cref{sec:mlp}.
 
@@ -1220,8 +1219,8 @@ pressuring their weights to zero.}.  Consult \cref{sec:mlp}.
 
 \subsection{Maximal margin classifier}
 
-We saw that the perceptron tries to minimize the empirical risk, but it makes no effort to
-reduce the confidence interval.  A different approach would be to fix the empirical risk
+We saw that the perceptron tries to minimize the \gls{empiricalrisk}, but it makes no effort to
+reduce the confidence interval.  A different approach would be to fix the \gls{empiricalrisk}
 --- in our case, assuming that the classes are linearly separable, to fix it to zero --- and
 minimize the confidence interval.
 
@@ -1237,7 +1236,7 @@ In the case of the perceptron, since it can generate any hyperplane, the VC dime
 $h = d + 1$, where $d$ is the number of dimensions of the feature space --- consult
 \cref{sub:vc-dimension-intuition}.
 
-Before we dive into the classifier that minimizes the confidence interval, consider the
+Before we dive into the \gls{classifier} that minimizes the confidence interval, consider the
 following property.  \textcite{Vapnik1999b}\footfullcite{Vapnik1999b} state that a
 $\Delta$-margin separating hyperplane is the hyperplane
 \[
@@ -1258,7 +1257,7 @@ VC dimension of the $\Delta$-margin separating hyperplane is
 which can be less than $d + 1$.
 
 From that property, to minimize the confidence interval, we can maximize the margin
-$\Delta$ of the hyperplane.  The \emph{maximal margin classifier} is a learning machine
+$\Delta$ of the hyperplane.  The \emph{maximal margin classifier} is a \gls{learningmachine}
 that generates the hyperplane that separates the classes with no error and maximizes the
 margin between the classes.
 
@@ -1306,22 +1305,22 @@ exactly equal to $\pm 1$.  (Consequently, the vectors farther from the margin ha
 greater than $1$ or less than $-1$.)
 
 Without entering into the details of the optimization process, one interesting property of
-the maximal margin classifier is that the separating hyperplane is built from the \emph{support vectors}
+the maximal margin classifier is that the separating hyperplane is built from the \glspl{supportvector}
 --- the vectors that are exactly in the margin.  In \cref{fig:maximal-margin-and}, the
-support vectors are the points $(1, 0)$, $(0, 1)$, and $(1, 1)$.
+\glspl{supportvector} are the points $(1, 0)$, $(0, 1)$, and $(1, 1)$.
 
 In other words, maximal margin classifier is
 \[
   f(x) = \sign\left(\sum_{i=1}^{n} y_i a_i \big(\vec{x}_i \cdot x\big) - b\right)\text{,}
 \]
-for some $b$ and coefficients $a_i > 0$ for the support vectors ($a_i = 0$ otherwise).
+for some $b$ and coefficients $a_i > 0$ for the \glspl{supportvector} ($a_i = 0$ otherwise).
 
 In the case that the classes are not linearly separable, the maximal margin classifier can
-be extended to the \emph{soft margin classifier}, which sets the empirical risk to a value
+be extended to the \emph{soft margin classifier}, which sets the \gls{empiricalrisk} to a value
 greater than zero.
 
 Moreover, since the number of parameters of the maximal margin classifier depends on the
-training data (i.e., the number of support vectors), it is a nonparametric model.
+training data (i.e., the number of \glspl{supportvector}), it is a nonparametric model.
 Nonparametric models are those in which the number of parameters is not fixed and can grow
 as needed to fit the data.  This property becomes more clear when we consider the kernel
 trick, which allows the maximal margin classifier to deal with nonlinear problems.
@@ -1333,9 +1332,9 @@ Consult \textcite{Vapnik1999b}\footfullcite{Vapnik1999b} for more details.
 % learning process, not the model itself.
 
 The \gls{srm} principle is a powerful tool to understand the generalization ability of
-learning machines.  The principle not only explains many of the empirical results in
+\glspl{learningmachine}.  The principle not only explains many of the empirical results in
 \gls{ml} but also provides a theoretical framework to guide the development of new
-learning machines.
+\glspl{learningmachine}.
 
 Many powerful methods have been proposed in the literature --- e.g., support vector
 machines, boosting, and deep learning --- that can deal with complex nonlinear problems.

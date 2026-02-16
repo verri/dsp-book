@@ -27,7 +27,7 @@ be applied to them.  These operations are the building blocks of data handling p
 combinations of operations that transform a dataset into another dataset.
 
 Finally, I highlight some important properties of these operations.  Especially, the
-split-invariance property, which ensures that the operations do not add bias to the data
+\gls{splitinvariance} property, which ensures that the operations do not add bias to the data
 due to the way the data was collected.
 
 \begin{mainbox}{Chapter remarks}
@@ -74,7 +74,7 @@ due to the way the data was collected.
 \newcommand{\missing}{\text{?}}
 \newcommand{\rowcard}[1][k_1, \dots, k_k]{\operatorname{card}\!\left(#1\right)}
 
-In this section, I present a formal definition of structured data.  This definition is
+In this section, I present a formal definition of \gls{structureddata}.  This definition is
 compatible with the relational model and tidy data presented in \cref{chap:data}.
 My definition takes into account the index\footnote{Also called grouping variables.} of
 the table, which is a key concept in data handling.  We also consider that values can be
@@ -215,7 +215,7 @@ incorrect conclusions.
 \subsection{Split invariance}
 
 One property we can study about data handling operations is whether they are distributive
-over the bind operation.  This property is called \emph{split invariance}.
+over the bind operation.  This property is called \gls{splitinvariance}.
 
 From now on, we will denote \[
   T_0 + T_1 = \operatorname{bind}(T_0, T_1)\text{,}
@@ -229,16 +229,16 @@ if, for any table $T$ and split function $s$, the following equation holds \[
 \] where $T_0, T_1 = \operatorname{split}\!\left(T; s\right)$.
 \end{defbox}
 
-Split invariance is a desirable property for data handling operations during the data
+\Gls{splitinvariance} is a desirable property for data handling operations during the data
 tasks described in \cref{chap:project}: integration and tidying.  Even while exploring
 data, we should take effort to use split-invariant operations.
 
-The reason is that split invariance ensures that the operation does not depend on the
+The reason is that \gls{splitinvariance} ensures that the operation does not depend on the
 split performed (usually unknown to us) to create the table we have in hand.  This
 property is important to avoid \gls{leakage} or to bias the results of the
-analysis\footnote{Note that split invariance is a sufficient but not necessary condition
-for preventing leakage.  Split invariance provides not only a ``safe by default''
-guarantee, but also a way to pinpoint possible sources of leakage.}.
+analysis\footnote{Note that \gls{splitinvariance} is a sufficient but not necessary condition
+for preventing \gls{leakage}.  \Gls{splitinvariance} provides not only a ``safe by default''
+guarantee, but also a way to pinpoint possible sources of \gls{leakage}.}.
 
 \subsection{Illustrative example}
 
@@ -554,7 +554,7 @@ The reverse function consists of splitting the dataset using as a predicate the 
 
 Note that the tagged split is split-invariant by definition, since we assume that the
 nested rows of the input table $T$ contain only one value for column $s$ for all
-rows\footnote{We consider a slightly different definition of split invariance here, where
+rows\footnote{We consider a slightly different definition of \gls{splitinvariance} here, where
 the binding operation is applied to each element of the output of the split operation.}.
 Failing to meet this assumption can lead to a biased split.  Also, in practice, it is
 good practice to keep the column $s$ in the output tables to preserve information about
@@ -760,7 +760,7 @@ So we can safely use it to join tables without worrying about biasing the datase
 fix the second table.
 
 I conjecture that the (inner) join operation shares similar properties but it is not as
-safe; nonetheless, a clear definition of split invariance for binary operations is needed.
+safe; nonetheless, a clear definition of \gls{splitinvariance} for binary operations is needed.
 This is left as a thought exercise for the reader.  Notice that the traditional join has
 the ability to ``erase'' rows from any of the tables involved in the operation.  This is a
 potential source of bias in the data.  This further emphasizes the importance of
@@ -1009,7 +1009,7 @@ We saw that, under reasonable premises, split-invariant operations are safe to u
 context of tidying and data integration.  However, data handling does not happen only in
 the context of tidying and integrating datasets\footnote{And, sometimes, we may need to
 use other transformations even for these tasks.}.  It is also used in tasks like data
-exploration and data preprocessing.  In these cases, other operations are needed.
+exploration and \gls{datapreprocessing}.  In these cases, other operations are needed.
 
 In this section, we discuss some of these operations.  Instead of focusing on the
 mathematical definitions, we will discuss the semantics of the operations and some
@@ -1102,7 +1102,7 @@ without fully denormalizing them is a bad practice that can lead to spurious inf
 \label{sub:grouped-arranged}
 
 In practice, when we need more flexibility in the kind of operations we can perform ---
-for instance, in data preprocessing ---, we use variations of some operations in
+for instance, in \gls{datapreprocessing} ---, we use variations of some operations in
 \cref{sec:split-invariant-ops} that are not split-invariant.  These operations are
 parameterized by the groups and the order of the rows.
 
@@ -1239,7 +1239,7 @@ basic.
 
 In this chapter, I try to shed some light on what could be a start for a formal algebra
 for general data handling.  I present a set of operations and discuss their properties. I
-also present the novel concept of split invariance, which is a property that I think is
+also present the novel concept of \gls{splitinvariance}, which is a property that I think is
 important for the operations in the algebra.
 
 For future directions, I suggest that one should try to express completeness in the data

@@ -26,7 +26,7 @@ data handling and the most important milestones of data analysis.
 
 I do not intend to provide a comprehensive history of data science.  I aim to provide
 enough context to support the development of the material in the following chapters,
-sometimes avoiding directions that are not relevant in the context of inductive learning.
+sometimes avoiding directions that are not relevant in the context of \gls{inductivelearning}.
 
 \begin{mainbox}{Chapter remarks}
 
@@ -287,7 +287,7 @@ papyrus (3,000 BC), the Roman wax tablets (100 BC), the codex
 % the Babbage Difference Engine (1822), the Babbage Analytical Engine (1837).
 
 Besides those improvements in unstructured data storage, at least in the Western and
-Middle Eastern world, there are no significant advances in structured data collection
+Middle Eastern world, there are no significant advances in \gls{structureddata} collection
 until the \nth{19} century.  (Research on Eastern timelines appears much more challenging.
 Unfortunately, I left it out in this book.)
 
@@ -430,7 +430,7 @@ development of new technologies and techniques for data storage and processing, 
 the development of NoSQL databases and distributed computing frameworks.
 
 NoSQL databases are non-relational databases that can store and process large volumes of
-unstructured, semi-structured, and structured data.  They are highly scalable and
+unstructured, semi-structured, and \gls{structureddata}.  They are highly scalable and
 flexible, making them ideal for big data applications.
 
 Some authors argue that the rise of big data is characterized by the five V's of big data:
@@ -499,7 +499,7 @@ analysis ---, so not much has changed since the beginning of the \nth{20} centur
 The earliest known records of systematic data analysis date back to the first censuses.
 The term \emph{statistics} itself refers to the analysis of data \emph{about the state},
 including demographics and economics.  That early (and simplest) form of statistical
-analysis is called \emph{summary statistics}, which consists of describing data in terms
+analysis is called \gls{summarystatistics}, which consists of describing data in terms
 of its central tendencies (e.g., arithmetic mean) and variability (e.g., range).
 
 \subsubsection{Probability advent}
@@ -552,7 +552,7 @@ the pie chart and circle graph to show proportions.
 \subsubsection{Learning from data}
 
 In the twentieth century and beyond, new advances were made in the field of statistics.
-The development of learning machines enabled the development of new techniques for data
+The development of \glspl{learningmachine} enabled the development of new techniques for data
 analysis.
 
 The recent advances in computation and data storage are crucial for the large-scale
@@ -614,12 +614,12 @@ the same class.
 \paragraph{Rosenblatt's perceptron}
 
 In the 1960s, a psychologist called Frank Rosenblatt (1928 -- 1971) developed the
-perceptron\footfullcite{Rosenblatt1958}, the first model of a learning machine.  While the idea of a mathematical neuron was not new, he was the first
+perceptron\footfullcite{Rosenblatt1958}, the first model of a \gls{learningmachine}.  While the idea of a mathematical neuron was not new, he was the first
 to describe the model as a program, showing the ability of the perceptron to learn simple
 tasks such as the logical operations AND and OR.
 
 This work was the foundation of the field of artificial neural networks.  The ``training''
-of the perceptron was a breakthrough in the field of learning machines, drawing attention
+of the perceptron was a breakthrough in the field of \glspl{learningmachine}, drawing attention
 to the field of artificial intelligence.
 
 % In their famous book entitled Perceptrons: An Introduction to Computational Geometry,
@@ -663,11 +663,11 @@ exploration.
 
 \paragraph{Empirical risk minimization principle}
 
-Although many learning machines were developed until the 1960s, they did not advance
+Although many \glspl{learningmachine} were developed until the 1960s, they did not advance
 significantly the understanding of the general problem of learning from data.  Between
 the 1960s and 1986 --- before the backpropagation algorithm was proposed ---, the field of practical
 data analysis was basically stagnant.  The main reason for that was the lack of a
-theoretical framework to support the development of new learning machines.
+theoretical framework to support the development of new \glspl{learningmachine}.
 
 However, these years were not completely unfruitful.  As early as 1968, Vladimir Vapnik
 (born 1936)
@@ -699,7 +699,7 @@ evolutionary computation.
 
 Following the new approach, ensemble methods were developed.  Based on ideas of
 boosting\footfullcite{Schapire1990} and bagging\footfullcite{Breiman1996}, ensemble
-methods combine multiple learning machines to improve the performance of the individual
+methods combine multiple \glspl{learningmachine} to improve the performance of the individual
 machines.
 
 The difference between boosting and bagging is the way the ensemble is built.  In
@@ -713,10 +713,10 @@ competitions.
 \paragraph{Support vector machines}
 
 In 1995, \textcite{Cortes1995}\footfullcite{Cortes1995} proposed the \gls{svm} algorithm, a
-learning machine based on the VC theory and the \gls{erm} principle.  Based on Cover's
+\gls{learningmachine} based on the VC theory and the \gls{erm} principle.  Based on Cover's
 theorem\footfullcite{Cover1965}, they developed a method that finds the optimal hyperplane
 that separates two classes of data in a high-dimensional space with the maximum margins.
-The resulting method led to practical and efficient learning machines.
+The resulting method led to practical and efficient \glspl{learningmachine}.
 
 \paragraph{Deep learning}
 
@@ -755,12 +755,12 @@ theory of learning.''
 \paragraph{Large Language Models and Attention Mechanisms}
 
 In 2017, \citeauthor{Vaswani2017}\footfullcite{Vaswani2017} proposed the
-\emph{transformer} model, a deep learning architecture based on attention mechanisms, in
+\gls{transformer} model, a deep learning architecture based on attention mechanisms, in
 contrast to recurrent or convolutional neural networks. These architectural
 advances --- despite limited theoretical progress --- enabled the development of \glspl{llm},
 which gained significant public attention when made widely available by OpenAI in 2022.
 That year, OpenAI released a free preview of ChatGPT, a new chatbot capable of generating
-human-like text using the \emph{transformer} architecture.
+human-like text using the \gls{transformer} architecture.
 
 Although generative in nature --- and actually trained as autoregressive models ---
 \glspl{llm} proved capable of performing a wide range of tasks, including classification

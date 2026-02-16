@@ -16,7 +16,7 @@ other machine learning algorithms will be discussed here.
 \section{Multi-layer perceptron}
 \label{sec:mlp}
 
-The \gls{mlp} is a non-linear classifier that generates a set of hyperplanes
+The \gls{mlp} is a non-linear \gls{classifier} that generates a set of hyperplanes
 that separates the classes.  In order to simplify understanding, consider
 that the activation function of the hidden layer is the discrete step function
 \begin{equation*}
@@ -95,7 +95,7 @@ the XOR problem.
 
 Note that there are many possible solutions for the XOR problem using the MLP.
 Learning strategies like back-propagation are used to find the optimal parameters for
-the model and regularization techniques, like $l_1$ and $l_2$ regularization, are used to
+the model and \gls{regularization} techniques, like $l_1$ and $l_2$ \gls{regularization}, are used to
 prevent overfitting.
 
 % TODO: backpropagation and regularization
@@ -110,7 +110,7 @@ A complete discussion of deep learning can be found in
 \clearpage
 \section{Decision trees}
 
-The decision tree is a non-linear classifier that generates a set of hyperplanes that
+The decision tree is a non-linear \gls{classifier} that generates a set of hyperplanes that
 are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
 
 \begin{figurebox}[label=fig:tree-and]{Decision tree representation.}
@@ -162,7 +162,7 @@ are orthogonal to the axes.  Consider the decision tree in \cref{fig:tree-and}.
 \end{figurebox}
 
 The spatial representation of the decision tree is shown in \cref{fig:tree-bias}.
-Decision trees are a type of classifier that generates a set of hyperplanes orthogonal to the axes.
+Decision trees are a type of \gls{classifier} that generates a set of hyperplanes orthogonal to the axes.
 
 Decision trees are nonparametric models, one can easily increase the depth of the tree to
 fit the data, generating as many hyperplanes as necessary to separate the classes.

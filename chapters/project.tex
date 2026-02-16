@@ -617,16 +617,15 @@ Before describing the functioning of our approach, we present the principles tha
 Data science projects usually contain four main modules: a front-end, a back-end, a
 dataset, and a ``solution search system.''  The front-end is the user interface, i.e.
 the part of the software that the client interacts with.  The back-end is the server-side
-code which usually contains the preprocessor\footnote{Preprocessor is a fitted chain of
+code which usually contains the \gls{preprocessor}\footnote{Preprocessor is a fitted chain of
 data handling operations that make the necessary adjustments to the data before it is
 fed to the model.  For more details, consult \cref{chap:preprocess}.} and the model.
 The dataset is the curated data that is used to train the
 model.  Sometimes, the dataset is not static, but actually scripts and queries that
-produce a dynamic dataset.  The solution search system is the software that employs data
-preprocessing and machine learning techniques, usually in a
-hyperparameter\footnote{Hyperparameters are parameters that are not fitted or learned
+produce a dynamic dataset.  The solution search system is the software that employs \gls{datapreprocessing} and machine learning techniques, usually in a
+\gls{hyperparameter}\footnote{\Glspl{hyperparameter} are parameters that are not fitted or learned
 from the data, but rather set by the user.} optimization loop,
-to find the best solution, i.e. the combination of preprocessor and model that best
+to find the best solution, i.e. the combination of \gls{preprocessor} and model that best
 solves the problem.
 
 \subsubsection{Version control everything}
@@ -639,7 +638,7 @@ is to version control the solution search code.  Interactive environments, such 
 Notebooks or R Markdown, are not suitable for this purpose.  They can be used to draft the code, but
 the final version must be version controlled.
 
-Note that the preprocessors and the models themselves\footnote{The learned
+Note that the \glspl{preprocessor} and the models themselves\footnote{The learned
 solution that is the result of the application of a learning algorithm to the dataset.} are
 artifacts that result from a particular version of the dataset and the solution search
 code.  The same occurs with reports generated from exploratory analysis and validation
@@ -654,7 +653,7 @@ front-end are tested using unit tests.  The dataset is not exactly tested, but t
 exploratory analysis report is updated for each version of the dataset.
 A human must validate the reports, but the reports must be generated automatically.
 The solution search code is tested using
-validation methods such as cross-validation and Bayesian analysis --- refer to
+validation methods such as \gls{crossvalidation} and Bayesian analysis --- refer to
 \cref{chap:planning} --- on the discovered models.
 
 Usually the solution search code is computationally intensive, and it is
@@ -669,7 +668,7 @@ Docker\footnote{\url{https://www.docker.com/}} is used, clear instructions in a 
 may suffice.
 
 Pay attention to the dependencies between the dataset and
-model training.  If the dataset changes significantly, not only the deployed preprocessor
+model training.  If the dataset changes significantly, not only the deployed \gls{preprocessor}
 and model must be retrained, but the whole model search algorithm may need to be rethought.
 
 Finally, since both the solution search and validation methods are stochastic, one
@@ -709,7 +708,7 @@ they can optimize.  However, if possible, choose a method that can optimize the 
 function that you want.  Otherwise, even if you are not explicitly optimizing the desired
 metric in the solution search metric, you might find a model that performs well on that
 metric.  This is why a good experimental design is important; so you can identify which
-strategies are more likely to find a good solution (preprocessor and model).
+strategies are more likely to find a good solution (\gls{preprocessor} and model).
 
 \subsubsection{Report model stability and performance variance}
 
@@ -726,8 +725,8 @@ being met, it is not worth it.
 \subsubsection{In user interface, mask data-science-specific terminology}
 
 Usually, data science software gives the user the option to choose different solutions.
-For instance, a regressor that predicts the probability of a binary outcome yields
-different classifiers depending on a threshold.  In this scenario, the user must be able
+For instance, a \gls{regressor} that predicts the probability of a binary outcome yields
+different \glspl{classifier} depending on a threshold.  In this scenario, the user must be able
 to choose the threshold in terms of expected performance of (usually conflicting) metrics
 of interest.
 
@@ -841,23 +840,23 @@ the validation phase.
   information from the test set is used to transform the training set in any way or to
   train the model.  As a result, the validation performance of the solution is
   overestimated.  Sometimes, even an excess of data exploration can lead to indirect
-  leakage or bias in the validation phase.
+  \gls{leakage} or bias in the validation phase.
 \end{defbox}
 
 \paragraph{Solution sprint}
-The \emph{solution sprint} is focused on the solution search tasks: data preprocessing, machine
+The \emph{solution sprint} is focused on the solution search tasks: \gls{datapreprocessing}, machine
 learning, and validation.  \Cref{chap:preprocess} covers the subjects of data
 preprocessing ---
 adjustments to the data to be used by specific machine learning models ---, \cref{chap:slt}
-covers the subjects of learning machines --- methods that can estimate an unknown function
+covers the subjects of \glspl{learningmachine} --- methods that can estimate an unknown function
 based on input and output examples  ---, and \cref{chap:planning} covers
 the subjects of validation --- through evaluation we estimate the expected performance for unseen
 data, i.e. the probability distribution of the performance in production.
 
 The products of the solution sprint are the validation report and the solution itself,
-which is the preprocessor and the model.  The validation report is a document that
+which is the \gls{preprocessor} and the model.  The validation report is a document that
 describes the expected performance of the solution in the real-world.  The script or
-program that searches for the best pair of preprocessor and model must be
+program that searches for the best pair of \gls{preprocessor} and model must be
 version-controlled.  This algorithm is usually computationally intensive, and it should
 run every time the dataset is updated.
 
@@ -920,7 +919,7 @@ sprint.
 \Cref{fig:our-sprints} shows the tasks and results for each sprint type and their
 relationships.  Every time a data sprint results in modifications in the dataset, the
 solution search algorithm must be re-executed.  The same occurs when the solution search
-algorithm is modified: the application must be updated to use the new preprocessor
+algorithm is modified: the application must be updated to use the new \gls{preprocessor}
 and model.
 
 \subsubsection{Choice and order of sprints}
@@ -1028,7 +1027,7 @@ together with modeling --- consult \cref{chap:handling}.
 
 This approach not only improves the reliability of the solution validation, but also improves
 the maintenance of the solution.  (Not surprisingly, frameworks like \textit{scikit-learn} and
-tidymodels have an object that allows the user to combine data preprocessing and
+tidymodels have an object that allows the user to combine \gls{datapreprocessing} and
 model training.)
 
 % TODO: in the future, when we have a monitoring chapter or similar:

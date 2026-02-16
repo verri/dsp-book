@@ -9,8 +9,8 @@
 Once we have defined what an inductive problem is and the means to solve it, we need to
 think about how to validate the solution.
 
-In this chapter, we present the experimental planning that one can use in the data-driven
-parts of a data science project.  \emph{Experimental planning}  in the context of data
+In this chapter, we present the \gls{experimentalplanning} that one can use in the data-driven
+parts of a data science project.  \Gls{experimentalplanning} in the context of data
 science involves designing and organizing experiments to gather performance data
 systematically in order to reach specific goals or test hypotheses.
 
@@ -19,16 +19,16 @@ usually lack a theoretical model that can predict the outcome of a given algorit
 given dataset.  This is why we need to run experiments to gather performance data and make
 inferences from it.  The stochastic nature of data and of the learning process makes it
 more difficult to predict the outcome of a given algorithm on a given dataset.  Robust
-experimental planning is essential to ensure that the results of the experiments are
+\gls{experimentalplanning} is essential to ensure that the results of the experiments are
 reliable and can be used to make decisions.
 
 Moreover, we need to understand the main metrics that are used to evaluate the performance
-of a solution --- i.e., the pair preprocessor and model.  Each learning task has different
+of a solution --- i.e., the pair \gls{preprocessor} and \gls{model}.  Each learning task has different
 metrics, and the goals of the project will determine which metrics are more important.
 
 There is not a single way to plan experiments, but there are some common steps that can
 be followed to design a good experimental plan.  In this chapter, we present a
-framework for experimental planning that can be used in most data science projects
+framework for \gls{experimentalplanning} that can be used in most data science projects
 for inductive problems.
 
 \begin{mainbox}{Chapter remarks}
@@ -51,7 +51,7 @@ for inductive problems.
 
   \begin{itemize}
     \itemsep0em
-    \item Understand the importance of experimental planning.
+    \item Understand the importance of \gls{experimentalplanning}.
     \item Learn the main evaluation metrics used in predictive tasks.
     \item Learn how to design an experimental plan to validate a solution.
   \end{itemize}
@@ -74,9 +74,9 @@ for inductive problems.
 \label{sec:evaluation}
 
 One fundamental step in the validation of a data-driven solution for a task is the
-\emph{evaluation} of the pair preprocessor and model. This chapter presents strategies to
+\emph{evaluation} of the pair \gls{preprocessor} and \gls{model}. This chapter presents strategies to
 measure the performance of
-classifiers and regressors, and how to interpret the results.
+\glspl{classifier} and \glspl{regressor}, and how to interpret the results.
 
 We consider the following setup.  Let $T = (K, H, c)$ be a table that represents the data
 in the desired observational unit --- as defined in \cref{sec:formal-structured-data}.
@@ -98,7 +98,7 @@ and the target value $y_i$ of the sample with key $i$ in table $T$.  Mathematica
 given target variable $h \in H$, we have that $y_i = c(i, h)$ and $\vec{x}_i$ is the tuple
 $$\big(c(i, h') : h' \in H \setminus \left\{ h \right\}\big)\text{.}$$
 
-For evaluation, we consider a data preprocessing technique $F$ and a learning machine
+For evaluation, we consider a \gls{datapreprocessing} technique $F$ and a \gls{learningmachine}
 $M$.  The following steps are taken.
 
 \paragraph{Preprocessing}
@@ -110,7 +110,7 @@ c_\text{training})$ where \[
     () & \text{otherwise}\text{.}
   \end{cases}
 \]  The result is an adjusted training set $T'_\text{training}$ and a fitted
-preprocessor $f(\vec{x}; \phi) \equiv f_\phi(\vec{x})$, where $\vec{x} \in \mathcal{X}$
+\gls{preprocessor} $f(\vec{x}; \phi) \equiv f_\phi(\vec{x})$, where $\vec{x} \in \mathcal{X}$
 for some space $\mathcal{X}$ that does not include (or does not modify) the target
 variable --- consult \cref{sub:formal-preprocessing}.  Note that, by definition, the size
 of the adjusted training set can be different from the original due to sampling or
@@ -118,14 +118,14 @@ filtering.  The hard requirement is that the target variable $h$ is not changed.
 
 \paragraph{Learning}
 
-The learning machine $M$ is trained on the adjusted training set $D'_\text{training} =
+The \gls{learningmachine} $M$ is trained on the adjusted training set $D'_\text{training} =
 \{(\vec{x}'_i, y'_i)\}$, where pairs $(\vec{x}'_i, y'_i)$ come from the table
-$T'_\text{training}$.  The result is a model $f(\vec{x}'; \theta) \equiv
+$T'_\text{training}$.  The result is a \gls{model} $f(\vec{x}'; \theta) \equiv
 f_\theta(\vec{x}')$ --- consult \cref{chap:slt}.
 
 \paragraph{Transformation}
 
-The preprocessor $f_\phi$ is applied to the test set $T_\text{test} = (K, H,
+The \gls{preprocessor} $f_\phi$ is applied to the test set $T_\text{test} = (K, H,
 c_\text{test})$ where \[
   c_\text{test}(i, h) = \begin{cases}
     c(i, h) & \text{if } i \in \mathcal{I}_\text{test}\text{,} \\
@@ -134,34 +134,34 @@ c_\text{test})$ where \[
 \]  The result is a preprocessed test set $T'_\text{test}$ from which we can obtain the
 set $D'_\text{test} = \{(\vec{x}'_i, y_i) : i \in \mathcal{I}_\text{test}\}$ such
 that $\vec{x}'_i = f_\phi(\vec{x}_i)$.  Note that, to avoid \gls{leakage} and other
-issues, the preprocessor has no access to the target values $y_i$ (even if the
+issues, the \gls{preprocessor} has no access to the target values $y_i$ (even if the
 adjusted training set uses the label somehow).
 
 \paragraph{Prediction}
 
-The model $f_\theta$ is used to make predictions on the preprocessed test set
+The \gls{model} $f_\theta$ is used to make predictions on the preprocessed test set
 $D'_\text{test}$ to obtain predicted values $\hat{y}_i = f_\theta(\vec{x}'_i)$ for all
 $i \in \mathcal{I}_\text{test}$.
 
 \paragraph{Evaluation}
 
 By comparing $\hat{y}_i$ with $y_i$ for all $i \in \mathcal{I}_\text{test}$, we
-evaluate how well the choice of $\phi$ (parameters of the preprocessor) and $\theta$
-(parameters of the model) is.
+evaluate how well the choice of $\phi$ (parameters of the \gls{preprocessor}) and $\theta$
+(parameters of the \gls{model}) is.
 
 \subsection{Binary classification evaluation}
 
 To assess the quality of a solution for a binary classification task, we need to know which
 samples in the test set were classified into which classes.  This information is
-summarized in the \emph{confusion matrix}, which is the basis for performance metrics in
+summarized in the \gls{confusionmatrix}, which is the basis for performance metrics in
 classification tasks.
 
 \subsubsection{Confusion matrix}
 
-The confusion matrix is a table where the rows represent the true classes and the columns
+The \gls{confusionmatrix} is a table where the rows represent the true classes and the columns
 represent the predicted classes.  The diagonal of the matrix represents the correct
 classifications, while the off-diagonal elements represent errors.  For binary
-classification, the confusion matrix is given by
+classification, the \gls{confusionmatrix} is given by
 \begin{equation*}
   \begin{blockarray}{cccc}
     & & \multicolumn{2}{c}{\text{Predicted}} \\
@@ -183,7 +183,7 @@ $$|\{ i \in \mathcal{I}_\text{test} : y_i = 0 \land \hat{y}_i = 1 \}|\text{.}$$
 
 \subsubsection{Performance metrics}
 
-From the confusion matrix, we can derive several performance metrics.  Each of them focuses
+From the \gls{confusionmatrix}, we can derive several performance metrics.  Each of them focuses
 on different aspects of the classification task, and the choice of the metric depends on
 the problem at hand.  Each metric prioritizes different types of errors and yields
 a value between 0 and 1, where 1 is the best possible value.
@@ -193,14 +193,14 @@ samples in the test set, given by
 \begin{equation*}
   \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}\text{.}
 \end{equation*}
-This metric is simple and easy to interpret: a classifier with an accuracy of 1 is
-perfect, while a classifier with an accuracy of 0.5 misses half of the predictions.
+This metric is simple and easy to interpret: a \gls{classifier} with an accuracy of 1 is
+perfect, while a \gls{classifier} with an accuracy of 0.5 misses half of the predictions.
 Accuracy assigns the same weight to any kind of error --- i.e., false positives and false
 negatives.  As a result, if the proportion of positive and negative samples is imbalanced,
 the value of accuracy may become misleading.  Let $\pi$ be the ratio of positive samples in
 the test set --- consequently, $1-\pi$ is the ratio of negative samples ---, then a
-classifier that correctly predicts all positive samples and none of the negative samples
-will have an accuracy of $\pi$.  If $\pi$ is close to 1, the classifier will have a high value
+\gls{classifier} that correctly predicts all positive samples and none of the negative samples
+will have an accuracy of $\pi$.  If $\pi$ is close to 1, the \gls{classifier} will have a high value
 of accuracy even if it is not good at predicting the negative class.
 
 This issue is not impeditive for the usage of accuracy in imbalanced datasets, but one
@@ -237,10 +237,10 @@ positive, given by
   \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}\text{.}
 \end{equation*}
 This metric is useful when the cost of false alarms is high, as it quantifies the
-ability of the classifier to avoid false positives.  For example, in a medical diagnosis
+ability of the \gls{classifier} to avoid false positives.  For example, in a medical diagnosis
 task, precision is important to avoid unnecessary treatments (false positive diagnoses).
 Semantically, precision measures how confident we can be that a positive prediction is
-actually positive.  Note that it measures nothing about the ability of the classifier in
+actually positive.  Note that it measures nothing about the ability of the \gls{classifier} in
 terms of the negative predictions.
 
 \paragraph{Recall} is another asymmetrical metric that also focuses on the positive class.
@@ -250,8 +250,8 @@ samples that are actually positive, given by
   \text{Recall} = \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}\text{.}
 \end{equation*}
 This metric is useful when the cost of missing a positive sample is high, as it quantifies the
-ability of the classifier to avoid false negatives.  It can also be interpreted as the
-``completeness'' of the classifier: how many positive samples were correctly retrieved.
+ability of the \gls{classifier} to avoid false negatives.  It can also be interpreted as the
+``completeness'' of the \gls{classifier}: how many positive samples were correctly retrieved.
 For example, in a medical diagnosis task, recall is important to avoid missing a
 diagnosis.
 
@@ -317,13 +317,13 @@ below.  The F-score is a way to balance precision and recall with a controllable
 
 A common misconception about the asymmetrical metrics (especially precision) is that they
 are always robust to class imbalance.  Observe \cref{tab:classification-metrics-ex}, which shows
-the behavior of the classification performance metrics for three (useless) classifiers: one
+the behavior of the classification performance metrics for three (useless) \glspl{classifier}: one
 that always predicts the positive class (Guess 1), another that always predicts the
-negative class (Guess 0), and a classifier that randomly guesses the class independently
+negative class (Guess 0), and a \gls{classifier} that randomly guesses the class independently
 of the class priors (Random).
 
 \begin{tablebox}[label=tab:classification-metrics-ex]{Behavior of classification
-  performance metrics for different classifiers.}
+  performance metrics for different \glspl{classifier}.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{l c c c}
@@ -339,7 +339,7 @@ of the class priors (Random).
     \bottomrule
   \end{tabular}
   \tcblower
-  Performance of different classifiers in the example of a dataset with ratio $\pi$ of
+  Performance of different \glspl{classifier} in the example of a dataset with ratio $\pi$ of
   positive and $1-\pi$ of negative samples.  Metrics affected by class imbalance are
   marked with $^\dagger$.
 \end{tablebox}
@@ -367,9 +367,9 @@ function $f$.
 \subsubsection{Performance metrics}
 
 From the errors, we can calculate several performance metrics that give us useful
-information about the behavior of the model.  Specifically, we are interested in
-understanding what kind of errors the model is making and how large they are.  Unlike
-classification, the higher the value of the metric, the worse the model is.
+information about the behavior of the \gls{model}.  Specifically, we are interested in
+understanding what kind of errors the \gls{model} is making and how large they are.  Unlike
+classification, the higher the value of the metric, the worse the \gls{model} is.
 
 \paragraph{Mean absolute error} is probably the simplest performance metric for regression
 estimation tasks.  It is the average of the absolute values of the errors,
@@ -378,8 +378,8 @@ given by
   \text{MAE} = \frac{1}{n} \sum_{i=1}^n | \epsilon_i |\text{.}
 \end{equation*}
 This metric is easy to interpret, is in the same unit as the target variable, and gives an
-idea of the average error of the model.  It ignores the direction of the errors, so it is
-not useful to understand if the model is systematically overestimating or underestimating
+idea of the average error of the \gls{model}.  It ignores the direction of the errors, so it is
+not useful to understand if the \gls{model} is systematically overestimating or underestimating
 the target variable.
 
 \paragraph{Mean squared error} is the average of the squared residuals, given by
@@ -408,7 +408,7 @@ It is the average of the relative errors, given by
   \text{MAPE} = \frac{1}{n} \sum_{i=1}^n \frac{|\epsilon_i|}{y_i}\text{.}
 \end{equation*}
 This metric is useful when the range of the target variable is large, as it gives an idea
-of the relative error of the model, not the absolute error.
+of the relative error of the \gls{model}, not the absolute error.
 
 \paragraph{Mean absolute logarithmic error} is an alternative for the MAPE under the same
 premises of the target values.  It aims to reduce the influence of outliers in the error
@@ -477,17 +477,17 @@ factor of the error.  In the example in \cref{tab:MAPEvsMALE}, we have that \[
 \]
 
 Finally, for the experimental plan we propose in this book, we should avoid metrics like
-coefficient of determination, $R^2$, as we do not make assumptions about the model --- in this
-case, we do not assume that the model is linear.  Similarly to data classification, we
+coefficient of determination, $R^2$, as we do not make assumptions about the \gls{model} --- in this
+case, we do not assume that the \gls{model} is linear.  Similarly to data classification, we
 should prefer metrics that work well with small test sets.
 
 \subsection{Probabilistic classification evaluation}
 
 A particular case of the regression estimation is when we want to estimate the
-probability\footnote{Although the term probability is used, the output of the regressor
+probability\footnote{Although the term probability is used, the output of the \gls{regressor}
 does not need to be a probability in the strict sense.  It is a confidence level in the
 interval $[0, 1]$ that can be interpreted as a probability.} of a sample belonging to the
-positive class --- i.e. $y = 1$.  In this case, the output of the model should be a
+positive class --- i.e. $y = 1$.  In this case, the output of the \gls{model} should be a
 value in the interval $[0, 1]$.  We can use a threshold $\tau$ to convert the
 probabilities into binary predictions.  The default threshold is usually $\tau = 0.5$ ---
 a sample is positive if the probability is greater than or equal to 0.5, and it is negative,
@@ -498,8 +498,8 @@ specificity. A low threshold, $\tau \approx 0$, will increase recall at the expe
 specificity, while a high threshold, $\tau \approx 1$, will increase specificity at the
 expense of recall.
 
-Thus, any regressor $f_R : \mathcal{X} \rightarrow [0, 1]$ can be converted into a binary
-classifier $f_C : \mathcal{X} \rightarrow \{0, 1\}$ by comparing the output with the
+Thus, any \gls{regressor} $f_R : \mathcal{X} \rightarrow [0, 1]$ can be converted into a binary
+\gls{classifier} $f_C : \mathcal{X} \rightarrow \{0, 1\}$ by comparing the output with the
 threshold $\tau$:
 \begin{equation*}
   f_C(\vec{x}; \tau) = \begin{cases}
@@ -510,8 +510,8 @@ threshold $\tau$:
 
 Since the task is still a classification task, one should not use regression performance
 metrics.  On the other hand, instead of choosing a particular threshold and measuring the
-resulting classifier performance, we can summarize the performance of all possible
-variations of the classifiers using appropriate metrics.
+resulting \gls{classifier} performance, we can summarize the performance of all possible
+variations of the \glspl{classifier} using appropriate metrics.
 
 Before diving into the metrics, consider the following error metric.  Let false positive
 rate (FPR) be the proportion of false positive predictions over the total number of
@@ -522,11 +522,11 @@ samples that are actually negative,
 It is the complement of the specificity, i.e. $\text{FPR} = 1 - \text{Specificity}$.
 
 Consider the example in \cref{tab:prob-reg-out} of a given test set and the predictions of
-a regressor. We can see that a threshold of 0.5 would yield a classifier that errors
+a \gls{regressor}. We can see that a threshold of 0.5 would yield a \gls{classifier} that errors
 in 3 out of 9 samples.  We can adjust the threshold to understand the behavior of the
-other possible classifiers.
+other possible \glspl{classifier}.
 
-\begin{tablebox}[label=tab:prob-reg-out]{Illustrative example of probability regressor
+\begin{tablebox}[label=tab:prob-reg-out]{Illustrative example of probability \gls{regressor}
   output.}
   \centering
   \rowcolors{2}{black!10!white}{}
@@ -554,7 +554,7 @@ cumulative sum of the expected outputs divided by the total number of positive s
 and FPR values become the cumulative sum of the complement of the expected outputs
 divided by the total number of negative samples.
 
-\begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of classifiers derived
+\begin{tablebox}[label=tab:prob-reg-example]{Illustrative example of \glspl{classifier} derived
   from different thresholds.}
   \centering
   \rowcolors{2}{black!10!white}{}
@@ -575,13 +575,13 @@ divided by the total number of negative samples.
     \bottomrule
   \end{tabular}
   \tcblower
-  Performance of different classifiers derived from the regressor output in
+  Performance of different \glspl{classifier} derived from the \gls{regressor} output in
   \cref{tab:prob-reg-out}.  The thresholds are equal to the predicted values.
 \end{tablebox}
 
 Note that, from the ordered list of predictions, we can easily see that a threshold of 0.7
-would yield a classifier that commits only one error.  A way to summarize the performance
-of all possible classifiers is presented in the following.
+would yield a \gls{classifier} that commits only one error.  A way to summarize the performance
+of all possible \glspl{classifier} is presented in the following.
 
 \subsubsection{Receiver operating characteristic}
 
@@ -634,15 +634,15 @@ possible thresholds.  \Cref{fig:roc-example} is the ROC curve for the example in
   \end{tikzpicture}
   \tcblower
   ROC curve for the example in \cref{tab:prob-reg-example}.  The diagonal line represents
-  a random classifier, and points above the diagonal are better than random.
+  a random \gls{classifier}, and points above the diagonal are better than random.
 \end{figurebox}
 
 The ROC curve is useful to explore the trade-off between recall and specificity.  The
-diagonal line represents a random classifier, and points above the diagonal are better
+diagonal line represents a random \gls{classifier}, and points above the diagonal are better
 than random.
 
 The area under the ROC curve (AUC) is an interesting metric of the performance of the
-family of classifiers.  It ranges between 0 and 1, where 1 is the best possible value.
+family of \glspl{classifier}.  It ranges between 0 and 1, where 1 is the best possible value.
 The AUC is scale invariant, which means that it measures how well
 predictions are ranked, rather than their absolute values.  It is also robust to
 class imbalance, once both recall and specificity are considered.
@@ -751,19 +751,19 @@ plan.  These elements are:
     experiments.
   \item \textbf{Solution search algorithm}: Techniques that find a solution for the task.
     We use the term ``search'' because the chosen algorithm aims at optimizing both the
-    parameters of the preprocessing chain and those of the model. The theoretical
+    parameters of the preprocessing chain and those of the \gls{model}. The theoretical
     basis for these techniques is in \cref{chap:preprocess,chap:slt}.
   \item \textbf{Performance measuring}: The metric that will be used to evaluate the
-    performance of the model.  Refer to \cref{sec:evaluation} for the main metrics used in
+    performance of the \gls{model}.  Refer to \cref{sec:evaluation} for the main metrics used in
     binary classification and regression estimation tasks.
 \end{itemize}
 
 A general example of a description of an experimental plan is ``What is the probability that
-the technique $A$ will find a model that reaches a performance $X$ in terms of metric $Y$ in
+the technique $A$ will find a \gls{model} that reaches a performance $X$ in terms of metric $Y$ in
 the real-world given dataset $Z$ as training set (assuming $Z$ is a representative
 dataset)?''
 
-Another example is ``Is technique $A$ better than technique $B$ for finding a model that
+Another example is ``Is technique $A$ better than technique $B$ for finding a \gls{model} that
 predicts the output with $D$ as a training set in terms of metric $E$?''
 
 In the next sections, we consider these two cases: \emph{estimating expected performance}
@@ -804,16 +804,16 @@ dataset is further divided into a training set and a test set, which must be dis
 Each training set is thus used to find a solution --- $M_1, M_2, \ldots$ for each
 training set --- and the test set is used to evaluate the performance --- $p_1, p_2,
 \ldots$ for each test set --- of the solution.  The test set emulates the real-world
-scenario, where the model is used to make predictions on new data.
+scenario, where the \gls{model} is used to make predictions on new data.
 
-The most common sampling strategy is the \emph{cross-validation}.  It assumes that data are
+The most common sampling strategy is \gls{crossvalidation}.  It assumes that data are
 independent and identically distributed (i.i.d.).  This sampling strategy divides
 the dataset into $r$ folds randomly, with the same size.  Each part (fold) is used as a
 test set once and as a training set $r-1$ times.  So, first we use as training set folds
 $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds $1, 3,
 \ldots, r$ and as test set fold $2$. And so on.  See \cref{fig:cross-validation}.
 
-\begin{figurebox}[label=fig:cross-validation]{Cross-validation}
+\begin{figurebox}[label=fig:cross-validation]{\Gls{crossvalidation}}
   \centering
   \begin{tikzpicture}
     \foreach \i in {1, 2, 3, 4} {
@@ -832,14 +832,14 @@ $2, 3, \ldots, r$ and as test set fold $1$.  Then, we use as training set folds 
     }
   \end{tikzpicture}
   \tcblower
-  Cross-validation is a technique to sample training and test sets.  It divides the
+  \Gls{crossvalidation} is a technique to sample training and test sets.  It divides the
   dataset into $r$ folds, using $r-1$ folds as a training set and the remaining fold as a
   test set.
 \end{figurebox}
 
-If possible, one should use repeated cross-validation, where this process is repeated many
+If possible, one should use repeated \gls{crossvalidation}, where this process is repeated many
 times, each having a different fold partitioning chosen at random.  Also, when dealing with
-classification problems, we should use stratified cross-validation, where the distribution
+classification problems, we should use stratified \gls{crossvalidation}, where the distribution
 of the classes is preserved in each fold.
 
 % TODO Performance Visualization
@@ -857,10 +857,10 @@ Once we understand the sampling strategy, we can design the experimental plan to
 evidence about the performance of the solution.  The plan involves the following steps.
 
 The solution search algorithm $A$ involves both a
-given data preprocessing chain and a machine learning method.  Both of them generate a
+given \gls{datapreprocessing} chain and a machine learning method.  Both of them generate a
 different result for each dataset $D_k$ used as an input.  In other words, the parameters
-$\phi$ of the data preprocessing step are adjusted --- see \cref{chap:preprocess} --- and the
-parameters $\theta$ of the machine learning model are adjusted --- see \cref{chap:slt}.
+$\phi$ of the \gls{datapreprocessing} step are adjusted --- see \cref{chap:preprocess} --- and the
+parameters $\theta$ of the machine learning \gls{model} are adjusted --- see \cref{chap:slt}.
 These parameters, $\left[\phi_k, \theta_k\right]$ are the solution $M_k$, and must be
 calculated exclusively using the training set $D_{k,\text{train}}$.
 
@@ -994,7 +994,7 @@ performance samples.  Other times, we need to use more sophisticated techniques,
 hypothesis tests or Bayesian analysis.
 
 Let us say our goal is to reach a certain performance threshold $p_0$.  After an
-experiment done with $10$ repeated $10$-fold cross-validation, we have the average
+experiment done with $10$ repeated $10$-fold \gls{crossvalidation}, we have the average
 performance $\bar{p}$ and the standard deviation $\sigma$.  If $\bar{p} - \sigma \gg
 p_0$, it is very likely that the solution will reach the threshold in production.
 Although this is not a formal validation, it is a good and likely indication.
@@ -1008,7 +1008,7 @@ algorithm.  This distribution can be used to calculate the probability of the pe
 being better than a certain threshold.
 
 \textcite{Benavoli2017}\footfullcite{Benavoli2017} propose an interesting Bayesian test that accounts for the
-overlapping training sets in the cross-validation\footnote{%
+overlapping training sets in the \gls{crossvalidation}\footnote{%
 This is actually a particular case of the proposal in the paper, where the authors
 consider the comparison between two performance vectors --- which is the case described in
 \cref{sub:comparison}.}.
@@ -1076,7 +1076,7 @@ instead of the probability of observing the data given the hypothesis.
 \textcite{Benavoli2017}\footfullcite{Benavoli2017} thoroughly discuss the subject.
 
 Also, be aware that the choice of the model and the prior distribution can affect the
-results.  \citeauthor{Benavoli2017} suggest using 10 repetitions of 10-fold cross-validation
+results.  \citeauthor{Benavoli2017} suggest using 10 repetitions of 10-fold \gls{crossvalidation}
 to estimate the parameters of the generative model.  They also show experimental evidence
 that their procedure is robust to the choice of the prior distribution.  However, one
 should be aware of the limitations of the model.
@@ -1089,10 +1089,10 @@ which one is better.  This is a common situation in data science projects, as we
 have many techniques to solve a problem.
 
 One way to look at this problem is to consider that the algorithm\footnote{That includes
-both data preprocessing and machine learning.} $A$ has \emph{hyperparameters} $\lambda \in
-\Lambda$.  A hyperparameter here is a parameter that is not learned by the algorithm, but
+both \gls{datapreprocessing} and machine learning.} $A$ has \glspl{hyperparameter} $\lambda \in
+\Lambda$.  A \gls{hyperparameter} here is a parameter that is not learned by the algorithm, but
 is set by the user.  For example, the number of neighbors in a k-NN algorithm is a
-hyperparameter.  For the sake of generality, we can consider that the hyperparameters may
+\gls{hyperparameter}.  For the sake of generality, we can consider that the \glspl{hyperparameter} may
 also include different learning algorithms or data handling pipelines.
 
 Let us say we have a baseline algorithm $A(\lambda_0)$ --- for instance, something that is
@@ -1117,7 +1117,7 @@ This strategy can be applied iteratively to compare many algorithms.  For exampl
 compare $A(\lambda_1)$ with $A(\lambda_0)$, $A(\lambda_2)$ with $A(\lambda_1)$, and so on,
 keeping the best algorithm found so far as the baseline. In the cases where the confidence
 level is not reached, but the expected performance gain is positive, we can consider
-additional characteristics of the algorithms, like the interpretability of the model, the
+additional characteristics of the algorithms, like the interpretability of the \gls{model}, the
 computational cost, or the ease of implementation, to decide which one is better. However,
 one should pay attention to whether the probability
 \begin{equation*}
@@ -1130,14 +1130,14 @@ the real-world scenario.
 
 Mathematically speaking, there is no difference between assessing the choice of
 $\left[\phi, \theta\right]$ and the choice of $\lambda$.  Thus, some techniques --- like
-grid search --- can be used to find the best hyperparameters using a nested experimental
+grid search --- can be used to find the best \glspl{hyperparameter} using a nested experimental
 plan.
 
 The idea is the same: we assess how good the expected choice of the
-hyperparameter-optimization technique $B$ is to find the appropriate hyperparameters.  Similarly,
-the choice of the hyperparameters and the parameters that go to production is the
+\gls{hyperparameter}-optimization technique $B$ is to find the appropriate \glspl{hyperparameter}.  Similarly,
+the choice of the \glspl{hyperparameter} and the parameters that go to production is the
 application of $B$ to the whole dataset.  However, never use the choices of the
-hyperparameters in the experimental plan to make decisions about what goes to production.
+\glspl{hyperparameter} in the experimental plan to make decisions about what goes to production.
 (The same is true for the parameters $\left[\phi, \theta\right]$ in the traditional case.)
 
 Although nesting experiments usually lead to a general understanding of the performance of
@@ -1153,7 +1153,7 @@ problem of the computational cost --- often increasing it.
 
 \section{Final remarks}
 
-In this chapter, we presented a framework for experimental planning that can be used in
+In this chapter, we presented a framework for \gls{experimentalplanning} that can be used in
 most data science projects for inductive tasks.  One major limitation of the framework is
 that it assumes that the data is i.i.d.  This is not always the case, as the data can be
 dependent on time or space.  In these cases, the sampling strategy must be adjusted to
@@ -1161,6 +1161,6 @@ account for the dependencies.
 
 Unfortunately, changing the sampling strategy also means that the validation method must
 be adjusted.  That is why tasks like time-series forecasting and spatial data analysis
-require a different approach to experimental planning.
+require a different approach to \gls{experimentalplanning}.
 
 % vim: spell spelllang=en

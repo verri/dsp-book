@@ -5,26 +5,26 @@
 \chapterprecishere{I find your lack of faith disturbing.
   \par\raggedleft--- \textup{Darth Vader}, Star Wars: Episode IV -- A New Hope (1977)}
 
-In this chapter, we discuss the data preprocessing, which is the process of adjusting the
-data to make it suitable for a particular learning machine or, at the least, to ease the
+In this chapter, we discuss the \gls{datapreprocessing}, which is the process of adjusting the
+data to make it suitable for a particular \gls{learningmachine} or, at the least, to ease the
 learning process.
 
-Similarly to data handling, data preprocessing is done by applying a series of operations
+Similarly to data handling, \gls{datapreprocessing} is done by applying a series of operations
 to the data.  However, some of the parameters of the operations are not fixed but rather
-are fit from a data sampling.  In the context of inductive learning, the sampling is the
+are fit from a data sampling.  In the context of \gls{inductivelearning}, the sampling is the
 training set.
 
 The operations are dependent on the chosen learning method.  So, when planning the
 solution in our project, we must consider the preprocessing tasks that are necessary to
 make the data suitable for the chosen methods.
 
-I present the most common data preprocessing tasks in three categories: data cleaning,
+I present the most common \gls{datapreprocessing} tasks in three categories: data cleaning,
 data sampling, and data transformation.  For each task, I discuss the behavior of the data
 preprocessing techniques in terms of fitting, adjustment of the training set, and
-application of the preprocessor in production.
+application of the \gls{preprocessor} in production.
 
 Finally, I discuss the importance of the default behavior of the model when the
-preprocessing chain degenerates over a sample, i.e. when the preprocessor decides that it
+preprocessing chain degenerates over a sample, i.e. when the \gls{preprocessor} decides that it
 has no strategy to adjust the data to make it suitable for the model.
 
 \begin{mainbox}{Chapter remarks}
@@ -40,14 +40,14 @@ has no strategy to adjust the data to make it suitable for the model.
   \begin{itemize}
     \itemsep0em
     \item Tidy data is not necessarily suitable for modeling.
-    \item Parameters of the preprocessor are fitted rather than being fixed.
+    \item Parameters of the \gls{preprocessor} are fitted rather than being fixed.
   \end{itemize}
 
   \boxsubtitle{Objectives}
 
   \begin{itemize}
     \itemsep0em
-    \item Understand the main data preprocessing tasks and techniques.
+    \item Understand the main \gls{datapreprocessing} tasks and techniques.
     \item Learn the behavior of the preprocessing chain in terms of fitting, adjustment,
       and application.
   \end{itemize}
@@ -56,8 +56,8 @@ has no strategy to adjust the data to make it suitable for the model.
 
   \begin{itemize}
     \itemsep0em
-    \item Each learning method requires specific data preprocessing tasks.
-    \item Fitting the preprocessor is crucial to avoid leakage.
+    \item Each learning method requires specific \gls{datapreprocessing} tasks.
+    \item Fitting the \gls{preprocessor} is crucial to avoid \gls{leakage}.
     \item Default behavior of the model when the preprocessing chain degenerates must be
       specified.
   \end{itemize}
@@ -82,11 +82,11 @@ input variables are real numbers.  If the data contains categorical variables, w
 convert them to numerical variables before applying the perceptron.
 
 For this reason, the solution sprint tasks in \cref{sub:workflow} include not only the
-learning tasks but also the \emph{data preprocessing} tasks, which are dependent on the
+learning tasks but also the \gls{datapreprocessing} tasks, which are dependent on the
 chosen machine learning methods.
 
 \begin{defbox}{Data preprocessing}{preprocessing}
-  The process of adjusting the data to make it suitable for a particular learning machine
+  The process of adjusting the data to make it suitable for a particular \gls{learningmachine}
   or, at the least, to ease the learning process.
 \end{defbox}
 
@@ -119,7 +119,7 @@ generality --- as the keys are not used in the modeling process ---, we can cons
 \{1, 2, \dots\}$ such that $\rowcard[i] = 0$ if, and only if, $i > n$.  That means that
 every row $r \in \{1, \dots, n\}$ is present in the table.
 
-A data preprocessing strategy $F$ is a function that takes a table $T = (K, H, c)$ and
+A \gls{datapreprocessing} strategy $F$ is a function that takes a table $T = (K, H, c)$ and
 returns an adjusted table $T' = (K', H', c')$ and a fitted \emph{preprocessor} $f(z; \phi)
 \equiv f_\phi(z)$ such that $$z \in \bigtimes_{h\, \in\, H} \domainof{h} \cup \{?\}$$ and $\phi$ are
 the fitted parameters of the operation.  Similarly, $z' = f_\phi(z)$, called the
@@ -137,7 +137,7 @@ previous ones.
 
 \subsection{Degeneration}
 
-The objective of the fitted preprocessor is to adjust the data to make it suitable for the
+The objective of the fitted \gls{preprocessor} is to adjust the data to make it suitable for the
 model.  However, sometimes it cannot achieve this goal for a particular input $z$.  This
 can happen for many reasons, such as unexpected values, information ``too incomplete'' to
 make a prediction, etc.
@@ -152,12 +152,12 @@ implemented as an exception or similar programming mechanism.} over $z = z^{(0)}
 Consequently, in the implementation of the solution, the developer must choose a default
 behavior for the model when the preprocessing chain degenerates over a tuple.  It can
 be as simple as returning a default value or as complex as redirecting the tuple to a
-different pair of preprocessor and model.  Sometimes, the developer can choose to
+different pair of \gls{preprocessor} and model.  Sometimes, the developer can choose to
 integrate this as an error or warning in the user application.
 
 \subsection{Data preprocessing tasks}
 
-The most common data preprocessing tasks can be divided into three categories:
+The most common \gls{datapreprocessing} tasks can be divided into three categories:
 \begin{itemize}
   \itemsep0em
   \item Data cleaning;
@@ -165,7 +165,7 @@ The most common data preprocessing tasks can be divided into three categories:
   \item Data transformation.
 \end{itemize}
 
-In the next sections, I address some of the most common data preprocessing tasks
+In the next sections, I address some of the most common \gls{datapreprocessing} tasks
 in each of these categories.  I present them in the order they are usually applied in the
 preprocessing, but note that the order is not fixed and can be changed according to the
 needs of the problem.
@@ -174,7 +174,7 @@ needs of the problem.
 
 Data cleaning is the process of removing errors and inconsistencies from the data.  This is
 usually done to make the data more reliable for training and to avoid bias in the learning
-process.  Usually, such errors and inconsistencies make the learning machines ``confused''
+process.  Usually, such errors and inconsistencies make the \glspl{learningmachine} ``confused''
 and can lead to poor performance models.
 
 Also, it includes the process of dealing with missing information, which most machine
@@ -189,7 +189,7 @@ observations with missing data to the creation of new information to encode the 
 % must be replaced with more appropriate values before modeling.  If a single variable
 % encodes more than one concept, new variables must be created to represent each concept.
 
-There are a few, but important, tasks to be done during data preprocessing in terms of
+There are a few, but important, tasks to be done during \gls{datapreprocessing} in terms of
 invalid and inconsistent data --- note that we assume that most of the issues in terms of
 the semantics of the data have been solved in the data handling phase.  Especially in
 production, the developer must be aware of the behavior of the model when it faces
@@ -217,7 +217,7 @@ preprocessing task is presented in \cref{tab:unit-conversion}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor converts the numerical values and drops the unit of measurement column.  \\
+      \Gls{preprocessor} converts the numerical values and drops the unit of measurement column.  \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -245,7 +245,7 @@ operation.
       Training set is adjusted sample by sample, independently.  If appropriate,
       degenerated samples are removed. \\
     \textbf{Applying} &
-      Preprocessor checks whether the value $x$ of a variable is within the range $[a,
+      \Gls{preprocessor} checks whether the value $x$ of a variable is within the range $[a,
       b]$.  If not, it replaces $x$ with: (a) missing value $?$, (b) the closest valid
       value $\max(a, \min(b, x))$, or (c) degenerates (discards the observation). \\
     \bottomrule
@@ -274,7 +274,7 @@ special characters, or more advanced fuzzy matching techniques --- see
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor replaces the categorical variable $x$ with the mapped
+      \Gls{preprocessor} replaces the categorical variable $x$ with the mapped
       value $f(x)$ that implements case standardization, special character removal, and/or
       dictionary fuzzy matching. \\
     \bottomrule
@@ -284,7 +284,7 @@ special characters, or more advanced fuzzy matching techniques --- see
 Note that these technique parameters are not fitted from the data, but rather are fixed
 from the problem definition.  As a result, they could be done in the data handling phase.
 The reason we put them here is that the new data in production usually come with the
-same issues.  Having the fixes programmed into the preprocessor makes it easier to
+same issues.  Having the fixes programmed into the \gls{preprocessor} makes it easier to
 guarantee that the model will behave as expected in production.
 
 \subsection{Outlier detection}
@@ -322,17 +322,17 @@ See \cref{tab:iqr-outlier}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor replaces the outlier values with missing data. \\
+      \Gls{preprocessor} replaces the outlier values with missing data. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
 More sophisticated methods can be used to detect samples that are outliers, such as using
 the definition of an outlier in the DBSCAN\footfullcite{Ester1996}. But, this is not
-enough to fit the parameters of the preprocessor.  The reason is that descriptive methods
+enough to fit the parameters of the \gls{preprocessor}.  The reason is that descriptive methods
 like DBSCAN  --- in this case, a method for clustering --- do not generalize to new data.
 I suggest using methods like One-Class SVM\footfullcite{Scholkopf2001} to fit the
-parameters of the preprocessor that detects outliers.  Thus, any new data point can
+parameters of the \gls{preprocessor} that detects outliers.  Thus, any new data point can
 be classified as an outlier or not.
 
 Like filtering operations in the pipeline, the developer must specify a default behavior
@@ -351,12 +351,12 @@ for the model when an outlier sample is detected in production.  See
     \textbf{Goal} &
       Remove the observations that are outliers. \\
     \textbf{Fitting} &
-      Parameters of the outlier classifier. \\
+      Parameters of the outlier \gls{classifier}. \\
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently, removing
       degenerated samples. \\
     \textbf{Applying} &
-      Preprocessor degenerates if the sample is classified as an outlier and does
+      \Gls{preprocessor} degenerates if the sample is classified as an outlier and does
       nothing, otherwise. \\
     \bottomrule
   \end{tabular}
@@ -401,14 +401,14 @@ for the model when a row is discarded in production.  See \cref{tab:row-removal-
       Training set is adjusted sample by sample, independently, removing
       degenerated samples. \\
     \textbf{Applying} &
-      Preprocessor degenerates over the rows with missing data in the specified variables.
+      \Gls{preprocessor} degenerates over the rows with missing data in the specified variables.
       \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
 In the case of column removal, the
-preprocessor just learns to drop the columns that have missing data during fitting.
+\gls{preprocessor} just learns to drop the columns that have missing data during fitting.
 Beware that valuable information might be lost when removing columns for all the samples.
 
 \begin{tablebox}[label=tab:col-drop-missing]{Task of dropping columns based on missing data.}
@@ -427,7 +427,7 @@ Beware that valuable information might be lost when removing columns for all the
     \textbf{Adjustment} &
       Columns marked are dropped from the training set. \\
     \textbf{Applying} &
-      Preprocessor drops the chosen columns in fitting. \\
+      \Gls{preprocessor} drops the chosen columns in fitting. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -455,7 +455,7 @@ samples with missing data is large.  See \cref{tab:imputation}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor replaces the missing values with the chosen statistic. If an indicator
+      \Gls{preprocessor} replaces the missing values with the chosen statistic. If an indicator
       variable is required, it is created and filled with the logical value:
       missing or not missing. \\
     \bottomrule
@@ -492,7 +492,7 @@ Some machine learning methods are computationally expensive, and a smaller datas
 enough to solve the problem.  Random sampling is simply done by selecting a random subset
 of the training data with a user-defined size.
 
-However, note that the preprocessor for this task \emph{must never do anything with the
+However, note that the \gls{preprocessor} for this task \emph{must never do anything with the
 new data} (or the test set we discuss in \cref{chap:planning}).  See
 \cref{tab:random-sampling}.
 
@@ -512,7 +512,7 @@ new data} (or the test set we discuss in \cref{chap:planning}).  See
     \textbf{Adjustment} &
       Rows of the training set are randomly chosen. \\
     \textbf{Applying} &
-      Pass-through: preprocessor does nothing with the new data. \\
+      Pass-through: \gls{preprocessor} does nothing with the new data. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -524,7 +524,7 @@ Like the filtering operation in the data handling pipeline (consult \cref{sub:fi
 the data scientists choose a set of predefined rules to filter the data.
 
 Unlike outlier detection, we assume that the rule is fixed and known beforehand.  The
-preprocessor degenerates over the samples that do not satisfy the rule.  A summary of the
+\gls{preprocessor} degenerates over the samples that do not satisfy the rule.  A summary of the
 task is presented in \cref{tab:scope-filtering}.
 
 \begin{tablebox}[label=tab:scope-filtering]{Task of filtering the scope of the data.}
@@ -544,7 +544,7 @@ task is presented in \cref{tab:scope-filtering}.
       Training set is adjusted sample by sample, independently, removing degenerated
       samples. \\
     \textbf{Applying} &
-      Preprocessor degenerates over the samples that do not satisfy the rule. \\
+      \Gls{preprocessor} degenerates over the samples that do not satisfy the rule. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -553,7 +553,7 @@ An interesting variation is the model trees\footfullcite{Freek2015}.  They are s
 decision trees that are used to filter the data.  At each leaf, a different model is
 trained with the data that satisfies the rules that reach the leaf.  This is a good
 strategy when the phenomenon is complex and can be divided into simpler subproblems.
-In this case, the preprocessor does not degenerate over the samples, but rather the
+In this case, the \gls{preprocessor} does not degenerate over the samples, but rather the
 preprocessing chain branches into different models (and potentially other preprocessing
 steps).
 
@@ -561,7 +561,7 @@ steps).
 
 Some data classification methods are heavily affected by the number of observations in each
 class.  This is especially true for methods that learn the class priors directly from the
-data, like the naïve Bayes classifier.
+data, like the naïve Bayes \gls{classifier}.
 
 Two strategies are often used to balance the classes: oversampling and undersampling.  The
 former is done by creating synthetic observations of the minority class.  The latter is
@@ -574,7 +574,7 @@ most common method is resampling\footnote{Sometimes called bootstrapping.}, whic
 a random subset of the data with replacement.  A drawback of this method is that it
 produces repeated observations that contain no new information.
 
-In any case, the preprocessor for this task \emph{must never do anything with the new
+In any case, the \gls{preprocessor} for this task \emph{must never do anything with the new
 data} (or the test set we discuss in \cref{chap:planning}).  See
 \cref{tab:class-balancing}.
 
@@ -595,7 +595,7 @@ data} (or the test set we discuss in \cref{chap:planning}).  See
     \textbf{Adjustment} &
       Rows of the training set are randomly chosen. \\
     \textbf{Applying} &
-      Pass-through: preprocessor does nothing with the new data. \\
+      Pass-through: \gls{preprocessor} does nothing with the new data. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -660,7 +660,7 @@ values into a single column, called the \emph{other} column.  See \cref{tab:one-
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor creates a new column for each possible value of the categorical
+      \Gls{preprocessor} creates a new column for each possible value of the categorical
       variable.  The new column is filled with the logical value $1$ if the old value
       matches the new column and $0$ otherwise.  If the value is new or among the less
       frequent values, it is assigned to the \emph{other} column.  \\
@@ -691,7 +691,7 @@ maximum values.  See \cref{tab:binning}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor converts each numerical value to a categorical value by checking
+      \Gls{preprocessor} converts each numerical value to a categorical value by checking
       which bin the value falls into. \\
     \bottomrule
   \end{tabular}
@@ -740,12 +740,12 @@ See \cref{tab:standardization}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor scales the values according to \cref{eq:standardization}. \\
+      \Gls{preprocessor} scales the values according to \cref{eq:standardization}. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
-In the case of rescaling, during production, the preprocessor usually clamps\footnote{The
+In the case of rescaling, during production, the \gls{preprocessor} usually clamps\footnote{The
 operation $\clamp(x; a, b)$ where $a$ and $b$ are the lower and upper bounds,
 respectively, is defined as $\max(a, \min(b, x))$.} the values after rescaling.  This is
 done to avoid the model making predictions that are out of the range of the training
@@ -775,7 +775,7 @@ See \cref{tab:rescaling}.
     \textbf{Adjustment} &
       Training set is adjusted sample by sample, independently. \\
     \textbf{Applying} &
-      Preprocessor scales the values according to \cref{eq:rescaling}. \\
+      \Gls{preprocessor} scales the values according to \cref{eq:rescaling}. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
@@ -826,7 +826,7 @@ example, imagine that in the tidy data we have a column with the zip code of the
 customers.  We can use this information to join (in this case, always a left join) a
 dataset with social and economic information about the region of the zip code.
 
-The preprocessor, then, stores the external dataset and the column to join the data.
+The \gls{preprocessor}, then, stores the external dataset and the column to join the data.
 During production, it enhances any new observation with the external information.  See
 \cref{tab:data-enhancement}.
 
@@ -848,17 +848,17 @@ During production, it enhances any new observation with the external information
       the left join, the new dataset has the same number of rows as the original dataset,
       and it is equivalent to enhancing each row independently.  \\
     \textbf{Applying} &
-      Preprocessor enhances the new data with the external information. \\
+      \Gls{preprocessor} enhances the new data with the external information. \\
     \bottomrule
   \end{tabular}
 \end{tablebox}
 
 \subsection{Comments on unstructured data}
 
-Any unstructured data can be transformed into structured data.  We can see this task as a
-data preprocessing task.  Techniques like bag of words, word embeddings, and signal (or
+Any unstructured data can be transformed into \gls{structureddata}.  We can see this task as a
+\gls{datapreprocessing} task.  Techniques like bag of words, word embeddings, and signal (or
 image) processing can be seen as preprocessing techniques that transform unstructured data
-into structured data, which is suitable for modeling.
+into \gls{structureddata}, which is suitable for modeling.
 
 Also, modern machine learning methods, like \glspl{cnn}, are simply models that learn both
 the preprocessing and the model at the same time.  This is done by using convolutional
