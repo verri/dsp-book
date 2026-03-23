@@ -33,7 +33,7 @@ The book is structured as modular LaTeX files:
 ## Development Environment
 
 Tested on:
-- Arch Linux (kernel 6.14.6-arch1-1)
+- Arch Linux (kernel 6.18.13-arch1-1)
 - TeX Live 2026/dev
 - Latexmk 4.86a
 
@@ -57,20 +57,9 @@ Companion slides for teaching. See `slides/README.md` for full guidelines.
 
 - **Preamble**: `slides/preamble.tex` (Metropolis theme, grayscale, book fonts)
 - **Chapter slides**: `slides/<name>.tex` mirroring `chapters/<name>.tex`
+- **Extra slides**: `slides/exploration.tex` (data exploration topic), `slides/mathematical-foundations.tex` (appendix)
 - **Theme**: Metropolis, 16:9, grayscale, STIXTwo/CourierPrime fonts
 - **Content**: Minimal text, exact book order, all TikZ figures reproduced
-
-### TODO: Slides Creation
-- [ ] Create slides preamble with Metropolis theme
-- [ ] Create slides for Chapter 1 (History)
-- [ ] Create slides for Chapter 2 (Fundamental)
-- [ ] Create slides for Chapter 3 (Project)
-- [ ] Create slides for Chapter 4 (Structured Data)
-- [ ] Create slides for Chapter 5 (Data Handling)
-- [ ] Create slides for Chapter 6 (Learning)
-- [ ] Create slides for Chapter 7 (Preprocessing)
-- [ ] Create slides for Chapter 8 (Validation)
-- [ ] Update Makefile for new slides/ structure
 
 ### Slides Build System
 
@@ -79,7 +68,10 @@ Build commands:
 make slides            # Build all slide sets
 make slides-watch      # Watch and rebuild slides
 make slides-clean      # Remove built slides
-make slides-ch1        # Build Chapter 1 slides to build/slides/
+make slides-ch1        # Build Chapter 1 slides (slides-ch1 through slides-ch8)
+make slides-ch1-watch  # Watch mode for Chapter 1 (likewise for ch2-ch8)
+make slides-exploration      # Build exploration slides
+make slides-appendix-math    # Build mathematical foundations slides
 ```
 
 ## License
