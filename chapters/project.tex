@@ -640,7 +640,7 @@ the final version must be version controlled.
 Note that the \glspl{preprocessor} and the models themselves\footnote{The learned
 solution that is the result of the application of a learning algorithm to the dataset.} are
 artifacts that result from a particular version of the dataset and the solution search
-code.  The same occurs with reports generated from exploratory analysis and validation
+code.  The same occurs with reports generated from exploration and validation
 steps.  They must be cached for important versions of the dataset and the solution search
 code.
 
@@ -649,7 +649,7 @@ code.
 The code should be
 automatically (or at least semi-automatically) tested and deployed.  The back-end and
 front-end are tested using unit tests.  The dataset is not exactly tested, but the
-exploratory analysis report is updated for each version of the dataset.
+exploration report is updated for each version of the dataset.
 A human must validate the reports, but the reports must be generated automatically.
 The solution search code is tested using
 validation methods such as \gls{crossvalidation} and Bayesian analysis --- refer to
@@ -879,7 +879,7 @@ sprint.
     \node [smallblock] (tidy) at (0, -1.5) {Tidy data};
     \node [smallblock] (explore) at (0, -2.0) {Explore data};
     \node [draw, dotted, fit=(collect) (tidy) (explore), label=Data tasks, inner sep=8pt, minimum width=2.5cm] (data-tasks) {};
-    \node [block] (data-report) at (4, -0.5) {Exploratory analysis};
+    \node [block] (data-report) at (4, -0.5) {Exploration report};
     \node [darkblock] (data) at (4, -2.0) {Data};
     \path [line] (data-tasks) -- (data-report);
     \path [line] (data-tasks) -- (data);
@@ -977,7 +977,7 @@ that the solution is coherent and that the team members can help each other.
 \subsubsection{Sprint reviews}
 
 A proper \gls{cicd} pipeline guarantees that by the end of the sprint,
-exploratory analysis, performance reports, and the working software are ready for review.
+exploration report, performance reports, and the working software are ready for review.
 The sprint review is a meeting where the team presents the results of the sprint to the
 business spokesman.  The business spokesman must approve the results of the sprint.
 (The lead data scientist approves the results in the absence of the business spokesman.)
