@@ -118,6 +118,13 @@ his criticism of statements that data types are evident from the data independen
 questions asked.  The same data can be interpreted in different ways depending on the
 context and the goals of the analysis.
 
+Moreover, the choice of data types is also related to the digital representation and the
+domain of the data.  For example, consider a person's age.  Should it be an integer or a
+floating-point number?  If integers, fractional years are irrelevant.  What is the valid
+range?  Setting a maximum of 100 rejects supercentenarians; setting it too high allows
+implausible values.  A model trained with certain bounds may behave unpredictably outside
+them.
+
 However, I do not agree with the idea that good data analysis does not assume data types.
 I think that data scientists should be aware of the data types they are working with and
 how they affect the analysis.  With no bias, there is no learning.  There is no such
@@ -241,68 +248,71 @@ or eliminate inconsistencies.  In practice, it means that if a relation is in PJ
 careless joins --- i.e., those that violate a join dependency --- produce
 inconsistent results.
 
-\paragraph{Simple example}  Consider the 2NF relation $R[A, B, C, D]$ with functional
-dependencies $A \to B,~B \to C,~C \to D$.  The relation is not in 3NF because $C$ is
-transitively dependent on $A$.  To normalize it, we can decompose it into the
-relations $R_1[A, B, C]$ and $R_2[C, D]$.  Now, $R_2$ is in 3NF and $R_1$ is in 2NF, but
-not in 3NF.  We can decompose $R_1$ into the relations $R_3[A, B]$ and $R_4[B, C]$.
-The original relation can be reconstructed by $\bowtie \left\{ R_2, R_3, R_4 \right\}$.
+\paragraph{Simple example}  Consider the relation $R[A, B, C, D]$ with primary key $A$ and
+functional dependencies $A \to B,~B \to C,~C \to D$.  The relation is in 2NF because,
+with a single-attribute primary key, partial dependency is impossible.  However, it is not
+in 3NF because $B$, $C$, and $D$ are transitively dependent on $A$ (e.g., $A \to B \to C$).
+To normalize it, we can decompose it into the relations $R_1[A, B, C]$ and $R_2[C, D]$.
+Now, $R_2$ is in 3NF and $R_1$ is in 2NF, but not in 3NF.  We can decompose $R_1$ into the
+relations $R_3[A, B]$ and $R_4[B, C]$.  The original relation can be reconstructed by
+$\bowtie \left\{ R_2, R_3, R_4 \right\}$.
 
-\paragraph{Illustrative example of data integrity}  Consider a relation of students and
-their grades.  The relation contains the attributes ``student'', ``course'', ``course
-credits'', and ``grade''.  The primary key is the composite of ``student'' and ``course''.
-The functional dependencies are ``student'' and ``course'' determine ``grade'', and
-``course'' determines ``course credits''.  The relation is in 2NF but not 3NF.
+\paragraph{Illustrative example of data integrity}  Consider a relation of employees.  The
+relation contains the attributes ``employee'', ``department'', and ``department head''.
+The primary key is ``employee''.  The functional dependencies are ``employee'' determines
+``department'', and ``department'' determines ``department head''.  The relation is in 2NF
+(with a single-attribute key, partial dependency is impossible) but not 3NF because
+``department head'' is transitively dependent on ``employee'' through ``department''.
 
-\begin{tablebox}[label=tab:student-grade-illustration]{Student grade relation.}
+\begin{tablebox}[label=tab:employee-illustration]{Employee relation.}
   \centering
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{cccc}
+  \begin{tabular}{ccc}
     \toprule
-    \textbf{Student} & \textbf{Course} & \textbf{Course credits} & \textbf{Grade} \\
+    \textbf{Employee} & \textbf{Department} & \textbf{Department head} \\
     \midrule
-    Alice & Math & 4 & A \\
-    Alice & Physics & 3 & B \\
-    Bob & Math & 4 & B \\
-    Bob & Physics & 3 & A \\
+    Alice & Engineering & Eve \\
+    Bob & Engineering & Eve \\
+    Carol & Marketing & Frank \\
+    Dan & Marketing & Frank \\
     \bottomrule
   \end{tabular}
   \tcblower
-  An example of a relation of students and their grades in 2NF.
+  An example of a relation of employees in 2NF.
 \end{tablebox}
 
-\Cref{tab:student-grade-illustration} shows an example of possible values of the relation.
-If we decide to change the course credits of the course ``Math'' to 5, we must update the
+\Cref{tab:employee-illustration} shows an example of possible values of the relation.
+If we decide to change the head of ``Engineering'' to ``Grace'', we must update
 two rows; otherwise, the relation will be inconsistent.  A 3NF relation (see
-\cref{tab:student-grade-illustration2}) would have the attributes ``course'' and ``course
-credits'' in a separate relation, avoiding the possibility of data inconsistency.  If
+\cref{tab:employee-illustration2}) would have the attributes ``department'' and ``department
+head'' in a separate relation, avoiding the possibility of data inconsistency.  If
 needed, the relation would be reconstructed by a join operation.
 
-\begin{tablebox}[label=tab:student-grade-illustration2]{Student grade relation in 3NF.}
+\begin{tablebox}[label=tab:employee-illustration2]{Employee relation in 3NF.}
   \centering
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cc}
     \toprule
-    \textbf{Course} & \textbf{Course credits} \\
+    \textbf{Department} & \textbf{Department head} \\
     \midrule
-    Math & 4 \\
-    Physics & 3 \\
+    Engineering & Eve \\
+    Marketing & Frank \\
     \bottomrule
   \end{tabular}
   \quad
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccc}
+  \begin{tabular}{cc}
     \toprule
-    \textbf{Student} & \textbf{Course} & \textbf{Grade} \\
+    \textbf{Employee} & \textbf{Department} \\
     \midrule
-    Alice & Math & A \\
-    Alice & Physics & B \\
-    Bob & Math & B \\
-    Bob & Physics & A \\
+    Alice & Engineering \\
+    Bob & Engineering \\
+    Carol & Marketing \\
+    Dan & Marketing \\
     \bottomrule
   \end{tabular}
   \tcblower
-  An example of a relation of students and their grades in 3NF.
+  An example of a relation of employees in 3NF.
 \end{tablebox}
 
 \paragraph{Invalid join example} Consider the 2NF relation $R[ABC]$\footnote{Here we abbreviate ${A,

@@ -84,6 +84,7 @@
     \item Do not exhaust all possibilities (e.g., probabilities)
     \item Data types are not always evident from the data alone
     \item Same data can be interpreted differently depending on context
+    \item Example: age as integer or float? Valid range 100 or 120?
     \item Data scientists must be aware of types and their consequences
     \item Good assumptions and hypotheses are a key part of the methodology
   \end{itemize}
@@ -128,19 +129,19 @@
 \end{frame}
 
 \begin{frame}{Example: 2NF vs 3NF}
-  2NF (redundant ``course credits''):
+  2NF (redundant ``department head'', transitive dependency):
 
   \centering
   \small
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{cccc}
+  \begin{tabular}{ccc}
     \toprule
-    \textbf{Student} & \textbf{Course} & \textbf{Credits} & \textbf{Grade} \\
+    \textbf{Employee} & \textbf{Department} & \textbf{Dept.\ head} \\
     \midrule
-    Alice & Math & 4 & A \\
-    Alice & Physics & 3 & B \\
-    Bob & Math & 4 & B \\
-    Bob & Physics & 3 & A \\
+    Alice & Engineering & Eve \\
+    Bob & Engineering & Eve \\
+    Carol & Marketing & Frank \\
+    Dan & Marketing & Frank \\
     \bottomrule
   \end{tabular}
 
@@ -152,22 +153,22 @@
   \rowcolors{2}{black!10!white}{}
   \begin{tabular}{cc}
     \toprule
-    \textbf{Course} & \textbf{Credits} \\
+    \textbf{Department} & \textbf{Dept.\ head} \\
     \midrule
-    Math & 4 \\
-    Physics & 3 \\
+    Engineering & Eve \\
+    Marketing & Frank \\
     \bottomrule
   \end{tabular}
   \quad
   \rowcolors{2}{black!10!white}{}
-  \begin{tabular}{ccc}
+  \begin{tabular}{cc}
     \toprule
-    \textbf{Student} & \textbf{Course} & \textbf{Grade} \\
+    \textbf{Employee} & \textbf{Department} \\
     \midrule
-    Alice & Math & A \\
-    Alice & Physics & B \\
-    Bob & Math & B \\
-    Bob & Physics & A \\
+    Alice & Engineering \\
+    Bob & Engineering \\
+    Carol & Marketing \\
+    Dan & Marketing \\
     \bottomrule
   \end{tabular}
 \end{frame}
