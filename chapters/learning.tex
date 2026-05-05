@@ -842,7 +842,7 @@ $\E_D\!\left[ \big( y - \hat{f}(x; D) \big)^2 \right]$, is
 \begin{align}
   \notag \int \big( y - \hat{f}(x) \big)^2\, d\!\Prob(D, \epsilon)
     &= \int \big( y - f(x) + f(x) - \hat{f}(x) \big)^2\, d\!\Prob(D, \epsilon) \\
-    &= \label{eq:term1}\int \big( y - f(x) \big)^2\, d\!\Prob(D) \\
+    &= \label{eq:term1}\int \big( y - f(x) \big)^2\, d\!\Prob(\epsilon) \\
     &+ \label{eq:term2}\int \big( f(x) - \hat{f}(x) \big)^2\, d\!\Prob(D) \\
     &+ \label{eq:term3}2 \int \big( y - f(x) \big)\,\big( f(x) - \hat{f}(x) \big)\, d\!\Prob(D, \epsilon)\text{.}
 \end{align}
@@ -850,9 +850,9 @@ $\E_D\!\left[ \big( y - \hat{f}(x; D) \big)^2 \right]$, is
 The term \eqref{eq:term1} is the irreducible error:
 \begin{equation}
   \label{eq:irreducible-error}
-  \int \big( y - f(x) \big)^2\, d\!\Prob(D) =
-  \int \big( f(x) + \epsilon - f(x) \big)^2\, d\!\Prob(D) =
-  \int \epsilon^2\, d\!\Prob(D) = \sigma^2\text{.}
+  \int \big( y - f(x) \big)^2\, d\!\Prob(\epsilon) =
+  \int \big( f(x) + \epsilon - f(x) \big)^2\, d\!\Prob(\epsilon) =
+  \int \epsilon^2\, d\!\Prob(\epsilon) = \sigma^2\text{.}
 \end{equation}
 As the best solution is $f$ itself, the error that comes from the noise is unavoidable.
 
