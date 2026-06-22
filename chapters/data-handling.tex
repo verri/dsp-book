@@ -573,18 +573,23 @@ values will be \emph{spread} across the rows.  Other than these columns, all rem
 must be indexes.
 
 \begin{defbox}{Pivot long-to-wide operation}{pivot-l2w}
-  Let $T = (K \cup \{\text{name}\}, \{\text{value}\}, c)$. The pivot long-to-wide
-  operation is defined as \[
+  Let $T = (K, \{\text{name}, \text{value}\}, c)$, where \emph{name} and
+  \emph{value} are non-index columns, $\domainof{\text{name}}$ is enumerable and
+  finite, and the \emph{name} column has no missing values. The
+  pivot long-to-wide operation is defined as \[
     \operatorname{pivot}_\text{name}(T) = T'\text{,}
   \] where $T' = (K, \domainof{\text{name}}, c')$ and \[
-    c'(r, h) = c\left(r + (h),~\text{value}\right)\text{,}
+    c'(r, h) = \left( v^{\text{value}}_i : v^{\text{name}}_i = h \right)\text{,}
   \]
-  for all valid row $r$ and $h \in \domainof{\text{name}}$.
+  for all valid row $r$ and $h \in \domainof{\text{name}}$, where
+  $v^{\text{name}}_i$ and $v^{\text{value}}_i$ are the \emph{name} and
+  \emph{value} entries of the $i$-th nested row of $r$.
 \end{defbox}
 
-Note however that the operation only works if $\rowcard[r + (h); c]$ is constant for all
-$h \in \domainof{\text{name}}$.  If this is not the case, one must aggregate the rows
-before applying the pivot operation.  This is discussed in \cref{sub:aggregation}.
+Note however that the operation yields a single value per cell only if each name
+occurs at most once in a row, that is, $v^{\text{name}}_i = v^{\text{name}}_j$
+implies $i = j$.  If this is not the case, one must aggregate the rows before
+applying the pivot operation.  This is discussed in \cref{sub:aggregation}.
 
 Pivoting wide-to-long\footnote{Also known as unpivot.} is the reverse operation. One must
 specify all the columns whose names are the values of the previously called ``name column.''
@@ -595,10 +600,10 @@ remaining columns are indexes.
   Let $T = (K, H, c)$ be a table.  The pivot wide-to-long
   operation is defined as \[
     \operatorname{pivot}^{-1}(T) = T'\text{,}
-  \] where $T' = (K \cup \{\text{name}\}, \{\text{value}\}, c')$, $\domainof{\text{name}}
-  = H$ and \[
-    c'((r, h), \text{value}) = c(r, h)\text{,}
-  \] for all valid row $r$ and $h \in H$.
+  \] where $T' = (K, \{\text{name}, \text{value}\}, c')$, with \emph{name} and
+  \emph{value} non-index columns, $\domainof{\text{name}} = H$, and the nested
+  rows of each $r$ in $T'$ are the pairs $(\text{name}: h,~\text{value}: c(r, h))$
+  for all $h \in H$.
 \end{defbox}
 
 In practical applications, where not all remaining columns are indexes, one must aggregate
@@ -608,7 +613,7 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
 \begin{tablebox}[label=tab:pivot]{Pivoting example.}
     \centering
     \rowcolors{2}{black!10!white}{}
-    \begin{tabular}{cc|c}
+    \begin{tabular}{c|cc}
       \toprule
       \textbf{city} & \textbf{year} & \textbf{qty.} \\
       \midrule
@@ -635,33 +640,26 @@ rows or drop extra non-indexed columns beforehand.  This is discussed in
   wide format.
 \end{tablebox}
 
-\Cref{tab:pivot} shows an example of pivoting.  Here, we can consider \emph{city} and
-\emph{year} as the index columns.  The left-hand-side table is in the long format and the
+\Cref{tab:pivot} shows an example of pivoting.  Here, we can consider \emph{city} as
+the index column, with \emph{year} and \emph{qty.}\ as the non-index name and value
+columns.  The left-hand-side table is in the long format and the
 right-hand-side table is in the wide format.  Using the pivot long-to-wide operation with
 \emph{year} as the name column and \emph{qty.} as the value column, we can obtain the
 right-hand-side table.  The reverse operation will give us the left-hand-side table.
 
-To show that the pivot operation is split-invariant, one can see that, given
-$T_0 = (K \cup \{\text{name}\}, H, c_0)$ and $T_1 = (K \cup \{\text{name}\}, H, c_1)$ disjoint tables,
-\[
-  \operatorname{pivot}_\text{name}\!\left(T_0\right) + \operatorname{pivot}_\text{name}\!\left(T_1\right) = \\
-    (K, \domainof{\text{name}}, c_0') + (K, \domainof{\text{name}}, c_1')\text{,}
-\] where $c_i'(r, h) = c_i(r + (h), \text{value})$.  However, by the disjoint property of
-the tables, we have that \[
-  c_0(r + (h), \text{value}) + c_1(r + (h), \text{value}) = c(r + (h), \text{value})\text{,}
-\] for the table $T = (K, H, c) = T_0 + T_1$. So,
-\begin{multline*}
-  (K, \domainof{\text{name}}, c_0') + (K, \domainof{\text{name}}, c_1') =
-    (K, \domainof{\text{name}}, c') =\\
-    \operatorname{pivot}_\text{name}\!\left(T\right)\text{,}
-\end{multline*}
-where $c'(r, h) = c(r + (h), \text{value})$.
+Because \emph{name} and \emph{value} are non-index columns, both directions act
+within a single row $r$ over the residual index $K$, moving no data across rows.
+Since a split never breaks a row, both operations commute with the bind, and so
+they are split-invariant, just like mutation and aggregation.
 
-Similarly, the reverse operation is also split-invariant.
+If, instead, \emph{name} is one of the index columns, it must first be moved out
+of the index, which is a projection (\cref{sub:projection}).  That projection is
+not split-invariant, so the risk of pivoting on an index column lies in that
+step, not in the reshaping itself.
 
 Using the pivot operation, we can solve the issues of headers being values, not variable
 names and variables being stored in both rows and columns.  In the first case, we can pivot
-the table to have the headers as the domain of a new index (name column).  In the second
+the table to gather the headers into a new name column.  In the second
 case, we have to pivot both long-to-wide and wide-to-long to solve the issue.
 
 \subsection{Joining}
@@ -924,7 +922,8 @@ it is to infer conclusions from the data.  Thus, reducing the number of indices
 must be done very carefully --- more on that in \cref{sub:projection}.
 
 On the other hand, sometimes it is useful to increase the number of index columns.  For
-instance, pivoting long-to-wide requires all columns except one to be indexes.  The
+instance, pivoting long-to-wide requires all columns except two (the name and value
+columns) to be indexes.  The
 operation that transforms some of the columns in the table into indexes is called ungrouping.
 The reason for the name is that the operation decreases the cardinality of rows
 by creating new rows, effectively ungrouping the values.
